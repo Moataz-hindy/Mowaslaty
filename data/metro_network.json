@@ -1,0 +1,1125 @@
+{
+  "summary": {
+    "lines_count": 3,
+    "stations_count": 84,
+    "interchanges": {
+      "Sadat": [
+        "M1",
+        "M2"
+      ],
+      "Al-Shohadaa": [
+        "M1",
+        "M2"
+      ],
+      "Attaba": [
+        "M2",
+        "M3"
+      ],
+      "Nasser": [
+        "M1",
+        "M3"
+      ],
+      "Cairo University": [
+        "M2",
+        "M3"
+      ],
+      "Kit Kat": [
+        "M3_Main",
+        "M3_Branch_North",
+        "M3_Branch_South"
+      ],
+      "Adly Mansour": [
+        "M3",
+        "LRT"
+      ]
+    },
+    "ticket_pricing": [
+      {
+        "zone": "1 منطقة (1 - 9 محطات)",
+        "price_egp": 8
+      },
+      {
+        "zone": "2 منطقتين (10 - 16 محطة)",
+        "price_egp": 10
+      },
+      {
+        "zone": "3 مناطق (17 - 23 محطة)",
+        "price_egp": 15
+      },
+      {
+        "zone": "أكثر من 23 محطة",
+        "price_egp": 20
+      }
+    ]
+  },
+  "lines": [
+    {
+      "id": "M1",
+      "name_ar": "الخط الأول (حلوان - المرج الجديدة)",
+      "name_en": "Line 1 (Helwan - New El-Marg)",
+      "color": "#2E4A78",
+      "stations_count": 35,
+      "terminals": [
+        "حلوان",
+        "المرج الجديدة"
+      ]
+    },
+    {
+      "id": "M2",
+      "name_ar": "الخط الثاني (شبرا الخيمة - المنيب)",
+      "name_en": "Line 2 (Shubra El-Kheima - El Mounib)",
+      "color": "#A63457",
+      "stations_count": 20,
+      "terminals": [
+        "شبرا الخيمة",
+        "المنيب"
+      ]
+    },
+    {
+      "id": "M3",
+      "name_ar": "الخط الثالث (عدلي منصور - الكيت كات / روض الفرج / جامعة القاهرة)",
+      "name_en": "Line 3 (Adly Mansour - Kit Kat / Rod El Farag / Cairo Univ.)",
+      "color": "#325F3B",
+      "stations_count": 34,
+      "terminals": [
+        "عدلي منصور",
+        "الكيت كات",
+        "محور روض الفرج",
+        "جامعة القاهرة"
+      ]
+    }
+  ],
+  "stations": [
+    {
+      "id": "metro_stop_1",
+      "name_en": "Helwan",
+      "name_ar": "حلوان",
+      "lat": 29.84921,
+      "lng": 31.33443,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_2",
+      "name_en": "Ain Helwan",
+      "name_ar": "عين حلوان",
+      "lat": 29.86261,
+      "lng": 31.32507,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_3",
+      "name_en": "Helwan University",
+      "name_ar": "جامعة حلوان",
+      "lat": 29.86946,
+      "lng": 31.32009,
+      "lines": [],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_4",
+      "name_en": "Wadi Hof",
+      "name_ar": "وادي حوف",
+      "lat": 29.87909,
+      "lng": 31.31363,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_5",
+      "name_en": "Hadayek Helwan",
+      "name_ar": "حدائق حلوان",
+      "lat": 29.8972,
+      "lng": 31.3041,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_6",
+      "name_en": "El-Maasara",
+      "name_ar": "المعصرة",
+      "lat": 29.90639,
+      "lng": 31.29966,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_7",
+      "name_en": "Tora El-Asmant",
+      "name_ar": "طرة الأسمنت",
+      "lat": 29.92598,
+      "lng": 31.28763,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_8",
+      "name_en": "Kozzika",
+      "name_ar": "كوتسيكا",
+      "lat": 29.93648,
+      "lng": 31.28154,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_9",
+      "name_en": "Tora El-Balad",
+      "name_ar": "طرة البلد",
+      "lat": 29.94676,
+      "lng": 31.27292,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_10",
+      "name_en": "Sakanat El-Maadi",
+      "name_ar": "ثكنات المعادي",
+      "lat": 29.95332,
+      "lng": 31.26299,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_11",
+      "name_en": "Maadi",
+      "name_ar": "المعادي",
+      "lat": 29.96031,
+      "lng": 31.25776,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_12",
+      "name_en": "Hadayek El-Maadi",
+      "name_ar": "حدائق المعادي",
+      "lat": 29.96982,
+      "lng": 31.2509,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_13",
+      "name_en": "Dar El-Salam",
+      "name_ar": "دار السلام",
+      "lat": 29.9821,
+      "lng": 31.24221,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_14",
+      "name_en": "El-Zahraa",
+      "name_ar": "الزهراء",
+      "lat": 29.99556,
+      "lng": 31.23127,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_15",
+      "name_en": "Mar Girgis",
+      "name_ar": "مار جرجس",
+      "lat": 30.00617,
+      "lng": 31.2296,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_16",
+      "name_en": "El-Malek El-Saleh",
+      "name_ar": "الملك الصالح",
+      "lat": 30.0177,
+      "lng": 31.23124,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_17",
+      "name_en": "Al-Sayeda Zeinab",
+      "name_ar": "السيدة زينب",
+      "lat": 30.02921,
+      "lng": 31.23547,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_18",
+      "name_en": "Saad Zaghloul",
+      "name_ar": "سعد زغلول",
+      "lat": 30.03565,
+      "lng": 31.23787,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_19",
+      "name_en": "Sadat",
+      "name_ar": "السادات (التحرير)",
+      "lat": 30.04401,
+      "lng": 31.2357,
+      "lines": [
+        "M1",
+        "M2"
+      ],
+      "is_interchange": true,
+      "interchange_lines": [
+        "M1",
+        "M2"
+      ]
+    },
+    {
+      "id": "metro_stop_20",
+      "name_en": "Nasser",
+      "name_ar": "جمال عبد الناصر",
+      "lat": 30.05341,
+      "lng": 31.23867,
+      "lines": [
+        "M1",
+        "M3"
+      ],
+      "is_interchange": true,
+      "interchange_lines": [
+        "M1",
+        "M3"
+      ]
+    },
+    {
+      "id": "metro_stop_21",
+      "name_en": "Orabi",
+      "name_ar": "عرابي",
+      "lat": 30.057,
+      "lng": 31.24235,
+      "lines": [],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_22",
+      "name_en": "Al-Shohadaa",
+      "name_ar": "الشهداء (رمسيس)",
+      "lat": 30.06102,
+      "lng": 31.24589,
+      "lines": [
+        "M1",
+        "M2"
+      ],
+      "is_interchange": true,
+      "interchange_lines": [
+        "M1",
+        "M2"
+      ]
+    },
+    {
+      "id": "metro_stop_23",
+      "name_en": "Ghamra",
+      "name_ar": "غمرة",
+      "lat": 30.06894,
+      "lng": 31.26467,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_24",
+      "name_en": "El-Demerdash",
+      "name_ar": "الدمرداش",
+      "lat": 30.07725,
+      "lng": 31.27783,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_25",
+      "name_en": "Manshiet El-Sadr",
+      "name_ar": "منشية الصدر",
+      "lat": 30.08196,
+      "lng": 31.28756,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_26",
+      "name_en": "Kobri El-Qobba",
+      "name_ar": "كوبري القبة",
+      "lat": 30.08718,
+      "lng": 31.29412,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_27",
+      "name_en": "Saray El-Qobba",
+      "name_ar": "سراي القبة",
+      "lat": 30.09769,
+      "lng": 31.30449,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_28",
+      "name_en": "Hadayeq El-Zaitoun",
+      "name_ar": "حدائق الزيتون",
+      "lat": 30.10591,
+      "lng": 31.31048,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_29",
+      "name_en": "Helmeyet El-Zaitoun",
+      "name_ar": "حلمية الزيتون",
+      "lat": 30.11325,
+      "lng": 31.31399,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_30",
+      "name_en": "El-Matareyya",
+      "name_ar": "المطرية",
+      "lat": 30.12088,
+      "lng": 31.31385,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_31",
+      "name_en": "Ain Shams",
+      "name_ar": "عين شمس",
+      "lat": 30.13101,
+      "lng": 31.3191,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_32",
+      "name_en": "Ezbet El-Nakhl",
+      "name_ar": "عزبة النخل",
+      "lat": 30.13927,
+      "lng": 31.32451,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_33",
+      "name_en": "El-Marg",
+      "name_ar": "المرج",
+      "lat": 30.15211,
+      "lng": 31.33581,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_34",
+      "name_en": "New El-Marg",
+      "name_ar": "المرج الجديدة",
+      "lat": 30.16351,
+      "lng": 31.33838,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_35",
+      "name_en": "El-Mounib",
+      "name_ar": "المنيب",
+      "lat": 29.98163,
+      "lng": 31.21165,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_36",
+      "name_en": "Sakiat Mekki",
+      "name_ar": "ساقية مكي",
+      "lat": 29.99558,
+      "lng": 31.20864,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_37",
+      "name_en": "El-Giza",
+      "name_ar": "الجيزة",
+      "lat": 30.01067,
+      "lng": 31.20711,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_38",
+      "name_en": "Faisal",
+      "name_ar": "فيصل",
+      "lat": 30.01755,
+      "lng": 31.20397,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_39",
+      "name_en": "Cairo University",
+      "name_ar": "جامعة القاهرة",
+      "lat": 30.0262,
+      "lng": 31.20116,
+      "lines": [
+        "M2",
+        "M3"
+      ],
+      "is_interchange": true,
+      "interchange_lines": [
+        "M2",
+        "M3"
+      ]
+    },
+    {
+      "id": "metro_stop_40",
+      "name_en": "Bohooth",
+      "name_ar": "البحوث",
+      "lat": 30.03576,
+      "lng": 31.2003,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_41",
+      "name_en": "Dokki",
+      "name_ar": "الدقي",
+      "lat": 30.03825,
+      "lng": 31.21229,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_42",
+      "name_en": "Opera",
+      "name_ar": "الأوبرا",
+      "lat": 30.04189,
+      "lng": 31.22502,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_43",
+      "name_en": "Mohamed Naguib",
+      "name_ar": "محمد نجيب",
+      "lat": 30.04531,
+      "lng": 31.24426,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_44",
+      "name_en": "Attaba",
+      "name_ar": "العتبة",
+      "lat": 30.05242,
+      "lng": 31.24688,
+      "lines": [
+        "M2",
+        "M3"
+      ],
+      "is_interchange": true,
+      "interchange_lines": [
+        "M2",
+        "M3"
+      ]
+    },
+    {
+      "id": "metro_stop_45",
+      "name_en": "Masarra",
+      "name_ar": "مسرة",
+      "lat": 30.07089,
+      "lng": 31.24507,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_46",
+      "name_en": "Rod El Farag",
+      "name_ar": "روض الفرج",
+      "lat": 30.08059,
+      "lng": 31.24546,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_47",
+      "name_en": "St. Teresa",
+      "name_ar": "سانت تريزا",
+      "lat": 30.08795,
+      "lng": 31.24551,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_48",
+      "name_en": "Khalafawy",
+      "name_ar": "الخلفاوي",
+      "lat": 30.09788,
+      "lng": 31.24541,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_49",
+      "name_en": "Mezallat",
+      "name_ar": "المظلات",
+      "lat": 30.10391,
+      "lng": 31.24606,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_50",
+      "name_en": "Kolleyyet El-Zeraa",
+      "name_ar": "كلية الزراعة",
+      "lat": 30.11369,
+      "lng": 31.24867,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_51",
+      "name_en": "Shubra El-Kheima",
+      "name_ar": "شبرا الخيمة",
+      "lat": 30.12257,
+      "lng": 31.2448,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_52",
+      "name_en": "Fair Zone",
+      "name_ar": "أرض المعارض",
+      "lat": 30.07312,
+      "lng": 31.30055,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_53",
+      "name_en": "Koleyet El-Banat",
+      "name_ar": "كلية البنات",
+      "lat": 30.08415,
+      "lng": 31.32911,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_54",
+      "name_en": "Stadium",
+      "name_ar": "الاستاد",
+      "lat": 30.07284,
+      "lng": 31.31725,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_55",
+      "name_en": "Al-Ahram",
+      "name_ar": "الأهرام (مصر الجديدة)",
+      "lat": 30.09126,
+      "lng": 31.3266,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_56",
+      "name_en": "Abbassiya",
+      "name_ar": "العباسية",
+      "lat": 30.06963,
+      "lng": 31.28102,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_57",
+      "name_en": "Abdou Pasha",
+      "name_ar": "عبده باشا",
+      "lat": 30.06475,
+      "lng": 31.2748,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_58",
+      "name_en": "El-Geish",
+      "name_ar": "الجيش",
+      "lat": 30.06176,
+      "lng": 31.26693,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_59",
+      "name_en": "Bab El-Shaaria",
+      "name_ar": "باب الشعرية",
+      "lat": 30.05386,
+      "lng": 31.25606,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_60",
+      "name_en": "Omm El-Misryeen",
+      "name_ar": "أم المصريين",
+      "lat": 30.00599,
+      "lng": 31.20796,
+      "lines": [
+        "M2"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_86",
+      "name_en": "Hammamat El-Qobba",
+      "name_ar": "حمامات القبة",
+      "lat": 30.09116,
+      "lng": 31.29903,
+      "lines": [
+        "M1"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_127",
+      "name_en": "Haroun",
+      "name_ar": "هارون",
+      "lat": 30.10135,
+      "lng": 31.33322,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_129",
+      "name_en": "Shams Club",
+      "name_ar": "نادي الشمس",
+      "lat": 30.12532,
+      "lng": 31.34897,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_131",
+      "name_en": "Alf Maskan",
+      "name_ar": "ألف مسكن",
+      "lat": 30.11898,
+      "lng": 31.34018,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_133",
+      "name_en": "Omar Ibn El Khataab",
+      "name_ar": "عمر بن الخطاب",
+      "lat": 30.14041,
+      "lng": 31.39421,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_135",
+      "name_en": "Kebaa",
+      "name_ar": "قباء",
+      "lat": 30.13478,
+      "lng": 31.38384,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_137",
+      "name_en": "Nozha 1",
+      "name_ar": "النزهة",
+      "lat": 30.12788,
+      "lng": 31.3602,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_139",
+      "name_en": "Adly Mansour",
+      "name_ar": "عدلي منصور",
+      "lat": 30.14703,
+      "lng": 31.42137,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": true,
+      "interchange_lines": [
+        "M3",
+        "LRT"
+      ]
+    },
+    {
+      "id": "metro_stop_142",
+      "name_en": "Hesham Barakat",
+      "name_ar": "هشام بركات",
+      "lat": 30.13105,
+      "lng": 31.37304,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_144",
+      "name_en": "Hikestep",
+      "name_ar": "الهايكستب",
+      "lat": 30.1435,
+      "lng": 31.40474,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_146",
+      "name_en": "Heliopolis",
+      "name_ar": "هليوبوليس",
+      "lat": 30.10834,
+      "lng": 31.33832,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_148",
+      "name_en": "Kit Kat",
+      "name_ar": "الكيت كات",
+      "lat": 30.06684,
+      "lng": 31.21301,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": true,
+      "interchange_lines": [
+        "M3_Main",
+        "M3_Branch_North",
+        "M3_Branch_South"
+      ]
+    },
+    {
+      "id": "metro_stop_149",
+      "name_en": "Maspero",
+      "name_ar": "ماسبيرو",
+      "lat": 30.05583,
+      "lng": 31.23232,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_151",
+      "name_en": "Safaa Hegazy",
+      "name_ar": "صفاء حجازي (الزمالك)",
+      "lat": 30.0625,
+      "lng": 31.22256,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_153",
+      "name_en": "Al Bohi",
+      "name_ar": "البوهي",
+      "lat": 30.08238,
+      "lng": 31.21062,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_154",
+      "name_en": "Al Tawfiqeyya",
+      "name_ar": "التوفيقية",
+      "lat": 30.06215,
+      "lng": 31.20725,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_155",
+      "name_en": "Wadi Al Nile",
+      "name_ar": "وادي النيل",
+      "lat": 30.05647,
+      "lng": 31.20125,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_158",
+      "name_en": "Boulaq Dakrour",
+      "name_ar": "بولاق الدكرور",
+      "lat": 30.03526,
+      "lng": 31.19609,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_159",
+      "name_en": "Arab Leauge",
+      "name_ar": "جامعة الدول العربية",
+      "lat": 30.04587,
+      "lng": 31.19524,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_163",
+      "name_en": "Qawmeya Arabiya",
+      "name_ar": "القومية العربية",
+      "lat": 30.09322,
+      "lng": 31.20912,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_164",
+      "name_en": "Road Al Farag Axis",
+      "name_ar": "محور روض الفرج",
+      "lat": 30.10181,
+      "lng": 31.18424,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_165",
+      "name_en": "Al Daaery",
+      "name_ar": "الطريق الدائري",
+      "lat": 30.09636,
+      "lng": 31.20013,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_166",
+      "name_en": "Sudan",
+      "name_ar": "السودان",
+      "lat": 30.07006,
+      "lng": 31.20475,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    },
+    {
+      "id": "metro_stop_168",
+      "name_en": "Imbaba",
+      "name_ar": "إمبابة",
+      "lat": 30.07609,
+      "lng": 31.20753,
+      "lines": [
+        "M3"
+      ],
+      "is_interchange": false,
+      "interchange_lines": []
+    }
+  ]
+}
