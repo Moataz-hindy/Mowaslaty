@@ -3689,7 +3689,7 @@ body.theme-dark .success-toast { filter: brightness(0.9); }
   .chat-banner, .suggested-queries, .messages-stream, .chat-input-bar { padding-inline: 16px; }
 
   /* collapsed: only header + mode tabs are visible */
-  .sidebar.sheet-collapsed > :not(.sheet-handle):not(.app-header):not(.mode-tabs) {
+  .sidebar.sheet-collapsed > :not(.sheet-top):not(.sheet-handle):not(.app-header):not(.mode-tabs) {
     visibility: hidden;
   }
 
@@ -3826,4 +3826,48 @@ body.theme-dark .success-toast { filter: brightness(0.9); }
   text-align: start;
   font-family: var(--font-family);
   cursor: pointer;
+}
+
+/* ==========================================================================
+   Phone bottom sheet: one smooth scroller
+   The whole sheet scrolls as one page (search + filters scroll away, the list
+   gets the full height); the handle, header and tabs stay pinned on top.
+   ========================================================================== */
+.sheet-top { display: contents; }
+
+@media (max-width: 760px) {
+  :root { --sheet-expanded: 82dvh; }
+
+  .sheet-top {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--bg-secondary);
+    touch-action: none;          /* swipes here open/close the sheet */
+  }
+
+  .sidebar.sheet-expanded {
+    overflow-y: auto;
+    overscroll-behavior: contain;   /* don't scroll/zoom the page or map behind */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* inner panels no longer scroll on their own */
+  .sidebar .routes-container,
+  .sidebar .nearest-tab-container,
+  .sidebar .planner-tab-container,
+  .sidebar .community-container,
+  .sidebar .coming-soon-panel {
+    flex: none;
+    overflow: visible;
+    min-height: auto;
+  }
+
+  .sidebar .routes-container { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+
+  /* bigger, calmer rows for thumbs; no hover flicker on touch */
+  .route-card { padding-block: 16px; }
+  .route-card:hover { background: transparent; }
+  .route-card.selected:hover { background: var(--bg-card); }
 }

@@ -91,6 +91,22 @@ export default function Sidebar({
     if (isFirstRender.current) { isFirstRender.current = false; return; }
     setSheetExpanded(false);
   }, [selectedRoute?.id, activeJourney, activeNearest?.route?.id]);
+  // Collapsing returns the sheet to its top so the next open starts clean
+  const asideRef = React.useRef(null);
+  React.useEffect(() => {
+    if (!sheetExpanded && asideRef.current) asideRef.current.scrollTop = 0;
+  }, [sheetExpanded]);
+
+  // Swipe up/down on the sheet's top bar (handle + header + tabs)
+  const touchStartY = React.useRef(null);
+  const onSheetTouchStart = (e) => { touchStartY.current = e.touches[0].clientY; };
+  const onSheetTouchEnd = (e) => {
+    if (touchStartY.current == null) return;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    touchStartY.current = null;
+    if (dy < -30) setSheetExpanded(true);
+    else if (dy > 30) setSheetExpanded(false);
+  };
   const selectTab = (tab) => {
     setActiveTab(tab);
     setSheetExpanded(true);
@@ -146,7 +162,8 @@ export default function Sidebar({
   };
 
   return (
-    <aside className={`sidebar ${sheetExpanded ? 'sheet-expanded' : 'sheet-collapsed'}`}>
+    <aside ref={asideRef} className={`sidebar ${sheetExpanded ? 'sheet-expanded' : 'sheet-collapsed'}`}>
+      <div className="sheet-top" onTouchStart={onSheetTouchStart} onTouchEnd={onSheetTouchEnd}>
       <button
         type="button"
         className="sheet-handle"
@@ -244,6 +261,7 @@ export default function Sidebar({
           <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
         </button>
       </nav>
+      </div>
 
       {/* TAB 1: EXPLORE */}
       {activeTab === 'explore' && (
