@@ -6,7 +6,8 @@ import MapSearchBar from './components/MapSearchBar';
 import { I18N } from './utils/i18n';
 import { normalizeText, findNearestDropPoints, calculateRouteDropPoint } from './utils/geoUtils';
 import { expandSearchQuery, routeMatchesTokens } from './utils/transitAliases';
-import { planJourney } from './utils/tripPlanner';
+import { loadRoutes, loadGeometries, loadStops } from './utils/dataLoader';
+import { computeNearest, computePlan } from './utils/transitWorkerClient';
 import { MapPin } from 'lucide-react';
 
 
@@ -50,8 +51,7 @@ export default function App() {
 
   // Load datasets on mount
   useEffect(() => {
-    fetch('/data/routes_summary.json')
-      .then(res => res.json())
+    loadRoutes()
       .then(data => {
         setRoutes(data);
         const defaultRoute = data.find(r => r.num === '305') || data[0];
@@ -59,13 +59,11 @@ export default function App() {
       })
       .catch(err => console.error('Failed to load routes summary:', err));
 
-    fetch('/data/routes_geometry.json')
-      .then(res => res.json())
+    loadGeometries()
       .then(data => setGeometries(data))
       .catch(err => console.error('Failed to load routes geometry:', err));
 
-    fetch('/data/stops_summary.json')
-      .then(res => res.json())
+    loadStops()
       .then(data => setStops(data))
       .catch(err => console.error('Failed to load stops:', err));
   }, []);
@@ -91,10 +89,34 @@ export default function App() {
   }, [routes, searchQuery, vehicleFilter]);
 
 
-  // Phase 2: Calculate Nearest Drop Points (All lines)
-  const nearestResults = useMemo(() => {
-    if (!targetCoord || !geometries || routes.length === 0) return [];
-    return findNearestDropPoints(targetCoord, routes, geometries, stops, 2000);
+  // Results computed in the Web Worker are copies; point them back at the
+  // route objects held here so selection/equality keeps working.
+  const routesById = useMemo(() => {
+    const m = new Map();
+    routes.forEach(r => m.set(r.id, r));
+    return m;
+  }, [routes]);
+  const relinkRoute = (r) => (r && routesById.get(r.id)) || r;
+
+  // Phase 2: Nearest drop points across all lines (runs in a Web Worker)
+  const [nearestResults, setNearestResults] = useState([]);
+  const [nearestLoading, setNearestLoading] = useState(false);
+  useEffect(() => {
+    if (!targetCoord || !geometries || routes.length === 0) {
+      setNearestResults([]);
+      setNearestLoading(false);
+      return;
+    }
+    let cancelled = false;
+    setNearestLoading(true);
+    computeNearest(targetCoord, { routes, geometries, stops }, 2000)
+      .then(res => {
+        if (cancelled) return;
+        setNearestResults((res || []).map(item => ({ ...item, route: relinkRoute(item.route) })));
+      })
+      .catch(err => { if (!cancelled) { console.error(err); setNearestResults([]); } })
+      .finally(() => { if (!cancelled) setNearestLoading(false); });
+    return () => { cancelled = true; };
   }, [targetCoord, routes, geometries, stops]);
 
   // Phase 2: Calculate Nearest Drop Point for a chosen specific line
@@ -121,12 +143,34 @@ export default function App() {
     }
   }, [selectedLineDrop, nearestResults, targetCoord]);
 
-  // Phase 3: Calculate Planned Journeys (A to B)
-  const plannedJourneys = useMemo(() => {
+  // Phase 3: A to B journeys (runs in a Web Worker)
+  const EMPTY_PLAN = { directRoutes: [], transferRoutes: [] };
+  const [plannedJourneys, setPlannedJourneys] = useState(EMPTY_PLAN);
+  const [planLoading, setPlanLoading] = useState(false);
+  useEffect(() => {
     if (!originCoord || !destCoord || !geometries || routes.length === 0) {
-      return { directRoutes: [], transferRoutes: [] };
+      setPlannedJourneys(EMPTY_PLAN);
+      setPlanLoading(false);
+      return;
     }
-    return planJourney(originCoord, destCoord, routes, geometries, stops, 1200);
+    let cancelled = false;
+    setPlanLoading(true);
+    computePlan(originCoord, destCoord, { routes, geometries, stops }, 1200)
+      .then(res => {
+        if (cancelled) return;
+        const plan = res || EMPTY_PLAN;
+        setPlannedJourneys({
+          directRoutes: (plan.directRoutes || []).map(j => ({ ...j, route: relinkRoute(j.route) })),
+          transferRoutes: (plan.transferRoutes || []).map(j => ({
+            ...j,
+            leg1: { ...j.leg1, route: relinkRoute(j.leg1.route) },
+            leg2: { ...j.leg2, route: relinkRoute(j.leg2.route) }
+          }))
+        });
+      })
+      .catch(err => { if (!cancelled) { console.error(err); setPlannedJourneys(EMPTY_PLAN); } })
+      .finally(() => { if (!cancelled) setPlanLoading(false); });
+    return () => { cancelled = true; };
   }, [originCoord, destCoord, routes, geometries, stops]);
 
   // Automatically select the best direct journey when calculated
@@ -224,6 +268,7 @@ export default function App() {
           setActiveNearest(null);
         }}
         nearestResults={nearestResults}
+        nearestLoading={nearestLoading}
         activeNearest={activeNearest}
         setActiveNearest={setActiveNearest}
         selectedLineForNearest={selectedLineForNearest}
@@ -237,6 +282,7 @@ export default function App() {
         plannerSelecting={plannerSelecting}
         setPlannerSelecting={setPlannerSelecting}
         plannedJourneys={plannedJourneys}
+        planLoading={planLoading}
         activeJourney={activeJourney}
         setActiveJourney={setActiveJourney}
         onSwapPoints={handleSwapPoints}

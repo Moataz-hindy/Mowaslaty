@@ -60,6 +60,7 @@ export default function Sidebar({
   targetCoord,
   setTargetCoord,
   nearestResults,
+  nearestLoading = false,
   activeNearest,
   setActiveNearest,
   selectedLineForNearest,
@@ -73,6 +74,7 @@ export default function Sidebar({
   plannerSelecting,
   setPlannerSelecting,
   plannedJourneys,
+  planLoading = false,
   activeJourney,
   setActiveJourney,
   onSwapPoints,
@@ -845,9 +847,14 @@ export default function Sidebar({
                   <Footprints size={44} style={{ opacity: 0.4 }} />
                   <p>حدد مكانك أو وجهتك على الخريطة ليتم احتساب أقرب نقاط النزول</p>
                 </div>
+              ) : nearestLoading ? (
+                <div className="empty-state" role="status">
+                  <Loader2 size={28} className="spin-icon" />
+                  <p>{lang === 'ar' ? 'جاري البحث عن أقرب الخطوط...' : 'Finding the nearest lines...'}</p>
+                </div>
               ) : nearestResults.length === 0 ? (
                 <div className="empty-state">
-                  <p>لا توجد خطوط تمر ضمن نطاق 2 كم من هذه النقطة</p>
+                  <p>{lang === 'ar' ? 'لا توجد خطوط تمر ضمن نطاق 2 كم من هذه النقطة' : 'No lines pass within 2 km of this point'}</p>
                 </div>
               ) : (
                 <>
@@ -1077,6 +1084,11 @@ export default function Sidebar({
                     ? t.pickDestPrompt 
                     : "حدد نقطة البداية ونقطة الوصول على الخريطة لعرض مسارات الرحلة"}
                 </p>
+              </div>
+            ) : planLoading ? (
+              <div className="empty-state" role="status">
+                <Loader2 size={28} className="spin-icon" />
+                <p>{lang === 'ar' ? 'جاري البحث عن أفضل الخطوط...' : 'Finding the best routes...'}</p>
               </div>
             ) : (
               <>

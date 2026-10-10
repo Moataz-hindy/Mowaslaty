@@ -3871,3 +3871,7 @@ body.theme-dark .success-toast { filter: brightness(0.9); }
   .route-card:hover { background: transparent; }
   .route-card.selected:hover { background: var(--bg-card); }
 }
+
+/* Address search: busy / retry message */
+.search-online-error { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.search-retry-btn { flex: none; min-height: 40px; margin-top: 8px; padding: 0 16px; }

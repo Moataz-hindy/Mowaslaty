@@ -84,6 +84,8 @@ export default function MapSearchBar({
   const [isSearchingOnline, setIsSearchingOnline] = useState(false);
   // Address search runs only when the user asks for it (Enter / button)
   const [onlineQuery, setOnlineQuery] = useState('');
+  const [onlineError, setOnlineError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   const containerRef = useRef(null);
   const inputRef = useRef(null);
@@ -110,6 +112,7 @@ export default function MapSearchBar({
 
     let cancelled = false;
     const cacheKey = trimmed.toLowerCase();
+    setOnlineError(false);
 
     const run = async () => {
       if (nominatimCache.has(cacheKey)) {
@@ -126,7 +129,14 @@ export default function MapSearchBar({
         const encoded = encodeURIComponent(`${trimmed} القاهرة مصر`);
         const url = `https://nominatim.openstreetmap.org/search?q=${encoded}&format=json&limit=5&countrycodes=eg&viewbox=30.8,29.7,31.7,30.3&accept-language=${lang === 'ar' ? 'ar' : 'en'}`;
         const res = await fetch(url);
-        if (res.ok && !cancelled) {
+        if (cancelled) return;
+        if (!res.ok) {
+          // 429 = too many requests, 5xx = service trouble -> ask the user to retry
+          setNominatimResults([]);
+          setOnlineError(true);
+          return;
+        }
+        {
           const data = await res.json();
           const parsed = data.map(item => ({
             id: `nom_${item.place_id}`,
@@ -142,6 +152,10 @@ export default function MapSearchBar({
         }
       } catch (err) {
         console.warn('Nominatim geocode error:', err);
+        if (!cancelled) {
+          setNominatimResults([]);
+          setOnlineError(true);
+        }
       } finally {
         if (!cancelled) setIsSearchingOnline(false);
       }
@@ -149,13 +163,14 @@ export default function MapSearchBar({
 
     run();
     return () => { cancelled = true; };
-  }, [onlineQuery, filterType, lang]);
+  }, [onlineQuery, filterType, lang, retryCount]);
 
   // Typing something new clears previous address results
   useEffect(() => {
     if (onlineQuery && query.trim() !== onlineQuery) {
       setOnlineQuery('');
       setNominatimResults([]);
+      setOnlineError(false);
     }
   }, [query]);
 
@@ -508,6 +523,20 @@ export default function MapSearchBar({
                 </button>
               )}
 
+              {onlineError && !isSearchingOnline && (
+                <div className="search-no-results search-online-error" role="alert">
+                  <p>{lang === 'ar' ? 'البحث عن العناوين مشغول حالياً' : 'Address search is busy right now'}</p>
+                  <span>{lang === 'ar' ? 'جرّب مرة أخرى بعد لحظات.' : 'Please try again in a moment.'}</span>
+                  <button
+                    type="button"
+                    className="btn-primary-outline search-retry-btn"
+                    onClick={() => setRetryCount(c => c + 1)}
+                  >
+                    {lang === 'ar' ? 'حاول مرة أخرى' : 'Try again'}
+                  </button>
+                </div>
+              )}
+
               {isSearchingOnline && (
                 <div className="search-no-results">
                   <span>{lang === 'ar' ? 'جاري البحث في العناوين...' : 'Searching addresses...'}</span>
@@ -515,7 +544,7 @@ export default function MapSearchBar({
               )}
 
               {/* No results message */}
-              {searchResults.totalCount === 0 && nominatimResults.length === 0 && !isSearchingOnline && !canSearchAddresses && (
+              {searchResults.totalCount === 0 && nominatimResults.length === 0 && !isSearchingOnline && !canSearchAddresses && !onlineError && (
                 <div className="search-no-results">
                   <p>لم يتم العثور على مكان أو محطة تطابق "{query}".</p>
                   <span>جرب البحث باسم ميدان رئيسي، جامعة، أو رقم خط.</span>
