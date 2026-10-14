@@ -22,6 +22,13 @@ export default function App() {
   
   // Phase 2 state (Nearest Drop & Specific Line Drop)
   const [targetCoord, setTargetCoord] = useState(null);
+  const [targetLabel, setTargetLabel] = useState(null);   // place name, when known
+  const [flyToRequest, setFlyToRequest] = useState(null); // { coord, n }
+  const clearTarget = () => {
+    setTargetCoord(null);
+    setTargetLabel(null);
+    setActiveNearest(null);
+  };
   const [activeNearest, setActiveNearest] = useState(null);
   const [selectedLineForNearest, setSelectedLineForNearest] = useState(null);
   const [showStops, setShowStops] = useState(false);
@@ -143,6 +150,26 @@ export default function App() {
     }
   }, [selectedLineDrop, nearestResults, targetCoord]);
 
+  // Drop-off on whichever line is selected, for the current destination.
+  // Works for ANY line (not only the nearest ones), at any distance.
+  const routeDrop = useMemo(() => {
+    if (!targetCoord || !selectedRoute || !geometries) return null;
+    const coords = geometries[selectedRoute.id];
+    if (!coords || coords.length < 2) return null;
+    return calculateRouteDropPoint(targetCoord, selectedRoute, coords, stops);
+  }, [targetCoord, selectedRoute, geometries, stops]);
+
+  // What the map draws as "drop point": the chosen nearest result in the
+  // nearest tab, otherwise the selected line's drop-off.
+  const mapNearest = activeTab === 'nearest' ? activeNearest : (activeTab === 'explore' ? routeDrop : null);
+
+  // Drop-off shown in the route card (only if it belongs to the shown line)
+  const drawerDrop = (() => {
+    if (!targetCoord || !selectedRoute || activeTab === 'planner') return null;
+    const candidate = activeTab === 'nearest' ? activeNearest : routeDrop;
+    return candidate && candidate.route && candidate.route.id === selectedRoute.id ? candidate : routeDrop;
+  })();
+
   // Phase 3: A to B journeys (runs in a Web Worker)
   const EMPTY_PLAN = { directRoutes: [], transferRoutes: [] };
   const [plannedJourneys, setPlannedJourneys] = useState(EMPTY_PLAN);
@@ -205,6 +232,7 @@ export default function App() {
     } else {
       // Nearest mode
       setTargetCoord(coord);
+      setTargetLabel(null);
       setActiveNearest(null);
       if (activeTab !== 'nearest') {
         setActiveTab('nearest');
@@ -263,8 +291,10 @@ export default function App() {
         }}
         // Phase 2 props
         targetCoord={targetCoord}
-        setTargetCoord={(c) => {
+        setTargetCoord={(c, label = null) => {
+          if (!c) { clearTarget(); return; }
           setTargetCoord(c);
+          setTargetLabel(label);
           setActiveNearest(null);
         }}
         nearestResults={nearestResults}
@@ -304,12 +334,19 @@ export default function App() {
             setSearchLocation(loc);
           }}
           onClearLocation={() => setSearchLocation(null)}
+          destination={targetCoord && activeTab !== 'planner' ? {
+            label: targetLabel,
+            coord: targetCoord,
+            onClear: clearTarget,
+            onFocus: () => setFlyToRequest(prev => ({ coord: targetCoord, n: (prev?.n || 0) + 1 }))
+          } : null}
           onSelectRoute={(r) => {
             setSelectedRoute(r);
             setSearchLocation(null);
           }}
           onSetTargetCoord={(coord) => {
             setTargetCoord(coord);
+            setTargetLabel(searchLocation ? searchLocation.name : null);
             setActiveNearest(null);
             setSelectedLineForNearest(null);
             setActiveTab('nearest');
@@ -336,7 +373,7 @@ export default function App() {
           geometries={geometries}
           targetCoord={targetCoord}
           onMapClick={handleMapClick}
-          activeNearest={activeNearest}
+          activeNearest={mapNearest}
           searchLocation={searchLocation}
           // Phase 3 props
           activeTab={activeTab}
@@ -346,6 +383,7 @@ export default function App() {
           stops={stops}
           showStops={showStops}
           fitRequest={fitRequest}
+          flyToRequest={flyToRequest}
           lang={lang}
           t={t}
         />
@@ -371,6 +409,9 @@ export default function App() {
           }}
           onToggleDirection={handleToggleDirection}
           onFitRoute={() => setFitRequest(n => n + 1)}
+          drop={drawerDrop}
+          targetCoord={targetCoord}
+          onClearTarget={clearTarget}
           lang={lang}
           t={t}
         />

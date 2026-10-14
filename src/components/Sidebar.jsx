@@ -29,6 +29,8 @@ import {
 // Community hub is "coming soon". The previous implementation is kept in
 // ./CommunityHub.jsx; re-import it here when it's ready.
 import { VEHICLE_COLORS } from '../utils/i18n';
+import RouteEnds from './RouteEnds';
+import { getRouteEnds, lineLabel } from '../utils/routeEnds';
 import { resolveLocationInput } from '../utils/geoUtils';
 import { expandSearchQuery, routeMatchesTokens } from '../utils/transitAliases';
 
@@ -44,6 +46,19 @@ const PRESET_DESTINATIONS = [
   { name_ar: "دوران شبرا", name_en: "Dawaran Shubra", coord: [30.0825, 31.2461] },
   { name_ar: "مساكن شيراتون (النزهة)", name_en: "Masaken Sheraton", coord: [30.1062, 31.3855] }
 ];
+
+// Short "origin ← destination" title for list rows, when the data has
+// both ends in the current language; otherwise null (use the long name).
+const hasArabicText = (txt) => /[\u0600-\u06FF]/.test(txt || '');
+function compactRouteTitle(r, lang) {
+  if (lang === 'ar') {
+    if (hasArabicText(r.origin) && hasArabicText(r.dest)) return `${r.origin} ← ${r.dest}`;
+    return r.long_ar ? r.long_ar.replace(/\s*[-–]\s*/g, ' – ') : null;
+  }
+  const o = r.origin_en || (!hasArabicText(r.origin) ? r.origin : null);
+  const d = r.dest_en || (!hasArabicText(r.dest) ? r.dest : null);
+  return o && d ? `${o} → ${d}` : null;
+}
 
 export default function Sidebar({
   activeTab,
@@ -248,7 +263,7 @@ export default function Sidebar({
           title="المساعد الذكي"
         >
           <Sparkles size={15} />
-          <span>المساعد الذكي</span>
+          <span>المساعد</span>
           <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
         </button>
 
@@ -302,6 +317,7 @@ export default function Sidebar({
                   type="button"
                   aria-pressed={vehicleFilter === f.id}
                   className={`chip ${vehicleFilter === f.id ? 'active' : ''}`}
+                  style={f.id !== 'ALL' ? { '--dot': VEHICLE_COLORS[f.id] } : undefined}
                   onClick={() => setVehicleFilter(f.id)}
                 >
                   {f.id !== 'ALL' && (
@@ -314,6 +330,7 @@ export default function Sidebar({
 
             <div className="preset-links">
               <span className="preset-label">{t.popularLabel}</span>
+              <div className="preset-links-row">
               {['مترو', '305', 'التجمع', 'AUC', 'الشهداء', 'شيراتون'].map(q => (
                 <button 
                   key={q} 
@@ -323,6 +340,7 @@ export default function Sidebar({
                   {q}
                 </button>
               ))}
+              </div>
             </div>
           </section>
 
@@ -343,6 +361,8 @@ export default function Sidebar({
                 const color = r.color || VEHICLE_COLORS[r.vehicle] || VEHICLE_COLORS.Default;
                 const title = lang === 'ar' ? (r.long_ar || r.long_en) : (r.long_en || r.long_ar);
                 const dirText = r.dir === 0 ? t.dirOutbound : t.dirInbound;
+                const shortTitle = compactRouteTitle(r, lang) || title;
+                const vehicleText = t[String(r.vehicle).toLowerCase()] || r.vehicle;
 
                 return (
                   <div
@@ -360,36 +380,34 @@ export default function Sidebar({
                       }
                     }}
                   >
-                    <div className="route-card-top">
-                      <div className="badge-group">
-                        <span className="route-num-badge">
-                          {r.num || r.route_id}
-                        </span>
-                        <span className="route-vehicle-badge">
-                          {t[String(r.vehicle).toLowerCase()] || r.vehicle}
+                    <div className="route-row-main">
+                      <span className="route-num-badge">{lineLabel(r, lang)}</span>
+                      <div className="route-row-text">
+                        <h4 className="route-card-title" title={title}>
+                          <RouteEnds route={r} lang={lang} fallback={shortTitle} />
+                        </h4>
+                        <span className="route-row-meta">
+                          {vehicleText} · {r.len_km} {t.kmUnit} · {dirText}
                         </span>
                       </div>
-                      <span className="route-dist-badge">{r.len_km} {t.kmUnit} • {dirText}</span>
-                    </div>
-                    <h4 className="route-card-title">{title}</h4>
-                    <div className="route-terminals-flow">
-                      <span>{r.origin}</span>
-                      <span className="terminal-line" aria-hidden="true"></span>
-                      <span>{r.dest}</span>
                     </div>
 
-                    {r.via_stops && r.via_stops.length > 0 && (
-                      <div className="route-via-stops" title={r.via_stops.join(' • ')}>
-                        <span className="via-label">
-                          {isMetro ? (lang === 'ar' ? 'محطات المترو:' : 'Stations:') : (lang === 'ar' ? 'يمر بـ:' : 'Via:')}
-                        </span>
-                        <span className="via-stops-text">
-                          {r.via_stops.slice(0, 4).join(' • ')}
-                          {r.via_stops.length > 4 ? ` (+${r.via_stops.length - 4})` : ''}
-                        </span>
-                      </div>
+                    {isSelected && (
+                      <>
+                        {!getRouteEnds(r, lang).to && shortTitle !== title && <p className="route-full-title">{title}</p>}
+                        {r.via_stops && r.via_stops.length > 0 && (
+                          <div className="route-via-stops" title={r.via_stops.join(' • ')}>
+                            <span className="via-label">
+                              {isMetro ? (lang === 'ar' ? 'محطات المترو:' : 'Stations:') : (lang === 'ar' ? 'يمر بـ:' : 'Via:')}
+                            </span>
+                            <span className="via-stops-text">
+                              {r.via_stops.slice(0, 4).join(' • ')}
+                              {r.via_stops.length > 4 ? ` (+${r.via_stops.length - 4})` : ''}
+                            </span>
+                          </div>
+                        )}
+                      </>
                     )}
-
 
                     {isSelected && (
                       <div className="route-card-expanded-actions">
@@ -542,7 +560,7 @@ export default function Sidebar({
                   key={p.name_en}
                   className="landmark-chip"
                   onClick={() => {
-                    setTargetCoord(p.coord);
+                    setTargetCoord(p.coord, lang === 'ar' ? p.name_ar : p.name_en);
                     setLinkInput(`${p.coord[0].toFixed(4)}, ${p.coord[1].toFixed(4)}`);
                     setLinkError(null);
                   }}
@@ -603,7 +621,7 @@ export default function Sidebar({
                 style={{ '--card-color': VEHICLE_COLORS[selectedLineForNearest.vehicle] || VEHICLE_COLORS.Default }}
               >
                 <div className="chosen-line-meta">
-                  <span className="route-num-badge">{selectedLineForNearest.num || selectedLineForNearest.route_id}</span>
+                  <span className="route-num-badge">{lineLabel(selectedLineForNearest, lang)}</span>
                   <span className="chosen-line-name">
                     {lang === 'ar' 
                       ? (selectedLineForNearest.long_ar || `${selectedLineForNearest.origin} ← ${selectedLineForNearest.dest}`) 
@@ -646,7 +664,7 @@ export default function Sidebar({
                       className="btn-quick-use-route"
                       onClick={() => setSelectedLineForNearest(selectedRoute)}
                     >
-                      <span>{lang === 'ar' ? `استخدم الخط النشط: خط ${selectedRoute.num || selectedRoute.route_id}` : `Use active line: ${selectedRoute.num || selectedRoute.route_id}`}</span>
+                      <span>{lang === 'ar' ? `استخدم الخط النشط: خط ${lineLabel(selectedRoute, lang)}` : `Use active line: ${lineLabel(selectedRoute, lang)}`}</span>
                     </button>
                   </div>
                 )}
@@ -673,7 +691,7 @@ export default function Sidebar({
                             data-vehicle={r.vehicle}
                             style={{ background: VEHICLE_COLORS[r.vehicle] || VEHICLE_COLORS.Default }}
                           >
-                            {r.num || r.route_id}
+                            {lineLabel(r, lang)}
                           </span>
                           <span className="line-dropdown-title">
                             {lang === 'ar' ? (r.long_ar || `${r.origin} ← ${r.dest}`) : (r.long_en || `${r.origin} → ${r.dest}`)}
@@ -696,8 +714,8 @@ export default function Sidebar({
                   <Bus size={42} style={{ opacity: 0.5, color: 'var(--accent-cyan)' }} />
                   <h4 style={{ color: 'var(--text-primary)', margin: '8px 0 4px', fontSize: '13px', fontWeight: '800' }}>
                     {lang === 'ar' 
-                      ? `تم تحديد خط ${selectedLineForNearest.num || selectedLineForNearest.route_id}` 
-                      : `Line ${selectedLineForNearest.num || selectedLineForNearest.route_id} selected`}
+                      ? `تم تحديد خط ${lineLabel(selectedLineForNearest, lang)}` 
+                      : `Line ${lineLabel(selectedLineForNearest, lang)} selected`}
                   </h4>
                   <p>
                     {lang === 'ar' 
@@ -714,7 +732,7 @@ export default function Sidebar({
                   >
                     <div className="chosen-result-top">
                       <div className="badge-group">
-                        <span className="route-num-badge">{selectedLineForNearest.num || selectedLineForNearest.route_id}</span>
+                        <span className="route-num-badge">{lineLabel(selectedLineForNearest, lang)}</span>
                         <span className="route-vehicle-badge">{selectedLineForNearest.vehicle}</span>
                       </div>
                       <span className="chosen-line-highlight-tag">
@@ -798,7 +816,7 @@ export default function Sidebar({
                               >
                                 <div className="nearest-card-header">
                                   <div className="badge-group">
-                                    <span className="route-num-badge">{r.num || r.route_id}</span>
+                                    <span className="route-num-badge">{lineLabel(r, lang)}</span>
                                     <span className="route-vehicle-badge">{r.vehicle}</span>
                                   </div>
                                   <div className="walk-distance-pill">
@@ -807,7 +825,7 @@ export default function Sidebar({
                                   </div>
                                 </div>
 
-                                <h4 className="route-card-title">{title}</h4>
+                                <h4 className="route-card-title"><RouteEnds route={r} lang={lang} fallback={title} /></h4>
 
                                 <div className="nearest-card-footer">
                                   <span className="walk-time-badge">
@@ -886,7 +904,7 @@ export default function Sidebar({
                       >
                         <div className="nearest-card-header">
                           <div className="badge-group">
-                            <span className="route-num-badge">{r.num || r.route_id}</span>
+                            <span className="route-num-badge">{lineLabel(r, lang)}</span>
                             <span className="route-vehicle-badge">{r.vehicle}</span>
                           </div>
                           <div className="walk-distance-pill">
@@ -895,7 +913,7 @@ export default function Sidebar({
                           </div>
                         </div>
 
-                        <h4 className="route-card-title">{title}</h4>
+                        <h4 className="route-card-title"><RouteEnds route={r} lang={lang} fallback={title} /></h4>
 
                         <div className="nearest-card-footer">
                           <span className="walk-time-badge">
@@ -1118,7 +1136,7 @@ export default function Sidebar({
                         >
                           <div className="journey-card-header">
                             <div className="badge-group">
-                              <span className="route-num-badge">{r.num || r.route_id}</span>
+                              <span className="route-num-badge">{lineLabel(r, lang)}</span>
                               <span className="direct-pill">{t.directBadge}</span>
                             </div>
                             <div className="time-badge">
@@ -1128,7 +1146,7 @@ export default function Sidebar({
                           </div>
 
                           <h4 className="journey-route-title">
-                            {lang === 'ar' ? (r.long_ar || r.long_en) : (r.long_en || r.long_ar)}
+                            <RouteEnds route={r} lang={lang} fallback={lang === 'ar' ? (r.long_ar || r.long_en) : (r.long_en || r.long_ar)} />
                           </h4>
 
                           <div className="itinerary-steps">
@@ -1138,7 +1156,7 @@ export default function Sidebar({
                             </div>
                             <div className="step-item">
                               <span className="step-icon bus" aria-hidden="true"><Bus size={13} /></span>
-                              <span>{t.stepRideBus(r.num, journey.rideDistanceKm, journey.estRideMinutes)}</span>
+                              <span>{t.stepRideBus(lineLabel(r, lang), journey.rideDistanceKm, journey.estRideMinutes)}</span>
                             </div>
                             <div className="step-item">
                               <span className="step-icon dest" aria-hidden="true"><MapPin size={12} /></span>
@@ -1194,9 +1212,9 @@ export default function Sidebar({
                         >
                           <div className="journey-card-header">
                             <div className="badge-group">
-                              <span className="route-num-badge" data-vehicle={r1.vehicle} style={{ '--card-color': c1 }}>{r1.num || r1.route_id}</span>
+                              <span className="route-num-badge" data-vehicle={r1.vehicle} style={{ '--card-color': c1 }}>{lineLabel(r1, lang)}</span>
                               <span aria-hidden="true" style={{ color: 'var(--text-muted)' }}>{lang === 'ar' ? '←' : '→'}</span>
-                              <span className="route-num-badge" data-vehicle={r2.vehicle} style={{ '--card-color': c2 }}>{r2.num || r2.route_id}</span>
+                              <span className="route-num-badge" data-vehicle={r2.vehicle} style={{ '--card-color': c2 }}>{lineLabel(r2, lang)}</span>
                               <span className="transfer-pill">{t.transferBadge}</span>
                             </div>
                             <div className="time-badge">
@@ -1212,7 +1230,7 @@ export default function Sidebar({
                             </div>
                             <div className="step-item" style={{ '--card-color': c1 }} data-vehicle={r1.vehicle}>
                               <span className="step-icon bus" aria-hidden="true" style={r1.vehicle === 'Minibus' ? { color: '#15171C' } : undefined}><Bus size={13} /></span>
-                              <span>{t.stepRideBus(r1.num || r1.route_id, journey.leg1.rideKm, ride1Min)}</span>
+                              <span>{t.stepRideBus(lineLabel(r1, lang), journey.leg1.rideKm, ride1Min)}</span>
                             </div>
                             <div className="step-item">
                               <span className="step-icon walk" aria-hidden="true"><ArrowUpDown size={13} /></span>
@@ -1220,7 +1238,7 @@ export default function Sidebar({
                             </div>
                             <div className="step-item" style={{ '--card-color': c2 }} data-vehicle={r2.vehicle}>
                               <span className="step-icon bus" aria-hidden="true" style={r2.vehicle === 'Minibus' ? { color: '#15171C' } : undefined}><Bus size={13} /></span>
-                              <span>{t.stepRideBus(r2.num || r2.route_id, journey.leg2.rideKm, ride2Min)}</span>
+                              <span>{t.stepRideBus(lineLabel(r2, lang), journey.leg2.rideKm, ride2Min)}</span>
                             </div>
                             <div className="step-item">
                               <span className="step-icon dest" aria-hidden="true"><MapPin size={12} /></span>

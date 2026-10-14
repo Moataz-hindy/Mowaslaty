@@ -75,6 +75,7 @@ export default function MapSearchBar({
   onSetOriginCoord,
   onSetDestCoord,
   onFilterNearbyRoutes,
+  destination = null,
   lang = 'ar'
 }) {
   const [query, setQuery] = useState('');
@@ -366,6 +367,33 @@ export default function MapSearchBar({
           الخطوط
         </button>
       </div>
+
+      {/* Current destination chip: tap to zoom to it, ✕ to remove it */}
+      {destination && !showDropdown && (
+        <div className="destination-chip" role="status">
+          <button
+            type="button"
+            className="destination-chip-main"
+            onClick={destination.onFocus}
+            title={lang === 'ar' ? 'عرض الوجهة على الخريطة' : 'Show destination on map'}
+          >
+            <MapPin size={15} aria-hidden="true" />
+            <span className="destination-chip-label">{lang === 'ar' ? 'وجهتك:' : 'Destination:'}</span>
+            <span className="destination-chip-name">
+              {destination.label || (lang === 'ar' ? 'النقطة المحددة' : 'Selected point')}
+            </span>
+          </button>
+          <button
+            type="button"
+            className="destination-chip-clear"
+            onClick={destination.onClear}
+            aria-label={lang === 'ar' ? 'إزالة الوجهة' : 'Remove destination'}
+            title={lang === 'ar' ? 'إزالة الوجهة' : 'Remove destination'}
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
 
       {/* Dropdown Results */}
       {showDropdown && (

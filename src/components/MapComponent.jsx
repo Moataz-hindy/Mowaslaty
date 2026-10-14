@@ -32,6 +32,7 @@ export default function MapComponent({
   stops,
   showStops,
   fitRequest = 0,
+  flyToRequest = null,
   lang,
   t
 }) {
@@ -102,11 +103,12 @@ export default function MapComponent({
 
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
-    // Basemap: CARTO "Positron" when a key is configured (production),
+    // Basemap: CARTO "Voyager" (detailed: coloured roads, parks, water, more labels)
+    // when a key is configured (production),
     // otherwise OSM's own tiles (fine for local development only).
     const cartoKey = import.meta.env.VITE_CARTO_KEY;
     if (cartoKey) {
-      L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(cartoKey)}`, {
+      L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(cartoKey)}`, {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attribution/">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 20
@@ -270,7 +272,9 @@ export default function MapComponent({
 
     group.clearLayers();
 
-    if (activeTab !== 'nearest' || !targetCoord) return;
+    // Destination overlay: in "nearest" mode, and in "explore" mode when the
+    // selected line has a computed drop-off point for the destination.
+    if (!targetCoord || (activeTab !== 'nearest' && !activeNearest)) return;
 
     // Target Marker
     const targetIcon = L.divIcon({
@@ -342,7 +346,11 @@ export default function MapComponent({
       let isCancelled = false;
       let walkLayers = [previewCasing, previewCore];
 
-      fetchWalkingRoute(dropCoord, targetCoord).then((walkResult) => {
+      // Street routing only for walkable distances (saves API quota)
+      const walkPromise = activeNearest.distanceMeters <= 3000
+        ? fetchWalkingRoute(dropCoord, targetCoord)
+        : Promise.resolve(null);
+      walkPromise.then((walkResult) => {
         if (isCancelled || !walkResult || !walkResult.path || walkResult.path.length === 0) return;
 
         // Clear preview polylines
@@ -445,7 +453,7 @@ export default function MapComponent({
       return () => {
         isCancelled = true;
       };
-    } else {
+    } else if (activeTab === 'nearest') {
       map.setView(targetCoord, 14, { animate: true });
     }
   }, [targetCoord, activeNearest, activeTab, lang]);
@@ -596,6 +604,12 @@ export default function MapComponent({
     });
     fitWithOverlays(bounds, { maxZoom: 16 });
   }, [fitRequest]);
+
+  // Destination chip tapped: fly back to the destination
+  useEffect(() => {
+    if (!flyToRequest || !mapRef.current) return;
+    mapRef.current.flyTo(flyToRequest.coord, Math.max(mapRef.current.getZoom(), 16), { duration: 0.8 });
+  }, [flyToRequest]);
 
   // Stops Overlay
   useEffect(() => {

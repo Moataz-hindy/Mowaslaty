@@ -3,7 +3,7 @@ import { decodePolyline } from './polyline';
 // Versioned file names: when the data changes, bump the version so browsers
 // (and the CDN) fetch the new file instead of a cached copy.
 export const DATA_FILES = {
-  routes: '/data/routes_summary.json',
+  routes: '/data/routes_summary.v2.json',
   geometry: '/data/routes_geometry.v2.json',
   stops: '/data/stops_summary.json'
 };

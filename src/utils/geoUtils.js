@@ -144,6 +144,19 @@ export async function resolveLocationInput(input) {
   };
 }
 
+// A stop may only be used as the drop-off for a line if it actually sits on
+// that line (within ~60 m) and is the right kind (metro station vs bus stop).
+function stopServesLine(stop, route, line) {
+  const isMetroStop = stop.type === 'metro';
+  const isMetroRoute = route && route.vehicle === 'Metro';
+  if (isMetroStop !== isMetroRoute) return false;
+  try {
+    return turf.pointToLineDistance(turf.point([stop.lng, stop.lat]), line, { units: 'meters' }) <= 60;
+  } catch (e) {
+    return false;
+  }
+}
+
 /**
  * Calculates nearest bus drop-off points for a given target coordinate [lat, lng]
  * 
@@ -208,7 +221,7 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
               turf.point([stop.lng, stop.lat]),
               { units: 'meters' }
             );
-            if (stopDist < closestStopDist) {
+            if (stopDist < closestStopDist && stopServesLine(stop, route, line)) {
               closestStopDist = stopDist;
               closestStop = stop;
             }
@@ -317,7 +330,7 @@ export function calculateRouteDropPoint(targetCoord, route, coords, stopsSummary
           turf.point([stop.lng, stop.lat]),
           { units: 'meters' }
         );
-        if (stopDist < closestStopDist) {
+        if (stopDist < closestStopDist && stopServesLine(stop, route, line)) {
           closestStopDist = stopDist;
           closestStop = stop;
         }

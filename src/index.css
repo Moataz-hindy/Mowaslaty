@@ -4,22 +4,27 @@
 
 :root {
   /* Paper theme (default) */
-  --bg-primary: #F3F0E8;      /* page / map ground */
-  --bg-secondary: #FBFAF6;    /* sidebar */
-  --bg-surface: #EDE9DF;      /* segmented tracks, wells */
+  --bg-primary: #E9E8E3;      /* page / map ground */
+  --bg-secondary: #F7F6F2;    /* sidebar */
+  --bg-surface: #ECEAE4;      /* wells */
   --bg-card: #FFFFFF;
   --bg-card-hover: #FFFFFF;
   --bg-input: #FFFFFF;
-  --border-subtle: #E2DDD1;
-  --border-strong: #CFC8B8;
-  --border-active: #15171C;
+  --border-subtle: #DCDAD2;
+  --border-strong: #C9C7BF;
+  --border-active: #111214;
 
   --text-primary: #15171C;
   --text-secondary: #4E535C;
   --text-muted: #5C616A;
   --text-on-ink: #FBFAF6;
 
-  --ink: #15171C;
+  --ink: #111214;
+  /* LED destination-board colours (line numbers, route card header) */
+  --led-bg: #141518;
+  --led-fg: #FFB23E;
+  --led-glow: 0 0 6px rgba(255, 178, 62, 0.35);
+  --led-muted: #A9ABAF;
   /* legacy accent names, remapped: one ink accent + vehicle colours */
   --accent-cyan: #15171C;
   --accent-emerald: #1E7F55;
@@ -28,9 +33,9 @@
   --accent-rose: #C23A57;
   --accent-metro: #2E4A78;
 
-  --radius-sm: 10px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
   --radius-full: 9999px;
 
   --shadow-sm: 0 1px 2px rgba(21, 23, 28, 0.06);
@@ -39,9 +44,10 @@
   --shadow-glow: none;
 
   --sidebar-width: 440px;
-  --font-family: 'IBM Plex Sans Arabic', 'Readex Pro', system-ui, sans-serif;
-  --font-display: 'Readex Pro', 'IBM Plex Sans Arabic', system-ui, sans-serif;
-  --font-mono: 'Readex Pro', system-ui, sans-serif;
+  --font-family: 'Alexandria', system-ui, sans-serif;            /* UI text */
+  --font-display: 'Handjet', 'Alexandria', system-ui, sans-serif; /* LED numbers & boards */
+  --font-brand: 'Aref Ruqaa', 'Alexandria', serif;              /* wordmark only */
+  --font-mono: 'Handjet', system-ui, sans-serif;
   --transition: all 0.18s cubic-bezier(0.2, 0, 0, 1);
 }
 
@@ -1758,9 +1764,7 @@ html, body, #root {
 }
 
 /* Quieter basemap so route colours carry the meaning */
-body.theme-light .leaflet-tile-pane {
-  filter: saturate(0.45) sepia(0.06) contrast(0.96) brightness(1.02);
-}
+/* (no filter on light tiles: Voyager is shown at full detail) */
 
 .map-floating-panel {
   position: absolute;
@@ -3875,3 +3879,456 @@ body.theme-dark .success-toast { filter: brightness(0.9); }
 /* Address search: busy / retry message */
 .search-online-error { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .search-retry-btn { flex: none; min-height: 40px; margin-top: 8px; padding: 0 16px; }
+
+/* Route card: drop-off for the current destination */
+.drawer-drop {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+.drawer-drop-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.drawer-drop-label { font-size: 12px; color: var(--text-muted); }
+.drawer-drop-main { display: flex; align-items: baseline; gap: 8px; color: var(--text-primary); }
+.drawer-drop-main svg { align-self: center; color: var(--text-secondary); }
+.drawer-drop-dist { font-family: var(--font-display); font-size: 18px; font-weight: 600; }
+.drawer-drop-time { font-size: 13px; color: var(--text-secondary); }
+.drawer-drop-stop { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-secondary); }
+.drawer-drop-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.drawer-drop-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: #FBF3E2;
+  color: #6B4A08;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.drawer-drop-warning svg { flex-shrink: 0; margin-top: 2px; }
+.drawer-drop.far .drawer-drop-dist { color: #8E2238; }
+
+
+/* Destination chip under the map search */
+.destination-chip {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  background: var(--ink);
+  color: var(--text-on-ink);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.destination-chip-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 6px 0 14px;
+  padding-inline-start: 14px;
+  padding-inline-end: 6px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-family);
+  font-size: 13px;
+  cursor: pointer;
+}
+.destination-chip-label { opacity: 0.75; white-space: nowrap; }
+.destination-chip-name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.destination-chip-clear {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-inline-start: 1px solid rgba(251, 250, 246, 0.2);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.destination-chip-main:hover,
+.destination-chip-clear:hover { background: rgba(251, 250, 246, 0.12); }
+.destination-chip button:focus-visible { outline: 2px solid var(--text-on-ink); outline-offset: -3px; }
+
+
+/* ==========================================================================
+   Direction B — Cairo street signage
+   LED destination boards (Handjet), hand-lettered wordmark (Aref Ruqaa),
+   Alexandria for UI, hard black edges, ticket-style route card.
+   ========================================================================== */
+
+/* Sidebar frame */
+.sidebar { border-inline-end: 2px solid var(--ink); box-shadow: none; }
+
+/* Wordmark */
+.brand-icon { display: none; }
+.brand-title {
+  font-family: var(--font-brand);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.brand-subtitle {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+}
+.icon-btn { font-family: var(--font-display); font-size: 17px; }
+
+/* Mode tabs: flat with underline (no segmented pill) */
+.mode-tabs,
+.mode-tabs.five-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0 16px;
+  background: transparent;
+  border-radius: 0;
+  border-bottom: 2px solid var(--ink);
+}
+.mode-tabs .tab-btn,
+.mode-tabs.five-tabs .tab-btn {
+  min-height: 48px;
+  padding: 6px 2px 4px;
+  flex-direction: column;
+  gap: 1px;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: normal;
+  line-height: 1.25;
+  border-bottom: 4px solid transparent;
+  margin-bottom: -2px;
+}
+.mode-tabs .tab-btn svg { display: none; }
+.mode-tabs .tab-btn:hover { background: transparent; color: var(--text-primary); }
+.mode-tabs .tab-btn.active {
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 600;
+  border-bottom-color: var(--ink);
+}
+.mode-tabs .tab-pill-badge,
+.mode-tabs.five-tabs .tab-pill-badge,
+.tab-pill-badge.soon {
+  position: static;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8A5A00;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+.tab-btn.active .tab-pill-badge.soon { background: transparent; color: #8A5A00; }
+
+/* Inputs: hard edge */
+.search-input-wrapper input,
+.map-search-box,
+.link-input-field input,
+.line-picker-input-wrap input,
+.chat-input-bar input,
+.community-line-filter input,
+.form-group input, .form-group select, .form-group textarea {
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-md);
+}
+.map-search-box { box-shadow: none; }
+
+/* Vehicle filters: tags with a coloured edge instead of pills + dots */
+.chip {
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-strong);
+  border-inline-start: 5px solid var(--dot, var(--border-strong));
+}
+.chip-dot { display: none; }
+.chip.active { border-color: var(--ink); border-inline-start-color: var(--dot, var(--ink)); }
+.search-chip { border-radius: var(--radius-sm); box-shadow: none; }
+
+/* Line number = LED destination board */
+.route-num-badge,
+.search-item-icon.route {
+  min-width: 60px;
+  height: 42px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  border-radius: var(--radius-sm);
+  background: var(--led-bg) !important;
+  color: var(--led-fg) !important;
+  border: 0 !important;
+  border-bottom: 4px solid var(--card-color, var(--led-muted)) !important;
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-shadow: var(--led-glow);
+}
+[data-vehicle="Minibus"] .route-num-badge,
+.route-num-badge[data-vehicle="Minibus"],
+.search-item-icon.route[data-vehicle="Minibus"] { color: var(--led-fg) !important; }
+.search-item-icon.route { min-width: 50px; height: 36px; font-size: 22px; }
+.line-dropdown-item .route-num-badge { min-width: 50px; height: 36px; font-size: 22px; }
+.report-card .route-num-badge { min-width: 0; height: 30px; font-size: 18px; }
+
+/* Rows & cards: hard black outline when selected */
+.route-card.selected,
+.nearest-card.selected,
+.journey-card.selected,
+.chosen-line-result-card,
+.chosen-line-active-pill,
+.source-card.highlighted {
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-md);
+}
+.nearest-card, .journey-card, .location-link-box, .specific-line-box, .planner-inputs-card, .modal-dialog, .chat-settings-card {
+  border-radius: var(--radius-md);
+}
+.results-header { border-top: 1px dashed var(--border-strong); }
+.results-count { font-family: var(--font-display); font-size: 18px; font-weight: 600; letter-spacing: 0.02em; }
+
+/* Numbers read like a display board */
+.walk-distance-pill, .time-badge { font-size: 21px; font-weight: 600; }
+.metric-pill.dist { font-family: var(--font-display); font-size: 18px; }
+.coord-value { font-size: 17px; }
+.stop-seq-idx { font-size: 12px; }
+
+/* Buttons: small radius, solid */
+.btn-primary, .btn-primary-outline, .btn-select-line-for-nearest, .btn-apply-link,
+.btn-toggle-all-stops, .btn-google-maps-walk, .btn-toggle-alternatives, .btn-add-report,
+.btn-save-settings, .btn-loc-action, .btn-quick-transit-action, .floating-btn, .swap-btn,
+.btn-upvote, .landmark-chip, .preset-suggestion-btn, .suggested-btn {
+  border-radius: var(--radius-sm);
+}
+.btn-primary-outline, .btn-toggle-all-stops, .floating-btn { border: 1.5px solid var(--ink); }
+.floating-btn { box-shadow: none; border-width: 2px; }
+
+/* Destination tag */
+.destination-chip { border-radius: var(--radius-sm); background: var(--led-bg); box-shadow: none; }
+.destination-chip-label {
+  opacity: 1;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--led-fg);
+  letter-spacing: 0.03em;
+}
+.destination-chip-main svg { color: var(--led-fg); }
+
+/* ---- Route card: bus front sign + ticket ---- */
+.active-route-drawer {
+  padding: 0;
+  gap: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: none;
+  filter: drop-shadow(0 10px 24px rgba(17, 18, 20, 0.18));
+  overflow: visible;
+}
+.active-route-drawer .drawer-header {
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--led-bg);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-bottom: 5px solid var(--card-color, var(--led-muted));
+}
+.active-route-drawer .drawer-title-group { align-items: center; gap: 16px; }
+.active-route-drawer .route-badge-lg {
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  background: transparent;
+  color: var(--led-fg) !important;
+  font-family: var(--font-display);
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 0.9;
+  text-shadow: 0 0 10px rgba(255, 178, 62, 0.4);
+}
+.active-route-drawer .detail-name {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--led-fg);
+  text-shadow: var(--led-glow);
+}
+.active-route-drawer .detail-meta { color: var(--led-muted); font-size: 12px; }
+.active-route-drawer .icon-btn-close { color: var(--led-muted); }
+.active-route-drawer .icon-btn-close:hover { background: rgba(255, 255, 255, 0.08); color: #FFFFFF; }
+
+.active-route-drawer .drawer-stats {
+  padding: 14px 18px;
+  border-top: 0;
+}
+.active-route-drawer .stat-value { font-size: 25px; font-weight: 600; line-height: 1.1; }
+.active-route-drawer .stat-value small { font-family: var(--font-display); font-size: 16px; }
+
+/* perforated tear line with notches */
+.active-route-drawer .drawer-drop,
+.active-route-drawer .drawer-actions {
+  position: relative;
+  margin: 0 14px;
+  padding-inline: 4px;
+  border-top: 2px dashed var(--border-strong);
+}
+.active-route-drawer .drawer-drop { padding-top: 14px; padding-bottom: 10px; }
+.active-route-drawer .drawer-drop + .drawer-actions { border-top: 0; padding-top: 0; }
+.active-route-drawer .drawer-actions { padding-top: 14px; padding-bottom: 16px; }
+.active-route-drawer .drawer-drop::before, .active-route-drawer .drawer-drop::after,
+.active-route-drawer > .drawer-stats + .drawer-actions::before,
+.active-route-drawer > .drawer-stats + .drawer-actions::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+}
+.active-route-drawer .drawer-drop::before,
+.active-route-drawer > .drawer-stats + .drawer-actions::before { inset-inline-start: -24px; }
+.active-route-drawer .drawer-drop::after,
+.active-route-drawer > .drawer-stats + .drawer-actions::after { inset-inline-end: -24px; }
+.drawer-drop-label { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: #8A5A00; letter-spacing: 0.02em; }
+.drawer-drop-dist { font-size: 24px; }
+
+@media (max-width: 760px) {
+  .brand-title { font-size: 28px; }
+  .mode-tabs, .mode-tabs.five-tabs { margin: 0; padding: 0 8px; }
+  .active-route-drawer { padding: 0; gap: 0; }
+  .active-route-drawer .route-badge-lg { font-size: 40px; }
+  .active-route-drawer .detail-name { font-size: 21px; }
+  .active-route-drawer .drawer-header { padding: 12px 14px; }
+}
+
+/* Night theme: LED boards stay the same; soften the black edges */
+body.theme-dark .sidebar,
+body.theme-dark .mode-tabs { border-color: var(--border-strong); }
+body.theme-dark .search-input-wrapper input,
+body.theme-dark .map-search-box,
+body.theme-dark .link-input-field input,
+body.theme-dark .line-picker-input-wrap input { border-color: var(--border-strong); }
+body.theme-dark .tab-pill-badge.soon, body.theme-dark .drawer-drop-label { color: var(--led-fg); }
+
+/* ---- Compact route rows: one line per line, details only when selected ---- */
+.route-card { gap: 8px; padding: 12px 10px; }
+.route-row-main { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.route-row-main .route-num-badge { flex: none; }
+.route-row-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.route-row-text .route-card-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.route-card.selected .route-row-text .route-card-title { white-space: normal; }
+.route-row-meta { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.route-full-title { font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; }
+.route-card.selected { padding: 12px 10px; }
+.route-card .route-via-stops { font-size: 12px; }
+@media (max-width: 760px) {
+  .route-card { padding-block: 12px; }
+}
+
+/* Popular lines: label above, links in one row */
+.preset-links { flex-direction: column; align-items: flex-start; gap: 2px; }
+.preset-links-row { display: flex; flex-wrap: wrap; gap: 2px 12px; }
+
+/* Explicit start / end: "من A ← إلى B" */
+.route-ends {
+  display: inline;
+  min-width: 0;
+}
+.route-ends-tag {
+  font-family: var(--font-family);
+  font-size: 0.85em;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-inline-end: 4px;
+}
+.route-ends-from, .route-ends-to { font-weight: 600; }
+.route-ends-arrow {
+  margin: 0 6px;
+  color: var(--card-color, var(--text-muted));
+  font-weight: 700;
+}
+.route-ends-sub { display: block; font-size: 0.85em; font-weight: 400; color: var(--text-secondary); }
+.route-ends-name { font-weight: 600; }
+
+/* ---- Type refinement: calmer weights, clearer hierarchy ---- */
+/* Alexandria runs wide and dark; one step lighter reads cleaner */
+.route-row-text .route-card-title {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+.route-ends-from, .route-ends-to, .route-ends-name { font-weight: 600; color: var(--text-primary); }
+.route-ends-tag {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-inline-end: 3px;
+  vertical-align: 1px;
+}
+.route-ends-arrow {
+  margin: 0 7px;
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 0.9em;
+}
+.route-row-meta { font-size: 12px; font-weight: 300; color: var(--text-secondary); letter-spacing: 0; }
+.route-vehicle-badge, .route-dist-badge, .detail-meta, .banner-sub, .coord-label { font-weight: 300; }
+
+/* LED boards: a touch more air between the dots */
+.route-num-badge, .search-item-icon.route {
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+.active-route-drawer .route-badge-lg { font-weight: 600; letter-spacing: 0.03em; }
+.active-route-drawer .detail-name { font-weight: 500; letter-spacing: 0.02em; }
+
+/* Body copy */
+body, .sidebar { font-weight: 400; }
+.banner-title, .chosen-result-title, .journey-route-title, .detail-name { letter-spacing: 0; }
+/* real spaces now separate the parts, so drop the extra margins */
+.route-ends-tag { margin-inline-end: 0; }
+.route-ends-arrow { margin: 0 2px; }
+/* Arabic labels on LED boards ("ميني", "ميكرو") sit a bit low in Handjet */
+.route-num-badge { padding-bottom: 2px; }
