@@ -431,17 +431,41 @@ export async function fetchWalkingRoute(startCoord, endCoord) {
   }
 
   try {
-    // Our own Cloudflare Pages Function (functions/api/walk.js), which calls
-    // openrouteservice with a secret key and returns an OSRM-shaped response.
-    const url = `/api/walk?from=${sLng},${sLat}&to=${eLng},${eLat}`;
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 6000);
-    const res = await fetch(url, { signal: controller.signal });
-    clearTimeout(timer);
+    let data = null;
 
-    if (res.ok && (res.headers.get('content-type') || '').includes('application/json')) {
-      const data = await res.json();
-      if (data.code === 'Ok' && data.routes && data.routes[0]) {
+    // 1) Offline router: A* on our own OpenStreetMap street tiles
+    //    (scripts/build_osm.py). No API key, no limits.
+    try {
+      const { computeWalk } = await import('./transitWorkerClient');
+      const local = await computeWalk(startCoord, endCoord);
+      if (local && local.path && local.path.length > 1) {
+        data = {
+          code: 'Ok',
+          routes: [{
+            distance: local.distanceMeters,
+            duration: local.distanceMeters * 0.8, // ~75 m per minute
+            geometry: { coordinates: local.path.map(([la, ln]) => [ln, la]) }
+          }]
+        };
+      }
+    } catch (e) {
+      // tiles missing or worker unavailable -> try the server below
+    }
+
+    // 2) Backup: server function (functions/api/walk.js / api/walk.js -> Geoapify)
+    if (!data) {
+      const url = `/api/walk?from=${sLng},${sLat}&to=${eLng},${eLat}`;
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 6000);
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timer);
+      if (res.ok && (res.headers.get('content-type') || '').includes('application/json')) {
+        data = await res.json();
+      }
+    }
+
+    {
+      if (data && data.code === 'Ok' && data.routes && data.routes[0]) {
         const r = data.routes[0];
         const osrmDist = Math.round(r.distance);
         const osrmPath = r.geometry.coordinates.map(c => [c[1], c[0]]); // Leaflet [lat, lng]

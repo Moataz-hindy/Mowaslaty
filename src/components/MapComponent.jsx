@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import { VEHICLE_COLORS } from '../utils/i18n';
 import { fetchWalkingRoute } from '../utils/geoUtils';
+import { matchRouteStops } from '../utils/tripTracker';
 
 // Inline stroke icons for Leaflet divIcons / popups (no emoji)
 const svg = (d, size = 16, sw = 2) =>
@@ -33,6 +34,9 @@ export default function MapComponent({
   showStops,
   fitRequest = 0,
   flyToRequest = null,
+  userLocation = null,
+  tripDrop = null,
+  onUserPan,
   lang,
   t
 }) {
@@ -43,6 +47,7 @@ export default function MapComponent({
   const journeyLayerGroupRef = useRef(null);
   const stopsLayerGroupRef = useRef(null);
   const searchLayerGroupRef = useRef(null);
+  const routeStopsGroupRef = useRef(null);
 
   // Fit bounds while keeping content clear of the floating UI
   // (search bar on top, route card at the bottom).
@@ -122,6 +127,16 @@ export default function MapComponent({
     map.attributionControl.addAttribution('Walking routes: <a href="https://www.geoapify.com/">Powered by Geoapify</a>');
 
     routeLayerGroupRef.current = L.featureGroup().addTo(map);
+    // stops of the selected line: only shown when zoomed in (avoids clutter)
+    routeStopsGroupRef.current = L.layerGroup();
+    const syncStopsVisibility = () => {
+      const g = routeStopsGroupRef.current;
+      if (!g) return;
+      if (map.getZoom() >= 14) { if (!map.hasLayer(g)) g.addTo(map); }
+      else if (map.hasLayer(g)) g.remove();
+    };
+    map.on('zoomend', syncStopsVisibility);
+    syncStopsVisibility();
     targetLayerGroupRef.current = L.featureGroup().addTo(map);
     journeyLayerGroupRef.current = L.featureGroup().addTo(map);
     stopsLayerGroupRef.current = L.layerGroup().addTo(map);
@@ -197,6 +212,7 @@ export default function MapComponent({
     if (!map || !group) return;
 
     group.clearLayers();
+    if (routeStopsGroupRef.current) routeStopsGroupRef.current.clearLayers();
 
     // In Nearest mode, always render the route of the active nearest drop point so the transit line is ALWAYS visible!
     const routeToRender = (activeTab === 'nearest' && activeNearest?.route) 
@@ -230,6 +246,27 @@ export default function MapComponent({
     group.addLayer(glowLine);
     group.addLayer(mainLine);
 
+    // small stop circles along the line (between the two terminals)
+    const stopsGroup = routeStopsGroupRef.current;
+    if (stopsGroup) {
+      stopsGroup.clearLayers();
+      const lineStops = matchRouteStops(routeToRender, coords, stops);
+      lineStops.forEach((s, i) => {
+        const isEnd = i === 0 || i === lineStops.length - 1;
+        if (isEnd && lineStops.length > 2) return; // terminals have their own markers
+        L.circleMarker(s.coord, {
+          radius: isMetro ? 5 : 4,
+          color,
+          weight: 2,
+          fillColor: '#FFFFFF',
+          fillOpacity: 1,
+          bubblingMouseEvents: false
+        })
+          .bindTooltip(s.name, { direction: 'top', offset: [0, -4], className: 'route-stop-tooltip' })
+          .addTo(stopsGroup);
+      });
+    }
+
     const startPt = coords[0];
     const endPt = coords[coords.length - 1];
 
@@ -262,7 +299,7 @@ export default function MapComponent({
     if (activeTab === 'explore' && !targetCoord) {
       fitWithOverlays(mainLine.getBounds(), { maxZoom: 15 });
     }
-  }, [selectedRoute, activeNearest, geometries, lang, activeTab]);
+  }, [selectedRoute, activeNearest, geometries, lang, activeTab, stops]);
 
   // Phase 2: Nearest Drop Point Overlay
   useEffect(() => {
@@ -605,10 +642,73 @@ export default function MapComponent({
     fitWithOverlays(bounds, { maxZoom: 16 });
   }, [fitRequest]);
 
+  // User dragging the map stops "follow me" during a trip
+  const onUserPanRef = useRef(onUserPan);
+  useEffect(() => { onUserPanRef.current = onUserPan; }, [onUserPan]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const h = () => onUserPanRef.current && onUserPanRef.current();
+    map.on('dragstart', h);
+    return () => map.off('dragstart', h);
+  }, []);
+
+  // Trip tracking: the drop-off point
+  const tripDropRef = useRef(null);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (tripDropRef.current) { tripDropRef.current.remove(); tripDropRef.current = null; }
+    if (!tripDrop) return;
+    tripDropRef.current = L.marker(tripDrop, {
+      icon: L.divIcon({
+        className: 'trip-drop-marker',
+        html: `<div class="trip-drop-pin">${lang === 'ar' ? 'انزل هنا' : 'Get off'}</div>`,
+        iconSize: [84, 30],
+        iconAnchor: [42, 34]
+      }),
+      zIndexOffset: 900
+    }).addTo(map);
+  }, [tripDrop?.[0], tripDrop?.[1], lang]);
+
+  // Live location: blue dot + accuracy circle, updated in place
+  const userLayerRef = useRef(null);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (!userLocation) {
+      if (userLayerRef.current) { userLayerRef.current.group.remove(); userLayerRef.current = null; }
+      return;
+    }
+    const { coord, accuracy } = userLocation;
+    if (!userLayerRef.current) {
+      const circle = L.circle(coord, {
+        radius: Math.max(accuracy || 0, 8),
+        color: '#2563EB', weight: 1, opacity: 0.35, fillColor: '#2563EB', fillOpacity: 0.12,
+        interactive: false
+      });
+      const dot = L.marker(coord, {
+        icon: L.divIcon({ className: 'user-location-marker', html: '<div class="user-dot"></div>', iconSize: [22, 22], iconAnchor: [11, 11] }),
+        keyboard: false,
+        zIndexOffset: 1000
+      }).bindPopup(lang === 'ar' ? '<strong>موقعك الحالي</strong>' : '<strong>You are here</strong>');
+      const group = L.layerGroup([circle, dot]).addTo(map);
+      userLayerRef.current = { group, circle, dot };
+    } else {
+      userLayerRef.current.circle.setLatLng(coord).setRadius(Math.max(accuracy || 0, 8));
+      userLayerRef.current.dot.setLatLng(coord);
+    }
+  }, [userLocation?.coord?.[0], userLocation?.coord?.[1], userLocation?.accuracy, lang]);
+
   // Destination chip tapped: fly back to the destination
   useEffect(() => {
     if (!flyToRequest || !mapRef.current) return;
-    mapRef.current.flyTo(flyToRequest.coord, Math.max(mapRef.current.getZoom(), 16), { duration: 0.8 });
+    if (flyToRequest.pan) {
+      // following the user during a trip: gentle pan, keep the zoom
+      mapRef.current.panTo(flyToRequest.coord, { animate: true, duration: 0.5 });
+    } else {
+      mapRef.current.flyTo(flyToRequest.coord, Math.max(mapRef.current.getZoom(), 16), { duration: 0.8 });
+    }
   }, [flyToRequest]);
 
   // Stops Overlay

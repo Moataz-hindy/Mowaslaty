@@ -2,6 +2,7 @@
 // Falls back to running on the main thread if workers aren't available.
 import { findNearestDropPoints } from './geoUtils';
 import { planJourney } from './tripPlanner';
+import { walkRoute } from './walkRouter';
 
 let worker = null;
 let nextId = 1;
@@ -48,4 +49,8 @@ export function computeNearest(targetCoord, data, maxDistance = 2000) {
 export function computePlan(originCoord, destCoord, data, maxWalk = 1200) {
   return run('plan', { originCoord, destCoord, maxWalk },
     () => planJourney(originCoord, destCoord, data.routes, data.geometries, data.stops, maxWalk));
+}
+
+export function computeWalk(start, end) {
+  return run('walk', { start, end }, () => walkRoute(start, end));
 }

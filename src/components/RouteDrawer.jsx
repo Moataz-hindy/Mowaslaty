@@ -1,7 +1,7 @@
 import React from 'react';
 import { VEHICLE_COLORS } from '../utils/i18n';
 import { getRouteEnds, lineLabel } from '../utils/routeEnds';
-import { ArrowLeftRight, Focus, X, Footprints, MapPin, ExternalLink, AlertTriangle } from 'lucide-react';
+import { ArrowLeftRight, Focus, X, Footprints, MapPin, ExternalLink, AlertTriangle, Navigation } from 'lucide-react';
 
 export default function RouteDrawer({
   selectedRoute,
@@ -11,6 +11,7 @@ export default function RouteDrawer({
   drop = null,
   targetCoord = null,
   onClearTarget,
+  onStartTrip,
   lang,
   t
 }) {
@@ -94,6 +95,12 @@ export default function RouteDrawer({
                 <MapPin size={13} aria-hidden="true" />
                 <span>{lang === 'ar' ? `انزل عند: ${stopName}` : `Get off at: ${stopName}`}</span>
               </div>
+            )}
+            {onStartTrip && !far && (
+              <button type="button" className="btn-primary trip-start-btn" onClick={() => onStartTrip(drop)}>
+                <Navigation size={15} />
+                <span>{lang === 'ar' ? 'تتبع الرحلة وتنبيهي قبل النزول' : 'Track my trip & alert me before my stop'}</span>
+              </button>
             )}
             {far ? (
               <div className="drawer-drop-warning">

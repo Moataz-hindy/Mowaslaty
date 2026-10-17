@@ -3,6 +3,19 @@ import { Search, X, MapPin, Compass, Train, Bus, Sparkles, Navigation, Target, B
 import { normalizeText } from '../utils/geoUtils';
 import { expandSearchQuery, routeMatchesTokens } from '../utils/transitAliases';
 import { VEHICLE_COLORS } from '../utils/i18n';
+import { loadPlaces } from '../utils/dataLoader';
+
+const PLACE_CATEGORY = {
+  ar: { area: 'منطقة / حي', square: 'ميدان', university: 'جامعة / كلية', school: 'مدرسة', hospital: 'مستشفى',
+        worship: 'مسجد / كنيسة', market: 'سوق', station: 'محطة', landmark: 'معلم', mall: 'مول',
+        park: 'حديقة / نادي', street: 'شارع' },
+  en: { area: 'Area', square: 'Square', university: 'University', school: 'School', hospital: 'Hospital',
+        worship: 'Mosque / church', market: 'Market', station: 'Station', landmark: 'Landmark', mall: 'Mall',
+        park: 'Park / club', street: 'Street' }
+};
+// lower = shown first when matches are equally good
+const PLACE_RANK = { station: 0, university: 1, hospital: 1, mall: 1, landmark: 2, square: 2, park: 3,
+                     area: 3, market: 4, worship: 5, school: 5, street: 6 };
 
 // Cairo Famous Landmarks & Transit Hubs (with entrance gate coordinates for enclosed destinations)
 export const CAIRO_LANDMARKS = [
@@ -83,6 +96,19 @@ export default function MapSearchBar({
   const [isFocused, setIsFocused] = useState(false);
   const [nominatimResults, setNominatimResults] = useState([]);
   const [isSearchingOnline, setIsSearchingOnline] = useState(false);
+  // Offline place index (OpenStreetMap), loaded the first time search is used
+  const [placeIndex, setPlaceIndex] = useState(null);
+  useEffect(() => {
+    if (!isFocused || placeIndex) return;
+    loadPlaces()
+      .then(data => {
+        const rows = (data.places || []).map(([ar, en, cat, lat, lng]) => ({
+          ar, en, cat, lat, lng, nAr: normalizeText(ar), nEn: normalizeText(en)
+        }));
+        setPlaceIndex(rows);
+      })
+      .catch(err => console.warn('Place index not available:', err));
+  }, [isFocused, placeIndex]);
   // Address search runs only when the user asks for it (Enter / button)
   const [onlineQuery, setOnlineQuery] = useState('');
   const [onlineError, setOnlineError] = useState(false);
@@ -237,7 +263,39 @@ export default function MapSearchBar({
         }));
       }
 
-      places = [...landmarkMatches, ...busStopMatches];
+      // Offline OpenStreetMap places & streets: starts-with beats contains,
+      // then by kind of place; fills the list up to 7 results.
+      let osmMatches = [];
+      const room = 7 - landmarkMatches.length - busStopMatches.length;
+      if (placeIndex && norm.length >= 2 && room > 0) {
+        const scored = [];
+        for (const p of placeIndex) {
+          let s = -1;
+          if (p.nAr.startsWith(norm) || p.nEn.startsWith(norm)) s = 0;
+          else if (p.nAr.includes(' ' + norm) || p.nEn.includes(' ' + norm)) s = 1;
+          else if (p.nAr.includes(norm) || p.nEn.includes(norm)) s = 2;
+          if (s >= 0) scored.push([s * 10 + (PLACE_RANK[p.cat] ?? 6), p]);
+        }
+        scored.sort((a, b) => a[0] - b[0]);
+        const labels = PLACE_CATEGORY[lang === 'ar' ? 'ar' : 'en'];
+        const taken = new Set([...landmarkMatches, ...busStopMatches].map(x => normalizeText(x.name_ar)));
+        for (const [, p] of scored) {
+          if (osmMatches.length >= room) break;
+          const key = p.nAr || p.nEn;
+          if (taken.has(key)) continue;
+          taken.add(key);
+          osmMatches.push({
+            id: `osm_${p.lat}_${p.lng}`,
+            name_ar: lang === 'ar' ? (p.ar || p.en) : (p.en || p.ar),
+            name_en: p.en || p.ar,
+            coord: [p.lat, p.lng],
+            type: 'osm_place',
+            category: labels[p.cat] || p.cat
+          });
+        }
+      }
+
+      places = [...landmarkMatches, ...osmMatches, ...busStopMatches];
     }
 
     // 3. Transit Lines / Routes
@@ -272,7 +330,7 @@ export default function MapSearchBar({
 
     const totalCount = metro.length + places.length + lines.length;
     return { metro, places, lines, totalCount };
-  }, [query, filterType, stops, routes]);
+  }, [query, filterType, stops, routes, placeIndex, lang]);
 
   const handleSelectPlaceOrStation = (item) => {
     setQuery(item.name_ar || item.name_en);

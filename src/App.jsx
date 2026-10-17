@@ -8,7 +8,10 @@ import { normalizeText, findNearestDropPoints, calculateRouteDropPoint } from '.
 import { expandSearchQuery, routeMatchesTokens } from './utils/transitAliases';
 import { loadRoutes, loadGeometries, loadStops } from './utils/dataLoader';
 import { computeNearest, computePlan } from './utils/transitWorkerClient';
-import { MapPin } from 'lucide-react';
+import { MapPin, LocateFixed, X } from 'lucide-react';
+import { useGeolocation } from './utils/useGeolocation';
+import { buildTrack, updateTrack } from './utils/tripTracker';
+import TripTracker from './components/TripTracker';
 
 
 export default function App() {
@@ -21,6 +24,31 @@ export default function App() {
   const [selectedRoute, setSelectedRoute] = useState(null);
   
   // Phase 2 state (Nearest Drop & Specific Line Drop)
+  // Live location ("موقعي")
+  const geo = useGeolocation();
+  const centerOnNextFix = React.useRef(false);
+  const [geoNotice, setGeoNotice] = useState(null);
+  const handleLocate = () => {
+    if (geo.coord) {
+      setFlyToRequest(prev => ({ coord: geo.coord, n: (prev?.n || 0) + 1 }));
+    } else {
+      centerOnNextFix.current = true;
+    }
+    geo.start();
+  };
+  useEffect(() => {
+    if (geo.coord && centerOnNextFix.current) {
+      centerOnNextFix.current = false;
+      setFlyToRequest(prev => ({ coord: geo.coord, n: (prev?.n || 0) + 1 }));
+    }
+  }, [geo.coord]);
+  useEffect(() => {
+    if (geo.status === 'denied') setGeoNotice('denied');
+    else if (geo.status === 'unsupported') setGeoNotice('unsupported');
+    else if (geo.status === 'unavailable') setGeoNotice('unavailable');
+    else if (geo.status === 'active') setGeoNotice(null);
+  }, [geo.status]);
+
   const [targetCoord, setTargetCoord] = useState(null);
   const [targetLabel, setTargetLabel] = useState(null);   // place name, when known
   const [flyToRequest, setFlyToRequest] = useState(null); // { coord, n }
@@ -248,6 +276,81 @@ export default function App() {
   };
 
   // Toggle Direction (ذهاب / إياب)
+  // ---------------- Trip tracking ("تتبع الرحلة") ----------------
+  const [trip, setTrip] = useState(null);          // prepared track (see tripTracker.js)
+  const [tripState, setTripState] = useState(null);
+  const [following, setFollowing] = useState(true);
+  const [wakeLockOn, setWakeLockOn] = useState(false);
+  const wakeLockRef = React.useRef(null);
+  const lastPhaseRef = React.useRef(null);
+
+  const requestWakeLock = async () => {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLockRef.current = await navigator.wakeLock.request('screen');
+        setWakeLockOn(true);
+        wakeLockRef.current.addEventListener('release', () => setWakeLockOn(false));
+      }
+    } catch (e) { setWakeLockOn(false); }
+  };
+  const releaseWakeLock = () => {
+    try { wakeLockRef.current && wakeLockRef.current.release(); } catch (e) { /* ignore */ }
+    wakeLockRef.current = null;
+    setWakeLockOn(false);
+  };
+
+  const startTrip = ({ route, dropCoord, dropName }) => {
+    if (!route || !dropCoord || !geometries || !geometries[route.id]) return;
+    const track = buildTrack(route, geometries[route.id], stops, dropCoord,
+      dropName || (lang === 'ar' ? 'نقطة النزول' : 'your stop'));
+    setSelectedRoute(route);
+    setTrip(track);
+    setTripState(null);
+    setFollowing(true);
+    lastPhaseRef.current = null;
+    centerOnNextFix.current = true;
+    geo.start();
+    requestWakeLock();
+  };
+  const stopTrip = () => {
+    setTrip(null);
+    setTripState(null);
+    releaseWakeLock();
+  };
+
+  // every GPS fix -> update progress, alerts
+  useEffect(() => {
+    if (!trip || !geo.coord) return;
+    setTripState(prev => {
+      const next = updateTrack(trip, { coord: geo.coord, accuracy: geo.accuracy, speed: geo.speed, timestamp: geo.timestamp }, prev);
+      const key = next.phase + (next.wrongWay ? ':wrong' : '');
+      if (key !== lastPhaseRef.current) {
+        lastPhaseRef.current = key;
+        const buzz = next.phase === 'arrived' ? [400, 150, 400, 150, 400]
+          : next.phase === 'approaching' ? [200, 100, 200]
+          : (next.phase === 'passed' || next.wrongWay) ? [600] : null;
+        if (buzz && navigator.vibrate) navigator.vibrate(buzz);
+      }
+      return next;
+    });
+    if (following) setFlyToRequest(prev => ({ coord: geo.coord, n: (prev?.n || 0) + 1, pan: true }));
+  }, [trip, geo.coord?.[0], geo.coord?.[1], geo.timestamp]);
+
+  // the screen lock is dropped when the page is hidden: take it again on return
+  useEffect(() => {
+    const onVis = () => { if (trip && document.visibilityState === 'visible') requestWakeLock(); };
+    document.addEventListener('visibilitychange', onVis);
+    return () => document.removeEventListener('visibilitychange', onVis);
+  }, [trip]);
+
+  const switchTripDirection = () => {
+    if (!trip) return;
+    const r = trip.route;
+    const opposite = routes.find(x => x.route_id === r.route_id && x.dir !== r.dir && x.id !== r.id)
+      || routes.find(x => x.num === r.num && x.vehicle === r.vehicle && x.dir !== r.dir);
+    if (opposite) startTrip({ route: opposite, dropCoord: trip.drop.coord, dropName: trip.drop.name });
+  };
+
   const handleToggleDirection = () => {
     if (!selectedRoute) return;
 
@@ -312,6 +415,9 @@ export default function App() {
         plannerSelecting={plannerSelecting}
         setPlannerSelecting={setPlannerSelecting}
         plannedJourneys={plannedJourneys}
+        userCoord={geo.coord}
+        onLocate={handleLocate}
+        onStartTrip={startTrip}
         planLoading={planLoading}
         activeJourney={activeJourney}
         setActiveJourney={setActiveJourney}
@@ -384,6 +490,9 @@ export default function App() {
           showStops={showStops}
           fitRequest={fitRequest}
           flyToRequest={flyToRequest}
+          tripDrop={trip ? trip.drop.coord : null}
+          onUserPan={() => { if (trip) setFollowing(false); }}
+          userLocation={geo.coord ? { coord: geo.coord, accuracy: geo.accuracy, heading: geo.heading } : null}
           lang={lang}
           t={t}
         />
@@ -398,10 +507,52 @@ export default function App() {
             <MapPin size={16} />
             <span>{t.stopsBtn}</span>
           </button>
+          <button
+            type="button"
+            className={`floating-btn locate-btn ${geo.status === 'active' ? 'active' : ''} ${geo.status === 'locating' ? 'locating' : ''}`}
+            onClick={handleLocate}
+            aria-label={lang === 'ar' ? 'موقعي' : 'My location'}
+            title={lang === 'ar' ? 'موقعي' : 'My location'}
+          >
+            <LocateFixed size={18} />
+            <span>{lang === 'ar' ? 'موقعي' : 'Me'}</span>
+          </button>
         </div>
 
+        {geoNotice && (
+          <div className="map-toast" role="alert">
+            <span>
+              {geoNotice === 'denied'
+                ? (lang === 'ar' ? 'الوصول للموقع مرفوض. فعّله من إعدادات المتصفح ثم اضغط «موقعي» مرة أخرى.' : 'Location access is blocked. Allow it in your browser settings, then tap “Me” again.')
+                : geoNotice === 'unsupported'
+                ? (lang === 'ar' ? 'هذا المتصفح لا يدعم تحديد الموقع.' : 'This browser doesn’t support location.')
+                : (lang === 'ar' ? 'جاري البحث عن إشارة GPS… جرّب في مكان مفتوح.' : 'Looking for a GPS signal… try somewhere more open.')}
+            </span>
+            <button type="button" onClick={() => setGeoNotice(null)} aria-label={lang === 'ar' ? 'إغلاق' : 'Close'}>
+              <X size={16} />
+            </button>
+          </div>
+        )}
+
         {/* Active Route Drawer */}
-        <RouteDrawer
+        {trip && (
+          <TripTracker
+            trip={trip}
+            state={tripState}
+            geoStatus={geo.status}
+            following={following}
+            wakeLockOn={wakeLockOn}
+            onStop={stopTrip}
+            onRecenter={() => {
+              setFollowing(true);
+              if (geo.coord) setFlyToRequest(prev => ({ coord: geo.coord, n: (prev?.n || 0) + 1 }));
+            }}
+            onSwitchDirection={switchTripDirection}
+            lang={lang}
+          />
+        )}
+
+        {!trip && <RouteDrawer
           selectedRoute={selectedRoute}
           onClose={() => {
             setSelectedRoute(null);
@@ -412,9 +563,14 @@ export default function App() {
           drop={drawerDrop}
           targetCoord={targetCoord}
           onClearTarget={clearTarget}
+          onStartTrip={(drop) => startTrip({
+            route: selectedRoute,
+            dropCoord: drop.dropCoord,
+            dropName: drop.nearestStop ? (lang === 'ar' ? drop.nearestStop.ar : drop.nearestStop.en) : null
+          })}
           lang={lang}
           t={t}
-        />
+        />}
       </main>
     </div>
   );

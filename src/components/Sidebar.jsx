@@ -21,6 +21,7 @@ import {
   ListOrdered,
   ChevronDown,
   ChevronUp,
+  LocateFixed,
   AlertCircle,
   Info
 } from 'lucide-react';
@@ -89,6 +90,9 @@ export default function Sidebar({
   plannerSelecting,
   setPlannerSelecting,
   plannedJourneys,
+  userCoord = null,
+  onLocate,
+  onStartTrip,
   planLoading = false,
   activeJourney,
   setActiveJourney,
@@ -124,6 +128,16 @@ export default function Sidebar({
     if (dy < -30) setSheetExpanded(true);
     else if (dy > 30) setSheetExpanded(false);
   };
+  // "موقعي الحالي" as the trip start: waits for the first GPS fix if needed
+  const [originFromLocation, setOriginFromLocation] = useState(false);
+  React.useEffect(() => {
+    if (originFromLocation && userCoord) {
+      setOriginFromLocation(false);
+      setOriginCoord(userCoord);
+      setPlannerSelecting(destCoord ? null : 'dest');
+    }
+  }, [originFromLocation, userCoord]);
+
   const selectTab = (tab) => {
     setActiveTab(tab);
     setSheetExpanded(true);
@@ -1028,6 +1042,24 @@ export default function Sidebar({
                 : (plannerSelecting === 'dest' ? 'Or pick Destination (B) from landmarks:' : 'Or pick Origin (A) from landmarks:')}
             </span>
             <div className="preset-chips-grid">
+              <button
+                type="button"
+                className={`landmark-chip my-location-chip ${originFromLocation ? 'locating' : ''}`}
+                onClick={() => {
+                  if (userCoord) {
+                    setOriginCoord(userCoord);
+                    setPlannerSelecting(destCoord ? null : 'dest');
+                  } else {
+                    setOriginFromLocation(true);
+                    if (onLocate) onLocate();
+                  }
+                }}
+              >
+                <LocateFixed size={13} />
+                <span>{originFromLocation
+                  ? (lang === 'ar' ? 'جاري تحديد موقعك…' : 'Finding you…')
+                  : (lang === 'ar' ? 'انطلق من موقعي الحالي' : 'Start from my location')}</span>
+              </button>
               {PRESET_DESTINATIONS.slice(0, 6).map(p => (
                 <button
                   key={p.name_en}
@@ -1163,6 +1195,19 @@ export default function Sidebar({
                               <span>{t.stepWalkToDest(journey.walkFromDropMeters, journey.walkFromDropMinutes)}</span>
                             </div>
                           </div>
+                          {isSelected && onStartTrip && (
+                            <button
+                              type="button"
+                              className="btn-primary trip-start-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onStartTrip({ route: r, dropCoord: journey.dropCoord, dropName: lang === 'ar' ? 'نقطة النزول' : 'your stop' });
+                              }}
+                            >
+                              <Navigation size={15} />
+                              <span>{lang === 'ar' ? 'تتبع الرحلة وتنبيهي قبل النزول' : 'Track my trip & alert me'}</span>
+                            </button>
+                          )}
                         </div>
                       );
                     })}
@@ -1245,6 +1290,19 @@ export default function Sidebar({
                               <span>{t.stepWalkToDest(journey.leg2.walkMeters, walk2Min)}</span>
                             </div>
                           </div>
+                          {isSelected && onStartTrip && (
+                            <button
+                              type="button"
+                              className="btn-primary trip-start-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onStartTrip({ route: r1, dropCoord: journey.hub.coord, dropName: hubName });
+                              }}
+                            >
+                              <Navigation size={15} />
+                              <span>{lang === 'ar' ? `تتبع ${lineLabel(r1, lang)} حتى ${hubName}` : `Track ${lineLabel(r1, lang)} to ${hubName}`}</span>
+                            </button>
+                          )}
                         </div>
                       );
                     })}

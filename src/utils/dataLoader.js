@@ -5,7 +5,8 @@ import { decodePolyline } from './polyline';
 export const DATA_FILES = {
   routes: '/data/routes_summary.v2.json',
   geometry: '/data/routes_geometry.v2.json',
-  stops: '/data/stops_summary.json'
+  stops: '/data/stops_summary.json',
+  places: '/data/places.v1.json'
 };
 
 const getJson = (url) => fetch(url).then(res => {
@@ -22,4 +23,16 @@ export async function loadGeometries() {
   const out = {};
   for (const id in encoded) out[id] = decodePolyline(encoded[id]);
   return out;
+}
+
+// Named places from OpenStreetMap (scripts/build_osm.py), loaded on first search
+let placesPromise = null;
+export function loadPlaces() {
+  if (!placesPromise) {
+    placesPromise = getJson(DATA_FILES.places).catch(err => {
+      placesPromise = null;
+      throw err;
+    });
+  }
+  return placesPromise;
 }
