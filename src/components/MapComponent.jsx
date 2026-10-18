@@ -21,6 +21,9 @@ export default function MapComponent({
   selectedRoute,
   geometries,
   targetCoord,
+  rideCoord = null,
+  requireBothPoints = false,
+  nearestSelectingRide = false,
   onMapClick,
   activeNearest,
   // Search on Map
@@ -309,21 +312,37 @@ export default function MapComponent({
 
     group.clearLayers();
 
-    // Destination overlay: in "nearest" mode, and in "explore" mode when the
+    // Destination & Pickup overlay: in "nearest" mode, and in "explore" mode when the
     // selected line has a computed drop-off point for the destination.
-    if (!targetCoord || (activeTab !== 'nearest' && !activeNearest)) return;
+    if (activeTab !== 'nearest' && (!targetCoord || !activeNearest)) return;
+    if (activeTab === 'nearest' && !targetCoord && !rideCoord) return;
 
     // Target Marker
-    const targetIcon = L.divIcon({
-      className: 'custom-target-marker',
-      html: `<div class="target-pin-pulse">${svg(ICONS.pin, 22, 2.2)}</div>`,
-      iconSize: [36, 36],
-      iconAnchor: [18, 18]
-    });
+    if (targetCoord) {
+      const targetIcon = L.divIcon({
+        className: 'custom-target-marker',
+        html: `<div class="target-pin-pulse">${svg(ICONS.pin, 22, 2.2)}</div>`,
+        iconSize: [36, 36],
+        iconAnchor: [18, 18]
+      });
 
-    group.addLayer(
-      L.marker(targetCoord, { icon: targetIcon }).bindPopup(`<strong>${t.destinationTarget}</strong>`)
-    );
+      group.addLayer(
+        L.marker(targetCoord, { icon: targetIcon }).bindPopup(`<strong>${t.destinationTarget}</strong>`)
+      );
+    }
+
+    // Ride-from Marker (Optional Origin in Nearest Mode)
+    if (rideCoord && activeTab === 'nearest') {
+      const rideIcon = L.divIcon({
+        className: 'custom-ride-marker',
+        html: `<div class="ride-pin-pulse">أ</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+      group.addLayer(
+        L.marker(rideCoord, { icon: rideIcon }).bindPopup(`<strong>${t.ridePointLabel || 'مكان الركوب'}:</strong> ${lang === 'ar' ? 'نقطة الانطلاق المحددة' : 'Selected Ride-from Point'}`)
+      );
+    }
 
     // If active nearest item is selected
     if (activeNearest && activeNearest.dropCoord) {
@@ -360,31 +379,68 @@ export default function MapComponent({
         .bindPopup(initialPopupHtml, { maxWidth: 300 });
       group.addLayer(dropMarker);
 
-      // Clean preview walking line (dual-layer casing + dash)
-      let previewCasing = L.polyline([dropCoord, targetCoord], {
+      // Clean preview walking line for drop-off (dual-layer casing + dash)
+      let previewCasing = targetCoord ? L.polyline([dropCoord, targetCoord], {
         color: '#FFFFFF',
         weight: 7,
         opacity: 0.9,
         lineCap: 'round'
-      });
-      let previewCore = L.polyline([dropCoord, targetCoord], {
+      }) : null;
+      let previewCore = targetCoord ? L.polyline([dropCoord, targetCoord], {
         color: WALK_LINE,
         weight: 3.5,
         dashArray: '1, 8',
         lineCap: 'round',
         opacity: 0.95
-      });
-      group.addLayer(previewCasing);
-      group.addLayer(previewCore);
+      }) : null;
+      if (previewCasing) group.addLayer(previewCasing);
+      if (previewCore) group.addLayer(previewCore);
 
-      fitWithOverlays(L.latLngBounds([dropCoord, targetCoord]), { maxZoom: 16 });
+      // If route also has a pickup coordinate from rideCoord
+      if (activeNearest.pickupCoord) {
+        const pickupCoord = activeNearest.pickupCoord;
+        const pickupIcon = L.divIcon({
+          className: 'custom-pickup-marker',
+          html: `<div class="pickup-pin" style="background:#10B981; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: white; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); font-size: 11px; font-weight: bold;">${svg(ICONS.walk, 14)}</div>`,
+          iconSize: [26, 26],
+          iconAnchor: [13, 13]
+        });
+        group.addLayer(
+          L.marker(pickupCoord, { icon: pickupIcon }).bindPopup(`<strong>${t.rideBadge || 'نقطة الركوب'}:</strong> ${activeNearest.walkToPickupMeters || 0}م مشي (~${activeNearest.walkToPickupMinutes || 1} د)`)
+        );
+
+        if (rideCoord) {
+          const rideCasing = L.polyline([rideCoord, pickupCoord], {
+            color: '#FFFFFF',
+            weight: 7,
+            opacity: 0.9,
+            lineCap: 'round'
+          });
+          const rideCore = L.polyline([rideCoord, pickupCoord], {
+            color: '#10B981',
+            weight: 3.5,
+            dashArray: '1, 8',
+            lineCap: 'round',
+            opacity: 0.95
+          });
+          group.addLayer(rideCasing);
+          group.addLayer(rideCore);
+        }
+      }
+
+      const allFitCoords = [dropCoord, targetCoord, rideCoord, activeNearest.pickupCoord].filter(Boolean);
+      if (allFitCoords.length > 1) {
+        fitWithOverlays(L.latLngBounds(allFitCoords), { maxZoom: 16 });
+      } else if (allFitCoords.length === 1) {
+        map.setView(allFitCoords[0], 15, { animate: true });
+      }
 
       // Asynchronously fetch real street pedestrian route with anomaly detection
       let isCancelled = false;
-      let walkLayers = [previewCasing, previewCore];
+      let walkLayers = [previewCasing, previewCore].filter(Boolean);
 
       // Street routing only for walkable distances (saves API quota)
-      const walkPromise = activeNearest.distanceMeters <= 3000
+      const walkPromise = (targetCoord && activeNearest.distanceMeters <= 3000)
         ? fetchWalkingRoute(dropCoord, targetCoord)
         : Promise.resolve(null);
       walkPromise.then((walkResult) => {
@@ -491,9 +547,15 @@ export default function MapComponent({
         isCancelled = true;
       };
     } else if (activeTab === 'nearest') {
-      map.setView(targetCoord, 14, { animate: true });
+      if (targetCoord && rideCoord) {
+        fitWithOverlays(L.latLngBounds([targetCoord, rideCoord]), { maxZoom: 15 });
+      } else if (targetCoord) {
+        map.setView(targetCoord, 14, { animate: true });
+      } else if (rideCoord) {
+        map.setView(rideCoord, 14, { animate: true });
+      }
     }
-  }, [targetCoord, activeNearest, activeTab, lang]);
+  }, [targetCoord, rideCoord, activeNearest, activeTab, lang]);
 
   // Phase 3: Journey Planner (A to B) Visualizer
   useEffect(() => {

@@ -51,11 +51,21 @@ export default function App() {
 
   const [targetCoord, setTargetCoord] = useState(null);
   const [targetLabel, setTargetLabel] = useState(null);   // place name, when known
+  const [rideCoord, setRideCoord] = useState(null);       // optional ride-from point
+  const [rideLabel, setRideLabel] = useState(null);
+  const [requireBothPoints, setRequireBothPoints] = useState(false);
+  const [nearestVehicleFilter, setNearestVehicleFilter] = useState('ALL');
+  const [nearestSelectingRide, setNearestSelectingRide] = useState(false);
   const [flyToRequest, setFlyToRequest] = useState(null); // { coord, n }
   const clearTarget = () => {
     setTargetCoord(null);
     setTargetLabel(null);
     setActiveNearest(null);
+  };
+  const clearRide = () => {
+    setRideCoord(null);
+    setRideLabel(null);
+    setNearestSelectingRide(false);
   };
   const [activeNearest, setActiveNearest] = useState(null);
   const [selectedLineForNearest, setSelectedLineForNearest] = useState(null);
@@ -144,15 +154,23 @@ export default function App() {
     }
     let cancelled = false;
     setNearestLoading(true);
-    computeNearest(targetCoord, { routes, geometries, stops }, 2000)
+    computeNearest(targetCoord, { routes, geometries, stops }, 2000, {
+      rideCoord: requireBothPoints ? rideCoord : null,
+      requireBoth: Boolean(rideCoord && requireBothPoints),
+      maxRideDistance: 1500,
+      quotaPerCategory: 25
+    })
       .then(res => {
         if (cancelled) return;
-        setNearestResults((res || []).map(item => ({ ...item, route: relinkRoute(item.route) })));
+        const mapped = (res || []).map(item => ({ ...item, route: relinkRoute(item.route) }));
+        if (res?.counts) mapped.counts = res.counts;
+        if (res?.byCategory) mapped.byCategory = res.byCategory;
+        setNearestResults(mapped);
       })
       .catch(err => { if (!cancelled) { console.error(err); setNearestResults([]); } })
       .finally(() => { if (!cancelled) setNearestLoading(false); });
     return () => { cancelled = true; };
-  }, [targetCoord, routes, geometries, stops]);
+  }, [targetCoord, rideCoord, requireBothPoints, routes, geometries, stops]);
 
   // Phase 2: Calculate Nearest Drop Point for a chosen specific line
   const selectedLineDrop = useMemo(() => {
@@ -259,11 +277,18 @@ export default function App() {
       }
     } else {
       // Nearest mode
-      setTargetCoord(coord);
-      setTargetLabel(null);
-      setActiveNearest(null);
-      if (activeTab !== 'nearest') {
-        setActiveTab('nearest');
+      if (nearestSelectingRide) {
+        setRideCoord(coord);
+        setRideLabel(null);
+        setNearestSelectingRide(false);
+        setRequireBothPoints(true);
+      } else {
+        setTargetCoord(coord);
+        setTargetLabel(null);
+        setActiveNearest(null);
+        if (activeTab !== 'nearest') {
+          setActiveTab('nearest');
+        }
       }
     }
   };
@@ -400,6 +425,21 @@ export default function App() {
           setTargetLabel(label);
           setActiveNearest(null);
         }}
+        rideCoord={rideCoord}
+        setRideCoord={(c, label = null) => {
+          if (!c) { clearRide(); return; }
+          setRideCoord(c);
+          setRideLabel(label);
+          setRequireBothPoints(true);
+        }}
+        rideLabel={rideLabel}
+        clearRide={clearRide}
+        requireBothPoints={requireBothPoints}
+        setRequireBothPoints={setRequireBothPoints}
+        nearestVehicleFilter={nearestVehicleFilter}
+        setNearestVehicleFilter={setNearestVehicleFilter}
+        nearestSelectingRide={nearestSelectingRide}
+        setNearestSelectingRide={setNearestSelectingRide}
         nearestResults={nearestResults}
         nearestLoading={nearestLoading}
         activeNearest={activeNearest}
@@ -478,6 +518,9 @@ export default function App() {
           selectedRoute={selectedRoute}
           geometries={geometries}
           targetCoord={targetCoord}
+          rideCoord={rideCoord}
+          requireBothPoints={requireBothPoints}
+          nearestSelectingRide={nearestSelectingRide}
           onMapClick={handleMapClick}
           activeNearest={mapNearest}
           searchLocation={searchLocation}

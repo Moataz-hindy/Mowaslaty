@@ -41,9 +41,24 @@ function run(type, payload, fallback) {
   }).catch(() => fallback());
 }
 
-export function computeNearest(targetCoord, data, maxDistance = 2000) {
-  return run('nearest', { targetCoord, maxDistance },
-    () => findNearestDropPoints(targetCoord, data.routes, data.geometries, data.stops, maxDistance));
+export function computeNearest(targetCoord, data, maxDistance = 2000, options = {}) {
+  return run('nearest', { targetCoord, maxDistance, options },
+    () => {
+      const res = findNearestDropPoints(targetCoord, data.routes, data.geometries, data.stops, maxDistance, options);
+      return {
+        items: res,
+        counts: res.counts,
+        byCategory: res.byCategory
+      };
+    }).then(res => {
+      if (res && res.items) {
+        const arr = res.items;
+        arr.counts = res.counts || { ALL: arr.length, Metro: 0, Minibus: 0, Microbus: 0, Bus: 0 };
+        arr.byCategory = res.byCategory || {};
+        return arr;
+      }
+      return res || [];
+    });
 }
 
 export function computePlan(originCoord, destCoord, data, maxWalk = 1200) {

@@ -167,29 +167,82 @@ function stopServesLine(stop, route, line) {
  * @param {number} maxDistanceMeters Maximum walking radius to consider (e.g. 2000m)
  * @returns {Array<Object>} Ranked list of nearest route options
  */
-export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry, stopsSummary = [], maxDistanceMeters = 2000) {
+export function getVehicleCategory(vehicle) {
+  if (vehicle === 'Metro') return 'Metro';
+  if (vehicle === 'Minibus') return 'Minibus';
+  if (vehicle === 'Bus') return 'Bus';
+  return 'Microbus'; // Microbus, Tomnaya, Box
+}
+
+/**
+ * Calculates nearest bus drop-off points for a given target coordinate [lat, lng]
+ * Supports optional ride-from point filtration (direct routes serving both)
+ * and category-balanced quota distribution.
+ * 
+ * @param {Array<number>} targetCoord [lat, lng]
+ * @param {Array<Object>} routesSummary Array of route metadata
+ * @param {Object} routesGeometry Map of trip_id -> [[lat, lng], ...]
+ * @param {Array<Object>} stopsSummary Array of stops
+ * @param {number} maxDistanceMeters Maximum walking radius to consider (e.g. 2000m)
+ * @param {Object} options Optional filters: { rideCoord, requireBoth, maxRideDistance, quotaPerCategory }
+ * @returns {Array<Object>} Ranked list of nearest route options
+ */
+export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry, stopsSummary = [], maxDistanceMeters = 2000, options = {}) {
   if (!targetCoord || !routesGeometry) return [];
+
+  const {
+    rideCoord = null,
+    requireBoth = false,
+    maxRideDistance = 1500,
+    quotaPerCategory = 25
+  } = options || {};
 
   const [tLat, tLng] = targetCoord;
   const targetPoint = turf.point([tLng, tLat]);
 
-  // Buffer in degrees (~0.02 deg is approx 2.2 km)
-  const degBuffer = (maxDistanceMeters / 1000) * 0.01;
+  // Geometrically accurate buffers for Cairo (~30 deg N latitude)
+  const latBuffer = maxDistanceMeters / 111000;
+  const lngBuffer = maxDistanceMeters / (111000 * Math.cos((tLat * Math.PI) / 180));
 
-  const candidates = [];
+  let ridePoint = null;
+  let rLatBuffer = 0;
+  let rLngBuffer = 0;
+  if (rideCoord) {
+    ridePoint = turf.point([rideCoord[1], rideCoord[0]]);
+    rLatBuffer = maxRideDistance / 111000;
+    rLngBuffer = maxRideDistance / (111000 * Math.cos((rideCoord[0] * Math.PI) / 180));
+  }
+
+  const categoryBins = {
+    Metro: [],
+    Minibus: [],
+    Microbus: [],
+    Bus: []
+  };
 
   for (const route of routesSummary) {
     const bounds = route.bounds;
     if (!bounds) continue;
 
-    // Fast Bounding Box pruning
-    const minLat = bounds[0][0] - degBuffer;
-    const minLng = bounds[0][1] - degBuffer;
-    const maxLat = bounds[1][0] + degBuffer;
-    const maxLng = bounds[1][1] + degBuffer;
+    const minLat = bounds[0][0];
+    const minLng = bounds[0][1];
+    const maxLat = bounds[1][0];
+    const maxLng = bounds[1][1];
 
-    if (tLat < minLat || tLat > maxLat || tLng < minLng || tLng > maxLng) {
+    // Fast Bounding Box pruning for Target Point
+    if (tLat < minLat - latBuffer || tLat > maxLat + latBuffer ||
+        tLng < minLng - lngBuffer || tLng > maxLng + lngBuffer) {
       continue;
+    }
+
+    // Fast Bounding Box pruning for Ride Point (if strict 2-point filtering is required)
+    if (requireBoth && rideCoord) {
+      const rLat = rideCoord[0];
+      const rLng = rideCoord[1];
+      if (rLat < minLat - rLatBuffer || rLat > maxLat + rLatBuffer ||
+          rLng < minLng - rLngBuffer || rLng > maxLng + rLngBuffer) {
+        continue;
+      }
     }
 
     const coords = routesGeometry[route.id];
@@ -200,94 +253,169 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
     const line = turf.lineString(turfCoords);
 
     try {
-      const nearest = turf.nearestPointOnLine(line, targetPoint, { units: 'kilometers' });
-      let distMeters = Math.round(nearest.properties.dist * 1000);
+      const dropNearest = turf.nearestPointOnLine(line, targetPoint, { units: 'kilometers' });
+      let distMeters = Math.round(dropNearest.properties.dist * 1000);
 
-      if (distMeters <= maxDistanceMeters) {
-        let dropLng = nearest.geometry.coordinates[0];
-        let dropLat = nearest.geometry.coordinates[1];
+      if (distMeters > maxDistanceMeters) continue;
 
-        // Smart Stop Snapping: snap to recognized bus stop along/near the line (< 250m)
-        let nearestStopName = null;
-        if (stopsSummary && stopsSummary.length > 0) {
-          let closestStop = null;
-          let closestStopDist = 250;
+      let walkToPickup = null;
+      let pickupNearest = null;
+      let rideKm = null;
+      let passesBoth = false;
+
+      if (ridePoint) {
+        pickupNearest = turf.nearestPointOnLine(line, ridePoint, { units: 'kilometers' });
+        walkToPickup = Math.round(pickupNearest.properties.dist * 1000);
+        const pickupIndex = pickupNearest.properties.location;
+        const dropIndex = dropNearest.properties.location;
+
+        passesBoth = (walkToPickup <= maxRideDistance && distMeters <= maxDistanceMeters && pickupIndex < dropIndex);
+
+        if (requireBoth && !passesBoth) {
+          continue;
+        }
+
+        if (pickupIndex < dropIndex) {
+          rideKm = Math.round((dropIndex - pickupIndex) * 10) / 10;
+        }
+      }
+
+      let dropLng = dropNearest.geometry.coordinates[0];
+      let dropLat = dropNearest.geometry.coordinates[1];
+
+      // Smart Stop Snapping: snap to recognized bus stop along/near the line (< 250m)
+      let nearestStopName = null;
+      if (stopsSummary && stopsSummary.length > 0) {
+        let closestStop = null;
+        let closestStopDist = 250;
+        for (const stop of stopsSummary) {
+          if (Math.abs(stop.lat - dropLat) > 0.0035 || Math.abs(stop.lng - dropLng) > 0.0035) {
+            continue;
+          }
+          const stopDist = turf.distance(
+            turf.point([dropLng, dropLat]),
+            turf.point([stop.lng, stop.lat]),
+            { units: 'meters' }
+          );
+          if (stopDist < closestStopDist && stopServesLine(stop, route, line)) {
+            closestStopDist = stopDist;
+            closestStop = stop;
+          }
+        }
+
+        if (closestStop) {
+          dropLat = closestStop.lat;
+          dropLng = closestStop.lng;
+          distMeters = Math.round(turf.distance(
+            turf.point([dropLng, dropLat]),
+            targetPoint,
+            { units: 'meters' }
+          ));
+          nearestStopName = {
+            ar: closestStop.name_ar,
+            en: closestStop.name_en,
+            id: closestStop.id,
+            distMeters: 0,
+            isOfficialStop: true
+          };
+        } else {
+          // Find closest named stop for context (up to 400m)
+          let refDist = 400;
           for (const stop of stopsSummary) {
-            if (Math.abs(stop.lat - dropLat) > 0.0035 || Math.abs(stop.lng - dropLng) > 0.0035) {
-              continue;
-            }
-            const stopDist = turf.distance(
+            if (Math.abs(stop.lat - dropLat) > 0.005 || Math.abs(stop.lng - dropLng) > 0.005) continue;
+            const d = turf.distance(
               turf.point([dropLng, dropLat]),
               turf.point([stop.lng, stop.lat]),
               { units: 'meters' }
             );
-            if (stopDist < closestStopDist && stopServesLine(stop, route, line)) {
-              closestStopDist = stopDist;
-              closestStop = stop;
-            }
-          }
-
-          if (closestStop) {
-            dropLat = closestStop.lat;
-            dropLng = closestStop.lng;
-            distMeters = Math.round(turf.distance(
-              turf.point([dropLng, dropLat]),
-              targetPoint,
-              { units: 'meters' }
-            ));
-            nearestStopName = {
-              ar: closestStop.name_ar,
-              en: closestStop.name_en,
-              id: closestStop.id,
-              distMeters: 0,
-              isOfficialStop: true
-            };
-          } else {
-            // Find closest named stop for context (up to 400m)
-            let refDist = 400;
-            for (const stop of stopsSummary) {
-              if (Math.abs(stop.lat - dropLat) > 0.005 || Math.abs(stop.lng - dropLng) > 0.005) continue;
-              const d = turf.distance(
-                turf.point([dropLng, dropLat]),
-                turf.point([stop.lng, stop.lat]),
-                { units: 'meters' }
-              );
-              if (d < refDist) {
-                refDist = d;
-                nearestStopName = {
-                  ar: stop.name_ar,
-                  en: stop.name_en,
-                  id: stop.id,
-                  distMeters: Math.round(d),
-                  isOfficialStop: false
-                };
-              }
+            if (d < refDist) {
+              refDist = d;
+              nearestStopName = {
+                ar: stop.name_ar,
+                en: stop.name_en,
+                id: stop.id,
+                distMeters: Math.round(d),
+                isOfficialStop: false
+              };
             }
           }
         }
+      }
 
-        // Estimated walking speed: ~80 meters per minute (4.8 km/h)
-        const walkMinutes = Math.max(1, Math.round(distMeters / 80));
+      // Estimated walking speed: ~80 meters per minute (4.8 km/h)
+      const walkMinutes = Math.max(1, Math.round(distMeters / 80));
+      const walkToPickupMinutes = walkToPickup !== null ? Math.max(1, Math.round(walkToPickup / 80)) : 0;
+      const totalWalkMeters = (walkToPickup || 0) + distMeters;
 
-        candidates.push({
-          route,
-          distanceMeters: distMeters,
-          walkMinutes,
-          dropCoord: [dropLat, dropLng],
-          targetCoord: [tLat, tLng],
-          nearestStop: nearestStopName
-        });
+      const category = getVehicleCategory(route.vehicle);
+
+      const candidate = {
+        route,
+        vehicleCategory: category,
+        distanceMeters: distMeters,
+        walkMinutes,
+        dropCoord: [dropLat, dropLng],
+        targetCoord: [tLat, tLng],
+        nearestStop: nearestStopName,
+        rideCoord: rideCoord ? [rideCoord[0], rideCoord[1]] : null,
+        pickupCoord: pickupNearest ? [pickupNearest.geometry.coordinates[1], pickupNearest.geometry.coordinates[0]] : null,
+        walkToPickupMeters: walkToPickup,
+        walkToPickupMinutes,
+        rideDistanceKm: rideKm,
+        totalWalkMeters,
+        passesBoth
+      };
+
+      if (categoryBins[category]) {
+        categoryBins[category].push(candidate);
       }
     } catch (e) {
       // Skip invalid geometries
     }
   }
 
-  // Sort by shortest walking distance first
-  candidates.sort((a, b) => a.distanceMeters - b.distanceMeters);
+  // Sort each category by best criteria
+  for (const cat of ['Metro', 'Minibus', 'Microbus', 'Bus']) {
+    categoryBins[cat].sort((a, b) => {
+      if (requireBoth && a.passesBoth && b.passesBoth) {
+        return a.totalWalkMeters - b.totalWalkMeters;
+      }
+      return a.distanceMeters - b.distanceMeters;
+    });
+  }
 
-  // Return top 25 closest lines
-  return candidates.slice(0, 25);
+  // Build a quota-balanced pool of top candidates so no category is starved
+  const finalCandidates = [];
+  for (const cat of ['Metro', 'Minibus', 'Microbus', 'Bus']) {
+    const quota = cat === 'Metro' ? 10 : quotaPerCategory;
+    finalCandidates.push(...categoryBins[cat].slice(0, quota));
+  }
+
+  // Sort the combined list by distance
+  finalCandidates.sort((a, b) => {
+    if (requireBoth && a.passesBoth && b.passesBoth) {
+      return a.totalWalkMeters - b.totalWalkMeters;
+    }
+    return a.distanceMeters - b.distanceMeters;
+  });
+
+  // Attach categorical breakdown directly to the array
+  finalCandidates.byCategory = {
+    Metro: categoryBins.Metro.slice(0, 10),
+    Minibus: categoryBins.Minibus.slice(0, quotaPerCategory),
+    Microbus: categoryBins.Microbus.slice(0, quotaPerCategory),
+    Bus: categoryBins.Bus.slice(0, quotaPerCategory)
+  };
+
+  finalCandidates.counts = {
+    ALL: finalCandidates.length,
+    Metro: categoryBins.Metro.length,
+    Minibus: categoryBins.Minibus.length,
+    Microbus: categoryBins.Microbus.length,
+    Bus: categoryBins.Bus.length
+  };
+
+  return finalCandidates;
 }
 
 /**

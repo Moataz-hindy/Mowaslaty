@@ -25,7 +25,12 @@ self.onmessage = async (event) => {
     const { routes, geometries, stops } = await dataReady;
     let result;
     if (type === 'nearest') {
-      result = findNearestDropPoints(payload.targetCoord, routes, geometries, stops, payload.maxDistance ?? 2000);
+      const dropPoints = findNearestDropPoints(payload.targetCoord, routes, geometries, stops, payload.maxDistance ?? 2000, payload.options || {});
+      result = {
+        items: dropPoints,
+        counts: dropPoints.counts,
+        byCategory: dropPoints.byCategory
+      };
     } else if (type === 'plan') {
       result = planJourney(payload.originCoord, payload.destCoord, routes, geometries, stops, payload.maxWalk ?? 1200);
     } else {

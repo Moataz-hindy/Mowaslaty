@@ -23,7 +23,10 @@ import {
   ChevronUp,
   LocateFixed,
   AlertCircle,
-  Info
+  Info,
+  TrainFront,
+  Car,
+  Filter
 } from 'lucide-react';
 // Chat assistant is "coming soon". The previous implementation is kept in
 // ./ChatAssistant.jsx; re-import it here when the new chatbot is ready.
@@ -75,6 +78,16 @@ export default function Sidebar({
   // Phase 2 props
   targetCoord,
   setTargetCoord,
+  rideCoord = null,
+  setRideCoord,
+  rideLabel = null,
+  clearRide,
+  requireBothPoints = false,
+  setRequireBothPoints,
+  nearestVehicleFilter = 'ALL',
+  setNearestVehicleFilter,
+  nearestSelectingRide = false,
+  setNearestSelectingRide,
   nearestResults,
   nearestLoading = false,
   activeNearest,
@@ -158,6 +171,30 @@ export default function Sidebar({
     const tokens = expandSearchQuery(lineSearchQuery);
     return routes.filter(r => routeMatchesTokens(r, tokens)).slice(0, 8);
   }, [lineSearchQuery, routes]);
+
+  const nearestCategoryCounts = React.useMemo(() => {
+    if (nearestResults?.counts) return nearestResults.counts;
+    const items = nearestResults || [];
+    return {
+      ALL: items.length,
+      Minibus: items.filter(i => i.vehicleCategory === 'Minibus' || i.route.vehicle === 'Minibus').length,
+      Microbus: items.filter(i => ['Microbus', 'Tomnaya', 'Box'].includes(i.route.vehicle) || i.vehicleCategory === 'Microbus').length,
+      Bus: items.filter(i => i.route.vehicle === 'Bus' || i.vehicleCategory === 'Bus').length,
+      Metro: items.filter(i => i.route.vehicle === 'Metro' || i.vehicleCategory === 'Metro').length
+    };
+  }, [nearestResults]);
+
+  const displayedNearest = React.useMemo(() => {
+    const items = nearestResults || [];
+    if (nearestVehicleFilter === 'ALL') return items;
+    return items.filter(item => {
+      if (nearestVehicleFilter === 'Minibus') return item.vehicleCategory === 'Minibus' || item.route.vehicle === 'Minibus';
+      if (nearestVehicleFilter === 'Microbus') return ['Microbus', 'Tomnaya', 'Box'].includes(item.route.vehicle) || item.vehicleCategory === 'Microbus';
+      if (nearestVehicleFilter === 'Bus') return item.route.vehicle === 'Bus' || item.vehicleCategory === 'Bus';
+      if (nearestVehicleFilter === 'Metro') return item.route.vehicle === 'Metro' || item.vehicleCategory === 'Metro';
+      return true;
+    });
+  }, [nearestResults, nearestVehicleFilter]);
 
 
   const handleApplyLocationLink = async (e) => {
@@ -608,6 +645,80 @@ export default function Sidebar({
             </div>
           )}
 
+          {/* Optional Ride-from Point Box */}
+          <div className="ride-origin-box">
+            <div className="ride-origin-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Navigation size={15} style={{ color: '#10B981' }} />
+                <span className="ride-origin-title">
+                  {t.ridePointLabel}
+                </span>
+              </div>
+              {rideCoord && (
+                <button 
+                  type="button" 
+                  className="btn-text-clear"
+                  onClick={clearRide}
+                >
+                  {t.clearRidePoint}
+                </button>
+              )}
+            </div>
+
+            {rideCoord ? (
+              <div className="chosen-ride-active-pill">
+                <div className="chosen-ride-meta">
+                  <span className="ride-dot-badge">أ</span>
+                  <span className="chosen-ride-name">
+                    {rideLabel || `${rideCoord[0].toFixed(4)}, ${rideCoord[1].toFixed(4)}`}
+                  </span>
+                </div>
+                <button 
+                  type="button" 
+                  className="btn-remove-chosen-line"
+                  onClick={clearRide}
+                  title={t.clearRidePoint}
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            ) : (
+              <div className="ride-origin-actions">
+                <button 
+                  type="button" 
+                  className={`btn-ride-pick ${nearestSelectingRide ? 'active' : ''}`}
+                  onClick={() => setNearestSelectingRide(!nearestSelectingRide)}
+                >
+                  <MapPin size={13} />
+                  <span>{nearestSelectingRide ? t.clickingRideOnMap : t.pickRideOnMap}</span>
+                </button>
+                {userCoord && (
+                  <button 
+                    type="button" 
+                    className="btn-ride-gps"
+                    onClick={() => {
+                      setRideCoord(userCoord, lang === 'ar' ? 'موقعي الحالي' : 'My Location');
+                    }}
+                  >
+                    <LocateFixed size={13} />
+                    <span>{t.useCurrentLocation}</span>
+                  </button>
+                )}
+              </div>
+            )}
+
+            {rideCoord && (
+              <label className="require-both-toggle">
+                <input 
+                  type="checkbox" 
+                  checked={requireBothPoints} 
+                  onChange={(e) => setRequireBothPoints(e.target.checked)}
+                />
+                <span className="toggle-label-text">{t.requireBothFilter}</span>
+              </label>
+            )}
+          </div>
+
           {/* Specific Line Selector Box */}
           <div className="specific-line-box">
             <div className="specific-line-header">
@@ -719,6 +830,67 @@ export default function Sidebar({
               </div>
             )}
           </div>
+
+          {/* Category Filter Chips Bar - ALWAYS VISIBLE when not locked to a specific line */}
+          {!selectedLineForNearest && (
+            <div className="nearest-filter-section" style={{ margin: '10px 0 6px', padding: '0 2px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <Filter size={13} style={{ color: 'var(--accent-cyan)' }} />
+                  <span>{lang === 'ar' ? 'تصنيف وسيلة المواصلات:' : 'Vehicle Category:'}</span>
+                </span>
+                {nearestVehicleFilter !== 'ALL' && (
+                  <button
+                    type="button"
+                    className="btn-text-clear"
+                    onClick={() => setNearestVehicleFilter('ALL')}
+                    style={{ fontSize: '11.5px', color: 'var(--accent-cyan)' }}
+                  >
+                    {lang === 'ar' ? 'عرض الكل' : 'Reset to All'}
+                  </button>
+                )}
+              </div>
+
+              <div className="nearest-category-chips-bar">
+                {[
+                  { id: 'ALL', label: t.categoryAll, dot: null, count: nearestCategoryCounts.ALL },
+                  { id: 'Minibus', label: t.categoryMinibus, dot: VEHICLE_COLORS.Minibus, count: nearestCategoryCounts.Minibus },
+                  { id: 'Microbus', label: t.categoryMicrobus, dot: VEHICLE_COLORS.Microbus, count: nearestCategoryCounts.Microbus },
+                  { id: 'Bus', label: t.categoryBus, dot: VEHICLE_COLORS.Bus, count: nearestCategoryCounts.Bus },
+                  { id: 'Metro', label: t.categoryMetro, dot: VEHICLE_COLORS.Metro, count: nearestCategoryCounts.Metro }
+                ].map(cat => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    aria-pressed={nearestVehicleFilter === cat.id}
+                    className={`nearest-cat-chip ${nearestVehicleFilter === cat.id ? 'active' : ''}`}
+                    onClick={() => setNearestVehicleFilter(cat.id)}
+                  >
+                    {cat.dot && (
+                      <span 
+                        className="chip-dot" 
+                        style={{ 
+                          width: '8px', 
+                          height: '8px', 
+                          borderRadius: '2px', 
+                          background: cat.dot, 
+                          display: 'inline-block',
+                          flexShrink: 0 
+                        }} 
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span>{cat.label}</span>
+                    {targetCoord && nearestResults && nearestResults.length > 0 && cat.count !== undefined && (
+                      <span className="cat-count-badge">
+                        {cat.count}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="nearest-results-list">
             {selectedLineForNearest ? (
@@ -877,86 +1049,134 @@ export default function Sidebar({
               !targetCoord ? (
                 <div className="empty-state">
                   <Footprints size={44} style={{ opacity: 0.4 }} />
-                  <p>حدد مكانك أو وجهتك على الخريطة ليتم احتساب أقرب نقاط النزول</p>
+                  <p>{lang === 'ar' ? 'حدد مكانك أو وجهتك على الخريطة ليتم احتساب أقرب نقاط النزول' : 'Select your destination on the map to find the nearest drop-off points'}</p>
                 </div>
               ) : nearestLoading ? (
                 <div className="empty-state" role="status">
                   <Loader2 size={28} className="spin-icon" />
                   <p>{lang === 'ar' ? 'جاري البحث عن أقرب الخطوط...' : 'Finding the nearest lines...'}</p>
                 </div>
-              ) : nearestResults.length === 0 ? (
+              ) : displayedNearest.length === 0 ? (
                 <div className="empty-state">
-                  <p>{lang === 'ar' ? 'لا توجد خطوط تمر ضمن نطاق 2 كم من هذه النقطة' : 'No lines pass within 2 km of this point'}</p>
+                  <p>
+                    {requireBothPoints && rideCoord 
+                      ? t.noDirectLinesFound 
+                      : (lang === 'ar' ? 'لا توجد خطوط تطابق التصنيف المختار ضمن هذا النطاق' : 'No lines match the selected category within range')}
+                  </p>
+                  {nearestVehicleFilter !== 'ALL' && (
+                    <button
+                      type="button"
+                      className="btn-retry"
+                      style={{ 
+                        marginTop: '10px', 
+                        padding: '6px 14px', 
+                        borderRadius: '8px', 
+                        background: 'var(--bg-elevated)', 
+                        border: '1px solid var(--border-strong)', 
+                        color: 'var(--text-primary)', 
+                        cursor: 'pointer', 
+                        fontSize: '12px' 
+                      }}
+                      onClick={() => setNearestVehicleFilter('ALL')}
+                    >
+                      {lang === 'ar' ? 'عرض جميع الفئات والخطوط' : 'Show all vehicle categories'}
+                    </button>
+                  )}
                 </div>
               ) : (
                 <>
                   <div className="results-header" style={{ padding: '8px 4px' }}>
                     <span className="results-count">
-                      {t.nearestFoundTitle(nearestResults.length)}
+                      {t.nearestFoundTitle(displayedNearest.length)}
                     </span>
                   </div>
 
-                  {nearestResults.map((item, idx) => {
-                    const r = item.route;
-                    const isSelected = activeNearest && activeNearest.route.id === r.id;
-                    const color = VEHICLE_COLORS[r.vehicle] || VEHICLE_COLORS.Default;
-                    const title = lang === 'ar' ? (r.long_ar || r.long_en) : (r.long_en || r.long_ar);
-                    const googleMapsWalkUrl = targetCoord 
-                      ? `https://www.google.com/maps/dir/?api=1&origin=${item.dropCoord[0]},${item.dropCoord[1]}&destination=${targetCoord[0]},${targetCoord[1]}&travelmode=walking`
-                      : null;
+                  {displayedNearest.map((item, idx) => {
+                      const r = item.route;
+                      const isSelected = activeNearest && activeNearest.route.id === r.id;
+                      const color = VEHICLE_COLORS[r.vehicle] || VEHICLE_COLORS.Default;
+                      const title = lang === 'ar' ? (r.long_ar || r.long_en) : (r.long_en || r.long_ar);
+                      const googleMapsWalkUrl = targetCoord 
+                        ? `https://www.google.com/maps/dir/?api=1&origin=${item.dropCoord[0]},${item.dropCoord[1]}&destination=${targetCoord[0]},${targetCoord[1]}&travelmode=walking`
+                        : null;
 
-                    return (
-                      <div
-                        key={r.id + '-' + idx}
-                        className={`nearest-card ${isSelected ? 'selected' : ''}`}
-                        data-vehicle={r.vehicle}
-                        style={{ '--card-color': color }}
-                        onClick={() => {
-                          setActiveNearest(item);
-                          onSelectRoute(r);
-                        }}
-                      >
-                        <div className="nearest-card-header">
-                          <div className="badge-group">
-                            <span className="route-num-badge">{lineLabel(r, lang)}</span>
-                            <span className="route-vehicle-badge">{r.vehicle}</span>
+                      return (
+                        <div
+                          key={r.id + '-' + idx}
+                          className={`nearest-card ${isSelected ? 'selected' : ''}`}
+                          data-vehicle={r.vehicle}
+                          style={{ '--card-color': color }}
+                          onClick={() => {
+                            setActiveNearest(item);
+                            onSelectRoute(r);
+                          }}
+                        >
+                          <div className="nearest-card-header">
+                            <div className="badge-group">
+                              <span className="route-num-badge">{lineLabel(r, lang)}</span>
+                              <span className="route-vehicle-badge">{r.vehicle}</span>
+                            </div>
+                            <div className="walk-distance-pill">
+                              <Footprints size={13} />
+                              <span>
+                                {item.walkToPickupMeters !== null && item.walkToPickupMeters !== undefined
+                                  ? t.totalWalkDistance(item.totalWalkMeters)
+                                  : t.walkDistance(item.distanceMeters)}
+                              </span>
+                            </div>
                           </div>
-                          <div className="walk-distance-pill">
-                            <Footprints size={13} />
-                            <span>{t.walkDistance(item.distanceMeters)}</span>
-                          </div>
-                        </div>
 
-                        <h4 className="route-card-title"><RouteEnds route={r} lang={lang} fallback={title} /></h4>
+                          <h4 className="route-card-title"><RouteEnds route={r} lang={lang} fallback={title} /></h4>
 
-                        <div className="nearest-card-footer">
-                          <span className="walk-time-badge">
-                            <Clock size={13} aria-hidden="true" />{t.walkTime(item.walkMinutes)}
-                          </span>
-                          {item.nearestStop && (
-                            <span className="known-stop-badge">
-                              <MapPin size={13} aria-hidden="true" />{t.nearKnownStop(lang === 'ar' ? item.nearestStop.ar : item.nearestStop.en)}
+                          {/* Dual step details if ride-from is active */}
+                          {item.walkToPickupMeters !== null && item.walkToPickupMeters !== undefined && (
+                            <div className="nearest-dual-step-banner">
+                              <div className="dual-step-item">
+                                <span className="dual-step-tag ride">{t.rideBadge}</span>
+                                <span className="dual-step-text">{t.walkDistance(item.walkToPickupMeters)} (~{item.walkToPickupMinutes} د)</span>
+                              </div>
+                              <span className="dual-step-divider">←</span>
+                              <div className="dual-step-item">
+                                <span className="dual-step-tag drop">{t.dropBadge}</span>
+                                <span className="dual-step-text">{t.walkDistance(item.distanceMeters)} (~{item.walkMinutes} د)</span>
+                              </div>
+                              {item.rideDistanceKm && (
+                                <span className="dual-step-km">({item.rideDistanceKm} {t.kmUnit})</span>
+                              )}
+                            </div>
+                          )}
+
+                          <div className="nearest-card-footer">
+                            <span className="walk-time-badge">
+                              <Clock size={13} aria-hidden="true" />
+                              {item.walkToPickupMeters !== null && item.walkToPickupMeters !== undefined
+                                ? t.walkTime(item.walkMinutes + item.walkToPickupMinutes)
+                                : t.walkTime(item.walkMinutes)}
                             </span>
+                            {item.nearestStop && (
+                              <span className="known-stop-badge">
+                                <MapPin size={13} aria-hidden="true" />{t.nearKnownStop(lang === 'ar' ? item.nearestStop.ar : item.nearestStop.en)}
+                              </span>
+                            )}
+                          </div>
+
+                          {googleMapsWalkUrl && (
+                            <a 
+                              href={googleMapsWalkUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn-google-maps-walk"
+                              onClick={(e) => e.stopPropagation()}
+                              title={lang === 'ar' ? 'فتح اتجاهات المشي على Google Maps' : 'Open walking directions in Google Maps'}
+                            >
+                              <span>{lang === 'ar' ? 'ملاحة المشي على Google Maps' : 'Walk in Google Maps'}</span>
+                              <ExternalLink size={12} />
+                            </a>
                           )}
                         </div>
-
-                        {googleMapsWalkUrl && (
-                          <a 
-                            href={googleMapsWalkUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-google-maps-walk"
-                            onClick={(e) => e.stopPropagation()}
-                            title={lang === 'ar' ? 'فتح اتجاهات المشي على Google Maps' : 'Open walking directions in Google Maps'}
-                          >
-                            <span>{lang === 'ar' ? 'ملاحة المشي على Google Maps' : 'Walk in Google Maps'}</span>
-                            <ExternalLink size={12} />
-                          </a>
-                        )}
-                      </div>
-                    );
-                  })}
-                </>
+                      );
+                    })}
+                  </>
               )
             )}
           </div>
