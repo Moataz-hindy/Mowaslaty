@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Search, X, MapPin, Compass, Train, Bus, Sparkles, Navigation, Target, Building, TrainFront, Map as MapIcon } from 'lucide-react';
+import { Search, X, MapPin, Compass, Train, Bus, Navigation, Target, Building, TrainFront, Map as MapIcon } from 'lucide-react';
 import { normalizeText } from '../utils/geoUtils';
 import { expandSearchQuery, routeMatchesTokens } from '../utils/transitAliases';
 import { VEHICLE_COLORS } from '../utils/i18n';
@@ -454,29 +454,8 @@ export default function MapSearchBar({
       )}
 
       {/* Dropdown Results */}
-      {showDropdown && (
+      {showDropdown && query.trim() && (
         <div className="map-search-dropdown">
-          {/* Quick preset suggestions if search is empty */}
-          {!query.trim() && (
-            <div className="search-empty-state-suggestions">
-              <span className="search-group-title">
-                <Sparkles size={13} className="sparkle-icon" /> معالم وميادين مقترحة بالقاهرة:
-              </span>
-              <div className="preset-suggestions-grid">
-                {CAIRO_LANDMARKS.slice(0, 6).map((lm, idx) => (
-                  <button
-                    key={idx}
-                    className="preset-suggestion-btn"
-                    onClick={() => handleSelectPlaceOrStation(lm)}
-                  >
-                    <MapPin size={12} className="pin-icon" />
-                    <span>{lm.name_ar}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Results List */}
           {query.trim() && (
             <div className="search-results-scrollable">

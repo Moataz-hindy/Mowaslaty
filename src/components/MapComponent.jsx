@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { VEHICLE_COLORS } from '../utils/i18n';
 import { fetchWalkingRoute } from '../utils/geoUtils';
 import { matchRouteStops } from '../utils/tripTracker';
+import { attachTileRecovery } from '../utils/mapTileRecovery';
 
 // Inline stroke icons for Leaflet divIcons / popups (no emoji)
 const svg = (d, size = 16, sw = 2) =>
@@ -51,6 +52,8 @@ export default function MapComponent({
   const stopsLayerGroupRef = useRef(null);
   const searchLayerGroupRef = useRef(null);
   const routeStopsGroupRef = useRef(null);
+  const tileRecoveryRef = useRef(null);
+  const [tileError, setTileError] = useState(false);
 
   // Fit bounds while keeping content clear of the floating UI
   // (search bar on top, route card at the bottom).
@@ -115,18 +118,35 @@ export default function MapComponent({
     // when a key is configured (production),
     // otherwise OSM's own tiles (fine for local development only).
     const cartoKey = import.meta.env.VITE_CARTO_KEY;
+    let tiles;
     if (cartoKey) {
-      L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(cartoKey)}`, {
+      tiles = L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(cartoKey)}`, {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attribution/">CARTO</a>',
         subdomains: 'abcd',
-        maxZoom: 20
-      }).addTo(map);
+        maxZoom: 20,
+        maxNativeZoom: 20
+      });
     } else {
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19
-      }).addTo(map);
+        maxZoom: 19,
+        maxNativeZoom: 19
+      });
     }
+    const recovery = attachTileRecovery(tiles, setTileError);
+    tileRecoveryRef.current = recovery;
+    tiles.addTo(map);
+
+    // Safari's browser chrome and responsive panels can resize the container
+    // without a window resize. Let Leaflet recalculate the visible tile area.
+    let resizeFrame;
+    const resizeObserver = new ResizeObserver(() => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        map.invalidateSize({ pan: false, debounceMoveend: true });
+      });
+    });
+    resizeObserver.observe(mapContainerRef.current);
     map.attributionControl.addAttribution('Walking routes: <a href="https://www.geoapify.com/">Powered by Geoapify</a>');
 
     routeLayerGroupRef.current = L.featureGroup().addTo(map);
@@ -154,6 +174,10 @@ export default function MapComponent({
     mapRef.current = map;
 
     return () => {
+      resizeObserver.disconnect();
+      cancelAnimationFrame(resizeFrame);
+      recovery.dispose();
+      tileRecoveryRef.current = null;
       map.remove();
       mapRef.current = null;
     };
@@ -800,5 +824,17 @@ export default function MapComponent({
     }
   }, [showStops, stops, lang]);
 
-  return <div ref={mapContainerRef} id="map" style={{ width: '100%', height: '100%' }} />;
+  return <>
+    <div ref={mapContainerRef} id="map" style={{ width: '100%', height: '100%' }} />
+    {tileError && (
+      <div className="map-tile-notice" role="status">
+        <span>{lang === 'ar'
+          ? 'تعذّر تحميل بعض تفاصيل الخريطة. تحقق من اتصالك بالإنترنت.'
+          : 'Some map details couldn’t load. Check your internet connection.'}</span>
+        <button type="button" onClick={() => tileRecoveryRef.current?.retry()}>
+          {lang === 'ar' ? 'إعادة المحاولة' : 'Retry'}
+        </button>
+      </div>
+    )}
+  </>;
 }

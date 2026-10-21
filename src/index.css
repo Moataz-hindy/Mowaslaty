@@ -1764,6 +1764,37 @@ html, body, #root {
 }
 
 /* Quieter basemap so route colours carry the meaning */
+.map-tile-notice {
+  position: absolute;
+  top: 152px;
+  inset-inline: 12px;
+  z-index: 999;
+  max-width: 460px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-md);
+  font-size: 13px;
+}
+.map-tile-notice button {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+  color: var(--text-on-ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 /* (no filter on light tiles: Voyager is shown at full detail) */
 
 .map-floating-panel {
@@ -4752,3 +4783,22 @@ body, .sidebar { font-weight: 400; }
   font-size: 11px;
 }
 
+
+/* Keep Arabic labels in the connected UI typeface, including on iOS.
+   Handjet remains available for route numbers and numeric readouts. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+.brand-subtitle,
+.tab-pill-badge.soon,
+.destination-chip-label,
+.active-route-drawer .detail-name,
+.active-route-drawer .stat-value small,
+.drawer-drop-label,
+.trip-dest,
+.trip-banner.go {
+  font-family: var(--font-family);
+  letter-spacing: normal;
+  line-height: 1.5;
+}

@@ -99,8 +99,6 @@ export default function App() {
     loadRoutes()
       .then(data => {
         setRoutes(data);
-        const defaultRoute = data.find(r => r.num === '305') || data[0];
-        if (defaultRoute) setSelectedRoute(defaultRoute);
       })
       .catch(err => console.error('Failed to load routes summary:', err));
 

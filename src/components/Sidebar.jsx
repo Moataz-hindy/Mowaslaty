@@ -39,18 +39,6 @@ import { resolveLocationInput } from '../utils/geoUtils';
 import { expandSearchQuery, routeMatchesTokens } from '../utils/transitAliases';
 
 
-// Preset famous landmarks in Cairo
-const PRESET_DESTINATIONS = [
-  { name_ar: "جامعة القاهرة (الجيزة)", name_en: "Cairo University", coord: [30.0263, 31.2114] },
-  { name_ar: "ميدان التحرير (وسط البلد)", name_en: "Tahrir Square", coord: [30.0444, 31.2357] },
-  { name_ar: "سيتي ستارز (مدينة نصر)", name_en: "City Stars (Nasr City)", coord: [30.0731, 31.3458] },
-  { name_ar: "ميدان روكسي (مصر الجديدة)", name_en: "Roxy Square", coord: [30.0936, 31.3144] },
-  { name_ar: "كايرو فيستيفال سيتي (التجمع)", name_en: "Cairo Festival City", coord: [30.0298, 31.4074] },
-  { name_ar: "محطة قطارات رمسيس", name_en: "Ramses Station", coord: [30.0622, 31.2468] },
-  { name_ar: "دوران شبرا", name_en: "Dawaran Shubra", coord: [30.0825, 31.2461] },
-  { name_ar: "مساكن شيراتون (النزهة)", name_en: "Masaken Sheraton", coord: [30.1062, 31.3855] }
-];
-
 // Short "origin ← destination" title for list rows, when the data has
 // both ends in the current language; otherwise null (use the long name).
 const hasArabicText = (txt) => /[\u0600-\u06FF]/.test(txt || '');
@@ -379,20 +367,6 @@ export default function Sidebar({
               ))}
             </div>
 
-            <div className="preset-links">
-              <span className="preset-label">{t.popularLabel}</span>
-              <div className="preset-links-row">
-              {['مترو', '305', 'التجمع', 'AUC', 'الشهداء', 'شيراتون'].map(q => (
-                <button 
-                  key={q} 
-                  className="preset-btn"
-                  onClick={() => setSearchQuery(q)}
-                >
-                  {q}
-                </button>
-              ))}
-              </div>
-            </div>
           </section>
 
           <div className="results-header">
@@ -600,26 +574,6 @@ export default function Sidebar({
                   ? 'يدعم روابط Google Maps وروابط المشاركة، أو كتابة الإحداثيات مباشرة' 
                   : 'Supports Google Maps URLs, share links, or latitude/longitude coordinates'}
               </span>
-            </div>
-          </div>
-
-          <div className="landmark-presets">
-            <span className="preset-label">أو اختر وجهة شهيرة:</span>
-            <div className="preset-chips-grid">
-              {PRESET_DESTINATIONS.slice(0, 6).map(p => (
-                <button
-                  key={p.name_en}
-                  className="landmark-chip"
-                  onClick={() => {
-                    setTargetCoord(p.coord, lang === 'ar' ? p.name_ar : p.name_en);
-                    setLinkInput(`${p.coord[0].toFixed(4)}, ${p.coord[1].toFixed(4)}`);
-                    setLinkError(null);
-                  }}
-                >
-                  <MapPin size={12} />
-                  <span>{lang === 'ar' ? p.name_ar : p.name_en}</span>
-                </button>
-              ))}
             </div>
           </div>
 
@@ -1255,12 +1209,7 @@ export default function Sidebar({
             </div>
           </div>
 
-          <div className="planner-presets-section" style={{ margin: '8px 0 10px' }}>
-            <span className="preset-label" style={{ fontSize: '11px', display: 'block', marginBottom: '6px' }}>
-              {lang === 'ar' 
-                ? (plannerSelecting === 'dest' ? 'أو اختر وجهة الوصول (ب) من المعالم:' : 'أو اختر نقطة الانطلاق (أ) من المعالم:') 
-                : (plannerSelecting === 'dest' ? 'Or pick Destination (B) from landmarks:' : 'Or pick Origin (A) from landmarks:')}
-            </span>
+          <div className="planner-location-section" style={{ margin: '8px 0 10px' }}>
             <div className="preset-chips-grid">
               <button
                 type="button"
@@ -1279,66 +1228,6 @@ export default function Sidebar({
                 <span>{originFromLocation
                   ? (lang === 'ar' ? 'جاري تحديد موقعك…' : 'Finding you…')
                   : (lang === 'ar' ? 'انطلق من موقعي الحالي' : 'Start from my location')}</span>
-              </button>
-              {PRESET_DESTINATIONS.slice(0, 6).map(p => (
-                <button
-                  key={p.name_en}
-                  type="button"
-                  className="landmark-chip"
-                  onClick={() => {
-                    if (plannerSelecting === 'dest' || (originCoord && !destCoord)) {
-                      setDestCoord(p.coord);
-                      setPlannerSelecting(null);
-                    } else {
-                      setOriginCoord(p.coord);
-                      setPlannerSelecting('dest');
-                    }
-                  }}
-                >
-                  <MapPin size={12} />
-                  <span>{lang === 'ar' ? p.name_ar : p.name_en}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="preset-trips-section">
-            <span className="preset-label">رحلات تجريبية شائعة بنقرة واحدة:</span>
-            <div className="preset-trips-list">
-              <button 
-                className="preset-trip-btn"
-                onClick={() => {
-                  setOriginCoord([30.0825, 31.2461]); // Dawaran Shubra
-                  setDestCoord([30.1062, 31.3855]);   // Sheraton
-                  setPlannerSelecting(null);
-                }}
-              >
-                <span>دوران شبرا ← مساكن شيراتون</span>
-                <span className="trip-tag">ميني باص 305</span>
-              </button>
-
-              <button 
-                className="preset-trip-btn"
-                onClick={() => {
-                  setOriginCoord([30.0682, 31.2825]); // Abbasseya
-                  setDestCoord([30.1583, 31.3021]);   // Khosous
-                  setPlannerSelecting(null);
-                }}
-              >
-                <span>العباسية ← الخصوص</span>
-                <span className="trip-tag">أتوبيس 204</span>
-              </button>
-
-              <button 
-                className="preset-trip-btn"
-                onClick={() => {
-                  setOriginCoord([30.0444, 31.2357]); // Tahrir
-                  setDestCoord([30.0263, 31.2114]);   // Cairo Uni
-                  setPlannerSelecting(null);
-                }}
-              >
-                <span>التحرير ← جامعة القاهرة</span>
-                <span className="trip-tag">خطوط الجيزة</span>
               </button>
             </div>
           </div>
