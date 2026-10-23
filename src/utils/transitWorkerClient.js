@@ -2,6 +2,8 @@
 // Falls back to running on the main thread if workers aren't available.
 import { findNearestDropPoints } from './geoUtils';
 import { planJourney } from './tripPlanner';
+import { loadRoutingNetwork } from './dataLoader';
+import { relinkJourney } from './journey';
 import { walkRoute } from './walkRouter';
 
 let worker = null;
@@ -61,9 +63,16 @@ export function computeNearest(targetCoord, data, maxDistance = 2000, options = 
     });
 }
 
-export function computePlan(originCoord, destCoord, data, maxWalk = 1200) {
-  return run('plan', { originCoord, destCoord, maxWalk },
-    () => planJourney(originCoord, destCoord, data.routes, data.geometries, data.stops, maxWalk));
+export function computePlan(originCoord, destCoord, data, maxWalk = 1200, options = {}) {
+  const routesById = new Map((data?.routes || []).map(route => [route.id, route]));
+  const relink = plan => ({ ...plan,
+    directRoutes: (plan?.directRoutes || []).map(journey => relinkJourney(journey, routesById)),
+    transferRoutes: (plan?.transferRoutes || []).map(journey => relinkJourney(journey, routesById))
+  });
+  return run('plan', { originCoord, destCoord, maxWalk, options }, async () => {
+    const network = data?.routingNetwork || await loadRoutingNetwork();
+    return planJourney(originCoord, destCoord, network, { maxWalkMeters: maxWalk, geometries: data?.geometries, ...options });
+  }).then(relink);
 }
 
 export function computeWalk(start, end) {

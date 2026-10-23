@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { clearLocationWatch, isNativeLocation, watchLocation } from './locationAdapter';
 
 // Live device location via the browser's Geolocation API.
 // Nothing is sent anywhere: the position only lives in this page's memory.
@@ -12,23 +13,32 @@ export function useGeolocation() {
     timestamp: null
   });
   const watchId = useRef(null);
+  const pending = useRef(null);
+  const generation = useRef(0);
+  const mounted = useRef(true);
 
   const stop = useCallback(() => {
-    if (watchId.current != null) navigator.geolocation.clearWatch(watchId.current);
+    generation.current += 1;
+    pending.current = null;
+    clearLocationWatch(watchId.current).catch(() => {});
     watchId.current = null;
     setState(s => ({ ...s, status: 'idle' }));
   }, []);
 
   const start = useCallback(() => {
-    if (typeof navigator === 'undefined' || !('geolocation' in navigator)) {
+    if (!isNativeLocation() && (typeof navigator === 'undefined' || !('geolocation' in navigator))) {
       setState(s => ({ ...s, status: 'unsupported' }));
       return;
     }
-    if (watchId.current != null) return; // already watching
+    if (watchId.current != null || pending.current != null) return; // active or starting
+    const request = ++generation.current;
+    pending.current = request;
+    let permissionDenied = false;
     setState(s => ({ ...s, status: s.coord ? 'active' : 'locating' }));
-    watchId.current = navigator.geolocation.watchPosition(
+    watchLocation(
       (pos) => {
         const c = pos.coords;
+        if (!mounted.current || request !== generation.current) return;
         setState({
           status: 'active',
           coord: [c.latitude, c.longitude],
@@ -39,22 +49,38 @@ export function useGeolocation() {
         });
       },
       (err) => {
-        if (err.code === 1) {
+        if (err.code === 1 || err.code === 'OS-PLUG-GLOC-0003') {
           // permission denied: stop watching
-          if (watchId.current != null) navigator.geolocation.clearWatch(watchId.current);
+          if (request !== generation.current) return;
+          permissionDenied = true;
+          clearLocationWatch(watchId.current).catch(() => {});
           watchId.current = null;
-          setState(s => ({ ...s, status: 'denied' }));
+          if (mounted.current) setState(s => ({ ...s, status: 'denied' }));
         } else {
           // position unavailable / timeout: keep watching, report only if we have nothing yet
-          setState(s => (s.coord ? s : { ...s, status: 'unavailable' }));
+          if (request === generation.current && mounted.current) setState(s => (s.coord ? s : { ...s, status: 'unavailable' }));
         }
       },
-      { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }
-    );
+    ).then(watch => {
+      if (request === generation.current) pending.current = null;
+      if (!mounted.current || request !== generation.current || permissionDenied) clearLocationWatch(watch).catch(() => {});
+      else { pending.current = null; watchId.current = watch; }
+    }).catch(err => {
+      if (!mounted.current || request !== generation.current) return;
+      pending.current = null;
+      setState(s => ({ ...s, status: err?.code === 'UNSUPPORTED' ? 'unsupported' : (err?.code === 1 || err?.code === 'PERMISSION_DENIED' || err?.code === 'OS-PLUG-GLOC-0003' ? 'denied' : 'unavailable') }));
+    });
   }, []);
 
-  useEffect(() => () => {
-    if (watchId.current != null) navigator.geolocation.clearWatch(watchId.current);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      generation.current += 1;
+      pending.current = null;
+      clearLocationWatch(watchId.current).catch(() => {});
+      watchId.current = null;
+    };
   }, []);
 
   return { ...state, start, stop };

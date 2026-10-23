@@ -4,3 +4,14 @@
 
 /data/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/downloads/android-release.json
+  Cache-Control: no-store
+
+/downloads/*.apk
+  Cache-Control: public, max-age=3600
+  Content-Type: application/vnd.android.package-archive
+
+/downloads/*.sha256
+  Cache-Control: no-store
+  Content-Type: text/plain; charset=utf-8

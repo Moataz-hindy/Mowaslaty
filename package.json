@@ -7,9 +7,21 @@
     "dev": "vite",
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "native:build": "node scripts/native-build.mjs",
+    "android:sync": "npm run native:build && cap sync android",
+    "android:open": "cap open android",
+    "android:debug": "npm run android:sync && cap run android",
+    "android:release": "node scripts/android-release.mjs",
+    "android:publish": "node scripts/publish-android-release.mjs",
+    "android:toolchain": "node scripts/check-android-toolchain.mjs",
+    "android:test": "node --test scripts/native-release.test.mjs"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/geolocation": "^8.2.4",
     "@turf/turf": "^7.2.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.16.0",
@@ -20,6 +32,7 @@
     "@types/leaflet": "^1.9.16",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@capacitor/cli": "^8.5.3",
     "@vitejs/plugin-react": "^4.3.4",
     "vite": "^6.0.7"
   }

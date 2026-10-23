@@ -15,7 +15,6 @@ import {
   Clock,
   Sparkles,
   Users,
-  Link2,
   ExternalLink,
   Loader2,
   ListOrdered,
@@ -26,7 +25,8 @@ import {
   Info,
   TrainFront,
   Car,
-  Filter
+  Filter,
+  MoreHorizontal
 } from 'lucide-react';
 // Chat assistant is "coming soon". The previous implementation is kept in
 // ./ChatAssistant.jsx; re-import it here when the new chatbot is ready.
@@ -35,8 +35,10 @@ import {
 import { VEHICLE_COLORS } from '../utils/i18n';
 import RouteEnds from './RouteEnds';
 import { getRouteEnds, lineLabel } from '../utils/routeEnds';
-import { resolveLocationInput } from '../utils/geoUtils';
+import { rideLegs } from '../utils/journey';
+import JourneySteps from './JourneySteps';
 import { expandSearchQuery, routeMatchesTokens } from '../utils/transitAliases';
+import MultiStopPlanner from './MultiStopPlanner';
 
 
 // Short "origin ← destination" title for list rows, when the data has
@@ -66,16 +68,8 @@ export default function Sidebar({
   // Phase 2 props
   targetCoord,
   setTargetCoord,
-  rideCoord = null,
-  setRideCoord,
-  rideLabel = null,
-  clearRide,
-  requireBothPoints = false,
-  setRequireBothPoints,
   nearestVehicleFilter = 'ALL',
   setNearestVehicleFilter,
-  nearestSelectingRide = false,
-  setNearestSelectingRide,
   nearestResults,
   nearestLoading = false,
   activeNearest,
@@ -95,6 +89,9 @@ export default function Sidebar({
   onLocate,
   onStartTrip,
   planLoading = false,
+  planError = null,
+  onRetryPlan = () => {},
+  planningVehicle = 'ALL',
   activeJourney,
   setActiveJourney,
   onSwapPoints,
@@ -102,32 +99,150 @@ export default function Sidebar({
   setLang,
   theme,
   setTheme,
+  mapSearchFocused = false,
+  multiStopProps = null,
   t
 }) {
   // Phone layout: the sidebar becomes a bottom sheet over the map.
-  // It collapses when a result is picked so the map is visible, and
-  // expands when the user switches mode. (No effect on desktop CSS.)
+  // It expands when the user switches mode. (No effect on desktop CSS.)
   const [sheetExpanded, setSheetExpanded] = useState(false);
-  const isFirstRender = React.useRef(true);
-  React.useEffect(() => {
-    if (isFirstRender.current) { isFirstRender.current = false; return; }
-    setSheetExpanded(false);
-  }, [selectedRoute?.id, activeJourney, activeNearest?.route?.id]);
-  // Collapsing returns the sheet to its top so the next open starts clean
+  const [preferredSheetHeight, setPreferredSheetHeight] = useState(null);
+  const [isSheetResizing, setIsSheetResizing] = useState(false);
+  const [moreModesOpen, setMoreModesOpen] = useState(false);
   const asideRef = React.useRef(null);
+  const sheetDragRef = React.useRef(null);
+  const suppressHandleClickRef = React.useRef(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches
+  );
+  const [mobileViewportHeight, setMobileViewportHeight] = useState(() =>
+    typeof window !== 'undefined' ? (window.visualViewport?.height || window.innerHeight) : 0
+  );
+
   React.useEffect(() => {
-    if (!sheetExpanded && asideRef.current) asideRef.current.scrollTop = 0;
+    const media = window.matchMedia('(max-width: 760px)');
+    const updateViewport = () => {
+      setIsMobileViewport(media.matches);
+      setMobileViewportHeight(window.visualViewport?.height || window.innerHeight);
+    };
+    media.addEventListener?.('change', updateViewport);
+    window.addEventListener('resize', updateViewport);
+    window.visualViewport?.addEventListener('resize', updateViewport);
+    return () => {
+      media.removeEventListener?.('change', updateViewport);
+      window.removeEventListener('resize', updateViewport);
+      window.visualViewport?.removeEventListener('resize', updateViewport);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (!sheetExpanded && asideRef.current && !isSheetResizing) asideRef.current.scrollTop = 0;
   }, [sheetExpanded]);
 
-  // Swipe up/down on the sheet's top bar (handle + header + tabs)
-  const touchStartY = React.useRef(null);
-  const onSheetTouchStart = (e) => { touchStartY.current = e.touches[0].clientY; };
-  const onSheetTouchEnd = (e) => {
-    if (touchStartY.current == null) return;
-    const dy = e.changedTouches[0].clientY - touchStartY.current;
-    touchStartY.current = null;
-    if (dy < -30) setSheetExpanded(true);
-    else if (dy > 30) setSheetExpanded(false);
+  const getSheetBounds = () => {
+    if (typeof window === 'undefined') return { min: 142, max: 600, defaultExpanded: 420 };
+    const rootStyle = getComputedStyle(document.documentElement);
+    const collapsedBase = parseFloat(rootStyle.getPropertyValue('--sheet-collapsed')) || 142;
+    const safeBottom = asideRef.current ? (parseFloat(getComputedStyle(asideRef.current).paddingBottom) || 0) : 0;
+    const min = collapsedBase + safeBottom;
+    const clearance = parseFloat(rootStyle.getPropertyValue('--sheet-map-clearance')) || 82;
+    const viewportHeight = mobileViewportHeight || window.visualViewport?.height || window.innerHeight;
+    const searchStrip = document.querySelectorAll(
+      '.map-search-box, .map-search-filter-chips, .map-active-location-card, .map-selected-location-bar, .destination-chip, .map-floating-panel'
+    );
+    let searchBottom = 0;
+    searchStrip.forEach((element) => {
+      if (getComputedStyle(element).display !== 'none') {
+        searchBottom = Math.max(searchBottom, element.getBoundingClientRect().bottom);
+      }
+    });
+    const max = Math.max(min, viewportHeight - Math.max(clearance, searchBottom + 8));
+    const ratio = parseFloat(rootStyle.getPropertyValue('--sheet-expanded-ratio')) || 0.7;
+    return { min, max, defaultExpanded: Math.min(viewportHeight * ratio, max) };
+  };
+
+  const currentSheetHeight = () => {
+    const bounds = getSheetBounds();
+    return sheetExpanded
+      ? Math.max(bounds.min, Math.min(preferredSheetHeight ?? bounds.defaultExpanded, bounds.max))
+      : bounds.min;
+  };
+
+  const beginSheetResize = (event) => {
+    if (!isMobileViewport || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    event.preventDefault();
+    const height = asideRef.current?.getBoundingClientRect().height ?? getSheetBounds().min;
+    sheetDragRef.current = {
+      pointerId: event.pointerId,
+      startY: event.clientY,
+      startHeight: height,
+      moved: false
+    };
+    setIsSheetResizing(true);
+    suppressHandleClickRef.current = false;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  };
+
+  const moveSheetResize = (event) => {
+    const drag = sheetDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const delta = drag.startY - event.clientY;
+    if (Math.abs(delta) > 3) {
+      drag.moved = true;
+      suppressHandleClickRef.current = true;
+    }
+    if (!drag.moved) return;
+
+    event.preventDefault();
+    const bounds = getSheetBounds();
+    const height = Math.max(bounds.min, Math.min(bounds.max, drag.startHeight + delta));
+    if (height <= bounds.min + 12) {
+      setPreferredSheetHeight(null);
+      setSheetExpanded(false);
+    } else {
+      setPreferredSheetHeight(height);
+      setSheetExpanded(true);
+    }
+  };
+
+  const endSheetResize = (event) => {
+    const drag = sheetDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    sheetDragRef.current = null;
+    setIsSheetResizing(false);
+    if (event.type === 'pointercancel' || event.type === 'lostpointercapture') {
+      suppressHandleClickRef.current = false;
+    }
+    if (!sheetExpanded && asideRef.current) asideRef.current.scrollTop = 0;
+    if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  const handleSheetKeyDown = (event) => {
+    if (!isMobileViewport) return;
+    if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    const bounds = getSheetBounds();
+    if (event.key === 'Home') {
+      setPreferredSheetHeight(null);
+      setSheetExpanded(false);
+      return;
+    }
+    if (event.key === 'End') {
+      setPreferredSheetHeight(bounds.max);
+      setSheetExpanded(true);
+      return;
+    }
+
+    const height = Math.max(bounds.min, Math.min(bounds.max, currentSheetHeight() + (event.key === 'ArrowUp' ? 32 : -32)));
+    if (height <= bounds.min + 12) {
+      setPreferredSheetHeight(null);
+      setSheetExpanded(false);
+    } else {
+      setPreferredSheetHeight(height);
+      setSheetExpanded(true);
+    }
   };
   // "موقعي الحالي" as the trip start: waits for the first GPS fix if needed
   const [originFromLocation, setOriginFromLocation] = useState(false);
@@ -142,17 +257,23 @@ export default function Sidebar({
   const selectTab = (tab) => {
     setActiveTab(tab);
     setSheetExpanded(true);
+    setMoreModesOpen(false);
   };
-
-  // Location link input state for Nearest Drop tab
-  const [linkInput, setLinkInput] = useState('');
-  const [isResolvingLink, setIsResolvingLink] = useState(false);
-  const [linkError, setLinkError] = useState(null);
 
   // Specific line selector state for Nearest Drop tab
   const [lineSearchQuery, setLineSearchQuery] = useState('');
+  const [lineSelectorExpanded, setLineSelectorExpanded] = useState(false);
   const [showOtherNearbyLines, setShowOtherNearbyLines] = useState(false);
   const [expandedStopsRouteId, setExpandedStopsRouteId] = useState(null);
+
+  React.useEffect(() => {
+    if (mapSearchFocused) setSheetExpanded(false);
+  }, [mapSearchFocused]);
+  React.useEffect(() => {
+    if ((activeTab === 'nearest' && targetCoord) || (activeTab === 'planner' && originCoord && destCoord) || activeTab === 'multi') {
+      setSheetExpanded(true);
+    }
+  }, [activeTab, targetCoord, originCoord, destCoord]);
 
   const matchingLineSuggestions = React.useMemo(() => {
     if (!lineSearchQuery.trim()) return [];
@@ -184,48 +305,71 @@ export default function Sidebar({
     });
   }, [nearestResults, nearestVehicleFilter]);
 
-
-  const handleApplyLocationLink = async (e) => {
-    if (e) e.preventDefault();
-    if (!linkInput.trim()) return;
-
-    setIsResolvingLink(true);
-    setLinkError(null);
-
-    try {
-      const res = await resolveLocationInput(linkInput.trim());
-      if (res.coord) {
-        setTargetCoord(res.coord);
-        setActiveNearest(null);
-        setLinkError(null);
-      } else {
-        setLinkError(
-          res.error ||
-          (lang === 'ar'
-            ? 'تعذر استخراج الإحداثيات من هذا الرابط'
-            : 'Could not extract coordinates from link')
-        );
-      }
-    } catch (err) {
-      setLinkError(
-        lang === 'ar'
-          ? 'حدث خطأ أثناء فحص الرابط'
-          : 'Error occurred while processing location'
-      );
-    } finally {
-      setIsResolvingLink(false);
-    }
+  const journeyGroups = [
+    { key: 'direct', journeys: plannedJourneys?.directRoutes || [], title: t.directFoundTitle },
+    { key: 'transfers', journeys: plannedJourneys?.transferRoutes || [], title: t.transfersFoundTitle }
+  ].filter(group => group.journeys.length > 0);
+  const renderJourneyCard = journey => {
+    const rides = rideLegs(journey);
+    const firstRide = rides[0];
+    if (!firstRide) return null;
+    const route = firstRide.route;
+    const isSelected = activeJourney?.id === journey.id;
+    const color = route.color || VEHICLE_COLORS[route.vehicle] || VEHICLE_COLORS.Default;
+    return <article key={journey.id} data-journey-id={journey.id} className={`journey-card ${isSelected ? 'selected' : ''}`}
+      data-vehicle={route.vehicle} style={{ '--card-color': color }} role="button" tabIndex={0}
+      aria-current={isSelected ? 'true' : undefined}
+      onClick={() => { setActiveJourney(journey); onSelectRoute(route); setSheetExpanded(false); }}
+      onKeyDown={event => { if (event.target === event.currentTarget && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); setActiveJourney(journey); onSelectRoute(route); setSheetExpanded(false); } }}>
+      <div className="journey-card-header"><div className="badge-group">
+        {rides.map((ride, index) => <React.Fragment key={`${ride.tripId}-${ride.fromSequence}`}>
+          {index > 0 && <span aria-hidden="true">→</span>}
+          <span className="route-num-badge" data-vehicle={ride.route?.vehicle}>{lineLabel(ride.route, lang)}</span>
+        </React.Fragment>)}
+        <span className={journey.transfers ? 'transfer-pill' : 'direct-pill'}>{journey.transfers ? t.journeyTransferCount(journey.transfers) : t.directBadge}</span>
+      </div><div className="time-badge"><Clock size={12}/><span>{t.totalTripTime(journey.totalTimeMinutes)}</span></div></div>
+      <JourneySteps journey={journey} lang={lang} t={t} isSelected={isSelected}
+        onStartTrip={() => onStartTrip?.({ route, dropCoord: firstRide.toCoord, dropName: lang === 'ar' ? 'محطة النزول' : 'alighting stop' })}/>
+    </article>;
   };
 
+
+
+
   return (
-    <aside ref={asideRef} className={`sidebar ${sheetExpanded ? 'sheet-expanded' : 'sheet-collapsed'}`}>
-      <div className="sheet-top" onTouchStart={onSheetTouchStart} onTouchEnd={onSheetTouchEnd}>
+    <aside
+      ref={asideRef}
+      className={`sidebar ${sheetExpanded ? 'sheet-expanded' : 'sheet-collapsed'} ${isSheetResizing ? 'sheet-resizing' : ''}`}
+      style={isMobileViewport && sheetExpanded && preferredSheetHeight != null
+        ? { height: `${Math.max(getSheetBounds().min, Math.min(preferredSheetHeight, getSheetBounds().max))}px` }
+        : undefined}
+    >
+      <div className="sheet-top">
       <button
         type="button"
         className="sheet-handle"
-        onClick={() => setSheetExpanded(v => !v)}
-        aria-expanded={sheetExpanded}
-        aria-label={sheetExpanded ? (lang === 'ar' ? 'تصغير اللوحة' : 'Collapse panel') : (lang === 'ar' ? 'توسيع اللوحة' : 'Expand panel')}
+        role="slider"
+        aria-orientation="vertical"
+        aria-valuemin={Math.round(getSheetBounds().min)}
+        aria-valuemax={Math.round(getSheetBounds().max)}
+        aria-valuenow={Math.round(currentSheetHeight())}
+        aria-valuetext={lang === 'ar' ? `ارتفاع اللوحة ${Math.round(currentSheetHeight())} بكسل` : `Panel height ${Math.round(currentSheetHeight())} pixels`}
+        aria-label={lang === 'ar' ? 'ارتفاع لوحة الخطوط' : 'Transit panel height'}
+        title={lang === 'ar' ? 'اسحب لتغيير ارتفاع اللوحة، أو استخدم الأسهم' : 'Drag to resize, or use the arrow keys'}
+        onClick={(event) => {
+          if (suppressHandleClickRef.current) {
+            suppressHandleClickRef.current = false;
+            event.preventDefault();
+            return;
+          }
+          setSheetExpanded(value => !value);
+        }}
+        onKeyDown={handleSheetKeyDown}
+        onPointerDown={beginSheetResize}
+        onPointerMove={moveSheetResize}
+        onPointerUp={endSheetResize}
+        onPointerCancel={endSheetResize}
+        onLostPointerCapture={endSheetResize}
       >
         <span aria-hidden="true"></span>
       </button>
@@ -263,40 +407,50 @@ export default function Sidebar({
         </div>
       </header>
 
-      {/* 5 Navigation Tabs (All Phases) */}
-      <nav className="mode-tabs five-tabs">
+      {/* 6 Navigation Tabs (All Phases) */}
+      <nav className="mode-tabs six-tabs">
         <button 
           className={`tab-btn ${activeTab === 'explore' ? 'active' : ''}`}
           onClick={() => selectTab('explore')}
           aria-pressed={activeTab === 'explore'}
-          title="الخطوط"
+          title={t.tabExplore}
         >
           <Compass size={15} />
-          <span>الخطوط</span>
+          <span>{t.tabExplore}</span>
         </button>
 
         <button 
           className={`tab-btn ${activeTab === 'nearest' ? 'active' : ''}`}
           onClick={() => selectTab('nearest')}
           aria-pressed={activeTab === 'nearest'}
-          title="أقرب نزول"
+          title={t.tabNearest}
         >
           <Navigation size={15} />
-          <span>أقرب نزول</span>
+          <span>{t.tabNearest}</span>
         </button>
 
         <button 
           className={`tab-btn ${activeTab === 'planner' ? 'active' : ''}`}
           onClick={() => selectTab('planner')}
           aria-pressed={activeTab === 'planner'}
-          title="مخطط الرحلة"
+          title={t.tabPlanner}
         >
           <Route size={15} />
-          <span>رحلة أ-ب</span>
+          <span>{t.tabPlanner}</span>
+        </button>
+
+        <button
+          className={`tab-btn mobile-secondary-mode ${activeTab === 'multi' ? 'active' : ''}`}
+          onClick={() => selectTab('multi')}
+          aria-pressed={activeTab === 'multi'}
+          title={t.tabMultiStop}
+        >
+          <ListOrdered size={15} />
+          <span>{t.tabMultiStop}</span>
         </button>
 
         <button 
-          className={`tab-btn ${activeTab === 'chat' ? 'active' : ''}`}
+          className={`tab-btn mobile-secondary-mode ${activeTab === 'chat' ? 'active' : ''}`}
           onClick={() => selectTab('chat')}
           aria-pressed={activeTab === 'chat'}
           title="المساعد الذكي"
@@ -307,7 +461,7 @@ export default function Sidebar({
         </button>
 
         <button 
-          className={`tab-btn ${activeTab === 'community' ? 'active' : ''}`}
+          className={`tab-btn mobile-secondary-mode ${activeTab === 'community' ? 'active' : ''}`}
           onClick={() => selectTab('community')}
           aria-pressed={activeTab === 'community'}
           title="مجتمع الركاب"
@@ -316,6 +470,39 @@ export default function Sidebar({
           <span>المجتمع</span>
           <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
         </button>
+        <div className={`mobile-more-modes ${moreModesOpen ? 'open' : ''}`}>
+          <button
+            type="button"
+            className={`tab-btn mobile-more-trigger ${['multi', 'chat', 'community'].includes(activeTab) ? 'active' : ''}`}
+            aria-expanded={moreModesOpen}
+            aria-haspopup="menu"
+            onClick={() => {
+              setSheetExpanded(true);
+              setMoreModesOpen(value => !value);
+            }}
+          >
+            <MoreHorizontal size={18} />
+            <span>{lang === 'ar' ? 'المزيد' : 'More'}</span>
+          </button>
+          {moreModesOpen && (
+            <div className="mobile-more-menu" role="menu">
+              <button type="button" role="menuitem" onClick={() => { selectTab('multi'); setMoreModesOpen(false); }}>
+                <ListOrdered size={16} />
+                <span>{t.tabMultiStop}</span>
+              </button>
+              <button type="button" role="menuitem" onClick={() => { selectTab('chat'); setMoreModesOpen(false); }}>
+                <Sparkles size={16} />
+                <span>{lang === 'ar' ? 'المساعد' : 'Assistant'}</span>
+                <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
+              </button>
+              <button type="button" role="menuitem" onClick={() => { selectTab('community'); setMoreModesOpen(false); }}>
+                <Users size={16} />
+                <span>{lang === 'ar' ? 'المجتمع' : 'Community'}</span>
+                <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
+              </button>
+            </div>
+          )}
+        </div>
       </nav>
       </div>
 
@@ -397,11 +584,12 @@ export default function Sidebar({
                     data-vehicle={r.vehicle}
                     tabIndex={0}
                     aria-current={isSelected ? 'true' : undefined}
-                    onClick={() => onSelectRoute(r)}
+                    onClick={() => { onSelectRoute(r); setSheetExpanded(false); }}
                     onKeyDown={(e) => {
                       if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
                         e.preventDefault();
                         onSelectRoute(r);
+                        setSheetExpanded(false);
                       }
                     }}
                   >
@@ -504,79 +692,6 @@ export default function Sidebar({
             </div>
           </div>
 
-          {/* Location link or coordinates input form */}
-          <div className="location-link-box">
-            <div className="link-box-header">
-              <Link2 size={15} className="link-box-icon" />
-              <span className="link-box-title">
-                {lang === 'ar' ? 'ضع رابط موقعك أو إحداثيات المكان:' : 'Paste location link or coordinates:'}
-              </span>
-            </div>
-
-            <form onSubmit={handleApplyLocationLink} className="link-input-row">
-              <div className="link-input-field">
-                <input 
-                  type="text"
-                  placeholder={
-                    lang === 'ar'
-                      ? 'رابط Google Maps أو إحداثيات (30.044, 31.235)...'
-                      : 'Google Maps link or coordinates (30.044, 31.235)...'
-                  }
-                  value={linkInput}
-                  onChange={(e) => {
-                    setLinkInput(e.target.value);
-                    if (linkError) setLinkError(null);
-                  }}
-                  disabled={isResolvingLink}
-                />
-                {linkInput && (
-                  <button 
-                    type="button" 
-                    className="btn-clear-input"
-                    onClick={() => {
-                      setLinkInput('');
-                      setLinkError(null);
-                    }}
-                    title={lang === 'ar' ? 'مسح' : 'Clear'}
-                  >
-                    <X size={14} />
-                  </button>
-                )}
-              </div>
-
-              <button 
-                type="submit" 
-                className="btn-apply-link" 
-                disabled={isResolvingLink || !linkInput.trim()}
-              >
-                {isResolvingLink ? (
-                  <Loader2 size={15} className="spin-icon" />
-                ) : (
-                  <>
-                    <Navigation size={13} />
-                    <span>{lang === 'ar' ? 'تحديد' : 'Locate'}</span>
-                  </>
-                )}
-              </button>
-            </form>
-
-            {linkError && (
-              <div className="link-error-alert">
-                <AlertCircle size={16} aria-hidden="true" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <span>{linkError}</span>
-              </div>
-            )}
-
-            <div className="link-hint">
-              <Info size={14} aria-hidden="true" style={{ flexShrink: 0, marginTop: '3px' }} />
-              <span>
-                {lang === 'ar' 
-                  ? 'يدعم روابط Google Maps وروابط المشاركة، أو كتابة الإحداثيات مباشرة' 
-                  : 'Supports Google Maps URLs, share links, or latitude/longitude coordinates'}
-              </span>
-            </div>
-          </div>
-
           {targetCoord && (
             <div className="active-target-badge">
               <div className="target-badge-info">
@@ -590,8 +705,6 @@ export default function Sidebar({
                 onClick={() => {
                   setTargetCoord(null);
                   setActiveNearest(null);
-                  setLinkInput('');
-                  setLinkError(null);
                 }}
               >
                 {t.clearTarget}
@@ -599,82 +712,22 @@ export default function Sidebar({
             </div>
           )}
 
-          {/* Optional Ride-from Point Box */}
-          <div className="ride-origin-box">
-            <div className="ride-origin-header">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Navigation size={15} style={{ color: '#10B981' }} />
-                <span className="ride-origin-title">
-                  {t.ridePointLabel}
-                </span>
-              </div>
-              {rideCoord && (
-                <button 
-                  type="button" 
-                  className="btn-text-clear"
-                  onClick={clearRide}
-                >
-                  {t.clearRidePoint}
-                </button>
-              )}
-            </div>
-
-            {rideCoord ? (
-              <div className="chosen-ride-active-pill">
-                <div className="chosen-ride-meta">
-                  <span className="ride-dot-badge">أ</span>
-                  <span className="chosen-ride-name">
-                    {rideLabel || `${rideCoord[0].toFixed(4)}, ${rideCoord[1].toFixed(4)}`}
-                  </span>
-                </div>
-                <button 
-                  type="button" 
-                  className="btn-remove-chosen-line"
-                  onClick={clearRide}
-                  title={t.clearRidePoint}
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            ) : (
-              <div className="ride-origin-actions">
-                <button 
-                  type="button" 
-                  className={`btn-ride-pick ${nearestSelectingRide ? 'active' : ''}`}
-                  onClick={() => setNearestSelectingRide(!nearestSelectingRide)}
-                >
-                  <MapPin size={13} />
-                  <span>{nearestSelectingRide ? t.clickingRideOnMap : t.pickRideOnMap}</span>
-                </button>
-                {userCoord && (
-                  <button 
-                    type="button" 
-                    className="btn-ride-gps"
-                    onClick={() => {
-                      setRideCoord(userCoord, lang === 'ar' ? 'موقعي الحالي' : 'My Location');
-                    }}
-                  >
-                    <LocateFixed size={13} />
-                    <span>{t.useCurrentLocation}</span>
-                  </button>
-                )}
-              </div>
-            )}
-
-            {rideCoord && (
-              <label className="require-both-toggle">
-                <input 
-                  type="checkbox" 
-                  checked={requireBothPoints} 
-                  onChange={(e) => setRequireBothPoints(e.target.checked)}
-                />
-                <span className="toggle-label-text">{t.requireBothFilter}</span>
-              </label>
-            )}
-          </div>
-
           {/* Specific Line Selector Box */}
-          <div className="specific-line-box">
+          <div className={`specific-line-box ${lineSelectorExpanded ? 'line-selector-expanded' : ''}`}>
+            <button
+              type="button"
+              className="mobile-line-selector-toggle"
+              aria-expanded={lineSelectorExpanded}
+              onClick={() => setLineSelectorExpanded(value => !value)}
+            >
+              <span>
+                {selectedLineForNearest
+                  ? `${lang === 'ar' ? 'الخط المحدد' : 'Selected line'}: ${lineLabel(selectedLineForNearest, lang)}`
+                  : (lang === 'ar' ? 'اختيار خط محدد (اختياري)' : 'Choose a specific line (optional)')}
+              </span>
+              {lineSelectorExpanded ? <ChevronUp size={17} /> : <ChevronDown size={17} />}
+            </button>
+            <div className="specific-line-content">
             <div className="specific-line-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <Bus size={15} style={{ color: 'var(--accent-cyan)' }} />
@@ -741,7 +794,7 @@ export default function Sidebar({
                     <button
                       type="button"
                       className="btn-quick-use-route"
-                      onClick={() => setSelectedLineForNearest(selectedRoute)}
+                      onClick={() => { setSelectedLineForNearest(selectedRoute); setLineSelectorExpanded(false); }}
                     >
                       <span>{lang === 'ar' ? `استخدم الخط النشط: خط ${lineLabel(selectedRoute, lang)}` : `Use active line: ${lineLabel(selectedRoute, lang)}`}</span>
                     </button>
@@ -761,6 +814,7 @@ export default function Sidebar({
                           className="line-dropdown-item"
                           onClick={() => {
                             setSelectedLineForNearest(r);
+                            setLineSelectorExpanded(false);
                             if (onSelectRoute) onSelectRoute(r);
                             setLineSearchQuery('');
                           }}
@@ -783,6 +837,7 @@ export default function Sidebar({
                 )}
               </div>
             )}
+            </div>
           </div>
 
           {/* Category Filter Chips Bar - ALWAYS VISIBLE when not locked to a specific line */}
@@ -952,6 +1007,7 @@ export default function Sidebar({
                                 onClick={() => {
                                   setActiveNearest(item);
                                   onSelectRoute(r);
+                                  setSheetExpanded(false);
                                 }}
                               >
                                 <div className="nearest-card-header">
@@ -1003,7 +1059,7 @@ export default function Sidebar({
               !targetCoord ? (
                 <div className="empty-state">
                   <Footprints size={44} style={{ opacity: 0.4 }} />
-                  <p>{lang === 'ar' ? 'حدد مكانك أو وجهتك على الخريطة ليتم احتساب أقرب نقاط النزول' : 'Select your destination on the map to find the nearest drop-off points'}</p>
+                  <p>{lang === 'ar' ? 'اختر مكاناً من البحث أو الخريطة لعرض الخطوط القريبة منه' : 'Choose a place from search or the map to see nearby routes'}</p>
                 </div>
               ) : nearestLoading ? (
                 <div className="empty-state" role="status">
@@ -1013,9 +1069,7 @@ export default function Sidebar({
               ) : displayedNearest.length === 0 ? (
                 <div className="empty-state">
                   <p>
-                    {requireBothPoints && rideCoord 
-                      ? t.noDirectLinesFound 
-                      : (lang === 'ar' ? 'لا توجد خطوط تطابق التصنيف المختار ضمن هذا النطاق' : 'No lines match the selected category within range')}
+                    {lang === 'ar' ? 'لا توجد خطوط تطابق التصنيف المختار ضمن هذا النطاق' : 'No lines match the selected category within range'}
                   </p>
                   {nearestVehicleFilter !== 'ALL' && (
                     <button
@@ -1063,6 +1117,7 @@ export default function Sidebar({
                           onClick={() => {
                             setActiveNearest(item);
                             onSelectRoute(r);
+                            setSheetExpanded(false);
                           }}
                         >
                           <div className="nearest-card-header">
@@ -1073,39 +1128,17 @@ export default function Sidebar({
                             <div className="walk-distance-pill">
                               <Footprints size={13} />
                               <span>
-                                {item.walkToPickupMeters !== null && item.walkToPickupMeters !== undefined
-                                  ? t.totalWalkDistance(item.totalWalkMeters)
-                                  : t.walkDistance(item.distanceMeters)}
+                                {t.walkDistance(item.distanceMeters)}
                               </span>
                             </div>
                           </div>
 
                           <h4 className="route-card-title"><RouteEnds route={r} lang={lang} fallback={title} /></h4>
 
-                          {/* Dual step details if ride-from is active */}
-                          {item.walkToPickupMeters !== null && item.walkToPickupMeters !== undefined && (
-                            <div className="nearest-dual-step-banner">
-                              <div className="dual-step-item">
-                                <span className="dual-step-tag ride">{t.rideBadge}</span>
-                                <span className="dual-step-text">{t.walkDistance(item.walkToPickupMeters)} (~{item.walkToPickupMinutes} د)</span>
-                              </div>
-                              <span className="dual-step-divider">←</span>
-                              <div className="dual-step-item">
-                                <span className="dual-step-tag drop">{t.dropBadge}</span>
-                                <span className="dual-step-text">{t.walkDistance(item.distanceMeters)} (~{item.walkMinutes} د)</span>
-                              </div>
-                              {item.rideDistanceKm && (
-                                <span className="dual-step-km">({item.rideDistanceKm} {t.kmUnit})</span>
-                              )}
-                            </div>
-                          )}
-
                           <div className="nearest-card-footer">
                             <span className="walk-time-badge">
                               <Clock size={13} aria-hidden="true" />
-                              {item.walkToPickupMeters !== null && item.walkToPickupMeters !== undefined
-                                ? t.walkTime(item.walkMinutes + item.walkToPickupMinutes)
-                                : t.walkTime(item.walkMinutes)}
+                              {t.walkTime(item.walkMinutes)}
                             </span>
                             {item.nearestStop && (
                               <span className="known-stop-badge">
@@ -1143,6 +1176,17 @@ export default function Sidebar({
           <div className="planner-banner">
             <h3 className="banner-title">{t.plannerBannerTitle}</h3>
             <p className="banner-sub">{t.plannerBannerSub}</p>
+          </div>
+          <div className="filter-chips" role="group" aria-label={t.multiVehicleFilter}>
+            {[
+              { id: 'ALL', label: t.all }, { id: 'Metro', label: t.metro },
+              { id: 'Minibus', label: t.minibus }, { id: 'Bus', label: t.bus },
+              { id: 'Microbus', label: t.microbus }, { id: 'Tomnaya', label: t.tomnaya }
+            ].map(filter => <button key={filter.id} type="button" className={`chip ${planningVehicle === filter.id ? 'active' : ''}`}
+              aria-pressed={planningVehicle === filter.id} onClick={() => setVehicleFilter(filter.id)}>
+              {filter.id !== 'ALL' && <span className="chip-dot" style={{ '--dot': VEHICLE_COLORS[filter.id] }} aria-hidden="true" />}
+              {filter.label}
+            </button>)}
           </div>
 
           <div className="planner-inputs-card">
@@ -1251,183 +1295,30 @@ export default function Sidebar({
               </div>
             ) : (
               <>
-                {plannedJourneys.directRoutes && plannedJourneys.directRoutes.length > 0 && (
-                  <div className="journey-section">
-                    <div className="results-header" style={{ padding: '8px 4px' }}>
-                      <span className="results-count">
-                        {t.directFoundTitle(plannedJourneys.directRoutes.length)}
-                      </span>
-                    </div>
-
-                    {plannedJourneys.directRoutes.map((journey, idx) => {
-                      const r = journey.route;
-                      const isSelected = activeJourney && activeJourney.type !== 'transfer' && activeJourney.route && activeJourney.route.id === r.id;
-                      const color = VEHICLE_COLORS[r.vehicle] || VEHICLE_COLORS.Default;
-
-                      return (
-                        <div
-                          key={r.id + '-' + idx}
-                          className={`journey-card ${isSelected ? 'selected' : ''}`}
-                          data-vehicle={r.vehicle}
-                          style={{ '--card-color': color }}
-                          onClick={() => {
-                            setActiveJourney(journey);
-                            onSelectRoute(r);
-                          }}
-                        >
-                          <div className="journey-card-header">
-                            <div className="badge-group">
-                              <span className="route-num-badge">{lineLabel(r, lang)}</span>
-                              <span className="direct-pill">{t.directBadge}</span>
-                            </div>
-                            <div className="time-badge">
-                              <Clock size={12} />
-                              <span>{t.totalTripTime(journey.totalTimeMinutes)}</span>
-                            </div>
-                          </div>
-
-                          <h4 className="journey-route-title">
-                            <RouteEnds route={r} lang={lang} fallback={lang === 'ar' ? (r.long_ar || r.long_en) : (r.long_en || r.long_ar)} />
-                          </h4>
-
-                          <div className="itinerary-steps">
-                            <div className="step-item">
-                              <span className="step-icon walk" aria-hidden="true"><Footprints size={13} /></span>
-                              <span>{t.stepWalkToBus(journey.walkToPickupMeters, journey.walkToPickupMinutes)}</span>
-                            </div>
-                            <div className="step-item">
-                              <span className="step-icon bus" aria-hidden="true"><Bus size={13} /></span>
-                              <span>{t.stepRideBus(lineLabel(r, lang), journey.rideDistanceKm, journey.estRideMinutes)}</span>
-                            </div>
-                            <div className="step-item">
-                              <span className="step-icon dest" aria-hidden="true"><MapPin size={12} /></span>
-                              <span>{t.stepWalkToDest(journey.walkFromDropMeters, journey.walkFromDropMinutes)}</span>
-                            </div>
-                          </div>
-                          {isSelected && onStartTrip && (
-                            <button
-                              type="button"
-                              className="btn-primary trip-start-btn"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onStartTrip({ route: r, dropCoord: journey.dropCoord, dropName: lang === 'ar' ? 'نقطة النزول' : 'your stop' });
-                              }}
-                            >
-                              <Navigation size={15} />
-                              <span>{lang === 'ar' ? 'تتبع الرحلة وتنبيهي قبل النزول' : 'Track my trip & alert me'}</span>
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {plannedJourneys.transferRoutes && plannedJourneys.transferRoutes.length > 0 && (
-                  <div className="journey-section">
-                    <div className="results-header" style={{ padding: '8px 4px' }}>
-                      <span className="results-count">
-                        {t.transfersFoundTitle(plannedJourneys.transferRoutes.length)}
-                      </span>
-                    </div>
-
-                    {plannedJourneys.transferRoutes.map((journey, idx) => {
-                      const r1 = journey.leg1.route;
-                      const r2 = journey.leg2.route;
-                      const c1 = r1.color || VEHICLE_COLORS[r1.vehicle] || VEHICLE_COLORS.Default;
-                      const c2 = r2.color || VEHICLE_COLORS[r2.vehicle] || VEHICLE_COLORS.Default;
-                      const isSelected = activeJourney && activeJourney.type === 'transfer' &&
-                        activeJourney.hub.id === journey.hub.id &&
-                        activeJourney.leg1.route.id === r1.id &&
-                        activeJourney.leg2.route.id === r2.id;
-                      const hubName = lang === 'ar' ? journey.hub.name_ar : (journey.hub.name_en || journey.hub.name_ar);
-                      const ride1Min = Math.max(1, Math.round(journey.leg1.rideKm * 3));
-                      const ride2Min = Math.max(1, Math.round(journey.leg2.rideKm * 3));
-                      const walk1Min = Math.max(1, Math.round(journey.leg1.walkMeters / 80));
-                      const walk2Min = Math.max(1, Math.round(journey.leg2.walkMeters / 80));
-
-                      return (
-                        <div
-                          key={`${journey.hub.id}-${r1.id}-${r2.id}-${idx}`}
-                          className={`journey-card ${isSelected ? 'selected' : ''}`}
-                          tabIndex={0}
-                          aria-current={isSelected ? 'true' : undefined}
-                          onClick={() => {
-                            setActiveJourney(journey);
-                            onSelectRoute(r1);
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
-                              e.preventDefault();
-                              setActiveJourney(journey);
-                              onSelectRoute(r1);
-                            }
-                          }}
-                        >
-                          <div className="journey-card-header">
-                            <div className="badge-group">
-                              <span className="route-num-badge" data-vehicle={r1.vehicle} style={{ '--card-color': c1 }}>{lineLabel(r1, lang)}</span>
-                              <span aria-hidden="true" style={{ color: 'var(--text-muted)' }}>{lang === 'ar' ? '←' : '→'}</span>
-                              <span className="route-num-badge" data-vehicle={r2.vehicle} style={{ '--card-color': c2 }}>{lineLabel(r2, lang)}</span>
-                              <span className="transfer-pill">{t.transferBadge}</span>
-                            </div>
-                            <div className="time-badge">
-                              <Clock size={12} />
-                              <span>{t.totalTripTime(journey.totalTimeMinutes)}</span>
-                            </div>
-                          </div>
-
-                          <div className="itinerary-steps">
-                            <div className="step-item">
-                              <span className="step-icon walk" aria-hidden="true"><Footprints size={13} /></span>
-                              <span>{t.stepWalkToBus(journey.leg1.walkMeters, walk1Min)}</span>
-                            </div>
-                            <div className="step-item" style={{ '--card-color': c1 }} data-vehicle={r1.vehicle}>
-                              <span className="step-icon bus" aria-hidden="true" style={r1.vehicle === 'Minibus' ? { color: '#15171C' } : undefined}><Bus size={13} /></span>
-                              <span>{t.stepRideBus(lineLabel(r1, lang), journey.leg1.rideKm, ride1Min)}</span>
-                            </div>
-                            <div className="step-item">
-                              <span className="step-icon walk" aria-hidden="true"><ArrowUpDown size={13} /></span>
-                              <span>{t.stepTransferAt(hubName)}</span>
-                            </div>
-                            <div className="step-item" style={{ '--card-color': c2 }} data-vehicle={r2.vehicle}>
-                              <span className="step-icon bus" aria-hidden="true" style={r2.vehicle === 'Minibus' ? { color: '#15171C' } : undefined}><Bus size={13} /></span>
-                              <span>{t.stepRideBus(lineLabel(r2, lang), journey.leg2.rideKm, ride2Min)}</span>
-                            </div>
-                            <div className="step-item">
-                              <span className="step-icon dest" aria-hidden="true"><MapPin size={12} /></span>
-                              <span>{t.stepWalkToDest(journey.leg2.walkMeters, walk2Min)}</span>
-                            </div>
-                          </div>
-                          {isSelected && onStartTrip && (
-                            <button
-                              type="button"
-                              className="btn-primary trip-start-btn"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onStartTrip({ route: r1, dropCoord: journey.hub.coord, dropName: hubName });
-                              }}
-                            >
-                              <Navigation size={15} />
-                              <span>{lang === 'ar' ? `تتبع ${lineLabel(r1, lang)} حتى ${hubName}` : `Track ${lineLabel(r1, lang)} to ${hubName}`}</span>
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {(!plannedJourneys.directRoutes || plannedJourneys.directRoutes.length === 0) &&
-                  (!plannedJourneys.transferRoutes || plannedJourneys.transferRoutes.length === 0) && (
-                  <div className="empty-state">
-                    <p>{t.noTripsFound}</p>
-                  </div>
-                )}
+                {planError ? <div className="empty-state" role="alert"><p>{t.journeyLoadError}</p><button type="button" onClick={onRetryPlan}>{t.journeyRetry}</button></div> : null}
+                {!planError && journeyGroups.map(group => {
+                  const visible = group.journeys.slice(0, 3);
+                  const remaining = group.journeys.slice(3);
+                  return <section className={`journey-option-group journey-option-group-${group.key}`} key={group.key}>
+                    <h4>{group.title(group.journeys.length)}</h4>
+                    {visible.map(renderJourneyCard)}
+                    {remaining.length > 0 && <details className="journey-more-options"><summary>{t.showMoreOptions(remaining.length)}</summary>{remaining.map(renderJourneyCard)}</details>}
+                  </section>;
+                })}
+                {!planError && journeyGroups.length > 0 && <p className="journey-panel-notices">{t.journeyWalkNotice} {t.journeyServiceNotice}</p>}
+                {!planError && !plannedJourneys.directRoutes?.length && !plannedJourneys.transferRoutes?.length && <div className="empty-state">
+                  <p>{plannedJourneys.status === 'no-nearby-stops' ? (lang === 'ar' ? 'لا توجد محطات قريبة بما يكفي من إحدى النقطتين.' : 'No transit stops are close enough to one of the points.') : t.noTripsFound}</p>
+                </div>}
               </>
             )}
           </div>
         </div>
+      )}
+
+      {activeTab === 'multi' && multiStopProps && (
+        <MultiStopPlanner {...multiStopProps}
+          onPickPoint={id => { multiStopProps.onPickPoint?.(id); setSheetExpanded(false); }}
+          onShowMap={() => setSheetExpanded(false)} lang={lang} t={t} />
       )}
 
       {/* TAB 4: CHAT ASSISTANT — coming soon */}
@@ -1480,7 +1371,7 @@ export default function Sidebar({
             </button>
             <button type="button" className="btn-primary-outline" onClick={() => selectTab('nearest')}>
               <Navigation size={15} />
-              <span>{lang === 'ar' ? 'أقرب نزول' : 'Nearest drop'}</span>
+              <span>{t.tabNearest}</span>
             </button>
           </div>
         </div>

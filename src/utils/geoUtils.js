@@ -144,19 +144,6 @@ export async function resolveLocationInput(input) {
   };
 }
 
-// A stop may only be used as the drop-off for a line if it actually sits on
-// that line (within ~60 m) and is the right kind (metro station vs bus stop).
-function stopServesLine(stop, route, line) {
-  const isMetroStop = stop.type === 'metro';
-  const isMetroRoute = route && route.vehicle === 'Metro';
-  if (isMetroStop !== isMetroRoute) return false;
-  try {
-    return turf.pointToLineDistance(turf.point([stop.lng, stop.lat]), line, { units: 'meters' }) <= 60;
-  } catch (e) {
-    return false;
-  }
-}
-
 /**
  * Calculates nearest bus drop-off points for a given target coordinate [lat, lng]
  * 
@@ -280,64 +267,31 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
         }
       }
 
-      let dropLng = dropNearest.geometry.coordinates[0];
-      let dropLat = dropNearest.geometry.coordinates[1];
+      const dropLng = dropNearest.geometry.coordinates[0];
+      const dropLat = dropNearest.geometry.coordinates[1];
 
-      // Smart Stop Snapping: snap to recognized bus stop along/near the line (< 250m)
+      // Keep the projection on the route as the actual drop point. Nearby
+      // listed stops are useful context, but must not move that point.
       let nearestStopName = null;
       if (stopsSummary && stopsSummary.length > 0) {
-        let closestStop = null;
-        let closestStopDist = 250;
+        // Find the closest named stop for context (up to 400m).
+        let refDist = 400;
         for (const stop of stopsSummary) {
-          if (Math.abs(stop.lat - dropLat) > 0.0035 || Math.abs(stop.lng - dropLng) > 0.0035) {
-            continue;
-          }
-          const stopDist = turf.distance(
+          if (Math.abs(stop.lat - dropLat) > 0.005 || Math.abs(stop.lng - dropLng) > 0.005) continue;
+          const d = turf.distance(
             turf.point([dropLng, dropLat]),
             turf.point([stop.lng, stop.lat]),
             { units: 'meters' }
           );
-          if (stopDist < closestStopDist && stopServesLine(stop, route, line)) {
-            closestStopDist = stopDist;
-            closestStop = stop;
-          }
-        }
-
-        if (closestStop) {
-          dropLat = closestStop.lat;
-          dropLng = closestStop.lng;
-          distMeters = Math.round(turf.distance(
-            turf.point([dropLng, dropLat]),
-            targetPoint,
-            { units: 'meters' }
-          ));
-          nearestStopName = {
-            ar: closestStop.name_ar,
-            en: closestStop.name_en,
-            id: closestStop.id,
-            distMeters: 0,
-            isOfficialStop: true
-          };
-        } else {
-          // Find closest named stop for context (up to 400m)
-          let refDist = 400;
-          for (const stop of stopsSummary) {
-            if (Math.abs(stop.lat - dropLat) > 0.005 || Math.abs(stop.lng - dropLng) > 0.005) continue;
-            const d = turf.distance(
-              turf.point([dropLng, dropLat]),
-              turf.point([stop.lng, stop.lat]),
-              { units: 'meters' }
-            );
-            if (d < refDist) {
-              refDist = d;
-              nearestStopName = {
-                ar: stop.name_ar,
-                en: stop.name_en,
-                id: stop.id,
-                distMeters: Math.round(d),
-                isOfficialStop: false
-              };
-            }
+          if (d < refDist) {
+            refDist = d;
+            nearestStopName = {
+              ar: stop.name_ar,
+              en: stop.name_en,
+              id: stop.id,
+              distMeters: Math.round(d),
+              isOfficialStop: false
+            };
           }
         }
       }
@@ -419,8 +373,8 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
 }
 
 /**
- * Calculates the exact closest drop-off point on a specific chosen route to the target destination
- * Snaps to recognized official bus stops within 250m when available.
+ * Calculates the exact closest point on a specific chosen route to the target destination.
+ * A nearby listed stop may be returned as context, but never changes the route point.
  * 
  * @param {Array<number>} targetCoord [lat, lng]
  * @param {Object} route Route metadata object
@@ -441,64 +395,29 @@ export function calculateRouteDropPoint(targetCoord, route, coords, stopsSummary
 
     const nearest = turf.nearestPointOnLine(line, targetPoint, { units: 'kilometers' });
     let distMeters = Math.round(nearest.properties.dist * 1000);
-    let dropLng = nearest.geometry.coordinates[0];
-    let dropLat = nearest.geometry.coordinates[1];
+    const dropLng = nearest.geometry.coordinates[0];
+    const dropLat = nearest.geometry.coordinates[1];
 
-    // Smart Stop Snapping (< 250m): if an official stop is near the drop coordinate, snap to it!
+    // Find a nearby named stop for context only; keep dropCoord on the route.
     let nearestStopName = null;
     if (stopsSummary && stopsSummary.length > 0) {
-      let closestStop = null;
-      let closestStopDist = 250;
+      let refDist = 500;
       for (const stop of stopsSummary) {
-        if (Math.abs(stop.lat - dropLat) > 0.0035 || Math.abs(stop.lng - dropLng) > 0.0035) {
-          continue;
-        }
+        if (Math.abs(stop.lat - dropLat) > 0.006 || Math.abs(stop.lng - dropLng) > 0.006) continue;
         const stopDist = turf.distance(
           turf.point([dropLng, dropLat]),
           turf.point([stop.lng, stop.lat]),
           { units: 'meters' }
         );
-        if (stopDist < closestStopDist && stopServesLine(stop, route, line)) {
-          closestStopDist = stopDist;
-          closestStop = stop;
-        }
-      }
-
-      if (closestStop) {
-        dropLat = closestStop.lat;
-        dropLng = closestStop.lng;
-        distMeters = Math.round(turf.distance(
-          turf.point([dropLng, dropLat]),
-          targetPoint,
-          { units: 'meters' }
-        ));
-        nearestStopName = {
-          ar: closestStop.name_ar,
-          en: closestStop.name_en,
-          id: closestStop.id,
-          distMeters: 0,
-          isOfficialStop: true
-        };
-      } else {
-        // Fallback: look within 500m for reference name only
-        let refDist = 500;
-        for (const stop of stopsSummary) {
-          if (Math.abs(stop.lat - dropLat) > 0.006 || Math.abs(stop.lng - dropLng) > 0.006) continue;
-          const d = turf.distance(
-            turf.point([dropLng, dropLat]),
-            turf.point([stop.lng, stop.lat]),
-            { units: 'meters' }
-          );
-          if (d < refDist) {
-            refDist = d;
-            nearestStopName = {
-              ar: stop.name_ar,
-              en: stop.name_en,
-              id: stop.id,
-              distMeters: Math.round(d),
-              isOfficialStop: false
-            };
-          }
+        if (stopDist < refDist) {
+          refDist = stopDist;
+          nearestStopName = {
+            ar: stop.name_ar,
+            en: stop.name_en,
+            id: stop.id,
+            distMeters: Math.round(stopDist),
+            isOfficialStop: false
+          };
         }
       }
     }

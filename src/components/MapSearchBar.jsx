@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Search, X, MapPin, Compass, Train, Bus, Navigation, Target, Building, TrainFront, Map as MapIcon } from 'lucide-react';
-import { normalizeText } from '../utils/geoUtils';
+import { normalizeText, resolveLocationInput } from '../utils/geoUtils';
 import { expandSearchQuery, routeMatchesTokens } from '../utils/transitAliases';
 import { VEHICLE_COLORS } from '../utils/i18n';
 import { loadPlaces } from '../utils/dataLoader';
@@ -87,8 +87,12 @@ export default function MapSearchBar({
   onSetTargetCoord,
   onSetOriginCoord,
   onSetDestCoord,
-  onFilterNearbyRoutes,
   destination = null,
+  activeTab = 'explore',
+  plannerSelecting = 'origin',
+  multiStopTarget = null,
+  onSetMultiStopLocation,
+  onFocusChange,
   lang = 'ar'
 }) {
   const [query, setQuery] = useState('');
@@ -112,10 +116,15 @@ export default function MapSearchBar({
   // Address search runs only when the user asks for it (Enter / button)
   const [onlineQuery, setOnlineQuery] = useState('');
   const [onlineError, setOnlineError] = useState(false);
+  const [locationInputError, setLocationInputError] = useState('');
   const [retryCount, setRetryCount] = useState(0);
 
   const containerRef = useRef(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    onFocusChange?.(isFocused);
+  }, [isFocused, onFocusChange]);
 
   // Click outside listener
   useEffect(() => {
@@ -357,16 +366,36 @@ export default function MapSearchBar({
 
   const clearSearch = () => {
     setQuery('');
+    setLocationInputError('');
     setOnlineQuery('');
     setNominatimResults([]);
     inputRef.current?.focus();
     if (onClearLocation) onClearLocation();
   };
 
+  const handleSearchSubmit = async () => {
+    const trimmed = query.trim();
+    const looksLikeLocation = /https?:\/\//i.test(trimmed) || /-?\d{1,2}\.\d+\s*[, ]\s*-?\d{1,3}\.\d+/.test(trimmed);
+    if (looksLikeLocation) {
+      const result = await resolveLocationInput(trimmed);
+      if (result.coord) {
+        const name = `${result.coord[0].toFixed(5)}, ${result.coord[1].toFixed(5)}`;
+        onSelectLocation?.({ name, coord: result.coord, category: lang === 'ar' ? 'إحداثيات' : 'Coordinates', type: 'coordinate' });
+        setLocationInputError('');
+        setIsFocused(false);
+      } else {
+        setLocationInputError(result.error || (lang === 'ar' ? 'تعذر تحديد هذا الرابط أو الإحداثيات.' : 'Could not locate this link or coordinate.'));
+      }
+      return;
+    }
+    setLocationInputError('');
+    searchAddresses();
+  };
+
   const showDropdown = isFocused;
 
   return (
-    <div className="map-search-container" ref={containerRef}>
+    <div className={`map-search-container ${isFocused ? 'search-active' : ''}`} ref={containerRef}>
       {/* Search Input Box */}
       <div className={`map-search-box ${isFocused ? 'focused' : ''}`}>
         <div className="map-search-icon">
@@ -377,12 +406,12 @@ export default function MapSearchBar({
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => { setQuery(e.target.value); setLocationInputError(''); }}
           onFocus={() => setIsFocused(true)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault();
-              searchAddresses();
+              handleSearchSubmit();
             } else if (e.key === 'Escape') {
               setIsFocused(false);
             }
@@ -398,33 +427,48 @@ export default function MapSearchBar({
         )}
       </div>
 
-      {/* Filter Chips Bar (All, Metro, Places, Lines) */}
-      <div className="map-search-filter-chips">
-        <button 
-          className={`search-chip ${filterType === 'ALL' ? 'active' : ''}`}
-          onClick={() => setFilterType('ALL')}
+      {/* Search category controls are shown only while map search is active. */}
+      {showDropdown && (
+        <div
+          className="map-search-filter-chips"
+          role="group"
+          aria-label={lang === 'ar' ? 'ابحث عن' : 'Search for'}
         >
-          الكل
-        </button>
-        <button 
-          className={`search-chip metro ${filterType === 'METRO' ? 'active' : ''}`}
-          onClick={() => setFilterType('METRO')}
-        >
-          المترو
-        </button>
-        <button 
-          className={`search-chip places ${filterType === 'PLACES' ? 'active' : ''}`}
-          onClick={() => setFilterType('PLACES')}
-        >
-          الأماكن
-        </button>
-        <button 
-          className={`search-chip routes ${filterType === 'ROUTES' ? 'active' : ''}`}
-          onClick={() => setFilterType('ROUTES')}
-        >
-          الخطوط
-        </button>
-      </div>
+          <span className="map-search-filter-label">{lang === 'ar' ? 'ابحث عن:' : 'Search for:'}</span>
+          <button
+            type="button"
+            className={`search-chip ${filterType === 'ALL' ? 'active' : ''}`}
+            aria-pressed={filterType === 'ALL'}
+            onClick={() => setFilterType('ALL')}
+          >
+            {lang === 'ar' ? 'الكل' : 'All'}
+          </button>
+          <button
+            type="button"
+            className={`search-chip metro ${filterType === 'METRO' ? 'active' : ''}`}
+            aria-pressed={filterType === 'METRO'}
+            onClick={() => setFilterType('METRO')}
+          >
+            {lang === 'ar' ? 'المترو' : 'Metro'}
+          </button>
+          <button
+            type="button"
+            className={`search-chip places ${filterType === 'PLACES' ? 'active' : ''}`}
+            aria-pressed={filterType === 'PLACES'}
+            onClick={() => setFilterType('PLACES')}
+          >
+            {lang === 'ar' ? 'الأماكن' : 'Places'}
+          </button>
+          <button
+            type="button"
+            className={`search-chip routes ${filterType === 'ROUTES' ? 'active' : ''}`}
+            aria-pressed={filterType === 'ROUTES'}
+            onClick={() => setFilterType('ROUTES')}
+          >
+            {lang === 'ar' ? 'الخطوط' : 'Routes'}
+          </button>
+        </div>
+      )}
 
       {/* Current destination chip: tap to zoom to it, ✕ to remove it */}
       {destination && !showDropdown && (
@@ -621,6 +665,10 @@ export default function MapSearchBar({
       )}
 
       {/* Active Selected Location Quick Actions Card (Nested cleanly in the search container) */}
+      {locationInputError && (
+        <div className="search-no-results search-online-error" role="alert">{locationInputError}</div>
+      )}
+
       {selectedLocation && !showDropdown && (
         <div className="map-active-location-card">
           <div className="active-location-header">
@@ -643,41 +691,49 @@ export default function MapSearchBar({
           </div>
 
           <div className="active-location-actions-grid">
-            <button 
-              className="btn-quick-transit-action target"
-              onClick={() => onSetTargetCoord(selectedLocation.coord)}
-              title="حساب أقرب محطة نزول لهذا المكان"
-            >
-              <Target size={13} />
-              <span>نزلني هنا</span>
-            </button>
-
-            <button 
-              className="btn-quick-transit-action origin"
-              onClick={() => onSetOriginCoord(selectedLocation.coord)}
-              title="تعيين كنقطة انطلاق (أ) في مخطط الرحلة"
-            >
-              <Navigation size={13} />
-              <span>انطلاق (أ)</span>
-            </button>
-
-            <button 
-              className="btn-quick-transit-action dest"
-              onClick={() => onSetDestCoord(selectedLocation.coord)}
-              title="تعيين كوجهة وصول (ب) في مخطط الرحلة"
-            >
-              <Compass size={13} />
-              <span>وصول (ب)</span>
-            </button>
-
-            <button 
-              className="btn-quick-transit-action filter"
-              onClick={() => onFilterNearbyRoutes(selectedLocation.name)}
-              title="البحث عن خطوط تخدم هذا المكان"
-            >
-              <Bus size={13} />
-              <span>خطوط المكان</span>
-            </button>
+            {activeTab === 'multi' ? (
+              <button
+                className="btn-quick-transit-action target"
+                disabled={!multiStopTarget}
+                onClick={() => onSetMultiStopLocation?.(selectedLocation)}
+                title={multiStopTarget
+                  ? (lang === 'ar' ? `استخدم هذه النقطة للوجهة ${multiStopTarget.number}` : `Use this place for stop ${multiStopTarget.number}`)
+                  : (lang === 'ar' ? 'اختر صفاً لتعيين المكان' : 'Choose a stop row first')}
+              >
+                <Target size={13} />
+                <span>{multiStopTarget
+                  ? (lang === 'ar' ? `استخدم للنقطة ${multiStopTarget.number}` : `Use for stop ${multiStopTarget.number}`)
+                  : (lang === 'ar' ? 'اختر صفاً أولاً' : 'Choose a stop first')}</span>
+              </button>
+            ) : activeTab === 'planner' ? (
+              <>
+                <button
+                  className={`btn-quick-transit-action origin ${plannerSelecting === 'origin' ? 'target' : ''}`}
+                  onClick={() => onSetOriginCoord(selectedLocation.coord)}
+                  title={lang === 'ar' ? 'استخدم المكان كنقطة الانطلاق أ' : 'Use this place as starting point A'}
+                >
+                  <Navigation size={13} />
+                  <span>{lang === 'ar' ? 'نقطة الانطلاق (أ)' : 'Starting point (A)'}</span>
+                </button>
+                <button
+                  className={`btn-quick-transit-action dest ${plannerSelecting === 'dest' ? 'target' : ''}`}
+                  onClick={() => onSetDestCoord(selectedLocation.coord)}
+                  title={lang === 'ar' ? 'استخدم المكان كوجهة الوصول ب' : 'Use this place as destination B'}
+                >
+                  <Compass size={13} />
+                  <span>{lang === 'ar' ? 'وجهة الوصول (ب)' : 'Destination (B)'}</span>
+                </button>
+              </>
+            ) : (
+              <button
+                className="btn-quick-transit-action target"
+                onClick={() => onSetTargetCoord(selectedLocation.coord)}
+                title={lang === 'ar' ? 'اعرض الخطوط التي تمر بالقرب من هذا المكان' : 'Show routes passing near this place'}
+              >
+                <Target size={13} />
+                <span>{lang === 'ar' ? 'اعرض الخطوط القريبة من هنا' : 'Show routes near here'}</span>
+              </button>
+            )}
           </div>
         </div>
       )}

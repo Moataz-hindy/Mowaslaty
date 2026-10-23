@@ -44,3 +44,14 @@ export function lineLabel(r, lang = 'ar') {
   if (labels[key]) return labels[key];
   return westernDigits(raw);
 }
+
+export function vehicleRouteLabel(route, lang = 'ar') {
+  if (!route) return '';
+  const vehicleNames = lang === 'ar'
+    ? { Bus: 'أتوبيس', Minibus: 'ميني باص', Microbus: 'ميكروباص', Box: 'بوكس', Tomnaya: 'تمناية', Metro: 'مترو' }
+    : { Bus: 'Bus', Minibus: 'Minibus', Microbus: 'Microbus', Box: 'Box', Tomnaya: 'Tomnaya', Metro: 'Metro' };
+  const vehicle = vehicleNames[route.vehicle] || route.vehicle || '';
+  const number = lineLabel(route, lang);
+  const isTypeFallback = String(route.num || route.route_id || '').trim().toLowerCase() === String(route.vehicle || '').toLowerCase();
+  return [vehicle, isTypeFallback ? '' : number].filter(Boolean).join(' ');
+}

@@ -4,6 +4,8 @@ import { VEHICLE_COLORS } from '../utils/i18n';
 import { fetchWalkingRoute } from '../utils/geoUtils';
 import { matchRouteStops } from '../utils/tripTracker';
 import { attachTileRecovery } from '../utils/mapTileRecovery';
+import { journeyRidePath } from '../utils/journey';
+import { vehicleRouteLabel } from '../utils/routeEnds';
 
 // Inline stroke icons for Leaflet divIcons / popups (no emoji)
 const svg = (d, size = 16, sw = 2) =>
@@ -22,9 +24,6 @@ export default function MapComponent({
   selectedRoute,
   geometries,
   targetCoord,
-  rideCoord = null,
-  requireBothPoints = false,
-  nearestSelectingRide = false,
   onMapClick,
   activeNearest,
   // Search on Map
@@ -34,6 +33,7 @@ export default function MapComponent({
   originCoord,
   destCoord,
   activeJourney,
+  journeyPointNumbers = null,
   stops,
   showStops,
   fitRequest = 0,
@@ -242,9 +242,9 @@ export default function MapComponent({
     if (routeStopsGroupRef.current) routeStopsGroupRef.current.clearLayers();
 
     // In Nearest mode, always render the route of the active nearest drop point so the transit line is ALWAYS visible!
-    const routeToRender = (activeTab === 'nearest' && activeNearest?.route) 
-      ? activeNearest.route 
-      : selectedRoute;
+    const routeToRender = activeTab === 'nearest' && activeNearest?.route
+      ? activeNearest.route
+      : activeTab === 'explore' ? selectedRoute : null;
 
     if (!routeToRender || !geometries || !geometries[routeToRender.id]) return;
 
@@ -326,7 +326,7 @@ export default function MapComponent({
     if (activeTab === 'explore' && !targetCoord) {
       fitWithOverlays(mainLine.getBounds(), { maxZoom: 15 });
     }
-  }, [selectedRoute, activeNearest, geometries, lang, activeTab, stops]);
+  }, [selectedRoute, activeNearest, activeJourney, geometries, lang, activeTab, stops]);
 
   // Phase 2: Nearest Drop Point Overlay
   useEffect(() => {
@@ -336,10 +336,10 @@ export default function MapComponent({
 
     group.clearLayers();
 
-    // Destination & Pickup overlay: in "nearest" mode, and in "explore" mode when the
+    // Destination overlay: in "nearest" mode, and in "explore" mode when the
     // selected line has a computed drop-off point for the destination.
     if (activeTab !== 'nearest' && (!targetCoord || !activeNearest)) return;
-    if (activeTab === 'nearest' && !targetCoord && !rideCoord) return;
+    if (activeTab === 'nearest' && !targetCoord) return;
 
     // Target Marker
     if (targetCoord) {
@@ -352,19 +352,6 @@ export default function MapComponent({
 
       group.addLayer(
         L.marker(targetCoord, { icon: targetIcon }).bindPopup(`<strong>${t.destinationTarget}</strong>`)
-      );
-    }
-
-    // Ride-from Marker (Optional Origin in Nearest Mode)
-    if (rideCoord && activeTab === 'nearest') {
-      const rideIcon = L.divIcon({
-        className: 'custom-ride-marker',
-        html: `<div class="ride-pin-pulse">أ</div>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
-      });
-      group.addLayer(
-        L.marker(rideCoord, { icon: rideIcon }).bindPopup(`<strong>${t.ridePointLabel || 'مكان الركوب'}:</strong> ${lang === 'ar' ? 'نقطة الانطلاق المحددة' : 'Selected Ride-from Point'}`)
       );
     }
 
@@ -420,39 +407,7 @@ export default function MapComponent({
       if (previewCasing) group.addLayer(previewCasing);
       if (previewCore) group.addLayer(previewCore);
 
-      // If route also has a pickup coordinate from rideCoord
-      if (activeNearest.pickupCoord) {
-        const pickupCoord = activeNearest.pickupCoord;
-        const pickupIcon = L.divIcon({
-          className: 'custom-pickup-marker',
-          html: `<div class="pickup-pin" style="background:#10B981; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: white; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); font-size: 11px; font-weight: bold;">${svg(ICONS.walk, 14)}</div>`,
-          iconSize: [26, 26],
-          iconAnchor: [13, 13]
-        });
-        group.addLayer(
-          L.marker(pickupCoord, { icon: pickupIcon }).bindPopup(`<strong>${t.rideBadge || 'نقطة الركوب'}:</strong> ${activeNearest.walkToPickupMeters || 0}م مشي (~${activeNearest.walkToPickupMinutes || 1} د)`)
-        );
-
-        if (rideCoord) {
-          const rideCasing = L.polyline([rideCoord, pickupCoord], {
-            color: '#FFFFFF',
-            weight: 7,
-            opacity: 0.9,
-            lineCap: 'round'
-          });
-          const rideCore = L.polyline([rideCoord, pickupCoord], {
-            color: '#10B981',
-            weight: 3.5,
-            dashArray: '1, 8',
-            lineCap: 'round',
-            opacity: 0.95
-          });
-          group.addLayer(rideCasing);
-          group.addLayer(rideCore);
-        }
-      }
-
-      const allFitCoords = [dropCoord, targetCoord, rideCoord, activeNearest.pickupCoord].filter(Boolean);
+      const allFitCoords = [dropCoord, targetCoord].filter(Boolean);
       if (allFitCoords.length > 1) {
         fitWithOverlays(L.latLngBounds(allFitCoords), { maxZoom: 16 });
       } else if (allFitCoords.length === 1) {
@@ -571,15 +526,12 @@ export default function MapComponent({
         isCancelled = true;
       };
     } else if (activeTab === 'nearest') {
-      if (targetCoord && rideCoord) {
-        fitWithOverlays(L.latLngBounds([targetCoord, rideCoord]), { maxZoom: 15 });
-      } else if (targetCoord) {
+      if (targetCoord) {
         map.setView(targetCoord, 14, { animate: true });
-      } else if (rideCoord) {
-        map.setView(rideCoord, 14, { animate: true });
+
       }
     }
-  }, [targetCoord, rideCoord, activeNearest, activeTab, lang]);
+  }, [targetCoord, activeNearest, activeTab, lang]);
 
   // Phase 3: Journey Planner (A to B) Visualizer
   useEffect(() => {
@@ -589,18 +541,21 @@ export default function MapComponent({
 
     group.clearLayers();
 
-    if (activeTab !== 'planner') return;
+    if (activeTab !== 'planner' && activeTab !== 'multi') return;
+
+    const originNumber = journeyPointNumbers?.[0];
+    const destinationNumber = journeyPointNumbers?.[1];
 
     // 1. Origin Marker (A)
     if (originCoord) {
       const originIcon = L.divIcon({
         className: 'custom-origin-marker',
-        html: `<div class="origin-pin">أ</div>`,
+        html: `<div class="origin-pin">${originNumber || 'أ'}</div>`,
         iconSize: [34, 34],
         iconAnchor: [17, 17]
       });
       group.addLayer(
-        L.marker(originCoord, { icon: originIcon }).bindPopup(`<strong>${t.originLabel}</strong>`)
+        L.marker(originCoord, { icon: originIcon }).bindPopup(`<strong>${originNumber ? `${t.multiPoint || 'Stop'} ${originNumber}` : t.originLabel}</strong>`)
       );
     }
 
@@ -608,110 +563,52 @@ export default function MapComponent({
     if (destCoord) {
       const destIcon = L.divIcon({
         className: 'custom-dest-marker',
-        html: `<div class="dest-pin">ب</div>`,
+        html: `<div class="dest-pin">${destinationNumber || 'ب'}</div>`,
         iconSize: [34, 34],
         iconAnchor: [17, 17]
       });
       group.addLayer(
-        L.marker(destCoord, { icon: destIcon }).bindPopup(`<strong>${t.destLabel}</strong>`)
+        L.marker(destCoord, { icon: destIcon }).bindPopup(`<strong>${destinationNumber ? `${t.multiPoint || 'Stop'} ${destinationNumber}` : t.destLabel}</strong>`)
       );
     }
 
-    // 3. Draw Active Journey (Direct or Transfer)
+    // 3. Draw each selected ride and walking segment in the journey.
     if (activeJourney) {
-      if (activeJourney.type === 'direct') {
-        const { route, pickupCoord, dropCoord } = activeJourney;
-        const color = VEHICLE_COLORS[route.vehicle] || VEHICLE_COLORS.Default;
-
-        // Walking to pickup line
-        const walkToPickup = L.polyline([originCoord, pickupCoord], {
-          color: WALK_LINE,
-          weight: 3.5,
-          dashArray: '1, 8',
-          opacity: 0.9
-        });
-        group.addLayer(walkToPickup);
-
-        // Pickup stop marker
-        const pickupIcon = L.divIcon({
-          className: 'pickup-pin',
-          html: `<div class="step-stop-pin pickup" style="background:${color};${route.vehicle === 'Minibus' ? 'color:#15171C;' : ''}">${svg(ICONS.bus, 12)} ${route.num}</div>`,
-          iconSize: [70, 26],
-          iconAnchor: [35, 13]
-        });
-        group.addLayer(
-          L.marker(pickupCoord, { icon: pickupIcon }).bindPopup(`<strong>ركوب ${route.num}</strong>`)
-        );
-
-        // Dropoff stop marker
-        const dropIcon = L.divIcon({
-          className: 'drop-pin-badge',
-          html: `<div class="step-stop-pin drop">${svg(ICONS.walk, 12)} نزول</div>`,
-          iconSize: [60, 26],
-          iconAnchor: [30, 13]
-        });
-        group.addLayer(
-          L.marker(dropCoord, { icon: dropIcon }).bindPopup(`<strong>نزول من ${route.num}</strong>`)
-        );
-
-        // Walking from drop to B line
-        const walkFromDrop = L.polyline([dropCoord, destCoord], {
-          color: WALK_LINE,
-          weight: 3.5,
-          dashArray: '1, 8',
-          opacity: 0.9
-        });
-        group.addLayer(walkFromDrop);
-
-        // Fit whole journey into view
-        const journeyBounds = L.latLngBounds([originCoord, destCoord, pickupCoord, dropCoord]);
-        fitWithOverlays(journeyBounds);
-      } else if (activeJourney.type === 'transfer') {
-        const { hub, leg1, leg2 } = activeJourney;
-
-        // Second leg line (first leg is drawn as the selected route)
-        const leg2Coords = geometries && geometries[leg2.route.id];
-        if (leg2Coords && leg2Coords.length > 1) {
-          const leg2Color = leg2.route.color || VEHICLE_COLORS[leg2.route.vehicle] || VEHICLE_COLORS.Default;
-          group.addLayer(L.polyline(leg2Coords, { color: '#FFFFFF', weight: 10, opacity: 0.95, lineCap: 'round', lineJoin: 'round' }));
-          group.addLayer(L.polyline(leg2Coords, { color: leg2Color, weight: 5, opacity: 0.98, lineCap: 'round', lineJoin: 'round' }));
+      const journeyCoords = [originCoord, destCoord].filter(Boolean);
+      (activeJourney.legs || []).forEach((leg, index) => {
+        if (leg.kind === 'walk') {
+          const points = [leg.fromCoord, leg.toCoord].filter(Boolean);
+          journeyCoords.push(...points);
+          if (points.length > 1) group.addLayer(L.polyline(points, { color: WALK_LINE, weight: 3.5, dashArray: '1, 8', opacity: 0.95 }));
+          return;
         }
-
-        // Hub marker
-        const hubIcon = L.divIcon({
-          className: 'hub-pin',
-          html: `<div class="step-stop-pin hub">${svg(ICONS.swap, 12)} ${hub.name_ar}</div>`,
-          iconSize: [110, 28],
-          iconAnchor: [55, 14]
+        const route = leg.route || {};
+        const color = route.color || VEHICLE_COLORS[route.vehicle] || VEHICLE_COLORS.Default;
+        const selectedPath = journeyRidePath(leg, geometries);
+        const path = selectedPath.path;
+        journeyCoords.push(...path);
+        if (path.length > 1) {
+          group.addLayer(L.polyline(path, { color: '#FFFFFF', weight: 9, opacity: 0.95, lineCap: 'round', lineJoin: 'round' }));
+          group.addLayer(L.polyline(path, { color, weight: 5, opacity: 0.98, lineCap: 'round', lineJoin: 'round' }));
+        }
+        [
+          { coord: leg.fromCoord, label: lang === 'ar' ? `اركب ${vehicleRouteLabel(route, lang)}` : `Board ${vehicleRouteLabel(route, lang)}` },
+          { coord: leg.toCoord, label: leg.flexibleDrop
+            ? (lang === 'ar' ? 'اطلب النزول هنا' : 'Ask to get off here')
+            : (lang === 'ar' ? `انزل ${vehicleRouteLabel(route, lang)}` : `Alight ${vehicleRouteLabel(route, lang)}`) }
+        ].forEach((point, markerIndex) => {
+          if (!point.coord) return;
+          const icon = L.divIcon({ className: markerIndex === 0 ? 'pickup-pin' : 'drop-pin-badge',
+            html: `<div class="step-stop-pin ${markerIndex === 0 ? 'pickup' : 'drop'}" style="${markerIndex === 0 ? `background:${color};` : ''}">${markerIndex === 0 ? svg(ICONS.bus, 12) : svg(ICONS.walk, 12)} ${point.label}</div>`,
+            iconSize: [94, 26], iconAnchor: [47, 13] });
+          group.addLayer(L.marker(point.coord, { icon }).bindPopup(`<strong>${point.label}</strong>`));
         });
-        group.addLayer(
-          L.marker(hub.coord, { icon: hubIcon }).bindPopup(`<strong>موقف التبديل: ${hub.name_ar}</strong>`)
-        );
-
-        // Walk to leg1
-        group.addLayer(
-          L.polyline([originCoord, leg1.pickupCoord], {
-            color: WALK_LINE,
-            weight: 3,
-            dashArray: '1, 7'
-          })
-        );
-
-        // Walk from leg2 to dest
-        group.addLayer(
-          L.polyline([leg2.destDropCoord, destCoord], {
-            color: WALK_LINE,
-            weight: 3,
-            dashArray: '1, 7'
-          })
-        );
-
-        fitWithOverlays(L.latLngBounds([originCoord, destCoord, hub.coord]));
-      }
+      });
+      if (journeyCoords.length > 1) fitWithOverlays(L.latLngBounds(journeyCoords));
     } else if (originCoord && destCoord) {
       fitWithOverlays(L.latLngBounds([originCoord, destCoord]));
     }
-  }, [activeTab, originCoord, destCoord, activeJourney, geometries, lang]);
+  }, [activeTab, originCoord, destCoord, activeJourney, geometries, lang, journeyPointNumbers?.[0], journeyPointNumbers?.[1]]);
 
   // "Fit route" button: frame everything currently drawn for the active mode
   useEffect(() => {

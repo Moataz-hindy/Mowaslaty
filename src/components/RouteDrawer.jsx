@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { VEHICLE_COLORS } from '../utils/i18n';
 import { getRouteEnds, lineLabel } from '../utils/routeEnds';
-import { ArrowLeftRight, Focus, X, Footprints, MapPin, ExternalLink, AlertTriangle, Navigation } from 'lucide-react';
+import { ArrowLeftRight, Focus, X, Footprints, MapPin, ExternalLink, AlertTriangle, Navigation, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function RouteDrawer({
   selectedRoute,
@@ -15,6 +15,9 @@ export default function RouteDrawer({
   lang,
   t
 }) {
+  const [detailsExpanded, setDetailsExpanded] = useState(false);
+  useEffect(() => setDetailsExpanded(false), [selectedRoute?.id]);
+
   if (!selectedRoute) return null;
 
   const color = VEHICLE_COLORS[selectedRoute.vehicle] || VEHICLE_COLORS.Default;
@@ -30,12 +33,23 @@ export default function RouteDrawer({
     vehicleText,
     dirText
   ].filter(Boolean).join(' · ');
+  const hasDropInfo = Boolean(drop && targetCoord);
+  const farFromDestination = hasDropInfo && drop.distanceMeters > 2000;
+  const dropDistanceText = hasDropInfo
+    ? (drop.distanceMeters >= 1000
+      ? `${(drop.distanceMeters / 1000).toFixed(1)} ${lang === 'ar' ? 'كم' : 'km'}`
+      : `${drop.distanceMeters} ${lang === 'ar' ? 'م' : 'm'}`)
+    : null;
+  const dropTimeText = hasDropInfo
+    ? (lang === 'ar' ? `≈ ${drop.walkMinutes} دقيقة مشي` : `≈ ${drop.walkMinutes} min walk`)
+    : null;
 
   return (
     <section
-      className="active-route-drawer"
+      className={`active-route-drawer ${detailsExpanded ? 'details-expanded' : ''}`}
       style={{ '--active-route-color': color, '--card-color': color }}
       data-vehicle={selectedRoute.vehicle}
+      data-details-expanded={detailsExpanded}
       aria-label={lang === 'ar' ? 'الخط المحدد' : 'Selected line'}
     >
       <div className="drawer-header">
@@ -51,6 +65,38 @@ export default function RouteDrawer({
         </button>
       </div>
 
+      <div
+        className={`route-drawer-summary ${farFromDestination ? 'far' : ''}`}
+        role="status"
+        aria-label={hasDropInfo
+          ? (farFromDestination
+            ? `${lang === 'ar' ? 'بعيد عن وجهتك' : 'Far from destination'}: ${dropDistanceText}, ${dropTimeText}`
+            : `${dropDistanceText}, ${dropTimeText}`)
+          : `${t.lengthLabel}: ${selectedRoute.len_km} ${t.kmUnit}`}
+      >
+        {hasDropInfo
+          ? <Footprints size={15} aria-hidden="true" />
+          : <MapPin size={15} aria-hidden="true" />}
+        <span>
+          {hasDropInfo
+            ? `${dropDistanceText} · ${dropTimeText}`
+            : `${t.lengthLabel}: ${selectedRoute.len_km} ${t.kmUnit}`}
+        </span>
+        {farFromDestination && <AlertTriangle size={15} aria-hidden="true" />}
+      </div>
+
+      <button
+        type="button"
+        className="drawer-details-toggle"
+        aria-expanded={detailsExpanded}
+        aria-controls="route-drawer-details"
+        onClick={() => setDetailsExpanded(value => !value)}
+      >
+        <span>{lang === 'ar' ? 'تفاصيل الخط' : 'Route details'}</span>
+        {detailsExpanded ? <ChevronUp size={16} aria-hidden="true" /> : <ChevronDown size={16} aria-hidden="true" />}
+      </button>
+
+      <div id="route-drawer-details" className="drawer-details">
       <div className="drawer-stats">
         <div className="stat-item">
           <span className="stat-label">{t.lengthLabel}</span>
@@ -66,11 +112,8 @@ export default function RouteDrawer({
         </div>
       </div>
 
-      {drop && targetCoord && (() => {
-        const far = drop.distanceMeters > 2000;
-        const dist = drop.distanceMeters >= 1000
-          ? `${(drop.distanceMeters / 1000).toFixed(1)} ${lang === 'ar' ? 'كم' : 'km'}`
-          : `${drop.distanceMeters} ${lang === 'ar' ? 'م' : 'm'}`;
+      {hasDropInfo && (() => {
+        const far = farFromDestination;
         const stopName = drop.nearestStop ? (lang === 'ar' ? drop.nearestStop.ar : drop.nearestStop.en) : null;
         const walkUrl = `https://www.google.com/maps/dir/?api=1&origin=${drop.dropCoord[0]},${drop.dropCoord[1]}&destination=${targetCoord[0]},${targetCoord[1]}&travelmode=walking`;
         return (
@@ -85,10 +128,8 @@ export default function RouteDrawer({
             </div>
             <div className="drawer-drop-main">
               <Footprints size={16} aria-hidden="true" />
-              <span className="drawer-drop-dist">{dist}</span>
-              <span className="drawer-drop-time">
-                {lang === 'ar' ? `≈ ${drop.walkMinutes} دقيقة مشي` : `≈ ${drop.walkMinutes} min walk`}
-              </span>
+              <span className="drawer-drop-dist">{dropDistanceText}</span>
+              <span className="drawer-drop-time">{dropTimeText}</span>
             </div>
             {stopName && (
               <div className="drawer-drop-stop">
@@ -105,7 +146,7 @@ export default function RouteDrawer({
             {far ? (
               <div className="drawer-drop-warning">
                 <AlertTriangle size={14} aria-hidden="true" />
-                <span>{lang === 'ar' ? 'هذا الخط لا يمر بالقرب من وجهتك. جرّب «أقرب نزول» لخطوط أقرب.' : 'This line doesn’t pass near your destination. Try “Nearest drop” for closer lines.'}</span>
+                <span>{lang === 'ar' ? 'هذا الخط لا يمر بالقرب من وجهتك. جرّب «خطوط المكان» للعثور على خطوط أقرب.' : 'This line doesn’t pass near your destination. Try “Routes near a place” to find closer lines.'}</span>
               </div>
             ) : (
               <a className="drawer-drop-link" href={walkUrl} target="_blank" rel="noopener noreferrer">
@@ -126,6 +167,7 @@ export default function RouteDrawer({
           <Focus size={15} />
           <span>{t.fitRouteBtn}</span>
         </button>
+      </div>
       </div>
     </section>
   );

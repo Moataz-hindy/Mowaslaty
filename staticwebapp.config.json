@@ -5,6 +5,7 @@
     "exclude": [
       "/assets/*",
       "/data/*",
+      "/downloads/*",
       "*.{png,jpg,jpeg,gif,svg,ico,json,css,js,wasm,webp,woff,woff2}"
     ]
   },
@@ -20,20 +21,24 @@
       "headers": {
         "cache-control": "public, max-age=86400, stale-while-revalidate=604800"
       }
+    },
+    {
+      "route": "/downloads/android-release.json",
+      "headers": { "cache-control": "no-store" }
+    },
+    {
+      "route": "/downloads/*",
+      "headers": { "cache-control": "public, max-age=3600" }
     }
   ],
   "mimeTypes": {
-    ".json": "application/json"
+    ".json": "application/json",
+    ".apk": "application/vnd.android.package-archive",
+    ".sha256": "text/plain"
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "SAMEORIGIN",
     "Referrer-Policy": "strict-origin-when-cross-origin"
-  },
-  "responseOverrides": {
-    "404": {
-      "rewrite": "/index.html",
-      "statusCode": 200
-    }
   }
 }

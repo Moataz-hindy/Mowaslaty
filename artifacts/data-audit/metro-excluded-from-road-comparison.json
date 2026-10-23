@@ -1,0 +1,816 @@
+[
+  {
+    "id": "metro_T_L1_N",
+    "fid": 1,
+    "route_id": "L1",
+    "num": "M1",
+    "short_en": "Metro Line 1",
+    "short_ar": "مترو الخط 1",
+    "long_en": "Metro Line 1 (Helwan - El Marg) (Helwan ➔ New El-Marg)",
+    "long_ar": "مترو الخط 1 (حلوان - المرج) (حلوان ➔ المرج الجديدة)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 0,
+    "origin": "حلوان",
+    "dest": "المرج الجديدة",
+    "origin_en": "Helwan",
+    "dest_en": "New El-Marg",
+    "len_km": 42.5,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#2E4A78",
+    "bounds": [
+      [
+        29.84915,
+        31.22874
+      ],
+      [
+        30.16357,
+        31.33822
+      ]
+    ],
+    "start_pt": [
+      29.84915,
+      31.33411
+    ],
+    "end_pt": [
+      30.16357,
+      31.33822
+    ],
+    "points_count": 249,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "حلوان",
+      "عين حلوان",
+      "وادي حوف",
+      "حدائق حلوان",
+      "المعصرة",
+      "طرة الأسمنت",
+      "كوتسيكا",
+      "طرة البلد",
+      "ثكنات المعادي",
+      "المعادي",
+      "حدائق المعادي",
+      "دار السلام",
+      "الزهراء",
+      "مار جرجس",
+      "الملك الصالح",
+      "السيدة زينب",
+      "سعد زغلول",
+      "السادات (التحرير)",
+      "جمال عبد الناصر",
+      "الشهداء (رمسيس)",
+      "غمرة",
+      "الدمرداش",
+      "منشية الصدر",
+      "كوبري القبة",
+      "حمامات القبة",
+      "سراي القبة",
+      "حدائق الزيتون",
+      "حلمية الزيتون",
+      "المطرية",
+      "عين شمس",
+      "عزبة النخل",
+      "المرج",
+      "المرج الجديدة"
+    ],
+    "via_stops_en": [
+      "Helwan",
+      "Ain Helwan",
+      "Wadi Hof",
+      "Hadayek Helwan",
+      "El-Maasara",
+      "Tora El-Asmant",
+      "Kozzika",
+      "Tora El-Balad",
+      "Sakanat El-Maadi",
+      "Maadi",
+      "Hadayek El-Maadi",
+      "Dar El-Salam",
+      "El-Zahraa",
+      "Mar Girgis",
+      "El-Malek El-Saleh",
+      "Al-Sayeda Zeinab",
+      "Saad Zaghloul",
+      "Sadat",
+      "Nasser",
+      "Al-Shohadaa",
+      "Ghamra",
+      "El-Demerdash",
+      "Manshiet El-Sadr",
+      "Kobri El-Qobba",
+      "Hammamat El-Qobba",
+      "Saray El-Qobba",
+      "Hadayeq El-Zaitoun",
+      "Helmeyet El-Zaitoun",
+      "El-Matareyya",
+      "Ain Shams",
+      "Ezbet El-Nakhl",
+      "El-Marg",
+      "New El-Marg"
+    ]
+  },
+  {
+    "id": "metro_T_L2_S",
+    "fid": 2,
+    "route_id": "L2",
+    "num": "M2",
+    "short_en": "Metro Line 2",
+    "short_ar": "مترو الخط 2",
+    "long_en": "Metro Line 2 (Shubra - El Mounib) (Shubra El-Kheima ➔ El-Mounib)",
+    "long_ar": "مترو الخط 2 (شبرا - المنيب) (شبرا الخيمة ➔ المنيب)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 0,
+    "origin": "شبرا الخيمة",
+    "dest": "المنيب",
+    "origin_en": "Shubra El-Kheima",
+    "dest_en": "El-Mounib",
+    "len_km": 20.1,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#A63457",
+    "bounds": [
+      [
+        29.98037,
+        31.19799
+      ],
+      [
+        30.12478,
+        31.24918
+      ]
+    ],
+    "start_pt": [
+      30.12478,
+      31.24288
+    ],
+    "end_pt": [
+      29.98037,
+      31.21254
+    ],
+    "points_count": 169,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "شبرا الخيمة",
+      "كلية الزراعة",
+      "المظلات",
+      "الخلفاوي",
+      "سانت تريزا",
+      "روض الفرج",
+      "مسرة",
+      "الشهداء (رمسيس)",
+      "العتبة",
+      "محمد نجيب",
+      "السادات (التحرير)",
+      "الأوبرا",
+      "الدقي",
+      "البحوث",
+      "جامعة القاهرة",
+      "فيصل",
+      "الجيزة",
+      "أم المصريين",
+      "ساقية مكي",
+      "المنيب"
+    ],
+    "via_stops_en": [
+      "Shubra El-Kheima",
+      "Kolleyyet El-Zeraa",
+      "Mezallat",
+      "Khalafawy",
+      "St. Teresa",
+      "Rod El Farag",
+      "Masarra",
+      "Al-Shohadaa",
+      "Attaba",
+      "Mohamed Naguib",
+      "Sadat",
+      "Opera",
+      "Dokki",
+      "Bohooth",
+      "Cairo University",
+      "Faisal",
+      "El-Giza",
+      "Omm El-Misryeen",
+      "Sakiat Mekki",
+      "El-Mounib"
+    ]
+  },
+  {
+    "id": "metro_T_L1_S",
+    "fid": 3,
+    "route_id": "L1",
+    "num": "M1",
+    "short_en": "Metro Line 1",
+    "short_ar": "مترو الخط 1",
+    "long_en": "Metro Line 1 (Helwan - El Marg) (New El-Marg ➔ Helwan)",
+    "long_ar": "مترو الخط 1 (حلوان - المرج) (المرج الجديدة ➔ حلوان)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 1,
+    "origin": "المرج الجديدة",
+    "dest": "حلوان",
+    "origin_en": "New El-Marg",
+    "dest_en": "Helwan",
+    "len_km": 42.5,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#2E4A78",
+    "bounds": [
+      [
+        29.84921,
+        31.2288
+      ],
+      [
+        30.16351,
+        31.33838
+      ]
+    ],
+    "start_pt": [
+      30.16351,
+      31.33838
+    ],
+    "end_pt": [
+      29.84921,
+      31.33443
+    ],
+    "points_count": 256,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "المرج الجديدة",
+      "المرج",
+      "عزبة النخل",
+      "عين شمس",
+      "المطرية",
+      "حلمية الزيتون",
+      "حدائق الزيتون",
+      "سراي القبة",
+      "حمامات القبة",
+      "كوبري القبة",
+      "منشية الصدر",
+      "الدمرداش",
+      "غمرة",
+      "الشهداء (رمسيس)",
+      "جمال عبد الناصر",
+      "السادات (التحرير)",
+      "سعد زغلول",
+      "السيدة زينب",
+      "مار جرجس",
+      "الزهراء",
+      "دار السلام",
+      "حدائق المعادي",
+      "المعادي",
+      "ثكنات المعادي",
+      "طرة البلد",
+      "كوتسيكا",
+      "طرة الأسمنت",
+      "المعصرة",
+      "وادي حوف",
+      "عين حلوان",
+      "حلوان"
+    ],
+    "via_stops_en": [
+      "New El-Marg",
+      "El-Marg",
+      "Ezbet El-Nakhl",
+      "Ain Shams",
+      "El-Matareyya",
+      "Helmeyet El-Zaitoun",
+      "Hadayeq El-Zaitoun",
+      "Saray El-Qobba",
+      "Hammamat El-Qobba",
+      "Kobri El-Qobba",
+      "Manshiet El-Sadr",
+      "El-Demerdash",
+      "Ghamra",
+      "Al-Shohadaa",
+      "Nasser",
+      "Sadat",
+      "Saad Zaghloul",
+      "Al-Sayeda Zeinab",
+      "Mar Girgis",
+      "El-Zahraa",
+      "Dar El-Salam",
+      "Hadayek El-Maadi",
+      "Maadi",
+      "Sakanat El-Maadi",
+      "Tora El-Balad",
+      "Kozzika",
+      "Tora El-Asmant",
+      "El-Maasara",
+      "Wadi Hof",
+      "Ain Helwan",
+      "Helwan"
+    ]
+  },
+  {
+    "id": "metro_T_L2_N",
+    "fid": 4,
+    "route_id": "L2",
+    "num": "M2",
+    "short_en": "Metro Line 2",
+    "short_ar": "مترو الخط 2",
+    "long_en": "Metro Line 2 (Shubra - El Mounib) (El-Mounib ➔ Shubra El-Kheima)",
+    "long_ar": "مترو الخط 2 (شبرا - المنيب) (المنيب ➔ شبرا الخيمة)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 1,
+    "origin": "المنيب",
+    "dest": "شبرا الخيمة",
+    "origin_en": "El-Mounib",
+    "dest_en": "Shubra El-Kheima",
+    "len_km": 20.1,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#A63457",
+    "bounds": [
+      [
+        29.98043,
+        31.19804
+      ],
+      [
+        30.1248,
+        31.24922
+      ]
+    ],
+    "start_pt": [
+      29.98043,
+      31.21264
+    ],
+    "end_pt": [
+      30.1248,
+      31.2429
+    ],
+    "points_count": 154,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "المنيب",
+      "ساقية مكي",
+      "أم المصريين",
+      "الجيزة",
+      "فيصل",
+      "جامعة القاهرة",
+      "البحوث",
+      "الأوبرا",
+      "السادات (التحرير)",
+      "محمد نجيب",
+      "العتبة",
+      "الشهداء (رمسيس)",
+      "مسرة",
+      "روض الفرج",
+      "سانت تريزا",
+      "الخلفاوي",
+      "المظلات",
+      "كلية الزراعة",
+      "شبرا الخيمة"
+    ],
+    "via_stops_en": [
+      "El-Mounib",
+      "Sakiat Mekki",
+      "Omm El-Misryeen",
+      "El-Giza",
+      "Faisal",
+      "Cairo University",
+      "Bohooth",
+      "Opera",
+      "Sadat",
+      "Mohamed Naguib",
+      "Attaba",
+      "Al-Shohadaa",
+      "Masarra",
+      "Rod El Farag",
+      "St. Teresa",
+      "Khalafawy",
+      "Mezallat",
+      "Kolleyyet El-Zeraa",
+      "Shubra El-Kheima"
+    ]
+  },
+  {
+    "id": "metro_T_M_L3_P3C_W",
+    "fid": 5,
+    "route_id": "L3",
+    "num": "M3",
+    "short_en": "Metro Line 3",
+    "short_ar": "مترو الخط 3",
+    "long_en": "Metro Line 3 (Adly Mansour - Kit Kat) (Kit Kat ➔ Cairo University)",
+    "long_ar": "مترو الخط 3 (عدلي منصور - الكيت كات) (الكيت كات ➔ جامعة القاهرة)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 0,
+    "origin": "الكيت كات",
+    "dest": "جامعة القاهرة",
+    "origin_en": "Kit Kat",
+    "dest_en": "Cairo University",
+    "len_km": 5.3,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#325F3B",
+    "bounds": [
+      [
+        30.0262,
+        31.19524
+      ],
+      [
+        30.06677,
+        31.21299
+      ]
+    ],
+    "start_pt": [
+      30.06677,
+      31.21299
+    ],
+    "end_pt": [
+      30.0262,
+      31.20116
+    ],
+    "points_count": 10,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "الكيت كات",
+      "التوفيقية",
+      "وادي النيل",
+      "جامعة الدول العربية",
+      "بولاق الدكرور",
+      "جامعة القاهرة"
+    ],
+    "via_stops_en": [
+      "Kit Kat",
+      "Al Tawfiqeyya",
+      "Wadi Al Nile",
+      "Arab Leauge",
+      "Boulaq Dakrour",
+      "Cairo University"
+    ]
+  },
+  {
+    "id": "metro_T_L3_E",
+    "fid": 6,
+    "route_id": "L3",
+    "num": "M3",
+    "short_en": "Metro Line 3",
+    "short_ar": "مترو الخط 3",
+    "long_en": "Metro Line 3 (Adly Mansour - Kit Kat) (Kit Kat ➔ Adly Mansour)",
+    "long_ar": "مترو الخط 3 (عدلي منصور - الكيت كات) (الكيت كات ➔ عدلي منصور)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 1,
+    "origin": "الكيت كات",
+    "dest": "عدلي منصور",
+    "origin_en": "Kit Kat",
+    "dest_en": "Adly Mansour",
+    "len_km": 26.7,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#325F3B",
+    "bounds": [
+      [
+        30.05161,
+        31.21297
+      ],
+      [
+        30.14688,
+        31.42147
+      ]
+    ],
+    "start_pt": [
+      30.06678,
+      31.21297
+    ],
+    "end_pt": [
+      30.14688,
+      31.42147
+    ],
+    "points_count": 167,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "الكيت كات",
+      "صفاء حجازي (الزمالك)",
+      "ماسبيرو",
+      "جمال عبد الناصر",
+      "العتبة",
+      "الجيش",
+      "عبده باشا",
+      "العباسية",
+      "أرض المعارض",
+      "الاستاد",
+      "كلية البنات",
+      "الأهرام (مصر الجديدة)",
+      "هارون",
+      "هليوبوليس",
+      "ألف مسكن",
+      "نادي الشمس",
+      "النزهة",
+      "هشام بركات",
+      "قباء",
+      "عمر بن الخطاب",
+      "الهايكستب",
+      "عدلي منصور"
+    ],
+    "via_stops_en": [
+      "Kit Kat",
+      "Safaa Hegazy",
+      "Maspero",
+      "Nasser",
+      "Attaba",
+      "El-Geish",
+      "Abdou Pasha",
+      "Abbassiya",
+      "Fair Zone",
+      "Stadium",
+      "Koleyet El-Banat",
+      "Al-Ahram",
+      "Haroun",
+      "Heliopolis",
+      "Alf Maskan",
+      "Shams Club",
+      "Nozha 1",
+      "Hesham Barakat",
+      "Kebaa",
+      "Omar Ibn El Khataab",
+      "Hikestep",
+      "Adly Mansour"
+    ]
+  },
+  {
+    "id": "metro_T_M_L3_P3B_E",
+    "fid": 7,
+    "route_id": "L3",
+    "num": "M3",
+    "short_en": "Metro Line 3",
+    "short_ar": "مترو الخط 3",
+    "long_en": "Metro Line 3 (Adly Mansour - Kit Kat) (Road Al Farag Axis ➔ Kit Kat)",
+    "long_ar": "مترو الخط 3 (عدلي منصور - الكيت كات) (محور روض الفرج ➔ الكيت كات)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 1,
+    "origin": "محور روض الفرج",
+    "dest": "الكيت كات",
+    "origin_en": "Road Al Farag Axis",
+    "dest_en": "Kit Kat",
+    "len_km": 7.1,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#325F3B",
+    "bounds": [
+      [
+        30.06684,
+        31.18399
+      ],
+      [
+        30.10181,
+        31.21311
+      ]
+    ],
+    "start_pt": [
+      30.10181,
+      31.18424
+    ],
+    "end_pt": [
+      30.06684,
+      31.21301
+    ],
+    "points_count": 21,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "محور روض الفرج",
+      "الطريق الدائري",
+      "القومية العربية",
+      "البوهي",
+      "إمبابة",
+      "السودان",
+      "الكيت كات"
+    ],
+    "via_stops_en": [
+      "Road Al Farag Axis",
+      "Al Daaery",
+      "Qawmeya Arabiya",
+      "Al Bohi",
+      "Imbaba",
+      "Sudan",
+      "Kit Kat"
+    ]
+  },
+  {
+    "id": "metro_T_M_L3_P3C_E",
+    "fid": 8,
+    "route_id": "L3",
+    "num": "M3",
+    "short_en": "Metro Line 3",
+    "short_ar": "مترو الخط 3",
+    "long_en": "Metro Line 3 (Adly Mansour - Kit Kat) (Cairo University ➔ Kit Kat)",
+    "long_ar": "مترو الخط 3 (عدلي منصور - الكيت كات) (جامعة القاهرة ➔ الكيت كات)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 1,
+    "origin": "جامعة القاهرة",
+    "dest": "الكيت كات",
+    "origin_en": "Cairo University",
+    "dest_en": "Kit Kat",
+    "len_km": 5.3,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#325F3B",
+    "bounds": [
+      [
+        30.02618,
+        31.19513
+      ],
+      [
+        30.06684,
+        31.21301
+      ]
+    ],
+    "start_pt": [
+      30.02618,
+      31.20112
+    ],
+    "end_pt": [
+      30.06684,
+      31.21301
+    ],
+    "points_count": 8,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "جامعة القاهرة",
+      "بولاق الدكرور",
+      "جامعة الدول العربية",
+      "وادي النيل",
+      "التوفيقية",
+      "الكيت كات"
+    ],
+    "via_stops_en": [
+      "Cairo University",
+      "Boulaq Dakrour",
+      "Arab Leauge",
+      "Wadi Al Nile",
+      "Al Tawfiqeyya",
+      "Kit Kat"
+    ]
+  },
+  {
+    "id": "metro_T_M_L3_P3B_W",
+    "fid": 9,
+    "route_id": "L3",
+    "num": "M3",
+    "short_en": "Metro Line 3",
+    "short_ar": "مترو الخط 3",
+    "long_en": "Metro Line 3 (Adly Mansour - Kit Kat) (Kit Kat ➔ Road Al Farag Axis)",
+    "long_ar": "مترو الخط 3 (عدلي منصور - الكيت كات) (الكيت كات ➔ محور روض الفرج)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 0,
+    "origin": "الكيت كات",
+    "dest": "محور روض الفرج",
+    "origin_en": "Kit Kat",
+    "dest_en": "Road Al Farag Axis",
+    "len_km": 7.2,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#325F3B",
+    "bounds": [
+      [
+        30.06677,
+        31.18385
+      ],
+      [
+        30.10182,
+        31.21303
+      ]
+    ],
+    "start_pt": [
+      30.06677,
+      31.21299
+    ],
+    "end_pt": [
+      30.10182,
+      31.18408
+    ],
+    "points_count": 22,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "الكيت كات",
+      "إمبابة",
+      "البوهي",
+      "الطريق الدائري",
+      "محور روض الفرج"
+    ],
+    "via_stops_en": [
+      "Kit Kat",
+      "Imbaba",
+      "Al Bohi",
+      "Al Daaery",
+      "Road Al Farag Axis"
+    ]
+  },
+  {
+    "id": "metro_T_L3_W",
+    "fid": 10,
+    "route_id": "L3",
+    "num": "M3",
+    "short_en": "Metro Line 3",
+    "short_ar": "مترو الخط 3",
+    "long_en": "Metro Line 3 (Adly Mansour - Kit Kat) (Adly Mansour ➔ Kit Kat)",
+    "long_ar": "مترو الخط 3 (عدلي منصور - الكيت كات) (عدلي منصور ➔ الكيت كات)",
+    "vehicle": "Metro",
+    "agency": "NAT",
+    "dir": 0,
+    "origin": "عدلي منصور",
+    "dest": "الكيت كات",
+    "origin_en": "Adly Mansour",
+    "dest_en": "Kit Kat",
+    "len_km": 26.7,
+    "fare": "8 - 20 ج.م",
+    "capacity": 2500,
+    "color": "#325F3B",
+    "bounds": [
+      [
+        30.05164,
+        31.21299
+      ],
+      [
+        30.14704,
+        31.4215
+      ]
+    ],
+    "start_pt": [
+      30.14704,
+      31.4215
+    ],
+    "end_pt": [
+      30.06685,
+      31.21299
+    ],
+    "points_count": 191,
+    "sub_districts": [
+      "شبكة مترو القاهرة الكبرى"
+    ],
+    "via_stops": [
+      "عدلي منصور",
+      "الهايكستب",
+      "عمر بن الخطاب",
+      "قباء",
+      "هشام بركات",
+      "النزهة",
+      "نادي الشمس",
+      "ألف مسكن",
+      "هليوبوليس",
+      "هارون",
+      "الأهرام (مصر الجديدة)",
+      "كلية البنات",
+      "الاستاد",
+      "أرض المعارض",
+      "العباسية",
+      "عبده باشا",
+      "الجيش",
+      "باب الشعرية",
+      "العتبة",
+      "جمال عبد الناصر",
+      "ماسبيرو",
+      "صفاء حجازي (الزمالك)",
+      "الكيت كات"
+    ],
+    "via_stops_en": [
+      "Adly Mansour",
+      "Hikestep",
+      "Omar Ibn El Khataab",
+      "Kebaa",
+      "Hesham Barakat",
+      "Nozha 1",
+      "Shams Club",
+      "Alf Maskan",
+      "Heliopolis",
+      "Haroun",
+      "Al-Ahram",
+      "Koleyet El-Banat",
+      "Stadium",
+      "Fair Zone",
+      "Abbassiya",
+      "Abdou Pasha",
+      "El-Geish",
+      "Bab El-Shaaria",
+      "Attaba",
+      "Nasser",
+      "Maspero",
+      "Safaa Hegazy",
+      "Kit Kat"
+    ]
+  }
+]

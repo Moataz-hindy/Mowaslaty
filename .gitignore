@@ -1,6 +1,17 @@
 # dependencies & builds
 node_modules/
 dist/
+dist-android/
+android/.gradle/
+android/local.properties
+android/**/build/
+android/captures/
+android/.idea/
+android/keystore.properties
+*.jks
+*.keystore
+public/downloads/*.apk
+public/downloads/*.apk.sha256
 
 # local backups / scratch
 _backups/

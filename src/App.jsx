@@ -12,6 +12,9 @@ import { MapPin, LocateFixed, X } from 'lucide-react';
 import { useGeolocation } from './utils/useGeolocation';
 import { buildTrack, updateTrack } from './utils/tripTracker';
 import TripTracker from './components/TripTracker';
+import useMultiStopPlanner from './utils/useMultiStopPlanner';
+import { buildMultiStopLegs, filterMultiStopPlan, journeyOptionKey } from './utils/multiStopPlanner';
+import { rideLegs } from './utils/journey';
 
 
 export default function App() {
@@ -51,21 +54,12 @@ export default function App() {
 
   const [targetCoord, setTargetCoord] = useState(null);
   const [targetLabel, setTargetLabel] = useState(null);   // place name, when known
-  const [rideCoord, setRideCoord] = useState(null);       // optional ride-from point
-  const [rideLabel, setRideLabel] = useState(null);
-  const [requireBothPoints, setRequireBothPoints] = useState(false);
   const [nearestVehicleFilter, setNearestVehicleFilter] = useState('ALL');
-  const [nearestSelectingRide, setNearestSelectingRide] = useState(false);
   const [flyToRequest, setFlyToRequest] = useState(null); // { coord, n }
   const clearTarget = () => {
     setTargetCoord(null);
     setTargetLabel(null);
     setActiveNearest(null);
-  };
-  const clearRide = () => {
-    setRideCoord(null);
-    setRideLabel(null);
-    setNearestSelectingRide(false);
   };
   const [activeNearest, setActiveNearest] = useState(null);
   const [selectedLineForNearest, setSelectedLineForNearest] = useState(null);
@@ -78,8 +72,91 @@ export default function App() {
   const [plannerSelecting, setPlannerSelecting] = useState('origin');
   const [activeJourney, setActiveJourney] = useState(null);
 
+  const [multiStops, setMultiStops] = useState([
+    { id: 'multi-start', coord: null, label: '' },
+    { id: 'multi-end', coord: null, label: '' }
+  ]);
+  const [multiPickingId, setMultiPickingId] = useState(null);
+  const [multiVehicleFilter, setMultiVehicleFilter] = useState('ALL');
+  const [multiSelections, setMultiSelections] = useState({});
+  const [multiActiveLegKey, setMultiActiveLegKey] = useState(null);
+  const multiPlanner = useMultiStopPlanner({ points: multiStops, routes, geometries, stops, vehicleFilter: multiVehicleFilter });
+
+  const applyMultiStops = next => {
+    const keys = new Set(buildMultiStopLegs(next, { vehicle: multiVehicleFilter }).map(leg => leg.key));
+    setMultiStops(next);
+    setMultiSelections(current => Object.fromEntries(Object.entries(current).filter(([key]) => keys.has(key))));
+    setMultiActiveLegKey(current => keys.has(current) ? current : null);
+  };
+  const updateMultiPoint = (id, change) => applyMultiStops(multiStops.map(point => point.id === id ? { ...point, ...change } : point));
+  const addMultiPoint = () => {
+    if (multiStops.length >= 6) return;
+    applyMultiStops([...multiStops, { id: `multi-${Date.now()}-${Math.random().toString(36).slice(2)}`, coord: null, label: '' }]);
+  };
+  const removeMultiPoint = id => {
+    if (multiStops.length > 2) applyMultiStops(multiStops.filter(point => point.id !== id));
+    setMultiPickingId(current => current === id ? null : current);
+  };
+  const moveMultiPoint = (id, delta) => {
+    const index = multiStops.findIndex(point => point.id === id);
+    const target = index + delta;
+    if (index < 0 || target < 0 || target >= multiStops.length) return;
+    const next = [...multiStops];
+    [next[index], next[target]] = [next[target], next[index]];
+    applyMultiStops(next);
+  };
+  const setMultiPointFromMap = location => {
+    if (!multiPickingId || !location?.coord) return false;
+    updateMultiPoint(multiPickingId, { coord: location.coord, label: location.name || `${location.coord[0].toFixed(5)}, ${location.coord[1].toFixed(5)}` });
+    setMultiPickingId(null);
+    setSearchLocation(null);
+    return true;
+  };
+
+  const filteredMultiLegs = multiPlanner.legs.map(leg => ({
+    ...leg,
+    filteredPlan: leg.plan ? filterMultiStopPlan(leg.plan, multiVehicleFilter) : null
+  }));
+  const optionFor = (leg, optionKey) => {
+    if (!leg?.filteredPlan) return null;
+    return [...leg.filteredPlan.directRoutes, ...leg.filteredPlan.transferRoutes].find(item => journeyOptionKey(item) === optionKey) || null;
+  };
+  const multiOptionsForLeg = leg => leg?.filteredPlan ? [...leg.filteredPlan.directRoutes, ...leg.filteredPlan.transferRoutes] : [];
+  const activeMultiLeg = filteredMultiLegs.find(leg => leg.key === multiActiveLegKey && optionFor(leg, multiSelections[leg.key])) || filteredMultiLegs.find(leg => multiSelections[leg.key] && optionFor(leg, multiSelections[leg.key])) || filteredMultiLegs.find(leg => multiOptionsForLeg(leg).length > 0) || null;
+  const activeMultiOptionKey = activeMultiLeg && (optionFor(activeMultiLeg, multiSelections[activeMultiLeg.key]) ? multiSelections[activeMultiLeg.key] : journeyOptionKey(multiOptionsForLeg(activeMultiLeg)[0]));
+  const activeMultiJourney = activeMultiLeg ? optionFor(activeMultiLeg, activeMultiOptionKey) : null;
+  const activeMultiRoute = activeMultiJourney ? rideLegs(activeMultiJourney)[0]?.route : null;
+  const changeMultiVehicleFilter = vehicle => {
+    setMultiSelections(current => Object.fromEntries(Object.entries(current).filter(([legKey, optionKey]) => {
+      const leg = multiPlanner.legs.find(item => item.key === legKey);
+      if (!leg) return false;
+      if (!leg.plan && leg.status === 'loading') return true;
+      if (!leg.plan) return false;
+      const filtered = filterMultiStopPlan(leg.plan, vehicle);
+      return [...filtered.directRoutes, ...filtered.transferRoutes].some(item => journeyOptionKey(item) === optionKey);
+    })));
+    setMultiActiveLegKey(current => {
+      const leg = multiPlanner.legs.find(item => item.key === current);
+      if (!leg?.plan) return null;
+      const filtered = filterMultiStopPlan(leg.plan, vehicle);
+      return [...filtered.directRoutes, ...filtered.transferRoutes].some(item => journeyOptionKey(item) === multiSelections[current]) ? current : null;
+    });
+    setMultiVehicleFilter(vehicle);
+  };
+  const multiStopProps = {
+    points: multiStops, legs: multiPlanner.legs, pickingId: multiPickingId, vehicleFilter: multiVehicleFilter,
+    selection: activeMultiLeg ? { legKey: activeMultiLeg.key, optionKey: activeMultiOptionKey } : null, stops,
+    onChangePoint: updateMultiPoint, onAddPoint: addMultiPoint, onRemovePoint: removeMultiPoint, onMovePoint: moveMultiPoint,
+    onPickPoint: id => setMultiPickingId(id), onFilterChange: changeMultiVehicleFilter,
+    onSelectJourney: (legKey, optionKey) => {
+      setMultiActiveLegKey(legKey);
+      setMultiSelections(current => ({ ...current, [legKey]: optionKey }));
+    }, onRetry: multiPlanner.retry
+  };
+
   // Map Search Location State
   const [searchLocation, setSearchLocation] = useState(null);
+  const [mapSearchFocused, setMapSearchFocused] = useState(false);
 
   // App settings
   const [lang, setLang] = useState('ar');
@@ -153,9 +230,6 @@ export default function App() {
     let cancelled = false;
     setNearestLoading(true);
     computeNearest(targetCoord, { routes, geometries, stops }, 2000, {
-      rideCoord: requireBothPoints ? rideCoord : null,
-      requireBoth: Boolean(rideCoord && requireBothPoints),
-      maxRideDistance: 1500,
       quotaPerCategory: 25
     })
       .then(res => {
@@ -168,7 +242,7 @@ export default function App() {
       .catch(err => { if (!cancelled) { console.error(err); setNearestResults([]); } })
       .finally(() => { if (!cancelled) setNearestLoading(false); });
     return () => { cancelled = true; };
-  }, [targetCoord, rideCoord, requireBothPoints, routes, geometries, stops]);
+  }, [targetCoord, routes, geometries, stops]);
 
   // Phase 2: Calculate Nearest Drop Point for a chosen specific line
   const selectedLineDrop = useMemo(() => {
@@ -209,7 +283,7 @@ export default function App() {
 
   // Drop-off shown in the route card (only if it belongs to the shown line)
   const drawerDrop = (() => {
-    if (!targetCoord || !selectedRoute || activeTab === 'planner') return null;
+    if (!targetCoord || !selectedRoute || activeTab === 'planner' || activeTab === 'multi') return null;
     const candidate = activeTab === 'nearest' ? activeNearest : routeDrop;
     return candidate && candidate.route && candidate.route.id === selectedRoute.id ? candidate : routeDrop;
   })();
@@ -218,49 +292,55 @@ export default function App() {
   const EMPTY_PLAN = { directRoutes: [], transferRoutes: [] };
   const [plannedJourneys, setPlannedJourneys] = useState(EMPTY_PLAN);
   const [planLoading, setPlanLoading] = useState(false);
+  const [planError, setPlanError] = useState(null);
+  const [planRetry, setPlanRetry] = useState(0);
   useEffect(() => {
-    if (!originCoord || !destCoord || !geometries || routes.length === 0) {
+    setActiveJourney(null);
+    if (!originCoord || !destCoord || routes.length === 0) {
       setPlannedJourneys(EMPTY_PLAN);
       setPlanLoading(false);
+      setPlanError(null);
       return;
     }
     let cancelled = false;
+    setPlannedJourneys(EMPTY_PLAN);
     setPlanLoading(true);
-    computePlan(originCoord, destCoord, { routes, geometries, stops }, 1200)
+    setPlanError(null);
+    computePlan(originCoord, destCoord, { routes, geometries, stops }, 1200, { vehicle: vehicleFilter, maxTransferWalkMeters: 600,
+      maxTotalWalkMeters: 3600, maxTransfers: 2 })
       .then(res => {
         if (cancelled) return;
-        const plan = res || EMPTY_PLAN;
-        setPlannedJourneys({
-          directRoutes: (plan.directRoutes || []).map(j => ({ ...j, route: relinkRoute(j.route) })),
-          transferRoutes: (plan.transferRoutes || []).map(j => ({
-            ...j,
-            leg1: { ...j.leg1, route: relinkRoute(j.leg1.route) },
-            leg2: { ...j.leg2, route: relinkRoute(j.leg2.route) }
-          }))
-        });
+        setPlannedJourneys(res || EMPTY_PLAN);
       })
-      .catch(err => { if (!cancelled) { console.error(err); setPlannedJourneys(EMPTY_PLAN); } })
+      .catch(err => { if (!cancelled) { console.error(err); setPlanError(err?.message || String(err)); setPlannedJourneys(EMPTY_PLAN); } })
       .finally(() => { if (!cancelled) setPlanLoading(false); });
     return () => { cancelled = true; };
-  }, [originCoord, destCoord, routes, geometries, stops]);
+  }, [originCoord, destCoord, routes, geometries, stops, vehicleFilter, planRetry]);
 
   // Automatically select the best direct journey when calculated
   useEffect(() => {
+    if (activeTab !== 'planner') return;
     if (plannedJourneys.directRoutes && plannedJourneys.directRoutes.length > 0) {
       const best = plannedJourneys.directRoutes[0];
       setActiveJourney(best);
-      setSelectedRoute(best.route);
+      setSelectedRoute(rideLegs(best)[0]?.route || null);
     } else if (plannedJourneys.transferRoutes && plannedJourneys.transferRoutes.length > 0) {
       const bestTransfer = plannedJourneys.transferRoutes[0];
       setActiveJourney(bestTransfer);
-      setSelectedRoute(bestTransfer.leg1.route);
+      setSelectedRoute(rideLegs(bestTransfer)[0]?.route || null);
     } else {
       setActiveJourney(null);
     }
-  }, [plannedJourneys]);
+  }, [plannedJourneys, activeTab]);
 
   // Map Click Handler for all modes
   const handleMapClick = (coord) => {
+    if (activeTab === 'multi') {
+      if (!multiPickingId) return;
+      updateMultiPoint(multiPickingId, { coord, label: `${coord[0].toFixed(5)}, ${coord[1].toFixed(5)}` });
+      setMultiPickingId(null);
+      return;
+    }
     if (activeTab === 'planner') {
       if (plannerSelecting === 'origin' || !originCoord) {
         setOriginCoord(coord);
@@ -274,20 +354,10 @@ export default function App() {
         setPlannerSelecting('dest');
       }
     } else {
-      // Nearest mode
-      if (nearestSelectingRide) {
-        setRideCoord(coord);
-        setRideLabel(null);
-        setNearestSelectingRide(false);
-        setRequireBothPoints(true);
-      } else {
-        setTargetCoord(coord);
-        setTargetLabel(null);
-        setActiveNearest(null);
-        if (activeTab !== 'nearest') {
-          setActiveTab('nearest');
-        }
-      }
+      setTargetCoord(coord);
+      setTargetLabel(null);
+      setActiveNearest(null);
+      setActiveTab('nearest');
     }
   };
 
@@ -395,6 +465,26 @@ export default function App() {
     }
   };
 
+  // Let the native system back button dismiss the planner's active layer first.
+  useEffect(() => {
+    const onNativeBack = event => {
+      if (trip) {
+        stopTrip();
+        geo.stop();
+      } else if (selectedRoute) {
+        setSelectedRoute(null);
+        setActiveNearest(null);
+      } else if (geoNotice) {
+        setGeoNotice(null);
+      } else if (activeTab !== 'explore') {
+        setActiveTab('explore');
+      } else return;
+      event.preventDefault();
+    };
+    window.addEventListener('mowaslaty:native-back', onNativeBack);
+    return () => window.removeEventListener('mowaslaty:native-back', onNativeBack);
+  }, [trip, selectedRoute, geoNotice, activeTab, geo.stop]);
+
   return (
     <div className="app-layout">
       {/* Sidebar with 3 Modes */}
@@ -423,21 +513,8 @@ export default function App() {
           setTargetLabel(label);
           setActiveNearest(null);
         }}
-        rideCoord={rideCoord}
-        setRideCoord={(c, label = null) => {
-          if (!c) { clearRide(); return; }
-          setRideCoord(c);
-          setRideLabel(label);
-          setRequireBothPoints(true);
-        }}
-        rideLabel={rideLabel}
-        clearRide={clearRide}
-        requireBothPoints={requireBothPoints}
-        setRequireBothPoints={setRequireBothPoints}
         nearestVehicleFilter={nearestVehicleFilter}
         setNearestVehicleFilter={setNearestVehicleFilter}
-        nearestSelectingRide={nearestSelectingRide}
-        setNearestSelectingRide={setNearestSelectingRide}
         nearestResults={nearestResults}
         nearestLoading={nearestLoading}
         activeNearest={activeNearest}
@@ -457,14 +534,19 @@ export default function App() {
         onLocate={handleLocate}
         onStartTrip={startTrip}
         planLoading={planLoading}
+        planError={planError}
+        onRetryPlan={() => setPlanRetry(value => value + 1)}
+        planningVehicle={vehicleFilter}
         activeJourney={activeJourney}
         setActiveJourney={setActiveJourney}
         onSwapPoints={handleSwapPoints}
+        multiStopProps={{ ...multiStopProps, onShowMap: () => {} }}
         lang={lang}
         setLang={setLang}
         theme={theme}
         setTheme={setTheme}
         t={t}
+        mapSearchFocused={mapSearchFocused}
       />
 
       {/* Main Map Area */}
@@ -478,12 +560,17 @@ export default function App() {
             setSearchLocation(loc);
           }}
           onClearLocation={() => setSearchLocation(null)}
-          destination={targetCoord && activeTab !== 'planner' ? {
+          activeTab={activeTab}
+          multiStopTarget={multiPickingId ? { id: multiPickingId, number: multiStops.findIndex(point => point.id === multiPickingId) + 1 } : null}
+          onSetMultiStopLocation={setMultiPointFromMap}
+          plannerSelecting={plannerSelecting}
+          destination={targetCoord && activeTab === 'nearest' ? {
             label: targetLabel,
             coord: targetCoord,
             onClear: clearTarget,
             onFocus: () => setFlyToRequest(prev => ({ coord: targetCoord, n: (prev?.n || 0) + 1 }))
           } : null}
+          onFocusChange={setMapSearchFocused}
           onSelectRoute={(r) => {
             setSelectedRoute(r);
             setSearchLocation(null);
@@ -491,42 +578,39 @@ export default function App() {
           onSetTargetCoord={(coord) => {
             setTargetCoord(coord);
             setTargetLabel(searchLocation ? searchLocation.name : null);
+            setSearchLocation(null);
             setActiveNearest(null);
             setSelectedLineForNearest(null);
             setActiveTab('nearest');
           }}
           onSetOriginCoord={(coord) => {
             setOriginCoord(coord);
+            setSearchLocation(null);
             setPlannerSelecting(destCoord ? null : 'dest');
             setActiveTab('planner');
           }}
           onSetDestCoord={(coord) => {
             setDestCoord(coord);
+            setSearchLocation(null);
             setPlannerSelecting(null);
             setActiveTab('planner');
-          }}
-          onFilterNearbyRoutes={(name) => {
-            setSearchQuery(name.split(' ')[0]);
-            setActiveTab('explore');
           }}
           lang={lang}
         />
 
         <MapComponent
-          selectedRoute={selectedRoute}
+          selectedRoute={activeTab === 'multi' ? activeMultiRoute : selectedRoute}
           geometries={geometries}
           targetCoord={targetCoord}
-          rideCoord={rideCoord}
-          requireBothPoints={requireBothPoints}
-          nearestSelectingRide={nearestSelectingRide}
           onMapClick={handleMapClick}
           activeNearest={mapNearest}
           searchLocation={searchLocation}
           // Phase 3 props
           activeTab={activeTab}
-          originCoord={originCoord}
-          destCoord={destCoord}
-          activeJourney={activeJourney}
+          originCoord={activeTab === 'multi' ? activeMultiLeg?.from.coord : originCoord}
+          destCoord={activeTab === 'multi' ? activeMultiLeg?.to.coord : destCoord}
+          activeJourney={activeTab === 'multi' ? activeMultiJourney : activeJourney}
+          journeyPointNumbers={activeTab === 'multi' && activeMultiLeg ? [multiStops.findIndex(point => point.id === activeMultiLeg.from.id) + 1, multiStops.findIndex(point => point.id === activeMultiLeg.to.id) + 1] : null}
           stops={stops}
           showStops={showStops}
           fitRequest={fitRequest}
@@ -593,7 +677,7 @@ export default function App() {
           />
         )}
 
-        {!trip && <RouteDrawer
+        {!trip && activeTab !== 'multi' && <RouteDrawer
           selectedRoute={selectedRoute}
           onClose={() => {
             setSelectedRoute(null);

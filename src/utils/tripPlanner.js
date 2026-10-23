@@ -1,195 +1,273 @@
-import * as turf from '@turf/turf';
+import { createRoutingIndex, distanceMeters, validCoord } from './routingNetwork.js';
+import { matchesVehicle, journeyRidePath, nearestPointOnRidePath } from './journey.js';
 
-// Major Cairo Transit Transfer Hubs for multi-leg journeys
-export const CAIRO_TRANSFER_HUBS = [
-  { id: 'ramses', name_ar: 'ميدان رمسيس', name_en: 'Ramses Square', coord: [30.0622, 31.2468] },
-  { id: 'tahrir', name_ar: 'ميدان التحرير / عبد المنعم رياض', name_en: 'Tahrir / Abd El Moneim Riad', coord: [30.0444, 31.2357] },
-  { id: 'giza_sq', name_ar: 'ميدان الجيزة', name_en: 'Giza Square', coord: [30.0124, 31.2085] },
-  { id: 'abbasseya', name_ar: 'ميدان العباسية', name_en: 'Abbasseya Square', coord: [30.0682, 31.2825] },
-  { id: 'ataba', name_ar: 'ميدان العتبة', name_en: 'Ataba Square', coord: [30.0523, 31.2482] },
-  { id: 'roxy', name_ar: 'ميدان روكسي (مصر الجديدة)', name_en: 'Roxy Square', coord: [30.0936, 31.3144] },
-  { id: 'salam', name_ar: 'موقف السلام (موقف العاشر)', name_en: 'Salam Station (10th of Ramadan)', coord: [30.1542, 31.4095] },
-  { id: 'kitkat', name_ar: 'ميدان الكيت كات (إمبابة)', name_en: 'Kit Kat Square', coord: [30.0657, 31.2135] }
-];
-
-/**
- * Fast Bounding Box check helper
- */
-function boundsCoverPoint(bounds, lat, lng, bufferDeg) {
-  if (!bounds) return false;
-  return (
-    lat >= bounds[0][0] - bufferDeg &&
-    lat <= bounds[1][0] + bufferDeg &&
-    lng >= bounds[0][1] - bufferDeg &&
-    lng <= bounds[1][1] + bufferDeg
-  );
+const DEFAULTS = { maxWalkMeters: 1200, maxTransferWalkMeters: 600, maxTotalWalkMeters: 3600, maxTransfers: 2, vehicle: 'ALL' };
+const EMPTY = (status, metadata = {}) => ({ status, directRoutes: [], transferRoutes: [], metadata });
+const coordFor = (index, stopId) => {
+  const stop = index.stopsById.get(stopId);
+  return stop ? [Number(stop.lat), Number(stop.lng)] : null;
+};
+const routeOf = (_index, trip) => trip.route;
+const pathIdentity = rides => rides.map(ride => `${ride.trip.id}:${ride.from.sequence}-${ride.to.sequence}${ride.flexibleDrop ? `@${ride.dropCoord.map(value => Number(value).toFixed(5)).join(',')}` : ''}`).join('|');
+const candidateIdentity = rides => rides.map(ride => ride.trip.route.route_id || ride.trip.route.id).join('|');
+function historyRides(history) {
+  const rides = [];
+  for (let node = history; node; node = node.parent) rides.push(node.ride);
+  return rides.reverse();
+}
+function identityOf(label) {
+  if (!label.identity) label.identity = pathIdentity(label.rides || historyRides(label.history));
+  return label.identity;
+}
+function hasForwardSameTripContinuation(rides) {
+  return rides.some((ride, index) => index > 0 && rides[index - 1].trip.id === ride.trip.id &&
+    Number(ride.from.sequence) >= Number(rides[index - 1].to.sequence));
+}
+function elapsedMinutes(label) {
+  return label.rideMeters * 0.003 + label.walkMeters / 80;
 }
 
-/**
- * Ultra-fast A-to-B journey planner with strict O(N) bounding-box pre-filtering
- */
-export function planJourney(originCoord, destCoord, routesSummary, routesGeometry, stopsSummary = [], maxWalkDistance = 1200) {
-  if (!originCoord || !destCoord || !routesGeometry || routesSummary.length === 0) {
-    return { directRoutes: [], transferRoutes: [] };
+function addPareto(frontierByStop, label) {
+  const previous = frontierByStop.get(label.stopId) || [];
+  const identity = identityOf(label);
+  for (const other of previous) {
+    const noWorse = other.walkMeters <= label.walkMeters && elapsedMinutes(other) <= elapsedMinutes(label);
+    if (noWorse && (other.walkMeters < label.walkMeters || elapsedMinutes(other) < elapsedMinutes(label) || identityOf(other) <= identity)) return false;
   }
+  const kept = previous.filter(other => !(label.walkMeters <= other.walkMeters && elapsedMinutes(label) <= elapsedMinutes(other) &&
+    (label.walkMeters < other.walkMeters || elapsedMinutes(label) < elapsedMinutes(other) || identity < identityOf(other))));
+  kept.push(label);
+  frontierByStop.set(label.stopId, kept);
+  return true;
+}
 
-  const [oLat, oLng] = originCoord;
-  const [dLat, dLng] = destCoord;
-
-  const originPoint = turf.point([oLng, oLat]);
-  const destPoint = turf.point([dLng, dLat]);
-
-  const degBuffer = (maxWalkDistance / 1000) * 0.01;
-
-  const directResults = [];
-
-  // 1. Direct Routes Search (only routes whose bounding box covers BOTH Origin and Dest)
-  for (const route of routesSummary) {
-    const coversOrigin = boundsCoverPoint(route.bounds, oLat, oLng, degBuffer);
-    const coversDest = boundsCoverPoint(route.bounds, dLat, dLng, degBuffer);
-
-    if (!coversOrigin || !coversDest) continue;
-
-    const coords = routesGeometry[route.id];
-    if (!coords || coords.length < 2) continue;
-
-    try {
-      const turfCoords = coords.map(c => [c[1], c[0]]);
-      const line = turf.lineString(turfCoords);
-
-      const pickupNearest = turf.nearestPointOnLine(line, originPoint, { units: 'kilometers' });
-      const dropNearest = turf.nearestPointOnLine(line, destPoint, { units: 'kilometers' });
-
-      const walkToPickup = Math.round(pickupNearest.properties.dist * 1000);
-      const walkFromDrop = Math.round(dropNearest.properties.dist * 1000);
-
-      if (walkToPickup > maxWalkDistance || walkFromDrop > maxWalkDistance) continue;
-
-      const pickupIndex = pickupNearest.properties.location;
-      const dropIndex = dropNearest.properties.location;
-
-      // Must be traveled in correct direction
-      if (pickupIndex >= dropIndex) continue;
-
-      const rideDistanceKm = Math.round((dropIndex - pickupIndex) * 10) / 10;
-      const estRideMinutes = Math.max(5, Math.round(rideDistanceKm * 3));
-      const walkToPickupMinutes = Math.max(1, Math.round(walkToPickup / 80));
-      const walkFromDropMinutes = Math.max(1, Math.round(walkFromDrop / 80));
-      const totalTimeMinutes = walkToPickupMinutes + estRideMinutes + walkFromDropMinutes;
-
-      directResults.push({
-        type: 'direct',
-        route,
-        pickupCoord: [pickupNearest.geometry.coordinates[1], pickupNearest.geometry.coordinates[0]],
-        dropCoord: [dropNearest.geometry.coordinates[1], dropNearest.geometry.coordinates[0]],
-        walkToPickupMeters: walkToPickup,
-        walkFromDropMeters: walkFromDrop,
-        totalWalkMeters: walkToPickup + walkFromDrop,
-        rideDistanceKm,
-        walkToPickupMinutes,
-        walkFromDropMinutes,
-        estRideMinutes,
-        totalTimeMinutes
-      });
-    } catch (e) {}
+function makeJourney(index, origin, destination, rides, walks, egress) {
+  const finalWalks = [...walks, egress];
+  const rideLegData = rides.map(ride => {
+    const fromCoord = coordFor(index, ride.from.stopId);
+    const toCoord = ride.dropCoord || coordFor(index, ride.to.stopId);
+    const path = ride.path || ride.trip.calls.slice(ride.fromIndex, ride.toIndex + 1)
+      .map(call => coordFor(index, call.stopId)).filter(Boolean);
+    const meters = ride.distanceMeters ?? Math.max(0, Number(ride.to.distanceMeters) - Number(ride.from.distanceMeters));
+    const toStop = ride.flexibleDrop
+      ? { nameAr: 'نقطة النزول المقترحة', nameEn: 'Suggested drop point' }
+      : index.stopsById.get(ride.to.stopId);
+    return { kind: 'ride', route: routeOf(index, ride.trip), tripId: ride.trip.id,
+      fromStop: index.stopsById.get(ride.from.stopId), toStop, flexibleDrop: Boolean(ride.flexibleDrop),
+      fromSequence: Number(ride.from.sequence), toSequence: Number(ride.to.sequence), fromCoord, toCoord,
+      distanceMeters: meters, durationMinutes: meters / 1000 * 3, path, source: ride.trip.source || 'network',
+      distanceEstimated: ride.trip.distanceEstimated !== false && ride.from.distanceEstimated !== false && ride.to.distanceEstimated !== false };
+  });
+  const legs = [];
+  for (let i = 0; i < rideLegData.length; i++) {
+    const walk = finalWalks[i];
+    legs.push({ kind: 'walk', fromCoord: walk.fromCoord, toCoord: walk.toCoord, distanceMeters: walk.meters,
+      durationMinutes: walk.meters / 80, verification: 'estimated', purpose: walk.purpose });
+    legs.push(rideLegData[i]);
   }
+  const lastWalk = finalWalks[finalWalks.length - 1];
+  legs.push({ kind: 'walk', fromCoord: lastWalk.fromCoord, toCoord: lastWalk.toCoord, distanceMeters: lastWalk.meters,
+    durationMinutes: lastWalk.meters / 80, verification: 'estimated', purpose: lastWalk.purpose });
+  const transfers = Math.max(0, rides.length - 1);
+  const totalWalkMeters = finalWalks.reduce((sum, walk) => sum + walk.meters, 0);
+  const totalRideKm = rideLegData.reduce((sum, leg) => sum + leg.distanceMeters / 1000, 0);
+  const totalTimeMinutes = rideLegData.reduce((sum, leg) => sum + leg.durationMinutes, 0) + finalWalks.reduce((sum, walk) => sum + walk.meters / 80, 0);
+  const id = pathIdentity(rides);
+  return { id, type: transfers ? 'transfer' : 'direct', legs, transfers, totalWalkMeters: Math.round(totalWalkMeters),
+    totalRideKm: Math.round(totalRideKm * 10) / 10, totalTimeMinutes: Math.round(totalTimeMinutes * 10) / 10,
+    estimated: true, warnings: ['historical-service-data', 'waiting-time-unknown', 'walking-estimated'],
+    rankingMinutes: totalTimeMinutes + 5 * transfers, _origin: origin, _destination: destination };
+}
 
-  directResults.sort((a, b) => a.totalWalkMeters - b.totalWalkMeters);
+function compareCandidates(a, b) {
+  return a.rankingMinutes - b.rankingMinutes || a.totalWalkMeters - b.totalWalkMeters || a.transfers - b.transfers || a.id.localeCompare(b.id);
+}
 
-  // 2. Transfer Routes (Only if direct routes are few, and strictly bounding-box pruned!)
-  const transferResults = [];
+export function planJourney(originCoord, destinationCoord, network, options = {}) {
+  const opts = { ...DEFAULTS, ...options };
+  if (!validCoord(originCoord) || !validCoord(destinationCoord) || !network) return EMPTY('invalid-input');
+  const origin = [Number(originCoord[0]), Number(originCoord[1])];
+  const destination = [Number(destinationCoord[0]), Number(destinationCoord[1])];
+  if (distanceMeters(origin, destination) <= 0.01) return EMPTY('same-point', { networkVersion: network.version ?? null });
+  if (![opts.maxWalkMeters, opts.maxTransferWalkMeters, opts.maxTotalWalkMeters, opts.maxTransfers].every(Number.isFinite) ||
+      opts.maxWalkMeters < 0 || opts.maxWalkMeters > 20000 || opts.maxTransferWalkMeters < 0 || opts.maxTransferWalkMeters > 20000 ||
+      opts.maxTotalWalkMeters < 0 || opts.maxTotalWalkMeters > 20000 || opts.maxTransfers < 0) return EMPTY('invalid-input');
 
-  if (directResults.length < 3) {
-    const hubBuffer = 0.008; // ~800m buffer for hubs
+  const index = createRoutingIndex(network);
+  const geometries = opts.geometries || {};
+  const eligible = index.trips.filter(trip => matchesVehicle(routeOf(index, trip), opts.vehicle));
+  const eligibleBoardings = new Map();
+  const eligibleTripSet = new Set(eligible.map(trip => trip.id));
+  for (const [stopId, boardings] of index.boardingByStop) {
+    const kept = boardings.filter(item => eligibleTripSet.has(index.trips[item.tripIndex].id));
+    if (kept.length) eligibleBoardings.set(stopId, kept);
+  }
+  const origins = index.nearbyStops(origin, opts.maxWalkMeters);
+  const destinations = index.nearbyStops(destination, opts.maxWalkMeters);
+  if (!origins.length || !destinations.length) return EMPTY('no-nearby-stops', { networkVersion: index.version, eligibleTrips: eligible.length, invalidTrips: index.rejectedTrips });
 
-    for (const hub of CAIRO_TRANSFER_HUBS) {
-      const [hLat, hLng] = hub.coord;
-      const hubPoint = turf.point([hLng, hLat]);
+  const transferLimit = Math.min(2, Math.floor(opts.maxTransfers));
+  const totalLimit = opts.maxTotalWalkMeters;
+  const direct = new Map();
+  const transfers = new Map();
+  const nearbyCache = new Map();
+  const flexibleDropCache = new Map();
+  const nearbyByStop = (stopId, radius) => {
+    const key = `${stopId}:${radius}`;
+    if (!nearbyCache.has(key)) nearbyCache.set(key, index.nearbyStops(coordFor(index, stopId), radius));
+    return nearbyCache.get(key);
+  };
+  const flexiblePathFor = trip => {
+    const key = trip.id;
+    if (flexibleDropCache.has(key)) return flexibleDropCache.get(key);
+    if (trip.calls.length < 2 || trip.route.vehicle === 'Metro') {
+      flexibleDropCache.set(key, null);
+      return null;
+    }
+    const fullPath = journeyRidePath({ route: trip.route,
+      fromCoord: coordFor(index, trip.calls[0].stopId), toCoord: coordFor(index, trip.calls.at(-1).stopId) }, geometries);
+    const result = fullPath.estimated ? null : fullPath.path;
+    flexibleDropCache.set(key, result);
+    return result;
+  };
+  const flexibleDropFor = (trip, fromIndex) => {
+    const key = `${trip.id}:${fromIndex}`;
+    if (flexibleDropCache.has(key)) return flexibleDropCache.get(key);
+    const path = flexiblePathFor(trip);
+    const toIndex = trip.calls.length - 1;
+    if (!path || toIndex <= fromIndex) {
+      flexibleDropCache.set(key, null);
+      return null;
+    }
+    const totalTripMeters = Number(trip.calls[toIndex].distanceMeters) - Number(trip.calls[0].distanceMeters);
+    const expectedStartFraction = totalTripMeters > 0
+      ? (Number(trip.calls[fromIndex].distanceMeters) - Number(trip.calls[0].distanceMeters)) / totalTripMeters
+      : fromIndex / toIndex;
+    const projection = nearestPointOnRidePath(path, destination, coordFor(index, trip.calls[fromIndex].stopId), expectedStartFraction);
+    if (!projection) {
+      flexibleDropCache.set(key, null);
+      return null;
+    }
+    const estimatedMeters = Math.max(0, Number(trip.calls[toIndex].distanceMeters) - Number(trip.calls[fromIndex].distanceMeters)) * projection.fraction;
+    const result = { ...projection, toIndex, distanceMeters: estimatedMeters };
+    flexibleDropCache.set(key, result);
+    return result;
+  };
+  let scannedCalls = 0;
+  let expandedLabels = 0;
+  let prunedByBound = 0;
+  let seeds = [];
+  for (const originItem of origins) {
+    if (!(eligibleBoardings.get(originItem.stop.id) || []).length) continue;
+    seeds.push({ stopId: originItem.stop.id, ridesCount: 0, history: null,
+      walks: [{ fromCoord: origin, toCoord: coordFor(index, originItem.stop.id), meters: originItem.meters, purpose: 'access' }],
+      walkMeters: originItem.meters, rideMeters: 0 });
+  }
+  if (!seeds.length) return EMPTY('no-service', { networkVersion: index.version, eligibleTrips: eligible.length });
 
-      // Only check routes that cover Origin AND Hub for Leg 1
-      const leg1Candidates = routesSummary.filter(r => 
-        boundsCoverPoint(r.bounds, oLat, oLng, degBuffer) &&
-        boundsCoverPoint(r.bounds, hLat, hLng, hubBuffer)
-      );
-
-      // Only check routes that cover Hub AND Dest for Leg 2
-      const leg2Candidates = routesSummary.filter(r => 
-        boundsCoverPoint(r.bounds, hLat, hLng, hubBuffer) &&
-        boundsCoverPoint(r.bounds, dLat, dLng, degBuffer)
-      );
-
-      if (leg1Candidates.length === 0 || leg2Candidates.length === 0) continue;
-
-      // Evaluate best leg 1
-      let bestLeg1 = null;
-      for (const r of leg1Candidates.slice(0, 5)) {
-        const coords = routesGeometry[r.id];
-        if (!coords) continue;
-        try {
-          const line = turf.lineString(coords.map(c => [c[1], c[0]]));
-          const pOrig = turf.nearestPointOnLine(line, originPoint, { units: 'kilometers' });
-          const pHub = turf.nearestPointOnLine(line, hubPoint, { units: 'kilometers' });
-
-          if (pOrig.properties.dist * 1000 <= maxWalkDistance && pHub.properties.dist * 1000 <= 600) {
-            if (pOrig.properties.location < pHub.properties.location) {
-              bestLeg1 = {
-                route: r,
-                pickupCoord: [pOrig.geometry.coordinates[1], pOrig.geometry.coordinates[0]],
-                walkMeters: Math.round(pOrig.properties.dist * 1000),
-                rideKm: Math.round((pHub.properties.location - pOrig.properties.location) * 10) / 10
-              };
-              break;
+  for (let round = 0; round <= transferLimit && seeds.length; round++) {
+    const alightFrontier = new Map();
+    if (round > 0) seeds.sort((a, b) => elapsedMinutes(a) + 5 * a.ridesCount - elapsedMinutes(b) - 5 * b.ridesCount);
+    for (const seed of seeds) {
+      if (round > 0 && transfers.size >= 8) {
+        const worstKnown = [...transfers.values()].sort(compareCandidates)[7].rankingMinutes;
+        const lowerBound = elapsedMinutes(seed) + 5 * seed.ridesCount;
+        if (lowerBound > worstKnown) { prunedByBound++; continue; }
+      }
+      expandedLabels++;
+      for (const boarding of eligibleBoardings.get(seed.stopId) || []) {
+      const trip = index.trips[boarding.tripIndex];
+      const fromIndex = boarding.callIndex;
+      const fromCall = trip.calls[fromIndex];
+      const flexibleDrop = flexibleDropFor(trip, fromIndex);
+      if (flexibleDrop && flexibleDrop.distanceToDestinationMeters <= opts.maxWalkMeters) {
+        const walks = seed.walks;
+        const totalWalk = seed.walkMeters + flexibleDrop.distanceToDestinationMeters;
+        if (totalWalk <= totalLimit) {
+          const lastCall = trip.calls[flexibleDrop.toIndex];
+          const flexRide = { trip, from: fromCall, to: lastCall, fromIndex, toIndex: flexibleDrop.toIndex,
+            dropCoord: flexibleDrop.coord, dropType: 'suggested', flexibleDrop: true,
+            path: flexibleDrop.path, distanceMeters: flexibleDrop.distanceMeters };
+          const rides = [...historyRides(seed.history), flexRide];
+          if (rides.length <= transferLimit + 1 && !hasForwardSameTripContinuation(rides)) {
+            const egress = { fromCoord: flexibleDrop.coord, toCoord: destination,
+              meters: flexibleDrop.distanceToDestinationMeters, purpose: 'egress' };
+            const candidate = { id: pathIdentity(rides), rides, walks, egress, transfers: rides.length - 1,
+              totalWalkMeters: Math.round(totalWalk), totalRideKm: rides.reduce((sum, ride) => sum + ride.distanceMeters, 0) / 1000,
+              totalTimeMinutes: rides.reduce((sum, ride) => sum + ride.distanceMeters * 0.003, 0) + totalWalk / 80 };
+            candidate.rankingMinutes = candidate.totalTimeMinutes + 5 * candidate.transfers;
+            const map = candidate.transfers === 0 ? direct : transfers;
+            const key = candidateIdentity(rides);
+            if (!map.has(key) || compareCandidates(candidate, map.get(key)) < 0) map.set(key, candidate);
+            if (candidate.transfers > 0 && transfers.size > 8) {
+              const worst = [...transfers.values()].sort(compareCandidates).pop();
+              const worstKey = [...transfers].find(([, value]) => value === worst)?.[0];
+              if (worstKey) transfers.delete(worstKey);
             }
           }
-        } catch (e) {}
+        }
       }
+      for (let toIndex = fromIndex + 1; toIndex < trip.calls.length; toIndex++) {
+        scannedCalls++;
+        const toCall = trip.calls[toIndex];
+        if (!toCall.canAlight) continue;
+        const rideMeters = Math.max(0, Number(toCall.distanceMeters) - Number(fromCall.distanceMeters));
+        const ride = { trip, from: fromCall, to: toCall, fromIndex, toIndex };
+        const nextWalkMeters = seed.walkMeters;
+        const nextRideMeters = seed.rideMeters + rideMeters;
+        const history = { parent: seed.history, ride };
+        const label = { stopId: toCall.stopId, history, ridesCount: seed.ridesCount + 1, walks: seed.walks, walkMeters: nextWalkMeters,
+          rideMeters: nextRideMeters, round: round + 1 };
 
-      // Evaluate best leg 2
-      let bestLeg2 = null;
-      for (const r of leg2Candidates.slice(0, 5)) {
-        const coords = routesGeometry[r.id];
-        if (!coords) continue;
-        try {
-          const line = turf.lineString(coords.map(c => [c[1], c[0]]));
-          const pHub = turf.nearestPointOnLine(line, hubPoint, { units: 'kilometers' });
-          const pDest = turf.nearestPointOnLine(line, destPoint, { units: 'kilometers' });
-
-          if (pHub.properties.dist * 1000 <= 600 && pDest.properties.dist * 1000 <= maxWalkDistance) {
-            if (pHub.properties.location < pDest.properties.location) {
-              bestLeg2 = {
-                route: r,
-                destDropCoord: [pDest.geometry.coordinates[1], pDest.geometry.coordinates[0]],
-                walkMeters: Math.round(pDest.properties.dist * 1000),
-                rideKm: Math.round((pDest.properties.location - pHub.properties.location) * 10) / 10
-              };
-              break;
+        const egressMeters = distanceMeters(coordFor(index, toCall.stopId), destination);
+        const totalWalk = nextWalkMeters + egressMeters;
+        if (egressMeters <= opts.maxWalkMeters && totalWalk <= totalLimit) {
+          const egress = { fromCoord: coordFor(index, toCall.stopId), toCoord: destination, meters: egressMeters, purpose: 'egress' };
+          const rides = historyRides(history);
+          if (rides.length <= 1 || !hasForwardSameTripContinuation(rides)) {
+            const id = identityOf(label);
+            const rideMetersTotal = nextRideMeters;
+            const totalTimeMinutes = rideMetersTotal / 1000 * 3 + totalWalk / 80;
+            const candidate = { id, rides, walks: seed.walks, egress, transfers: rides.length - 1,
+              totalWalkMeters: Math.round(totalWalk), totalRideKm: rideMetersTotal / 1000,
+              totalTimeMinutes, rankingMinutes: totalTimeMinutes + 5 * (rides.length - 1) };
+            const map = candidate.transfers === 0 ? direct : transfers;
+            const key = candidateIdentity(rides);
+            if (!map.has(key) || compareCandidates(candidate, map.get(key)) < 0) map.set(key, candidate);
+            if (candidate.transfers > 0 && transfers.size > 8) {
+              const worst = [...transfers.values()].sort(compareCandidates).pop();
+              const worstKey = [...transfers].find(([, value]) => value === worst)?.[0];
+              if (worstKey) transfers.delete(worstKey);
             }
           }
-        } catch (e) {}
+        }
+
+        if (round < transferLimit && label.walkMeters <= totalLimit) addPareto(alightFrontier, label);
       }
-
-      if (bestLeg1 && bestLeg2 && bestLeg1.route.id !== bestLeg2.route.id) {
-        const totalWalk = bestLeg1.walkMeters + bestLeg2.walkMeters;
-        const totalRideKm = bestLeg1.rideKm + bestLeg2.rideKm;
-        const totalTime = Math.round(totalWalk / 80) + Math.round(totalRideKm * 3) + 10;
-
-        transferResults.push({
-          type: 'transfer',
-          hub,
-          leg1: bestLeg1,
-          leg2: bestLeg2,
-          totalWalkMeters: totalWalk,
-          totalRideKm,
-          totalTimeMinutes: totalTime
-        });
       }
     }
-
-    transferResults.sort((a, b) => a.totalTimeMinutes - b.totalTimeMinutes);
+    const nextByStop = new Map();
+    for (const labels of alightFrontier.values()) for (const label of labels) {
+      const alightCoord = coordFor(index, label.stopId);
+      for (const nearby of nearbyByStop(label.stopId, opts.maxTransferWalkMeters)) {
+        const interwalk = distanceMeters(alightCoord, [Number(nearby.stop.lat), Number(nearby.stop.lng)]);
+        if (label.walkMeters + interwalk > totalLimit || !(eligibleBoardings.get(nearby.stop.id) || []).length) continue;
+        const nextSeed = { stopId: nearby.stop.id, history: label.history, ridesCount: label.ridesCount,
+          walks: [...label.walks, { fromCoord: alightCoord, toCoord: [Number(nearby.stop.lat), Number(nearby.stop.lng)], meters: interwalk, purpose: 'transfer' }],
+          walkMeters: label.walkMeters + interwalk, rideMeters: label.rideMeters };
+        addPareto(nextByStop, nextSeed);
+      }
+    }
+    seeds = [...nextByStop.values()].flat();
   }
 
-  return {
-    directRoutes: directResults.slice(0, 15),
-    transferRoutes: transferResults.slice(0, 4)
-  };
+  const rank = (map, limit) => [...map.values()].sort(compareCandidates).slice(0, limit)
+    .map(candidate => makeJourney(index, origin, destination, candidate.rides, candidate.walks, candidate.egress));
+  const directRoutes = rank(direct, 15);
+  const transferRoutes = rank(transfers, 8);
+  return { status: directRoutes.length || transferRoutes.length ? 'ok' : 'no-service', directRoutes, transferRoutes,
+    metadata: { networkVersion: index.version, historical: index.network.metadata?.historical !== false,
+      servicesVerified: index.network.metadata?.servicesVerified === true, eligibleTrips: eligible.length,
+      scannedCalls, expandedLabels, prunedByBound, invalidTrips: index.rejectedTrips,
+      transferPenaltyMinutes: 5, waitingTimeKnown: false } };
 }

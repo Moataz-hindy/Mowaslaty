@@ -1,0 +1,2998 @@
+﻿stop_id,name,raw_name_matches,app_name_matches,raw_distance_m,app_distance_m
+1,Al Remaya Square,True,True,0.0,0.10938
+10,Giza Square,True,True,0.0,0.09692
+100,7 Omarat,True,True,0.00049,0.2418
+1000,Kan Kan 12th District (6th of October),True,True,0.00058,0.27436
+1001,City Scape Mall (6th of October),True,True,0.00044,0.27954
+1002,Mazar Mall,True,True,0.00045,0.45027
+1003,City Scape Mall (6th of October),True,True,0.00032,0.32514
+1004,Al Etaby Center,True,True,0.00044,0.49307
+1005,Al Zohour Nursery (Sheikh Zayed),True,True,0.00044,0.32906
+1006,Culture & Science City (6th of October),True,True,0.00014,0.52188
+1007,Culture & Science City (6th of October),True,True,0.00048,0.32447
+1008,20 St. & Al Mostaqbal St. (Sheikh Zayed),True,True,0.0,0.49011
+1009,Islamic Center (Sheikh Zayed),True,True,0.00033,0.29913
+101,Bus Stop 43 (Al Matareyya),True,True,0.00054,0.5207
+1010,Akhbar Al Yom Academy,True,True,0.00048,0.47942
+1011,Akhbar Al Yom Academy,True,True,0.00051,0.52656
+1012,Amr Ibn Al Aas School (Sheikh Zayed),True,True,0.00025,0.00885
+1013,Kheir Zaman Al Mehwar Al Markazi (6th of October),True,True,0.00031,0.13621
+1014,Zayed Boys Secondary School,True,True,0.0,0.0
+1015,Kheir Zaman Al Mehwar Al Markazi (6th of October),True,True,0.0,0.5259
+1016,Al Yasmine Compound Gate 3 (Sheikh Zayed),True,True,0.00035,0.31212
+1017,Diamonds Mall (6th of October),True,True,0.00032,0.36228
+1018,7th District Entrance (6th of October),True,True,0.00056,0.47767
+1019,6th Of October City Authority,True,True,0.00047,0.28534
+102,Bus Stop 43 (Al Matareyya),True,True,0.0,0.0
+1020,Sheikh Zayed General Hospital,True,True,0.0004,0.37552
+1021,Sheikh Zayed General Hospital,True,True,0.0,0.41649
+1022,Tara Compound Entrance (Sheikh Zayed),True,True,0.00059,0.57353
+1023,Misr University for Sciences and Technology (MUST),True,True,0.00016,0.63102
+1024,Cairo University (Sheikh Zayed),True,True,0.00033,0.47987
+1025,Dar Al Foad Hospital (6th of October),True,True,0.0005,0.12331
+1026,Laylat Al Qadr Entrance,True,True,0.0004,0.20177
+1027,Universal (6th of October),True,True,0.0,0.37898
+1028,Universal (6th of October),True,True,0.00019,0.3658
+1029,Al Massalah (6th of October),True,True,0.00059,0.32929
+103,Helmeyet Al Zatoun Metro,True,True,0.0,0.5881
+1030,Al Massalah (6th of October),True,True,0.00032,0.57936
+1031,Board of Trustees (6th of October),True,True,0.00034,0.40239
+1032,Dolphin Mall,True,True,0.0001,0.29283
+1033,6th Of October University,True,True,0.00033,0.07903
+1034,Al Hekma Pharmaceutical Company - 6th of October,True,True,0.00047,0.44605
+1035,6th Of October Public Library,True,True,0.0002,0.34148
+1036,6th Of October Public Library,True,True,0.0005,0.41855
+1037,7th District (6th of October),True,True,0.0,0.36623
+1038,Small Industries Association - Al Hegaz Street (6th of October),True,True,0.0,0.0
+1039,Small Industries Association - Al Hegaz Street (6th of October),True,True,0.00037,0.55495
+104,Sultan Abou Al Ela Mosque (Maspero),True,True,0.00043,0.41085
+1040,Magda Square,True,True,0.0,0.56426
+1041,Magda Square,True,True,0.0,0.50128
+1042,Magda Square,True,True,0.0,0.4179
+1043,Ariel (6th of October Industrial Zone 4),True,True,0.0,0.28403
+1044,Ariel (6th of October Industrial Zone 4),True,True,0.0,0.22849
+1045,Al Hoda Factory (6th of October),True,True,0.00033,0.63692
+1046,Al Hoda Factory (6th of October),True,True,0.0,0.26236
+1047,6th Of October University,True,True,0.00027,0.55029
+1048,Al Tabba (6th of October),True,True,0.00058,0.39516
+1049,Board of Trustees (6th of October),True,True,0.00035,0.55594
+105,Al Sawy Culture Wheel,True,True,0.0,0.40574
+1050,Al Motamayez Entrance (6th of October),True,True,0.0,0.46862
+1051,Ceramica Cleopatra (Sheikh Zayed),True,True,0.00051,0.62657
+1053,Al Yasmine Compound Gate 3 (Sheikh Zayed),True,True,0.00062,0.53599
+1054,Al Zohour Nursery (Sheikh Zayed),True,True,0.00063,0.60122
+1055,Sheikh Zayed Specialized Hospital,True,True,0.00048,0.38872
+1056,Al Etaby Center,True,True,0.00031,0.35707
+1057,American School (Sheikh Zayed),True,True,0.00044,0.58856
+1058,American School (Sheikh Zayed),True,True,0.00024,0.31814
+1059,Hyper One (Sheikh Zayed),True,True,0.00054,0.22553
+106,Kit Kat Square,True,True,0.0,0.3365
+1060,Youth Club (Sheikh Zayed),True,True,0.00028,0.10484
+1061,Faculty of Engineering - Cairo University (Sheikh Zayed),True,True,0.0,0.55319
+1062,Faculty of Engineering - Cairo University (Sheikh Zayed),True,True,0.00055,0.33762
+1063,Youth Club (Sheikh Zayed),True,True,0.00028,0.48832
+1064,Al Juman,True,True,0.00021,0.18429
+1065,Azhari Institute,True,True,0.0006,0.49202
+1066,Al Juman,True,True,8e-05,0.47672
+1067,Badr Station (Sheikh Zayed),True,True,0.0,0.4939
+1068,New Cairo Academy,True,True,0.00039,0.40144
+1069,Akhnaton Square (5th Settlement),True,True,0.00041,0.1749
+107,Imbaba Police Station,True,True,0.00023,0.37532
+1070,Al Shabab Entrance (1st Settlement),True,True,0.00028,0.60004
+1071,1st Settlement Authority,True,True,0.0007,0.42623
+1072,Wadi Degla Sporting Club (New Cairo),True,True,0.0,0.50461
+1073,Wadi Degla Sporting Club (New Cairo),True,True,0.0,0.19488
+1074,Al Tabba (6th of October),True,True,0.00031,0.10761
+1075,Al Motamayez Entrance (6th of October),True,True,0.0004,0.39372
+1076,Misr University for Sciences and Technology (MUST),True,True,0.00026,0.40729
+1077,Dar Al Foad Hospital (6th of October),True,True,0.00014,0.62781
+1078,Mall of Arabia,True,True,0.0003,0.30355
+1079,Mobil - Mall of Arabia,True,True,0.00025,0.31817
+108,Kit Kat District,True,True,0.00047,0.40008
+1080,Nile University,True,True,0.00056,0.55341
+1081,Hyper One (Sheikh Zayed),True,True,0.0,0.25256
+1082,Hyper One (Sheikh Zayed),True,True,0.0,0.0494
+1083,Royal City Gate (Sheikh Zayed),True,True,0.00051,0.2953
+1084,Royal City Gate (Sheikh Zayed),True,True,0.0,0.09693
+1085,Maasara Autostrad,True,True,0.0001,0.47355
+1086,CIB (South Teseen St.),True,True,0.0003,0.20404
+1087,Wataneya Gas Station (Kattameya Ring Rd.),True,True,0.00047,0.55385
+1088,Egyptian Shooting Club Pedestrian Tunnle (Kattameya),True,True,0.00041,0.42541
+1089,Windrose Academy,True,True,0.00012,0.27738
+109,Shams Club Squash Courts,True,True,0.00033,0.46771
+1090,Total (Kattameya),True,True,0.0,0.38525
+1091,Abd Al Moneim Riad,True,True,0.0004,0.46873
+1092,Abd Al Moneim Riad,True,True,0.00054,0.50587
+1093,Abou Al Reesh,True,True,0.0,0.55106
+1094,Ahmed Helmy,True,True,0.00043,0.52138
+1095,Al Sayeda Aisha,True,True,0.00052,0.44062
+1096,Al Souq Al Qadeem (6th of October),True,True,0.00068,0.50984
+1097,Arabella Square,True,True,0.0,0.44483
+1098,Salam Station (10th of Ramadan Station),True,True,0.0,0.0
+1099,Basateen,True,True,0.00037,0.51086
+11,Koleyet Al Banat (Azhar University),True,True,0.00041,0.14242
+110,Al Sayeda Khadija Mosque - Al Hegaz Street,True,True,0.00023,0.45987
+1100,Bank Area Station (5th Settlement),True,True,0.00054,0.10707
+1101,Dandy Mall,True,True,0.0,0.40069
+1102,Dawaran Shubra,True,True,0.00047,0.36721
+1103,10th District Station (6th of October),True,True,0.00024,0.53848
+1104,11th District (6th of October),True,True,0.0,0.56374
+1105,11th District (Sheikh Zayed),True,True,0.0006,0.55335
+1106,11th District Exit (Sheikh Zayed),True,True,0.00044,0.65182
+1107,8th District (6th of October),True,True,0.00065,0.45599
+1108,Hossary Station,True,True,0.00054,0.33407
+1109,Hossary Station,True,True,0.0,0.43866
+111,National Institute for Occupational Safety and Health (Al Amn Al Senaey),True,True,0.00068,0.59734
+1110,Hossary Station,True,True,0.00055,0.21187
+1111,Hossary Station,True,True,0.00058,0.56718
+1112,Hossary Station,True,True,0.0,0.21191
+1113,Hossary Station,True,True,0.00039,0.39179
+1114,Matbaa,True,True,0.0,0.33358
+1115,1st Settlement Station,True,True,0.00038,0.35118
+1117,Hamada Emam - Industrial Zone 2,True,True,0.0,0.62132
+1118,Haram & Marioteya,True,True,0.0,0.5397
+1119,Haram & Marioteya,True,True,0.00028,0.15861
+112,Al Hegaz Square,True,True,0.0,0.29405
+1120,Haram Mashaal,True,True,0.0,0.0
+1121,10th District (Nasr City),True,True,0.0,0.53512
+1122,New Cairo Academy,True,True,0.0,0.53153
+1123,Kattameya,True,True,0.00053,0.42107
+1124,Kattameya,True,True,0.00052,0.37565
+1125,Kattameya Church,True,True,0.00053,0.2419
+1126,Kattameya Church,True,True,0.00042,0.47851
+1127,Laylat Al Qadr Station,True,True,2e-05,0.37221
+1128,Laylat Al Qadr Station,True,True,0.00045,0.44703
+1129,Laylat Al Qadr Station,True,True,0.00037,0.09425
+113,Saint Fatima Square,True,True,0.00042,0.48197
+1130,Laylat Al Qadr Station,True,True,0.0,0.43822
+1131,New Cairo Court Station,True,True,0.0,0.18372
+1132,Mamaleek (Al Manial),True,True,0.00038,0.40754
+1133,Al Manial,True,True,0.0,0.49253
+1134,Al Manial,True,True,0.0,0.11766
+1135,Remaya 28,True,True,0.0,0.3852
+1136,Sphinx Airport,True,True,0.00038,0.43745
+1137,Sphinx Airport,True,True,0.0,0.0
+1138,Lebanon Square,True,True,0.0,0.46268
+1139,Lebanon Square,True,True,0.00048,0.14689
+114,Triumph Square,True,True,0.0,0.53021
+1140,Lebanon Square,True,True,0.00056,0.70769
+1141,26th of July Corridor & Alex Desert Rd.,True,True,0.00052,0.4893
+1142,26th of July Corridor & Alex Desert Rd.,True,True,0.00057,0.15685
+1143,Zahraa Metro,True,True,0.00041,0.35657
+1144,Zahraa Metro,True,True,0.00045,0.48665
+1145,Moneeb,True,True,0.00043,0.19592
+1146,Moneeb,True,True,0.00051,0.00728
+1147,Moneeb,True,True,0.00048,0.27915
+1148,Moneeb Station,True,True,0.00029,0.52839
+1149,Al Mostaqbal Entrance,True,True,0.00043,0.29415
+115,Safeer Square (Heliopolis),True,True,0.0,0.22223
+1150,New Marg,True,True,0.0,0.44098
+1151,Qalyub,True,True,0.0,0.40024
+1152,Saqr Quraish,True,True,0.00041,0.24602
+1155,Zahraa Madinet Nasr,True,True,0.00042,0.55414
+1156,Zahraa Madinet Nasr,True,True,0.00059,0.35918
+1157,Police Academy (New Cairo),True,True,0.00037,0.23851
+1158,Al Shorouq Academy Station,True,True,0.0002,0.27361
+1159,Al Shorouq Academy Station,True,True,0.00027,0.37574
+116,Al Ismailiya Square,True,True,0.00035,0.47572
+1160,Carrefour (Shorouq City),True,True,0.00041,0.63123
+1161,Carrefour (Shorouq City),True,True,0.0004,0.44105
+1162,Carrefour (Shorouq City),True,True,0.00047,0.58212
+1163,Al Shorouq Water Station,True,True,0.00034,0.30391
+1164,Al Shorouq Water Station,True,True,0.00059,0.27437
+1165,City Mall (Shorouq City),True,True,0.00049,0.47333
+1166,City Mall (Shorouq City),True,True,0.00021,0.11249
+1167,Paradise Al Shorouq Compound,True,True,0.00031,0.35375
+1168,Paradise Al Shorouq Compound,True,True,0.00064,0.38568
+1169,May Fair Village (Shorouq City),True,True,0.00021,0.28846
+117,Salah Al Din Square (Heliopolis),True,True,0.00016,0.36928
+1170,May Fair Village (Shorouq City),True,True,0.00064,0.20864
+1171,Obour Police Station,True,True,0.0,0.36403
+1172,Rawda Mosque (Obour),True,True,0.0,0.67584
+1173,Shabab (Obour),True,True,0.0,0.38413
+1174,Obour,True,True,0.00011,0.28546
+1175,2nd District Entrance - Obour,True,True,0.0,0.55597
+1176,Hyper One (10th of Ramadan),True,True,0.00034,0.3402
+1177,Hyper One (10th of Ramadan),True,True,0.00051,0.51018
+1178,10th of Ramadan City Entrance,True,True,0.00033,0.26335
+1179,Al Ismailiya (10th of Ramadan),True,True,0.0,0.44078
+118,Korba District,True,True,0.0004,0.43905
+1180,10th of Ramadan City,True,True,0.00049,0.49721
+1181,Al Tawheed Wal Nour (10th of Ramadan),True,True,0.00046,0.33095
+1182,Al Tawheed Wal Nour (10th of Ramadan),True,True,0.00026,0.18585
+1184,Moneeb,True,True,0.00021,0.52257
+1186,Al Mazallat,True,True,0.00067,0.58041
+1187,Alf Masnaa,True,True,0.0,0.53041
+1188,Union Housing Al Nasr (Kattameya),True,True,0.0,0.44478
+1189,Union Housing Al Nasr (Kattameya),True,True,0.00042,0.5481
+119,Al Itihadeya,True,True,0.0,0.58833
+1190,Golf Square (5th Settlement),True,True,0.00046,0.46993
+1191,Tolip Plaza (5th Settlement),True,True,0.00027,0.31143
+1192,Tolip Plaza (5th Settlement),True,True,0.00068,0.5132
+1193,Waterway Compound,True,True,0.0002,0.50472
+1194,Waterway Compound,True,True,0.00067,0.38702
+1195,Future University in Egypt (FUE),True,True,0.00045,0.63606
+1196,Nissan (Kattameya),True,True,0.00028,0.53082
+1197,Nissan (Kattameya),True,True,0.00047,0.18278
+1198,Green Hills Club,True,True,0.00013,0.5934
+1199,Green Hills Club,True,True,0.00043,0.12612
+12,Koleyet Al Banat (Azhar University),True,True,0.0,0.27111
+120,Abbaseya Square,True,True,0.0004,0.4194
+1200,Waha Garage (Nasr City),True,True,0.00039,0.31248
+1201,Free Zone (Nasr City),True,True,0.0,0.3472
+1202,Free Zone (Nasr City),True,True,0.0,0.3472
+1203,Ministry Of Higher Education,True,True,0.0,0.14707
+1204,Doctors Tower (Nasr City),True,True,0.00032,0.49593
+1205,Doctors Tower (Nasr City),True,True,0.00034,0.43399
+1206,Rahma Mosque (Mostafa Al Nahas St.),True,True,0.00022,0.25265
+1207,Rahma Mosque (Mostafa Al Nahas St.),True,True,0.00039,0.5207
+1208,Mobil (Hassan Al Sherif St.),True,True,0.0,0.2223
+1209,Mobil (Hassan Al Sherif St.),True,True,0.00033,0.40578
+121,Al Demerdash Metro,True,True,0.00038,0.3096
+1210,Al Shabab Square (1st Settlement),True,True,0.00014,0.24668
+1211,Al Shabab Square (1st Settlement),True,True,0.00045,0.19978
+1212,Ahmed Galal Military Passage,True,True,0.00033,0.37189
+1213,Ahmed Galal Military Passage,True,True,0.00057,0.33715
+1214,North Cairo Electricity Distribution Company (Al Helmeya),True,True,0.00046,0.30318
+1215,North Cairo Electricity Distribution Company (Al Helmeya),True,True,0.00053,0.52332
+1216,Al Matareyya Square Station,True,True,0.0,0.29137
+1217,Al Matareyya Square Station,True,True,0.0,0.44583
+1218,Al Matareyya Educational Hospital,True,True,0.00049,0.28844
+1219,Al Matareyya Educational Hospital,True,True,0.00046,0.54395
+122,Ghamra,True,True,0.00049,0.5865
+1220,Misr Al Gadida Military Hospital,True,True,0.00021,0.5598
+1221,Heliopolis Hospital,True,True,0.0,0.45506
+1222,Al Amir Steps (Ring Rd.),True,True,0.00051,0.21022
+1223,Al Amir Steps (Ring Rd.),True,True,0.00037,0.35942
+1224,Al Moassasa Steps (Ring Rd.),True,True,0.00031,0.53432
+1225,Al Moassasa Steps (Ring Rd.),True,True,0.00058,0.14547
+1226,Waha Hotel (Alexandria Desert Rd.),True,True,0.0004,0.51365
+1227,Waha Hotel (Alexandria Desert Rd.),True,True,0.00018,0.47087
+1228,Al Waha Compound (Shorouq City),True,True,0.0,0.28847
+1229,Al Waha Compound (Shorouq City),True,True,0.00045,0.53999
+123,Al Mohandes Insurance (Ramses),True,True,0.00032,0.50933
+1230,Dar Misr Square (Shorouq City),True,True,0.00043,0.15679
+1231,Dar Misr Square (Shorouq City),True,True,0.0,0.3642
+1232,Misr International University (MIU) (Obour),True,True,0.00064,0.45559
+1233,Misr International University (MIU) (Obour),True,True,0.00017,0.58455
+1234,Kempinski Hotel (Ring Rd.),True,True,0.00033,0.4518
+1235,Kempinski Hotel (Ring Rd.),True,True,0.00061,0.20711
+1236,Kempinski Hotel (Ring Rd.),True,True,0.00018,0.38943
+1237,Mobil (Mostafa Kamel Axis & 1st Settlement),True,True,0.0,0.22239
+1238,Mobil (Mostafa Kamel Axis & 1st Settlement),True,True,0.0001,0.29042
+1239,Arkadia Mall,True,True,0.00026,0.6791
+124,Coptic Hospital,True,True,0.00033,0.55732
+1240,Nasser Institue For Research (Al Khalafawy),True,True,0.00045,0.62861
+1241,Nefertari International School,True,True,0.0006,0.33549
+1242,Nefertari International School,True,True,0.00037,0.47489
+1243,Al Hennawy Furniture (Airport Rd.),True,True,0.00067,0.30349
+1244,Al Hennawy Furniture (Airport Rd.),True,True,0.00043,0.32526
+1245,Cottonil Factory - Gesr Al Suez,True,True,0.00051,0.48233
+1246,Batrawy (Abbas Al Akkad St.),True,True,0.00043,0.33339
+1247,Banque Misr (Abbas Al Akkad St.),True,True,0.00033,0.40382
+1248,Central Agency for Public Mobilization and Statistics,True,True,0.00045,0.53005
+1249,Sonesta Hotel (Al Tayaran St.),True,True,0.0003,0.48936
+125,Ahmed Helmy,True,True,0.00047,0.43807
+1250,Audi Bank (Salah Salem St.),True,True,0.00043,0.17052
+1251,6th of October Panorama,True,True,0.00028,0.34093
+1252,Nasr Al Islam Mosque (Al Nozha St.),True,True,0.00038,0.67839
+1253,Al Tawheed Wal Nour (Al Nozha St),True,True,0.00068,0.50953
+1254,Al Orouba Tunnel,True,True,0.00037,0.42198
+1255,Koleyet Al Banat Metro,True,True,0.0005,0.33424
+1256,Girls' College (Ain Shams University),True,True,0.0,0.44114
+1257,Girls' College (Ain Shams University),True,True,0.00027,0.33512
+1258,Al Kersh Cars (Heliopolis),True,True,0.00022,0.58156
+1259,Sheikh Zayed Al Nahian Hospital,True,True,0.00041,0.47632
+126,Ghamra,True,True,0.00059,0.37825
+1260,Sheikh Zayed Al Nahian Hospital,True,True,0.00051,0.34529
+1261,Magra Al Oyoun (Salah Salem),True,True,0.0,0.45508
+1262,Magra Al Oyoun (Salah Salem),True,True,0.0,0.31441
+1263,Public Taxes Mission (Nasr City),True,True,0.00044,0.54701
+1264,Public Taxes Mission (Nasr City),True,True,0.0001,0.499
+1265,Al Wafaa Wal Amal City,True,True,0.00023,0.43212
+1266,Nasr City Towers,True,True,0.00051,0.44331
+1267,Nasr City Towers,True,True,0.00041,0.41626
+1268,Nour Al Islam Mosque Steps (Ring Rd.),True,True,0.00055,0.45745
+1269,Al Safa Wal Marwa Mosque Steps (Ring Rd.),True,True,0.00059,0.1218
+127,Abbaseya Square,True,True,0.0,0.37339
+1270,Ezbet Kheirallah Steps 1 (Ring Rd.),True,True,0.00013,0.52202
+1271,Ezbet Kheirallah Steps 1 (Ring Rd.),True,True,0.00053,0.52526
+1272,Nile Corniche & Ring Rd. (Maadi),True,True,0.0,0.3852
+1273,Nile Corniche & Ring Rd. (Maadi),True,True,0.00037,0.09347
+1274,Misr Al Wosta Electricity Company (Al Bahr Al Aazam St.),True,True,0.00051,0.6793
+1275,The Platform (Maadi),True,True,0.00024,0.58707
+1276,The Platform (Maadi),True,True,0.00049,0.33741
+1277,Ezbet Kheirallah Steps 3 (Ring Rd.),True,True,0.00045,0.43486
+1278,Ezbet Kheirallah Steps 3 (Ring Rd.),True,True,0.00031,0.34415
+1279,Tora Steps (Autostrad),True,True,9e-05,0.57088
+128,Roxy,True,True,0.0,0.58833
+1280,Tora Steps (Autostrad),True,True,0.00046,0.17431
+1281,Al Dawagen (Nile Corniche),True,True,0.00052,0.34857
+1282,Icon for Construction And Development,True,True,0.00036,0.29171
+1283,Icon for Construction And Development,True,True,0.00011,0.41908
+1284,Wax Museum (Helwan),True,True,0.00031,0.03311
+1285,Wax Museum (Helwan),True,True,0.00071,0.24868
+1286,Al Maasara For Engineering Industries,True,True,0.00011,0.5715
+1287,Cairo Economic Court (Ring Rd.),True,True,0.0,0.36461
+1288,Masaken Al Zobbat (10th District Nasr City),True,True,0.00049,0.52648
+1289,Triumph Hotel,True,True,0.00032,0.38647
+129,Ibrahim Anwar Mosque (Al Zaytoun),True,True,0.0,0.22174
+1290,Armed Forces College Of Medicine,True,True,0.00068,0.41859
+1291,Manshiyat Al Bakry General Hospital,True,True,0.0004,0.02787
+1292,Al Tawheed Wal Nour - Al Waili,True,True,0.0,0.29407
+1293,Al Tawheed Mosque (Al Zaytoun),True,True,0.00041,0.29396
+1294,North Cairo CCPP,True,True,0.0,0.35699
+1295,Magd Al Islam Hospital,True,True,0.0002,0.40504
+1296,Faculty of Agriculture - Ain Shams University,True,True,0.0,0.0
+1297,Faculty of Agriculture - Ain Shams University,True,True,0.00022,0.62888
+1298,Shubra Al Kheima Power Plant,True,True,0.0004,0.12488
+13,Abou Al Reesh,True,True,0.00053,0.30907
+130,Saray Al Qobba,True,True,0.0,0.18413
+1300,Social Insurance Bureau (Shubra Al Kheima),True,True,0.00042,0.14942
+1301,Shubra Al Kheima East District Authority,True,True,0.0,0.14701
+1302,Experimental School (Bahteem),True,True,0.00033,0.52297
+1303,Bahteem Specialized Hospital For Surgery,True,True,0.00034,0.38385
+1304,Taawon (Al Matareyya),True,True,0.0,0.30922
+1305,Othman Steps (Ring Rd.),True,True,0.00022,0.37895
+1306,Othman Pedestrian Bridge (Ring Rd.),True,True,0.00036,0.02921
+1307,Ezbet Al Baydaa Steps (Ring Rd.),True,True,0.00053,0.49736
+1308,Mazallat,True,True,0.00055,0.23953
+1309,Qalyoub Al Balad Bus Station,True,True,0.00042,0.29487
+131,Gesr Al Suez St. & Al Qobba St.,True,True,0.00026,0.51652
+1310,Qalyoub District Court,True,True,0.00016,0.29354
+1311,Mostorad Pedestrian Bridge,True,True,0.00053,0.31398
+1312,Abboud,True,True,0.00022,0.62697
+1313,Abboud,True,True,0.00061,0.40848
+1314,Abboud,True,True,0.00034,0.23421
+1315,Mit Nama Steps (Cairo Alexandria Agriculture Rd.),True,True,0.00041,0.38744
+1316,Ezbet Anwar Steps (Ring Rd.),True,True,0.00011,0.14201
+1317,Mostorod,True,True,0.0,0.28851
+1318,Al Rahma Mosque (Airport Rd.),True,True,0.00027,0.63694
+1319,Al Rahma Mosque (Airport Rd.),True,True,0.0005,0.49042
+132,Al Itihadeya,True,True,0.0,0.28863
+1320,The Continental School of Cairo (Obour),True,True,0.0006,0.54212
+1321,The Continental School of Cairo (Obour),True,True,0.00051,0.38823
+1322,Khadija Mosque (Obour),True,True,0.00041,0.22928
+1323,Khadija Mosque (Obour),True,True,0.00066,0.62267
+1324,Aramex (10th of Ramadan),True,True,0.00026,0.4433
+1325,Aramex (10th of Ramadan),True,True,0.00034,0.47646
+1326,Real Estate Registration Mission (Shobra),True,True,0.00047,0.31972
+1327,The Good Shepherd Hospital,True,True,0.00028,0.34767
+1328,Al Safwa Hospital (Shubra),True,True,0.00056,0.30588
+1329,Al Kholafaa Al Rashdeen Mosque (Nasr City),True,True,0.00038,0.21425
+133,Korba District,True,True,0.00015,0.24247
+1330,Bavaria Egypt (Gesr Al Suez),True,True,0.00035,0.21702
+1331,Masaken Zobbat Almaza,True,True,0.00056,0.57465
+1332,Conrad Hotel,True,True,0.00041,0.20847
+1333,Vodafone (Imbaba),True,True,0.00046,0.46869
+1334,Al Aalam Specialized Hospital,True,True,0.00023,0.28652
+1335,Al Tawheed Wal Nour (Al Sayeda Zeinab),True,True,0.00047,0.33755
+1336,Al Tawheed Wal Nour (Al Sayeda Zeinab),True,True,0.00042,0.25817
+1337,Sakkara Steps (Ring Rd.),True,True,0.00014,0.35418
+1338,Egypt Air Steps (Ring Rd.),True,True,0.00047,0.48312
+1339,Sakkara Steps (Ring Rd.),True,True,0.00021,0.45216
+134,Salah Al Din Square (Heliopolis),True,True,0.00051,0.48682
+1340,Egypt Air Steps (Ring Rd.),True,True,0.00013,0.51986
+1341,Mankaraa Gate (Hadayek Al Ahram),True,True,0.00038,0.12454
+1342,Kafr Tohormos Steps (Ring Rd.),True,True,0.00052,0.48367
+1343,Kafr Tohormos Steps (Ring Rd.),True,True,0.00047,0.25992
+1344,Saft Al Laban Entrance from Ring Rd.,True,True,0.00031,0.35505
+1345,Saft Al Laban Steps (Ring Rd.),True,True,0.00035,0.3875
+1346,Holding Company For Water & Wastewater (HCWW),True,True,0.00044,0.40809
+1347,Rod Al Farag Youth Center,True,True,0.0002,0.40345
+1348,Civil Registry (Imbaba),True,True,0.00065,0.35553
+1349,Civil Registry (Imbaba),True,True,0.00019,0.24351
+135,Safeer Square (Heliopolis),True,True,0.0,0.65514
+1350,Manshiyat Al Bakri Steps (Ring Rd.),True,True,0.00033,0.37328
+1351,Manshiyat Al Bakri Steps (Ring Rd.),True,True,0.00035,0.4991
+1352,Ring Rd. & Al Mansoureyya Rd.,True,True,0.0,0.44129
+1353,Ring Rd. & Cario Alex Desert Rd.,True,True,0.00051,0.35039
+1354,Gladios Garden Compound,True,True,0.00036,0.41318
+1355,Gladios Garden Compound,True,True,0.00018,0.50909
+1356,Hazem Hassan Consulting (Alexandria Desert Rd.),True,True,0.0,0.38517
+1357,Hazem Hassan Consulting (Alexandria Desert Rd.),True,True,0.00014,0.49757
+1358,Dar Al Mona (Alexandria Desert Rd.),True,True,0.00051,0.6331
+1359,Dar Al Mona (Alexandria Desert Rd.),True,True,0.00063,0.50474
+136,Al Ismailiya Square,True,True,0.00058,0.27747
+1360,Mansour Chevrolet Sales Center (Alexandria Desert Rd.),True,True,0.00031,0.44341
+1361,Mansour Chevrolet Sales Center (Alexandria Desert Rd.),True,True,0.00069,0.54026
+1362,National Security (Alexandria Desert Rd.),True,True,0.00022,0.47042
+1363,National Security (Alexandria Desert Rd.),True,True,0.0,0.67628
+1364,Galleria 40,True,True,0.00049,0.42633
+1365,Galleria 40,True,True,0.0,0.06672
+1366,Al Safwa Mall,True,True,0.00066,0.3205
+1367,Al Safwa Mall,True,True,0.00048,0.13966
+1368,Mubarak Educational City Entrance,True,True,0.00038,0.22428
+1369,Mubarak Educational City Entrance,True,True,0.00029,0.49931
+137,Triumph Square,True,True,0.00062,0.32268
+1370,Mubarak Educational City Entrance,True,True,0.00055,0.56052
+1371,Mubarak Educational City Entrance,True,True,0.00054,0.2656
+1372,Maahad Baneen,True,True,0.00039,0.3276
+1373,Maahad Baneen,True,True,0.0001,0.36974
+1374,Zaker Hussein St. & Al Tayaran St.,True,True,0.00044,0.57718
+1375,Tabarak Children's Hospital (Nasr City),True,True,0.00031,0.15047
+1376,Tabarak Children's Hospital (Nasr City),True,True,0.00051,0.2638
+1377,Al Wehda Square,True,True,0.0004,0.53927
+1378,Ezbet Al Mofti Steps (Ring Rd.),True,True,0.00046,0.31971
+1379,Moneeb,True,True,0.0,0.0
+138,Saint Fatima Square,True,True,0.0,0.5299
+1380,Moneeb,True,True,0.0001,0.4853
+1381,Bab Al Shaaria Square,True,True,0.0,0.5407
+1382,Al Shaheed Square (Obour),True,True,0.00037,0.14465
+1383,Epx Logistics For Transportation And Warehousing (Obour),True,True,0.00054,0.46276
+1384,Bisco Misr (Al Zaytoun),True,True,0.00058,0.38107
+1385,Wadi Degla Sporting Club (Heliopolis),True,True,0.00042,0.28794
+1386,Agouza Police Hospital,True,True,0.00053,0.63365
+1387,Agouza Police Hospital,True,True,9e-05,0.45805
+1389,Kobry Orabi,True,True,0.00064,0.67209
+139,Al Hegaz Square,True,True,0.0,0.49364
+1390,Heliopolis Courthouse Complex,True,True,0.0,0.58832
+1391,Obour City Authority,True,True,0.00024,0.33487
+1392,Al Saff,True,True,0.00046,0.57905
+1393,Hilton Pyramids Golf (Dreamland),True,True,0.00064,0.17625
+1394,Gas (5th Settlement),True,True,0.00057,0.26498
+1395,Haram Mashaal,True,True,0.00053,0.22974
+1396,Adidas Steps (Ring Rd.),True,True,0.0,0.45432
+1397,Qalyoub Exit to Ring Rd.,True,True,0.0,0.55597
+1398,Ring Road Entrance from Cairo Alexandria Agriculture Rd.,True,True,0.0005,0.25143
+1399,Ring Road Entrance from Cairo Alexandria Agriculture Rd.,True,True,0.00025,0.3709
+14,Abou Al Reesh,True,True,0.0,0.25003
+140,Bisco Misr (Al Zaytoun),True,True,0.00063,0.29488
+1400,Ring Rd. Exit to Cairo Alexandria Agriculture Road,True,True,0.00036,0.33509
+1401,Arab Contractors Sporting Club (Nasr Rd.),True,True,0.00041,0.2561
+1402,Dolce,True,True,0.00048,0.56719
+1403,Al Kahraba St. (Nasr City),True,True,0.00053,0.16629
+1404,Arab Maadi,True,True,0.0,0.53041
+1405,Farouq Square (Maadi),True,True,0.00017,0.33033
+1406,Nahda City,True,True,0.0,0.36951
+1407,Soap Factory (Marg),True,True,0.00022,0.36971
+1408,Al Gomhoreyya St. & Al Masraf St. (Marg),True,True,0.0,0.53451
+1409,Al Qalag (Marg),True,True,0.0,0.05296
+141,Dabsha (Al Zaytoun),True,True,0.00039,0.5298
+1410,Al Gomhoreyya St. & Howd Al Shaikh St. (Marg),True,True,0.0,0.5461
+1411,Al Hayat Islamic School (Marg),True,True,0.0,0.28689
+1412,Al Sheikh Agamy (Marg),True,True,0.00063,0.44726
+1413,Al Gabal Al Asfar (Marg),True,True,0.00047,0.37425
+1414,Al Mothalath (Marg),True,True,0.0,0.5159
+1415,Al Batal Ahmed - Saheb Al Diwan,True,True,0.0,0.411
+1416,Al Khanka Local Unit,True,True,6e-05,0.2577
+1417,Al Khanka (Al Salam Rd.),True,True,0.00044,0.27606
+1418,Al Khankah Police Station,True,True,0.0,0.0
+1419,Social Insurance Bureau (Al Khanka),True,True,0.0,0.4472
+142,Port Said St. (Al Sawah),True,True,0.00025,0.25
+1420,El Khanka Mental Health Hospital,True,True,0.0,0.52433
+1421,Al Khanka Terminal,True,True,0.00029,0.07055
+1422,Khofo Gate (Hadayek Al Ahram),True,True,0.00042,0.429
+1423,Tagneed,True,True,0.0,0.29422
+1424,Ezbet Al Baydaa Steps (Ring Rd.),True,True,0.00062,0.24208
+1425,Al Rashaah Steps (Ring Rd.),True,True,0.00056,0.46187
+1426,Khosous,True,True,0.00034,0.45045
+1427,Mostorod Bridge (Ring Rd.),True,True,0.00038,0.22824
+1428,Al Salam Tunnel Exit (Ring Rd.),True,True,0.00068,0.07438
+1429,Abo Sir Steps (Ring Rd.),True,True,0.00054,0.08193
+143,Mazallat Station,True,True,0.0,0.15555
+1430,Al Mothalath (Ahmed Al Zomor St.),True,True,0.00029,0.38986
+1431,Cairo Airport Station,True,True,0.00047,0.18854
+1432,Makram Ebeid St. & Mostafa Al Nahas St.,True,True,0.00066,0.29175
+1433,Child's Park,True,True,0.0,0.18024
+1434,Al Saa Square,True,True,0.0,0.28869
+1435,Al Saa Square,True,True,0.0005,0.21029
+1436,Qatar Ahly Bank (Al Tayaran St.),True,True,7e-05,0.53484
+1437,Qatar Ahly Bank (Al Tayaran St.),True,True,0.00063,0.41953
+1438,Wonder Land Mall (Abbas Al Akkad St.),True,True,0.00032,0.37394
+1439,Wonder Land Mall (Abbas Al Akkad St.),True,True,0.0003,0.40322
+144,Al Demerdash Hospital,True,True,0.0,0.11644
+1440,International Garden,True,True,0.00027,0.57738
+1441,International Garden,True,True,0.00028,0.5246
+1442,Al Tawheed Wal Nour (Abbas Al Akkad St.),True,True,0.00035,0.4671
+1443,Al Tawheed Wal Nour (Abbas Al Akkad St.),True,True,0.00044,0.2237
+1444,Banque Misr (Abbas Al Akkad St.),True,True,0.00021,0.63203
+1445,Batrawy (Abbas Al Akkad St.),True,True,0.00042,0.33914
+1446,Panasonic (Abbas Al Akkad St.),True,True,0.00036,0.57715
+1447,Panasonic (Abbas Al Akkad St.),True,True,0.00049,0.18123
+1448,Awwal Abbas Al Akkad,True,True,0.0,0.30937
+1449,Ahmed Fakhry and Autostrad,True,True,0.00035,0.32542
+145,Al Mohandes Insurance (Ramses),True,True,0.00041,0.47084
+1450,Ahmed Fakhry and Autostrad,True,True,0.00039,0.28116
+1451,Al Ahly Sporting Club,True,True,0.00033,0.34028
+1452,Administrative Control Authority ( Nozha),True,True,0.00023,0.34985
+1453,Administrative Control Authority (Nozha),True,True,6e-05,0.121
+1454,Nozha - Nabil Al Waqaad,True,True,0.00064,0.60385
+1455,Nozha Bridge Entrance,True,True,0.0,0.2621
+1456,Nozha Bridge Exit,True,True,0.00027,0.55616
+1457,Ahmed Fakhry and Autostrad,True,True,0.00047,0.30129
+1458,Petroleum Research Institute,True,True,0.0,0.34741
+1459,Future School (Nasr City),True,True,0.00046,0.28602
+146,Gamal Abd Al Nasser Metro,True,True,0.0,0.41243
+1460,Pepsico (Nasr City),True,True,0.00051,0.37632
+1461,Pepsico (Nasr City),True,True,0.0,0.3472
+1462,Al Toob Al Ramly,True,True,0.0,0.58829
+1463,Al Toob Al Ramly,True,True,0.0,0.38515
+1464,Hall 4 (Cairo Airport),True,True,0.00046,0.3939
+1465,Coop (Cairo Airport),True,True,0.00057,0.25159
+1466,Hall 1 (Cairo Airport),True,True,9e-05,0.09891
+1467,Hall 3 (Cairo Airport),True,True,0.00033,0.45698
+1468,Hikestep Bridge Entrance,True,True,0.0,0.33368
+1469,Old 10th of Ramadan,True,True,0.0,0.49507
+147,Sultan Abou Al Ela Mosque (Maspero),True,True,0.00047,0.66988
+1470,Old 10th of Ramadan,True,True,0.00045,0.40607
+1471,Herafyeen Bridge Exit,True,True,0.0,0.33358
+1472,Herafyeen Bridge Exit,True,True,0.0,0.34717
+1473,Qasr Oraby Furniture (Gamal Abdel Nasser),True,True,0.00038,0.26378
+1474,Qasr Oraby Furniture (Gamal Abdel Nasser),True,True,0.0003,0.46546
+1475,Gesr Al Suez - Taha Hussein,True,True,0.00061,0.12064
+1476,Al Herafeyin (Gesr Al Suez),True,True,0.00045,0.53718
+1477,Orascom Business (Anabib Al Petrol),True,True,0.0,0.33358
+1478,Suez Bridge Entrance to Ring Road,True,True,0.0,0.49378
+1479,Ideal Standard (Nasr Rd.),True,True,0.00062,0.55192
+148,Al Sawy Culture Wheel,True,True,0.0,0.56797
+1480,Mosheer Ahmed Ismail Station (Sheraton),True,True,0.00013,0.1224
+1481,AASTMT Engineering Building - Sheraton,True,True,0.0,0.25839
+1482,Abu Bakr Al Sedeeq Mosque - Sheraton,True,True,0.0,0.53272
+1483,Abu Bakr Al Sediq Mosque (Sheraton),True,True,0.0,0.29685
+1484,Masaken Sheraton,True,True,0.00053,0.099
+1485,Sun City Mall,True,True,0.00045,0.41654
+1486,Sun City Mall,True,True,0.00046,0.3838
+1487,Higher Institute For Hotels & Tourism (Sheraton),True,True,0.00052,0.39249
+1488,Higher Institute For Hotels & Tourism (Sheraton),True,True,0.00045,0.33317
+1489,Mobil Gas Station (Abdel Hameed Badawy St.),True,True,0.00052,0.23764
+149,Kit Kat Square,True,True,0.0,0.55855
+1490,Mobil Gas Station (Abdel Hameed Badawy St.),True,True,0.00047,0.5545
+1491,Radisson Hotel (Sheraton),True,True,0.00037,0.43051
+1492,Radisson Hotel (Sheraton),True,True,0.00051,0.50385
+1493,Oasis Mall (Sheraton),True,True,0.0,0.26067
+1494,Oasis Mall (Sheraton),True,True,0.0005,0.04765
+1495,Military Academy Stadium (Sheraton),True,True,0.0,0.36432
+1496,Military Academy Stadium (Sheraton),True,True,0.0,0.73513
+1497,Al Sayeda Khadija Mosque,True,True,0.00033,0.04234
+1498,Shams Club Squash Courts,True,True,0.00033,0.02357
+1499,Al Nozha Al Gadida,True,True,0.0,0.34717
+15,Ramses,True,True,0.0004,0.71251
+150,Kit Kat District,True,True,0.0002,0.39379
+1500,Al Nozha Al Gadida,True,True,0.0,0.58807
+1501,National Institute for Occupational Safety and Health (Al Amn Al Senaey),True,True,0.00052,0.31192
+1502,Oriental Weavers (Sheraton),True,True,0.00024,0.26702
+1503,Oriental Weavers (Sheraton),True,True,0.00039,0.48029
+1504,Egypt Air Hospital,True,True,0.00026,0.50424
+1505,Egypt Air Hospital,True,True,0.00043,0.45248
+1506,Al Tawheed Wal Nour (Al Nozha St.),True,True,0.00037,0.56262
+1507,Al Galaa Bridge,True,True,0.00035,0.29941
+1508,Al Galaa Bridge,True,True,0.0,0.3851
+1509,Faisal Bank (Othman Bin Affan St.),True,True,0.00039,0.37252
+151,Imbaba Police Station,True,True,0.00039,0.46119
+1510,Faisal Bank (Othman Bin Affan St.),True,True,0.00036,0.4766
+1511,Al Hays Pastry (Nozha St.),True,True,0.00043,0.11244
+1512,Al Hays Pastry (Nozha St.),True,True,0.00046,0.51746
+1513,Al Hikma Labs (Nohza St.),True,True,0.00042,0.46906
+1514,Al Hikma Labs (Nohza St.),True,True,0.00051,0.20539
+1515,Al Hegaz Square,True,True,8e-05,0.1066
+1516,Al Hegaz Square,True,True,0.0,0.09619
+1517,Al Galaa Military Hospital,True,True,0.00047,0.19301
+1518,Al Galaa Military Hospital,True,True,0.00026,0.35052
+1519,Police Hospital (Al Tayaran St.),True,True,0.00047,0.59213
+1520,Police Hospital (Al Tayaran St.),True,True,0.0002,0.56804
+1521,Al Hadaba Al Wosta (Al Moqattam),True,True,0.00058,0.57965
+1522,Al Hadaba Al Wosta (Al Moqattam),True,True,0.00032,0.41108
+1523,Eastern Weavers (Al Moqattam),True,True,0.0,0.55363
+1524,Eastern Weavers (Al Moqattam),True,True,0.0,0.33486
+1525,Al Souq (Al Moqattam),True,True,0.00023,0.50447
+1526,Al Souq (Al Moqattam),True,True,0.0005,0.4517
+1527,Al Mafareq (Al Moqattam),True,True,0.00037,0.30345
+1528,Al Mafareq (Al Moqattam),True,True,0.0005,0.45186
+1529,Al Mafareq (Al Moqattam),True,True,0.00042,0.52783
+153,Ahmed Oraby Metro,True,True,0.00041,0.58558
+1530,Mastoura Mosque (Al Moqattam),True,True,0.00055,0.49773
+1531,Mastoura Mosque (Al Moqattam),True,True,5e-05,0.33333
+1532,Al Gezira (Al Moqattam),True,True,0.0,0.40238
+1533,Al Gezira (Al Moqattam),True,True,0.0,0.29118
+1534,Misr Insurance Company (Al Moqattam),True,True,0.00059,0.39487
+1535,Misr Insurance Company (Al Moqattam),True,True,0.00042,0.20761
+1536,Asmarat,True,True,0.0,0.31314
+1537,New Market (Asmarat),True,True,0.0,0.41408
+1538,Water Plant 1 (Asmarat),True,True,0.0,0.48162
+1539,Water Plant 2 (Asmarat),True,True,0.00014,0.25058
+154,Ahmed Oraby St.,True,True,0.0,0.34312
+1540,Water Plant 2 (Asmarat),True,True,0.00038,0.46587
+1541,Sobhy Hussein St. (Al Moqattam),True,True,0.0,0.43338
+1542,Sobhy Hussein St. (Al  Moqattam),True,True,0.0,0.42338
+1543,Koshary Abu Hanafy (Al Moqattam),True,True,0.00044,0.39621
+1544,Koshary Abu Hanafy (Al Moqattam),True,True,0.00031,0.3619
+1545,Ammar Bin Yasser School (Al Moqattam),True,True,0.00051,0.42727
+1546,Ammar Bin Yasser School (Al Moqattam),True,True,0.00045,0.5638
+1547,Al Manara Kiosk (Al Moqattam),True,True,0.00033,0.59359
+1548,Al Manara Kiosk (Al Moqattam),True,True,0.0005,0.45706
+1549,Mahmoudeya Housing (Al Moqattam),True,True,0.00012,0.21908
+155,Maadi Military Hospital,True,True,0.0,0.29423
+1550,Al Nafoura Square (Al Moqattam),True,True,0.00045,0.22442
+1551,Al Nafoura Square (Al Moqattam),True,True,0.00036,0.56338
+1552,Nasser Bank (Al Moqattam),True,True,6e-05,0.41731
+1553,Nasser Bank (Al Moqattam),True,True,3e-05,0.53715
+1554,Saqr Quraish,True,True,0.0,0.50838
+1555,Saqr Quraish,True,True,0.0004,0.24272
+1556,Rotana Motors (Maadi),True,True,0.00064,0.46709
+1557,Rotana Motors (Maadi),True,True,0.00021,0.32968
+1558,Al Maadi Company St. and Al Gazaer St.,True,True,0.00038,0.21662
+1559,Al Maadi Company St. and Al Gazaer St.,True,True,0.00045,0.34206
+156,Dar Al Salam,True,True,0.00028,0.4679
+1560,Arayes (Maadi),True,True,0.00054,0.30847
+1561,Arayes (Maadi),True,True,0.0002,0.32084
+1562,Koshary Al Tahrir (Nasr St.),True,True,0.00067,0.26828
+1563,Koshary Al Tahrir (Nasr St.),True,True,0.00048,0.07153
+1564,Moemen (Nasr St.),True,True,0.0,0.3893
+1565,Moemen (Nasr St.),True,True,0.0,0.56542
+1566,Ragab Sons (Al Gazaer St.),True,True,0.0004,0.5035
+1567,Ragab Sons (Al Gazaer St.),True,True,0.00026,0.49726
+1568,Total Gas Station (Autostrad),True,True,0.00028,0.40446
+1569,Total Gas Station (Autostrad),True,True,0.00038,0.31823
+157,Al Salam International Hospital,True,True,0.00031,0.37217
+1570,Total Gas Station (Autostrad),True,True,0.00018,0.57586
+1571,Total Gas Station (Autostrad),True,True,0.00035,0.507
+1572,Nasr St. Exit from Autostrad,True,True,0.00038,0.41416
+1573,Autostrad Tunnel,True,True,0.00047,0.13036
+1574,Wataneya Gas Station (Autostrad Maadi),True,True,0.00031,0.52096
+1575,Wataneya Gas Station (Autostrad Maadi),True,True,0.00019,0.52215
+1576,Wataneya Gas Station (Autostrad Maadi),True,True,0.0005,0.49439
+1577,Criminal Investigation Department (Al Maadi Company St.),True,True,0.0,0.19768
+1578,Criminal Investigation Department (Al Maadi Company St.),True,True,0.00011,0.25508
+1579,Total (Kattameya),True,True,0.0,0.44483
+158,Misr Al Qadima,True,True,0.00035,0.32627
+1580,Faculty of Pharmacy - Modern Academy,True,True,0.00055,0.08486
+1581,Faculty of Pharmacy - Modern Academy,True,True,0.0,0.22646
+1582,Faculty of Dentistry - Modern Academy,True,True,0.00026,0.62623
+1583,Faculty of Dentistry - Modern Academy,True,True,0.0,0.65549
+1584,Al Moqattam Entrance (Al Gamea Al Haditha St.),True,True,0.00035,0.50463
+1585,Al Moqattam Entrance (Al Gamea Al Haditha St.),True,True,0.0,0.23608
+1586,Physical Therapy - Modern Academy,True,True,0.00027,0.19389
+1587,Wataneya Gas Station (Kattameya Ring Rd.),True,True,0.0,0.14711
+1588,Cairo Economic Court (Ring Rd.),True,True,0.00042,0.4235
+1589,Cairo Economic Court (Ring Rd.),True,True,0.00031,0.42889
+159,Al Malek Al Saleh Bridge,True,True,0.00042,0.43258
+1590,Cairo Economic Court (Ring Rd.),True,True,0.00014,0.42257
+1591,Masaken Al Kendy,True,True,0.0001,0.33988
+1592,Basateen,True,True,0.0,0.1471
+1593,Sekat Hadid Al Mahager (Basateen),True,True,0.00034,0.38026
+1594,Galal Motors (Basateen),True,True,0.0,0.1471
+1595,Galal Motors (Basateen),True,True,0.00036,0.62221
+1596,Al Rayan Hospital (Maadi),True,True,0.00026,0.41871
+1597,Al Rayan Hospital (Maadi),True,True,0.00054,0.37097
+1598,Sadat Academy (Maadi),True,True,0.00024,0.40278
+1599,Sadat Academy (Maadi),True,True,0.00046,0.52375
+16,Faisal,True,True,0.0,0.08076
+160,Fom Al Khalig,True,True,0.0003,0.0338
+1600,Sadat Academy (Maadi),True,True,0.00026,0.45497
+1601,Alfa Market (Nile Corniche),True,True,6e-05,0.60236
+1602,Alfa Market (Nile Corniche),True,True,0.00069,0.47054
+1603,Al Horia Square (Maadi),True,True,0.0,0.19267
+1604,Hussein Sedqy Mosque (Maadi),True,True,0.00035,0.54123
+1605,Shawerma Abu Mazen (Maadi),True,True,0.0,0.38523
+1606,Maadi Military Hospital,True,True,0.0,0.67644
+1607,Silver Nile Social Club (Nile Corniche),True,True,0.0,0.34993
+1608,Silver Nile Social Club (Nile Corniche),True,True,0.00019,0.44283
+1609,Al Salam International Hospital,True,True,0.0003,0.24006
+161,Fom Al Khalig,True,True,0.0005,0.38097
+1610,Manial Shiha Post Office,True,True,0.0002,0.1122
+1611,Manial Shiha Post Office,True,True,0.0006,0.37199
+1612,Manial Shiha Elementary School,True,True,0.00039,0.19856
+1613,Manial Shiha Elementary School,True,True,0.00046,0.51579
+1614,Al Shorouq Club (Nile Corniche),True,True,0.00063,0.40431
+1615,Al Shorouq Club (Nile Corniche),True,True,0.00052,0.2426
+1616,Policeman Institute St. (Nile Corniche),True,True,0.00047,0.54856
+1617,Policeman Institute St. (Nile Corniche),True,True,0.00057,0.5455
+1618,Abd Al Moneim Riad Mosque (Nile Corniche),True,True,0.00024,0.24449
+1619,Abd Al Moneim Riad Mosque (Nile Corniche),True,True,0.00041,0.44044
+162,Abou Al Reesh,True,True,0.00063,0.5412
+1620,Saint George Church (Kotseika),True,True,0.00048,0.51143
+1621,Saint George Church (Kotseika),True,True,0.00061,0.51726
+1622,Carrefour (Tora),True,True,0.00055,0.16923
+1623,Carrefour (Tora),True,True,0.00044,0.18395
+1624,Tora Prison (Autostrad),True,True,0.00036,0.25462
+1625,Tora Prison (Autostrad),True,True,0.00041,0.58034
+1626,Carrefour (Al Gazaer St.),True,True,0.00048,0.47732
+1627,Carrefour (Al Gazaer St.),True,True,0.00051,0.53361
+1628,Yathreb and Al Maadi Company St.,True,True,0.00016,0.45418
+1629,Yathreb and Al Maadi Company St.,True,True,0.00019,0.47689
+163,Al Sayeda Zeinab,True,True,0.00065,0.29691
+1630,Cairo Fair Metro,True,True,0.00025,0.33506
+1631,Cairo Fair Metro,True,True,0.00053,0.45859
+1632,Rabaah Al Adaweya Mosque,True,True,0.0,0.44116
+1633,Rabaah Al Adaweya Mosque,True,True,0.0,0.65524
+1634,Al Tayaran St. & Khedr Al Touny St.,True,True,0.0,0.40064
+1635,Al Tayaran St. & Khedr Al Touny St.,True,True,0.0,0.50934
+1636,Sonesta Hotel (Al Tayaran St.),True,True,0.00042,0.35045
+1637,Central Agency for Public Mobilization and Statistics,True,True,0.00027,0.60176
+1638,Central Agency for Public Mobilization and Statistics,True,True,0.00042,0.53692
+1639,Al Sayeda Safeya Mosque (Salah Salem St.),True,True,0.00059,0.38176
+164,Ahmed Maher Teaching Hospital,True,True,0.0,0.44478
+1640,Al Sayeda Safeya Mosque (Salah Salem St.),True,True,0.00059,0.39569
+1641,Al Orouba Tunnel,True,True,0.00045,0.40722
+1642,Al Kersh Cars (Heliopolis),True,True,0.0004,0.49601
+1643,Al Abageyya,True,True,0.0,0.58833
+1644,Moqattam Entrance from Salah Salem,True,True,0.00054,0.39995
+1645,Moqattam Entrance from Salah Salem,True,True,0.00024,0.24962
+1646,Moqattam Entrance from Salah Salem,True,True,0.0,0.48464
+1647,Manshiyat Nasser,True,True,0.0006,0.20668
+1648,Manshiyat Nasser,True,True,0.0002,0.54412
+1649,Mazlaqan Al Deweqa,True,True,0.0,0.30942
+165,Ahmed Maher Teaching Hospital,True,True,0.0,0.40077
+1650,Mazlaqan Al Deweqa,True,True,0.00045,0.51267
+1651,Al Darraasa,True,True,0.00035,0.32422
+1652,Imam Al Shafei Mosque (Basateen Rd.),True,True,0.00043,0.67551
+1653,Basateen Rd.,True,True,0.00052,0.2585
+1654,Al Dandarawy St. & Basateen Rd.,True,True,0.00038,0.44856
+1655,Zohour City (Basateen Rd.),True,True,0.00025,0.40334
+1656,Basateen Police Station,True,True,0.00026,0.40362
+1657,Al Nasr Restaurant (Basateen),True,True,0.00028,0.35818
+1658,Al Behiry Stone (Basateen),True,True,0.0,0.0
+1659,Basateen,True,True,0.00057,0.29544
+166,Al Banat Mosque,True,True,0.0,0.37154
+1660,Ahli Bank (Al Nadi Al Gedid St.),True,True,0.00047,0.63224
+1661,Port Said Square (Maadi),True,True,0.00036,0.28119
+1662,Al Nadi Square (Maadi),True,True,0.0,0.58848
+1663,Maadi Metro Station,True,True,0.0,0.32411
+1664,Matbaa,True,True,0.0,0.58845
+1665,Dar Al Salam Police Station,True,True,0.0,0.24235
+1666,Dar Al Salam Police Station,True,True,0.0,0.29423
+1667,Dar Al Salam,True,True,0.00016,0.51043
+1668,Athar Al Naby,True,True,0.0,0.34671
+1669,Wadi Al Nile St. and Nile Corniche,True,True,0.00039,0.17824
+167,Al Mosky (Port Said St.),True,True,0.00027,0.46572
+1670,Wadi Al Nile St. and Nile Corniche,True,True,0.0,0.11557
+1671,Al Salam Center (Maadi),True,True,0.00031,0.42415
+1672,Al Salam Center (Maadi),True,True,0.00065,0.39705
+1673,Badr Land,True,True,0.00037,0.42511
+1674,Badr Land,True,True,0.00027,0.26057
+1675,Zahraa Ain Shams,True,True,0.00064,0.24486
+1676,Zahraa Ain Shams,True,True,0.00041,0.31862
+1677,Shams Club (Alf Maskan),True,True,0.0001,0.37685
+1678,Shams Club (Alf Maskan),True,True,0.00018,0.53385
+1679,Concord Al Salam Hotel (Gesr Al Suez),True,True,0.00062,0.29368
+168,Cairo Security Directorate,True,True,0.00018,0.47535
+1680,Concord Al Salam Hotel (Gesr Al Suez),True,True,0.00059,0.04948
+1681,Palestine St. & Ahmed Oraby St.,True,True,0.0,0.49618
+1682,Al Atraby Basha Abu Al Ezz St. & Gesr Al Suez St.,True,True,0.00018,0.64218
+1683,Al Atraby Basha Abu Al Ezz St. & Gesr Al Suez St.,True,True,9e-05,0.38658
+1684,Al Ansar School (Gesr Al Suez),True,True,0.0,0.41422
+1685,Masaken Helmeyet Al Zatoun,True,True,0.0,0.62639
+1686,Misr Al Gadida Military Hospital,True,True,0.00063,0.23417
+1687,Heliopolis Hospital,True,True,0.00022,0.21934
+1688,Heliopolis Square,True,True,0.00034,0.41739
+1689,Heliopolis Square,True,True,0.0,0.53019
+169,Zahraa Nasr City,True,True,0.00047,0.40459
+1690,CIB (Al Hegaz),True,True,0.0,0.36433
+1691,CIB (Al Hegaz),True,True,4e-05,0.46647
+1692,El Nasr English School (Heliopolis),True,True,0.00053,0.60757
+1693,El Nasr English School (Heliopolis),True,True,4e-05,0.52924
+1694,Al Tawheed Wal Nour (Merryland),True,True,0.00039,0.3418
+1695,Al Tawheed Wal Nour (Merryland),True,True,0.00057,0.2581
+1696,Roxy,True,True,0.0,0.34718
+1697,Roxy,True,True,0.00041,0.3235
+1698,Alex Bank (Al Hegaz),True,True,0.00011,0.15027
+1699,Alex Bank (Al Hegaz),True,True,0.00058,0.29923
+17,Qalyoub Exit,True,True,0.0006,0.57211
+170,Zahraa Nasr City,True,True,0.00031,0.63922
+1700,New Marg Station,True,True,0.00045,0.66503
+1701,Lux School (Al Marg),True,True,0.00014,0.50973
+1702,Al Shaheed Mosque (Al Marg),True,True,0.0002,0.49283
+1703,Petroleum Square (Al Marg),True,True,0.00055,0.42248
+1704,Amin Hamada St & Petroleum St.,True,True,0.0,0.3411
+1705,Al Sheikh Mansour,True,True,9e-05,0.40984
+1706,Ezbet Al Nakhl,True,True,0.0,0.5235
+1707,Ezbet Al Nakhl,True,True,0.0,0.35326
+1708,Mazlaqan Ain Shams,True,True,0.0,0.22639
+1709,Mazlaqan Ain Shams,True,True,0.00032,0.10286
+171,10th District (Nasr City),True,True,0.00037,0.52689
+1710,Ahmed Esmat St. & Ain Shams St.,True,True,0.00039,0.47137
+1711,Ibrahim Abdel Raziq St. & Ain Shams St.,True,True,0.0005,0.33422
+1712,Al Naam Square (Ain Shams),True,True,0.0,0.16388
+1713,Al Helmeya Garden (Gesr Al Suez),True,True,0.00067,0.51423
+1714,Al Helmeya Garden (Gesr Al Suez),True,True,0.00044,0.46603
+1715,Heliopolis Central (Gesr Al Suez),True,True,0.00051,0.38925
+1716,Heliopolis Central (Gesr Al Suez),True,True,2e-05,0.18997
+1717,Al Aziz Bellah (Gesr Al Suez),True,True,0.00037,0.59374
+1718,Al Aziz Bellah (Gesr Al Suez),True,True,0.00025,0.4457
+1719,Gesr Al Suez St. & Al Qobba St.,True,True,0.00039,0.39769
+172,Al Salam Mosque (Nasr City),True,True,0.0,0.48465
+1720,Ibn Al Hakam Square (Heliopolis),True,True,0.0,0.0
+1721,Ibn Al Hakam Square (Heliopolis),True,True,0.0,0.09619
+1722,Toman Bay St. (Heliopolis),True,True,0.00039,0.54395
+1723,Al Zatoun School (Heliopolis),True,True,0.00043,0.14882
+1724,Al Aziz Bellah St. &  Selim Al Awwal St.,True,True,0.00046,0.40197
+1725,Al Helmeya Square (Heliopolis),True,True,0.00029,0.4223
+1726,Al Helmeya Square (Heliopolis),True,True,0.00056,0.2619
+1727,Al Faragany (Ain Shams St.),True,True,0.00048,0.45011
+1728,Ibn Khaldoun School (Heliopolis),True,True,4e-05,0.32299
+1729,Al Matareyya Metro,True,True,0.0,0.18299
+173,Al Salam Mosque (Nasr City),True,True,0.0,0.58557
+1730,Tereat Al Gabal St. (Al Horeyya St.),True,True,0.0,0.48094
+1731,Tereat Al Gabal St. (Al Horeyya St.),True,True,0.00043,0.20445
+1732,Omar Ibn Al Khattab Mosque (Al Matareyya St.),True,True,0.00058,0.34879
+1733,Omar Ibn Al Khattab Mosque (Al Matareyya St.),True,True,0.00018,0.38767
+1734,Hadayeq Al Zaytoun School (Al Matareyya St.),True,True,0.0005,0.64365
+1735,Hadayeq Al Zaytoun School (Al Matareyya St.),True,True,0.00037,0.5795
+1736,Al Matareyya City Authority,True,True,0.0004,0.58264
+1737,Al Matareyya City Authority,True,True,0.00014,0.52689
+1738,Al Sawah Square,True,True,0.0,0.29266
+1739,Al Sawah Square,True,True,0.0001,0.38942
+174,Al Manhal Private School,True,True,0.0,0.56424
+1740,Shahrazad Hall ( Sawah),True,True,0.0,0.58249
+1741,Palace of Culture (Al Matareyya),True,True,0.00044,0.67993
+1742,Palace of Culture (Al Matareyya),True,True,0.00025,0.29174
+1743,Nour Al Islam Mosque ( Shubra Al Kheima),True,True,0.00017,0.29376
+1744,Wadi Al Nile Hospital (Matareya St.),True,True,0.00056,0.24595
+1745,Wadi Al Nile Hospital (Matareya St.),True,True,0.00029,0.24183
+1746,Hadayek Al Qobba Youth Center,True,True,0.0007,0.5813
+1747,Hadayeq Al Qobba Police Station,True,True,0.00057,0.56827
+1748,Kobry Al Qobba,True,True,0.00044,0.42963
+1749,Beirut Square (Korba),True,True,0.0003,0.27824
+175,Al Manhal Private School,True,True,0.00019,0.55096
+1750,Al Orouba Rd. & Al Thawra St.,True,True,0.00049,0.46113
+1751,Al Orouba Rd. & Al Thawra St.,True,True,0.00011,0.50373
+1752,Al Noaman Palace (Orouba Rd.),True,True,0.00049,0.55446
+1753,Al Noaman Palace (Orouba Rd.),True,True,4e-05,0.24373
+1754,Telecom Egypt Central (Almaza),True,True,0.00056,0.41565
+1755,Manshiyat Al Bakry General Hospital,True,True,0.00058,0.10559
+1756,Souq Al Asr (Khalifa Al Mamoun St.),True,True,0.00028,0.4187
+1757,Souq Al Asr (Khalifa Al Mamoun St.),True,True,0.00055,0.20307
+1758,Al Nady St. & Al Khalifa Al Mamoun St.,True,True,0.0,0.45369
+1759,Al Nady St. & Al Khalifa Al Mamoun St.,True,True,0.0,0.53022
+176,Al Tawheed Wal Nour (Mostafa Al Nahas St.),True,True,0.0,0.44119
+1760,Scoial Services School (Roxy),True,True,8e-05,0.41368
+1761,Al Maqreezy St. & Gesr Al Suez St.,True,True,0.0006,0.61052
+1762,Al Maqreezy St. & Gesr Al Suez St.,True,True,0.0,0.0
+1763,Al Nasr Hotel (Al Tayaran St.),True,True,0.0,0.2941
+1764,Al Nasr Hotel (Al Tayaran St.),True,True,0.00055,0.15046
+1765,Yousef Abbas St & Autostrad St.,True,True,0.00034,0.48409
+1766,Yousef Abbas St & Autostrad St.,True,True,0.00032,0.52518
+1767,Al Azhar University Hospital (Nasr City),True,True,0.00022,0.56699
+1768,Al Azhar University Hospital (Nasr City),True,True,0.00025,0.54575
+1769,Abbaseya Hospital,True,True,0.0,0.4686
+177,Al Tawheed Wal Nour (Mostafa Al Nahas St.),True,True,0.0,0.47476
+1770,Abbaseya Hospital,True,True,0.0005,0.43077
+1771,Audi Bank (Salah Salem St.),True,True,0.00044,0.1393
+1772,Audi Bank (Salah Salem St.),True,True,0.00034,0.06454
+1773,Helwan University,True,True,0.00055,0.36339
+1774,Helwan Metro,True,True,0.0,0.0
+1775,Helwan Metro,True,True,0.0,0.07795
+1776,Helwan Observatory,True,True,0.00061,0.13552
+1777,Al Dawagen (Nile Corniche),True,True,0.00026,0.53139
+1778,Saleh Sobhy (15th of May),True,True,0.0,0.47103
+1779,Saleh Sobhy (15th of May),True,True,0.0,0.48509
+178,CTA Garage (Heliopolis),True,True,0.00039,0.45303
+1780,Oil Libya Gas Station (Sadat Square),True,True,0.0,0.34213
+1781,Oil Libya Gas Station (Sadat Square),True,True,0.0004,0.40969
+1782,15th of May Youth Forum,True,True,0.00032,0.27205
+1783,15th of May Youth Forum,True,True,0.00052,0.20174
+1784,4th Neighbourhood Council (15th of May ),True,True,0.0,0.63616
+1785,4th Neighbourhood Council (15th of May),True,True,0.0,0.0
+1786,Saad Zaghloul School (15th of May),True,True,0.0,0.55898
+1787,Saad Zaghloul School (15th of May),True,True,0.0,0.09754
+1788,Imam Mohamed St & Anwar Al Sadat St.,True,True,6e-05,0.18147
+1789,Imam Mohamed St & Anwar Al Sadat St.,True,True,0.0,0.40082
+179,Ain Shams University,True,True,0.0002,0.60899
+1790,Saad Zaghloul St & Anwar Al Sadat St.,True,True,0.0,0.5785
+1791,Saad Zaghloul St & Anwar Al Sadat St.,True,True,0.0,0.43844
+1792,Gawad Hosny St & Anwar Al Sadat St.,True,True,0.0002,0.3121
+1793,15th of May,True,True,0.0,0.45011
+1794,Abou Rawwash,True,True,0.0,0.0
+1795,Abou Rawwash,True,True,0.0,0.0
+1796,South Cairo Electricity Distribution Co (Kerdasa),True,True,0.00045,0.03893
+1797,South Cairo Electricity Distribution Co (Kerdasa),True,True,0.00057,0.49849
+1798,Abu Rawwash Rd. & Al Mansoureyya Rd.,True,True,0.0,0.23787
+1799,Abu Rawwash Rd. & Al Mansoureyya Rd.,True,True,0.0,0.4514
+18,Masaken Betcho,True,True,0.0,0.44751
+180,Ain Shams University,True,True,0.00019,0.4762
+1800,Mohamed Khattab Pharmacy (Kerdasa),True,True,0.0,0.10008
+1801,Mohamed Khattab Pharmacy (Kerdasa),True,True,0.0,0.40719
+1802,Al Rashaah (Kerdasa),True,True,0.0,0.5242
+1803,Al Rashaah (Kerdasa),True,True,0.0,0.32169
+1804,Genius International School (Kerdasa),True,True,0.0005,0.68247
+1805,Genius International School (Kerdasa),True,True,5e-05,0.29764
+1806,Neiazi Sayed (Al Mansoureyya Rd.),True,True,0.0,0.21811
+1807,Neiazi Sayed (Al Mansoureyya Rd.),True,True,0.00061,0.4328
+1808,Al Shabab (Al Tagneed),True,True,0.0,0.35007
+1809,Al Shabab (Al Tagneed),True,True,0.0,0.3516
+181,Armed Forces Medical Complex (Kobry Al Qobba),True,True,0.00031,0.35148
+1810,Ahram School for Basic Education,True,True,0.00033,0.56007
+1811,Al Maamal ( Al Remaya St.),True,True,0.0,0.3646
+1812,Officers Housing (Al Remaya St.),True,True,0.00041,0.37961
+1813,New Musuem (Cairo Alex Desert Rd.),True,True,0.00028,0.47676
+1814,New Musuem (Cairo Alex Desert Rd.),True,True,0.0,0.22239
+1815,Cairo Pyramids Hotel (Cairo Alex Desert Rd.),True,True,0.00046,0.48774
+1816,Cairo Pyramids Hotel (Cairo Alex Desert Rd.),True,True,0.0,0.62656
+1817,Faisal St.,True,True,0.0,0.26689
+1818,Haram Mashaal,True,True,0.0,0.47499
+1819,Haram Mashaal,True,True,0.0003,0.32405
+182,Armed Forces Medical Complex (Kobry Al Qobba),True,True,0.00055,0.4422
+1820,Kafr Al Gabal,True,True,0.0,0.29055
+1821,Total (Haram Marioteya),True,True,0.00048,0.24735
+1822,Al Mokhtabar (Haram St.),True,True,0.00055,0.44098
+1823,Abu Al Houl (Al Mansoureyya Rd. ),True,True,0.0,0.33821
+1824,Abu Al Houl (Al Mansoureyya Rd. ),True,True,0.0,0.25043
+1825,KFC (Al Lebeny St.),True,True,0.00036,0.30339
+1826,Haram Tunnel (Al Lebeny St.),True,True,0.0,0.18129
+1827,Haram Tunnel (Al Lebeny St.),True,True,0.00051,0.42102
+1828,Al Talateeny (Al Lebeny St.),True,True,0.00051,0.45876
+1829,Al Talateeny (Al Lebeny St.),True,True,0.00047,0.66777
+183,Bab Al Shaaria Square,True,True,0.0,0.55884
+1830,Mena House,True,True,0.00043,0.08079
+1831,Postal Services Office (Al Haram St.),True,True,0.00049,0.54148
+1832,Arab Investment Bank (Faisal St.),True,True,0.00044,0.64665
+1833,Arab Investment Bank (Faisal St.),True,True,0.0004,0.21803
+1834,Al Tawheed Wal Nour (Faisal St.),True,True,0.00017,0.24955
+1835,Al Tawheed Wal Nour (Faisal St.),True,True,0.0,0.55429
+1836,Gas Tech Gas Station ( Faisal St.),True,True,0.00027,0.40381
+1837,Gas Tech Gas Station ( Faisal St.),True,True,0.00019,0.34423
+1838,Al Bassous Steps - Ring Road,True,True,0.00023,0.28696
+1839,Total Gas Station Bassous ( Ring Rd. ),True,True,0.00038,0.51904
+184,Al Tawheed Wal Nour (Al Geish St.),True,True,0.0,0.40069
+1840,Bahteem Specialized Hospital For Surgery,True,True,0.00064,0.27211
+1841,Mostorod,True,True,0.00034,0.29204
+1842,Mostorod,True,True,0.00049,0.58928
+1843,Mostorod,True,True,0.00038,0.41301
+1844,Mostorod,True,True,0.00048,0.50009
+1845,Al Sawalha Complex (Al Sekka Al Hadeed St.),True,True,0.0,0.38401
+1846,Experimental School (Bahteem),True,True,0.0003,0.21591
+1847,Cairo Alexandria Agriculture Road Pedestrian Mit Nama,True,True,0.00027,0.34071
+1848,Mit Halfa ( Cairo Alexandria Agriculture Rd. ),True,True,0.00041,0.3796
+1849,Mit Halfa - Cairo Alexandria Agriculture Road,True,True,0.00065,0.58527
+185,Al Geish Square,True,True,0.0006,0.46005
+1850,Masaken Betcho,True,True,0.00051,0.2178
+1851,Egyptian Telecom Club (Autostrad Maadi),True,True,0.00026,0.28905
+1852,Egyptian Telecom Club (Autostrad Maadi),True,True,0.00053,0.50805
+1853,Zahraa Al Maadi Tunnel,True,True,0.0,0.29424
+1854,Al Tawheed Wal Nour (Autostrad Maadi),True,True,2e-05,0.56292
+1855,Al Tawheed Wal Nour (Autostrad Maadi),True,True,0.00048,0.51469
+1856,Khair Zaman (Zahraa Al Maadi),True,True,0.00035,0.25512
+1857,Al Kuwaiti Mosque (Zahraa Al Maadi),True,True,0.00031,0.51082
+1858,Al Kuwaiti Mosque (Zahraa Al Maadi),True,True,0.0005,0.25791
+1859,MCS Oil (Zahraa Al Maadi),True,True,0.00052,0.69119
+186,Al Geish Square,True,True,0.00054,0.48755
+1860,MCS Oil (Zahraa Al Maadi ),True,True,0.00047,0.24405
+1861,St. Antony Church (Zahraa Al Maadi),True,True,0.0,0.37264
+1862,St. Antony Church (Zahraa Al Maadi),True,True,0.0,0.4083
+1863,Vodafone (Zahraa Al Maadi),True,True,0.00034,0.11273
+1864,Vodafone (Zahraa Al Maadi),True,True,0.00014,0.70799
+1865,Degla Azhari Language School (Zahraa Al Maadi),True,True,0.00011,0.61318
+1866,Degla Azhari Language School (Zahraa Al Maadi),True,True,0.00031,0.56788
+1867,Total Zahraa Al Maadi (Autostrad),True,True,0.00061,0.11045
+1868,Total Zahraa Al Maadi (Autostrad),True,True,0.00054,0.10214
+1869,Al Shaq Pedestrian Bridge (Autostrad),True,True,0.00025,0.22001
+187,Abdo Basha,True,True,0.00043,0.30798
+1870,Al Shaq Pedestrian Bridge (Autostrad),True,True,0.00032,0.46716
+1871,Aba Al Kassem Mosque (Autostrad),True,True,0.00032,0.39115
+1872,Aba Al Kassem Mosque (Autostrad),True,True,0.00067,0.4717
+1873,Autostrad Entrance from Al Maasra,True,True,0.0,0.48128
+1874,Autostrad Entrance from Al Maasra,True,True,0.00043,0.62606
+1875,Al Maasara Ferry,True,True,0.00045,0.41868
+1876,Al Maasara Ferry,True,True,0.00048,0.0949
+1877,Tomwa (Abu Al Nomros),True,True,0.0,0.41546
+1878,Tomwa (Abu Al Nomros),True,True,0.00063,0.57735
+1879,Al Tawba Mosque (Abu Al Nomros),True,True,0.0,0.52743
+188,Abdo Basha,True,True,0.0,0.53198
+1880,Al Tawba Mosque (Abu Al Nomros),True,True,0.0,0.49068
+1881,Al Hawamdeyya Traffic Authority,True,True,0.0,0.33445
+1882,Al Hawamdeyya Traffic Authority,True,True,0.0,0.53543
+1883,Al Hawamdeyya,True,True,0.00032,0.59171
+1884,Al Hawamdeyya,True,True,0.0001,0.12068
+1885,Badrasheen Station,True,True,0.0,0.0
+1886,Afendina Dome (Manshiyat Nasser),True,True,0.00029,0.49475
+1887,Afendina Dome (Manshiyat Nasser),True,True,0.00054,0.36205
+1888,Darb Al Saqia (Manshiyat Nasser),True,True,0.00023,0.54235
+1889,Darb Al Saqia (Manshiyat Nasser),True,True,0.00047,0.26849
+189,Air Force Hospital (Al Waili),True,True,0.0,0.57441
+1890,Taki (Al Waili),True,True,0.00046,0.68653
+1891,Islamic Studies Institute (Al Waili),True,True,0.00051,0.35481
+1892,Islamic Studies Institute (Al Waili),True,True,0.00043,0.48784
+1893,Vehicles Administration (Salah Salem St.),True,True,0.00052,0.27945
+1894,Vehicles Administration (Salah Salem St.),True,True,0.00019,0.39186
+1895,Wataneya Gas Station (Al Nasr Company),True,True,0.0,0.0
+1896,Wadi Hof Metro,True,True,0.00068,0.42594
+1897,Wadi Hof Metro,True,True,0.00057,0.51635
+1898,Wadi Hof Metro,True,True,0.00056,0.59459
+1899,Al Safa School (Wadi Hof),True,True,0.00039,0.3083
+19,Abd Al Moneim Riad,True,True,0.00053,0.64897
+190,Misr Sudan (Nasr City),True,True,0.00049,0.47169
+1900,Dar Al Mohandeseen Club (Helwan),True,True,0.00053,0.32954
+1901,Dar Al Mohandeseen Club (Helwan),True,True,0.00057,0.2849
+1902,Helwan Post Office,True,True,0.0,0.18839
+1903,Helwan Metro,True,True,0.0,0.48179
+1904,Helwan Public Club,True,True,0.00057,0.65504
+1905,6th of October Garden (Helwan),True,True,0.0,0.45924
+1906,6th of October Garden (Helwan),True,True,0.00044,0.16266
+1907,Al Nasr Hospital (Helwan),True,True,0.00038,0.24444
+1908,Al Nasr Hospital (Helwan),True,True,0.00058,0.2188
+1909,Hareer St. (Helwan),True,True,0.0,0.3858
+191,Misr Sudan (Nasr City),True,True,0.0,0.47662
+1910,Hareer St. (Helwan),True,True,0.00028,0.45136
+1911,Al Fayrouz Medical Center (Helwan),True,True,0.00038,0.38678
+1912,Al Fayrouz Medical Center (Helwan),True,True,0.00043,0.46673
+1913,Farouq Corner Musuem (Helwan),True,True,0.0,0.40149
+1914,Helwan Post Office,True,True,0.00048,0.40366
+1915,Education Directorate (Helwan),True,True,0.00068,0.59349
+1916,Education Directorate (Helwan),True,True,0.0,0.33827
+1917,Abdullah Al Othaym (Nile Corniche),True,True,0.0,0.26323
+1918,Abdullah Al Othaym (Nile Corniche),True,True,0.00056,0.30149
+1919,Al Maasara Police Station,True,True,0.00042,0.20696
+192,Health Insurance Hospital (Nasr City),True,True,0.00045,0.67549
+1920,Al Nakhl (Nile Corniche),True,True,0.00019,0.2047
+1921,Al Nakhl (Nile Corniche),True,True,0.0004,0.43021
+1922,Hadayeq Helwan,True,True,0.0,0.62588
+1923,Mafareq (Hadayeq Helwan),True,True,0.00041,0.55882
+1924,Montasser (Nile Corniche),True,True,0.0,0.5974
+1925,Montasser (Nile Corniche),True,True,0.0,0.21221
+1926,Adawy (Nile Corniche),True,True,0.0,0.49163
+1927,Adawy (Nile Corniche),True,True,0.0,0.03336
+1928,Al Maasara For Engineering Industries,True,True,0.00044,0.46968
+1929,Mobil (Nile Corniche Maasara),True,True,0.00054,0.05768
+193,Rabaah Al Adaweya Mosque,True,True,0.0,0.24232
+1930,Mobil (Nile Corniche Maasara),True,True,0.00039,0.48071
+1931,Al Masa Hall (Nile Corniche),True,True,0.0,0.39097
+1932,Al Masa Hall (Nile Corniche),True,True,0.0,0.59497
+1933,Al Malek Al Saleh Bridge,True,True,0.0,0.44478
+1934,Al Malek Al Saleh Metro,True,True,0.00046,0.0669
+1935,Al Malek Al Saleh Metro,True,True,0.00051,0.34695
+1936,National Institute for Tumor Studies (Magra Al Oyoun),True,True,0.00033,0.59794
+1937,National Institute for Tumor Studies (Magra Al Oyoun),True,True,0.0,0.06265
+1938,National Institute for Diabetes (Magra Al Oyoun),True,True,0.0003,0.6816
+1939,National Institute for Diabetes (Magra Al Oyoun),True,True,0.00025,0.37721
+194,Al Tayaran St. & Khedr Al Touny St.,True,True,0.00044,0.53032
+1940,Fom Al Khalig Police Station,True,True,0.00036,0.4108
+1941,Al Malek Al Saleh Bridge Entrance,True,True,0.00037,0.51744
+1942,Al Malek Al Saleh Bridge Entrance,True,True,0.0,0.4941
+1943,Al Khashab Bridge,True,True,0.00026,0.42947
+1944,Al Khashab Bridge,True,True,0.00046,0.21838
+1945,Al Nada Hospital (Al Manial),True,True,0.00048,0.56804
+1946,Al Nada Hospital (Al Manial),True,True,0.00065,0.49001
+1947,Three Brothers Supermarket (Al Manial),True,True,0.0005,0.21232
+1948,Three Brothers Supermarket (Al Manial),True,True,0.00051,0.59104
+1949,Alfa Lab (Al Manial),True,True,0.00035,0.45947
+195,Heliopolis Sporting Club,True,True,0.0,0.43153
+1950,River Transport Authority (Zahraa),True,True,0.0,0.37672
+1951,River Transport Authority (Zahraa),True,True,0.0,0.15478
+1952,Misr Al Qadima Post Office,True,True,0.00051,0.44099
+1953,Misr Al Qadima Post Office,True,True,0.00042,0.29703
+1954,Centeral Al Fustat,True,True,0.00049,0.25318
+1955,Centeral Al Fustat,True,True,0.00017,0.46193
+1956,Misr El Qadima Police Department,True,True,0.00043,0.35769
+1957,Misr Al Qadima Police Department,True,True,0.00062,0.5249
+1958,Al Sayeda Nafeesa,True,True,0.0,0.23633
+1959,Al Sayeda Nafeesa,True,True,0.0,0.55696
+196,Sphinx Square,True,True,0.00066,0.18989
+1960,Al Abtal Club ( Ein Al Seera),True,True,0.0,0.49162
+1961,Al Abtal Club ( Ein Al Seera),True,True,0.00069,0.31075
+1962,Al Khelaa St.,True,True,0.00057,0.24543
+1963,Autostrad Entrance from Al Abageyya,True,True,0.00043,0.60699
+1964,Autostrad Entrance from Al Abageyya,True,True,0.0004,0.57348
+1965,Autostrad Entrance from Al Abageyya,True,True,0.00017,0.44225
+1966,Salah Al Din Citadel (Salah Salem),True,True,0.00028,0.4116
+1967,Traffic Department ( Ain El Sira ),True,True,0.00023,0.55312
+1968,Traffic Department ( Ain El Sira ),True,True,0.00052,0.26074
+1969,Misr El Qadima District Presidency,True,True,0.0,0.26287
+197,Sphinx Square,True,True,0.00053,0.41733
+1970,Misr El Qadima District Presidency,True,True,0.0,0.10191
+1971,Al Malek Al Saleh Tunnel Square,True,True,0.00045,0.20178
+1972,Catholic Cemetery (Misr Al Qadima),True,True,0.00059,0.28291
+1973,Catholic Cemetery (Misr Al Qadima),True,True,0.00025,0.47668
+1974,Fustat Market,True,True,0.00036,0.51364
+1975,Fustat Market,True,True,0.00047,0.29155
+1976,Amr Ibn El Aas,True,True,0.0,0.44127
+1977,Police Union Club,True,True,0.0,0.25863
+1978,Al Moqattam Hospital,True,True,0.00049,0.40707
+1979,Al Moqattam Hospital,True,True,0.0004,0.5326
+198,Al Sekka Al Hadid Sporting Club (Nasr City),True,True,0.0002,0.38477
+1980,Al Farag Butchery (Magra Al Oyoun),True,True,0.0,0.5353
+1981,Al Farag Butchery (Magra Al Oyoun),True,True,0.0,0.40786
+1982,Hospital 57357 (  Magra Al Oyoun ),True,True,0.0,0.29162
+1983,Talaat Harb Cultural Center,True,True,0.00012,0.19089
+1984,Red Crescent ( Masaken Zainhom),True,True,0.0,0.40757
+1985,Al Azhar Park Gate,True,True,0.00054,0.57299
+1986,Al Azhar Park Gate,True,True,0.00052,0.53372
+1987,Mashyakhet Al Azhar Al Sharif,True,True,0.0006,0.49427
+1988,Mashyakhet Al Azhar Al Sharif,True,True,0.00044,0.1132
+1989,Mashyakhet Al Azhar Al Sharif,True,True,0.0005,0.37853
+199,Al Sekka Al Hadid Sporting Club (Nasr City),True,True,0.00012,0.49343
+1990,Al Hussein Hospital (Al Darraasa),True,True,0.00052,0.35653
+1991,Al Gamaleya Youth Center,True,True,0.0,0.55314
+1992,Al Gamaleya Youth Center,True,True,0.0,0.38042
+1993,Qadry Basha (Al Sayeda Zeinab),True,True,0.0,0.41174
+1994,Qadry Basha (Al Sayeda Zeinab),True,True,0.0,0.23104
+1995,Al Sayeda Zeinab District Presidency,True,True,0.0,0.40997
+1996,Child Care Club Association - Al Sayeda Zeinab,True,True,0.0,0.33358
+1997,Al Sayeda Aisha,True,True,0.0006,0.18059
+1998,Qalaa,True,True,0.00036,0.41554
+1999,Qalaa Post Office,True,True,0.00041,0.18951
+2,Remaya 28,True,True,0.00047,0.248
+20,Abd Al Moneim Riad,True,True,0.0004,0.1498
+200,Al Azhar University Northen Gate,True,True,0.0,0.11119
+2000,Al Bibany St.,True,True,0.0,0.18431
+2001,Berm Al Tounsi St ( Abou Al Reesh ),True,True,0.0,0.39962
+2002,Madbah ( Magra Al Oyoun),True,True,0.00035,0.64521
+2003,Madbah ( Magra Al Oyoun),True,True,0.0,0.50513
+2006,Awwel El Zawya Station,True,True,0.00051,0.58174
+2007,Al Nasr School ( Al Waili ),True,True,5e-05,0.22936
+2008,Al Nasr School ( Al Waili ),True,True,6e-05,0.26755
+2009,Al Anabeeb - Waili,True,True,0.00015,0.43368
+201,Al Azhar University Northen Gate,True,True,0.00031,0.23352
+2010,Al Anabeeb - Waili,True,True,0.00048,0.56289
+2011,Versay - Waili,True,True,0.0,0.0
+2012,Versay ( Waili ),True,True,0.00025,0.31825
+2013,Al Garage - Sawah,True,True,0.00038,0.46968
+2014,Al Garage ( Sawah ),True,True,9e-05,0.43754
+2015,Amiriyyah,True,True,0.0,0.37408
+2016,Dabsha ( Al Zaytoun),True,True,0.0,0.36433
+2017,Abou Al Majd Center (Mostorod),True,True,0.0,0.13647
+2018,Abou Al Majd Center (Mostorod),True,True,0.00015,0.34997
+2019,Abou Al Majd Center (Mostorod),True,True,0.0005,0.37324
+202,Arab Contractors Sporting Club (Nasr Rd.),True,True,0.00026,0.55472
+2020,Waei Islami Hospital (Mostorod),True,True,0.0005,0.6018
+2021,Waei Islami Hospital (Mostorod),True,True,0.00016,0.40217
+2022,Waei Islami Hospital (Mostorod),True,True,0.00053,0.50153
+2023,Waei Islami Hospital (Mostorod),True,True,0.0,0.41169
+2024,15th of May School (Mostorod),True,True,0.00052,0.55606
+2025,Manshiyat Al Bakry General Hospital,True,True,9e-05,0.30585
+2026,Manshiyat Al Bakry General Hospital,True,True,0.0005,0.5152
+2027,Kobry Al Qobba,True,True,0.00057,0.6304
+2028,Kobry Al Qobba,True,True,0.00049,0.18274
+2029,Language Institute (Al Qobba),True,True,0.00037,0.18307
+203,Enppi,True,True,0.00043,0.52957
+2030,Language Institute (Al Qobba),True,True,0.0,0.60754
+2031,Ain Shams University Dorms,True,True,0.00021,0.55751
+2032,Ain Shams University Dorms,True,True,0.00044,0.55063
+2033,Taawon (Al Matareyya),True,True,0.00055,0.33608
+2034,Taawon (Al Matareyya),True,True,0.00023,0.4302
+2035,Abu Khater (Al Matareyya),True,True,0.0,0.49357
+2036,Abu Khater (Al Matareyya),True,True,0.0,0.45506
+2037,Al Kawetch (Al Matareyya),True,True,0.0,0.54263
+2038,Al Kawetch (Al Matareyya),True,True,0.0,0.22174
+2039,Tabarak (Omar Al Mokhtar St.),True,True,4e-05,0.2332
+204,Kasr Al Ainy Hospital,True,True,0.00035,0.34564
+2040,Tabarak (Omar Al Mokhtar St.),True,True,0.00048,0.52273
+2041,Sayyed Al Abedeen Pharmacy (Cablat St.),True,True,0.0,0.2423
+2042,Sayyed Al Abedeen Pharmacy (Cablat St.),True,True,0.00038,0.29738
+2043,Dokki Metro,True,True,0.00054,0.51966
+2044,Dokki Metro,True,True,0.00019,0.4082
+2045,Ali Abdel Halim St. & Tahrir St.,True,True,0.00049,0.29404
+2046,Ali Abdel Halim St. & Tahrir St.,True,True,0.0003,0.52283
+2047,Faisal Islamic Bank (Tahrir St.),True,True,0.00041,0.42536
+2048,Faisal Islamic Bank (Tahrir St.),True,True,0.00055,0.51848
+2049,Judges Club (Al Dokki),True,True,0.0,0.19251
+2050,Judges Club (Al Dokki),True,True,0.00011,0.3807
+2051,Galaa Bridge Exit to Dokki,True,True,0.00057,0.62605
+2052,Galaa Bridge Exit to Dokki,True,True,0.0,0.67628
+2053,State Council (Dokki),True,True,0.00053,0.60559
+2054,State Council (Dokki),True,True,0.00054,0.50065
+2055,Simsima (Dokki),True,True,0.00045,0.58336
+2056,Simsima (Dokki),True,True,0.00053,0.34587
+2057,Czesch Republic Embassy (Dokki),True,True,0.00013,0.40336
+2058,Czesch Republic Embassy (Dokki),True,True,0.00039,0.61966
+2059,Bein Al Sarayat Youth Center,True,True,0.0,0.53758
+206,Giza Square Station,True,True,0.0,0.51722
+2060,Research Institute of Ophthalmology (Al Giza),True,True,0.00043,0.43091
+2061,Research Institute of Ophthalmology - Giza,True,True,0.00048,0.40777
+2062,Roz Al Youssef Magazine (Garden City),True,True,0.00037,0.61278
+2063,Roz Al Youssef Magazine - Garden City,True,True,0.00026,0.38619
+2064,Egyptian Parlimant,True,True,0.00063,0.50335
+2065,Atfal Misr Hospital (Abou Al Reesh),True,True,0.00046,0.41292
+2066,Sheikh Ali Youssef School (Downtown),True,True,0.00056,0.27213
+2067,Al Mounira School (Downtown),True,True,0.00057,0.41264
+2068,Talaat Harb Square (Downtown),True,True,0.0,0.11105
+2069,Talaat Harb Mall (Downtown),True,True,0.0006,0.50034
+207,Kasr Al Ainy Hospital,True,True,0.0,0.34582
+2070,Mohammed Farid Post Office,True,True,0.00015,0.3997
+2071,Ataba,True,True,0.0,0.50747
+2072,Al Banat Mosque,True,True,0.0,0.37928
+2073,Abd El Aziz St. (Ataba),True,True,0.0,0.32685
+2074,Abd El Aziz St. (Ataba),True,True,0.00044,0.6253
+2075,Bab Al Sheareyya Metro,True,True,0.00039,0.42235
+2076,Port Said St. Pedestrian Al Mosky,True,True,0.00052,0.21876
+2077,Port Said St. Pedestrian Al Mosky,True,True,0.00041,0.44081
+2078,Al Huda Mosuqe (Al Mosky),True,True,0.00015,0.37208
+2079,Al Huda Mosuqe (Al Mosky),True,True,0.00061,0.48623
+208,Syndicate Of Commercial Professions (Abbaseya),True,True,0.00032,0.44801
+2080,Al Banhawi,True,True,0.00049,0.14862
+2081,Al Banhawi,True,True,0.00051,0.30203
+2082,Al Darraasa Traffic Department,True,True,0.00027,0.69581
+2083,Al Darraasa Traffic Department,True,True,0.00024,0.36994
+2084,Industrial Technical Institute (Al Azhar),True,True,0.0,0.55018
+2085,Al Mounira Hospital,True,True,0.0,0.11119
+2086,Science House Garden (Al Mounira),True,True,0.0,0.48466
+2087,Isaaf,True,True,0.0,0.24232
+2088,Isaaf,True,True,0.0,0.37589
+2089,Isaaf,True,True,0.0,0.56685
+209,Syndicate Of Commercial Professions (Abbaseya),True,True,0.00042,0.57489
+2090,Isaaf,True,True,0.0,0.35774
+2091,Ahmed Oraby (Ramses),True,True,0.00054,0.50833
+2092,Ahmed Oraby Metro,True,True,0.00051,0.63392
+2093,Al Torgoman,True,True,0.00053,0.26447
+2094,Al Torgoman,True,True,0.00048,0.14505
+2095,Al Darb Al Ahmar Police Station,True,True,0.00044,0.59571
+2096,Bab Al Khalq ( Qalaa St. ),True,True,0.00026,0.63613
+2097,Emad El Deen St. & 26th of July St.,True,True,0.0,0.56424
+2098,Central Bank (Ataba),True,True,0.0,0.16955
+2099,Central Bank (Ataba),True,True,0.00034,0.27863
+210,Al Khalafawy Square,True,True,0.0,0.1924
+2100,Ahmed Badawi St.,True,True,0.0,0.61886
+2101,Bab Al Nasr ( Al Gamalia ),True,True,0.00068,0.47002
+2102,Bab Al Nasr ( Al Gamalia ),True,True,0.00019,0.38937
+2103,Bab Al Fotouh ( Al Gamalia ),True,True,0.00025,0.44381
+2104,Bab Al Fotouh ( Al Gamalia ),True,True,0.00014,0.58886
+2105,Olowwa Faris St. (Bab Al Shaereyya),True,True,0.00027,0.49216
+2106,Olowwa Faris St. (Bab Al Shaereyya),True,True,0.00033,0.58403
+2107,Bab Al Shaereyya Hospital,True,True,0.00031,0.12808
+2108,Bab Al Shaereyya Hospital,True,True,0.0005,0.52
+2109,Bab Al Shaereyya Girls Elementary School,True,True,0.00048,0.35946
+211,Al Khalafawy Square,True,True,0.0,0.58814
+2110,Bab Al Shaereyya Girls Elementary School,True,True,0.00031,0.45522
+2111,Khalil Agha Military School,True,True,0.0,0.51191
+2112,Shubra Al Kheima Power Plant,True,True,0.00053,0.03194
+2113,Nasser Institue For Research (Al Khalafawy),True,True,0.00017,0.58533
+2114,Mobil (Al Khalafawy),True,True,0.00026,0.31946
+2115,Mobil (Al Khalafawy),True,True,0.00039,0.48244
+2116,Al Mazallaat ( Shubra),True,True,0.00019,0.19614
+2117,Mazallat,True,True,0.00047,0.50926
+2118,Abou Wafya,True,True,0.0,0.58814
+2119,Abou Wafya,True,True,0.0006,0.29274
+212,Rod Al Farag Metro Station,True,True,0.0,0.14407
+2120,Al Fath Mosque (Mansheyyet Al Gamal St.),True,True,0.0,0.45506
+2121,Al Mazallaat ( Shubra),True,True,0.00067,0.1904
+2122,Al Mazallaat ( Shubra),True,True,0.00027,0.29609
+2123,Nour Al Huda Automotive (Shubra Al Kheima),True,True,0.0005,0.56831
+2124,Nour Al Huda Automotive (Shubra Al Kheima),True,True,0.0002,0.70047
+2125,Nile Club (Shubra Al Kheima),True,True,0.0,0.12822
+2126,Nile Club (Shubra Al Kheima),True,True,0.00049,0.4613
+2127,Saint Teresa Metro,True,True,0.00015,0.17734
+2128,Al Sahel Police Department,True,True,0.00057,0.24015
+2129,Holding Company For Water & Wastewater (HCWW),True,True,0.00029,0.40942
+213,Abdeen,True,True,0.00032,0.33527
+2130,Arkadia Mall,True,True,0.00041,0.38838
+2131,Rod Al Farag Youth Center,True,True,0.00048,0.54344
+2132,Al Central St. & Abou Al Farag St.,True,True,0.0,0.38245
+2133,Al Central St. & Abou Al Farag St.,True,True,0.0,0.51803
+2134,Masarra,True,True,0.0,0.0
+2135,Criminal Evidence Registery (Abbaseya),True,True,0.0,0.24232
+2136,Criminal Evidence Registery (Abbaseya),True,True,0.0006,0.36223
+2139,Criminal Evidence Registery (Abbaseya),True,True,0.0,0.30936
+214,Al Tabba (Nasr City),True,True,0.0,0.52231
+2140,Police Academy (Abbaseya),True,True,0.0,0.37985
+2141,Faculty of Engineering (Al Azhar University),True,True,0.00019,0.28248
+2142,Faculty of Engineering (Al Azhar University),True,True,0.00041,0.43059
+2143,Al Saraya Elementary School (Abbaseya),True,True,0.0,0.09623
+2144,Al Qobba Al Fidaweyya Mosque (Abbaseya),True,True,0.00041,0.32768
+2145,Al Qobba Al Fidaweyya Mosque (Abbaseya),True,True,0.00039,0.5419
+2146,Al Demerdash Hospital,True,True,0.0,0.47204
+2147,Ahmed Saaed Bridge Entrance,True,True,0.00054,0.09981
+2148,Lotfy Al Sayed St & Masr Wal Sudan St,True,True,0.00051,0.50463
+2149,Ghamra Bridge Exit to Cairo University,True,True,0.00044,0.50836
+215,Al Tabba (Nasr City),True,True,0.0,0.1314
+2150,Ghamra Bridge Entrance,True,True,0.00037,0.32253
+2151,Ahmed Saeed St. & Abaseyya St.,True,True,0.0,0.73528
+2152,Misr Petroleum (Port Said St.),True,True,0.00025,0.29358
+2153,Misr Petroleum (Port Said St.),True,True,0.00023,0.61294
+2154,Misr Public Library (Port Said St.),True,True,0.00053,0.51776
+2155,Misr Public Library (Port Said St.),True,True,0.00036,0.3542
+2156,Farhety Hall (Port Said St.),True,True,0.0,0.49011
+2157,Farhety Hall (Port Said St.),True,True,0.00036,0.63139
+2158,Al Malek Al Saleh,True,True,0.00014,0.28718
+2159,Al Malek Al Saleh,True,True,0.00043,0.14347
+216,Imbaba Fevers Hospital,True,True,0.00018,0.46886
+2160,Al Omraneyya,True,True,0.00026,0.51847
+2161,Al Omraneyya Bridge Exit,True,True,0.0,0.67665
+2162,Al Omraneyya Bridge Exit,True,True,0.00052,0.36649
+2163,Arts Academy (Al Omraneyya ),True,True,0.0,0.05107
+2164,Oriental Weavers (Al Haram),True,True,0.00049,0.55684
+2165,Giza Governorate Authority,True,True,0.00063,0.69901
+2166,Giza Governorate Authority,True,True,0.00046,0.50075
+2167,KFC ( Faisal St. ),True,True,0.0,0.39328
+2168,KFC ( Faisal St. ),True,True,0.00049,0.26531
+2169,Al Ahli Bank (Faisal St.),True,True,0.00043,0.5411
+217,Hadabet Al Ahram,True,True,0.00028,0.60622
+2170,Al Ahli Bank (Faisal St.),True,True,0.00031,0.5649
+2171,Maryam Pharmacy (Faisal St.),True,True,0.00069,0.55374
+2172,Maryam Pharmacy (Faisal St.),True,True,0.00038,0.54527
+2173,Al Abyad Automotive ( Faisal St.),True,True,0.00033,0.48957
+2174,Al Abyad Automotive ( Faisal St.),True,True,0.00042,0.58676
+2175,Giza Bridge Exit to Cairo University,True,True,0.0,0.39345
+2176,Giza Bridge Exit to Cairo University,True,True,0.00041,0.59842
+2177,Faculty of Agriculture (Cairo University),True,True,0.00025,0.52179
+2178,Faculty of Agriculture (Cairo University),True,True,0.00047,0.38037
+2179,Agricultural Research Center - Cairo University,True,True,0.00029,0.47006
+218,Hadabet Al Ahram,True,True,0.0002,0.2747
+2180,Agricultural Research Center - Cairo University,True,True,0.00032,0.47766
+2181,Faculty of Engineering (Cairo University),True,True,0.0,0.59795
+2182,Faculty of Engineering (Cairo University),True,True,0.00021,0.30812
+2183,Giza Courthouse Complex,True,True,0.0,0.27681
+2184,Giza Courthouse Complex,True,True,0.00016,0.29469
+2185,Egyptian Agricultural Bank (Al Giza),True,True,0.0,0.41663
+2186,Egyptian Agricultural Bank (Al Giza),True,True,0.00068,0.46353
+2187,Om Al Masryeen Metro,True,True,0.00045,0.28786
+2188,Om Al Masryeen Metro,True,True,7e-05,0.18292
+2189,Amir Al Shoaraa School (Al Giza),True,True,0.00037,0.47323
+219,Al Remaya Square,True,True,0.00048,0.40946
+2190,Amir Al Shoaraa School (Al Giza),True,True,0.0,0.13239
+2191,Al Omraneyya Bridge Entrance from Giza,True,True,0.00032,0.49645
+2192,Al Omraneyya Bridge Entrance from Giza,True,True,0.00037,0.56795
+2193,Pharaonic Village (Al Bahr Al Aazam St.),True,True,0.00049,0.02765
+2194,Pharaonic Village (Al Bahr Al Aazam St.),True,True,0.00039,0.60452
+2195,Misr Al Wosta Electricity Company (Al Bahr Al Aazam St.),True,True,0.00049,0.59983
+2196,Pasta Factory Steps (Ring Rd.),True,True,0.00055,0.11511
+2197,Pasta Factory Steps (Ring Rd.),True,True,0.00026,0.44002
+2198,Al Omraneyya Steps (Ring Rd.),True,True,0.00028,0.46585
+2199,Al Omraneyya Steps (Ring Rd.),True,True,0.00053,0.6114
+22,10th of Ramadan,True,True,0.0,0.0
+220,Al Remaya Square,True,True,0.0,0.0
+2200,Sakiat Mekki Metro,True,True,0.00022,0.25733
+2201,Sakiat Mekki Metro,True,True,0.00037,0.31633
+2202,Three Pyramids Hotel,True,True,0.00028,0.46588
+2203,Al Khouly Steps (Ring Rd.),True,True,0.00028,0.4176
+2204,Qawmeya Arabeya Secondary Bus Station,True,True,0.0,0.0
+2205,Warraq Al Arab,True,True,0.0,0.33358
+2206,Al Warraq Central Hospital,True,True,0.00054,0.23869
+2207,Al Warraq Central Hospital,True,True,0.0,0.55211
+2208,Al Noor Al Mohammady (Imbaba),True,True,0.00041,0.54066
+2209,Al Noor Al Mohammady (Imbaba),True,True,0.0,0.7352
+221,Al Sekka Al Hadid Sporting Club (Nasr City),True,True,0.00032,0.17075
+2210,Al Bohi (Imbaba),True,True,0.0,0.40839
+2211,Al Bohi (Imbaba),True,True,0.0,0.22801
+2212,Al Wehda (Imbaba),True,True,0.0003,0.37427
+2213,Al Wehda (Imbaba),True,True,0.0,0.30868
+2214,Al Qawmeya Al Arabeya St.,True,True,0.00039,0.15713
+2215,Al Abeet Steps (Ring Rd.),True,True,0.0,0.30937
+2216,Shobra  Banha St. & Ring Rd.,True,True,0.00036,0.11438
+2217,Shobra  Banha St. & Ring Rd.,True,True,0.00049,0.36023
+2218,Ring Rd. Pedestrian Ezbet Anwar,True,True,0.0006,0.25529
+2219,Masaken Al Wehda,True,True,0.00064,0.47367
+222,Ahmed Oraby Metro,True,True,0.00061,0.25282
+2220,Misr Petroleum - Masaken Al Wehda,True,True,0.00045,0.33314
+2221,Crystal Asfour ( Masaken Al Wehda ),True,True,0.0,0.45506
+2222,Crystal Asfour ( Masaken Al Wehda ),True,True,0.0004,0.46072
+2223,Koshary Hend ( Masaken Al Wehda),True,True,0.0,0.37329
+2224,Koshary Hend ( Masaken Al Wehda),True,True,0.0,0.25636
+2225,Ibrahim Bek,True,True,0.0,0.0
+2226,Ibrahim Bek,True,True,0.00025,0.59675
+2227,Ibrahim Bek Youth Center,True,True,0.00039,0.33435
+2228,Ibrahim Bek Youth Center,True,True,0.00044,0.10669
+2229,Asfour Mosque ( Ibrahim Bek ),True,True,0.0,0.47497
+223,Al Sayeda Aisha,True,True,0.00034,0.08418
+2230,Asfour Mosque ( Ibrahim Bek ),True,True,0.0,0.18613
+2231,Al Shorouq Hospital ( 15th of May St.),True,True,0.00055,0.45854
+2232,Al Shorouq Hospital ( 15th of May St.),True,True,0.00013,0.08377
+2233,Faculty of Agriculture - Ain Shams University,True,True,0.0,0.32788
+2234,Faculty of Agriculture - Ain Shams University,True,True,0.0,0.60773
+2235,Al Zawya Youth Center,True,True,0.00053,0.44712
+2236,Al Sayeda Khadiga School (Al Zawya Al Hamra),True,True,0.0005,0.45857
+2237,Al Mafariq (Al Zawya Al Hamra),True,True,0.00062,0.51777
+2238,Abu Bakr Al Sediq St. & Teraat Al Dakat St.,True,True,0.00053,0.40969
+2239,Dwidar St. & Hadayeq Al Qobba St.,True,True,0.00051,0.08901
+224,Abbaseya Bridge Exit,True,True,0.00066,0.38855
+2240,Btech (Masr Wal Sudan St.),True,True,0.00047,0.49223
+2241,Al Fouad Hospital (Abbaseya),True,True,0.0004,0.49846
+2242,Al Demerdash Metro,True,True,0.00041,0.2588
+2243,Al Demerdash Metro,True,True,0.00018,0.54178
+2244,Al Demerdash Metro,True,True,0.0007,0.25489
+2245,Sharabeya,True,True,0.0005,0.26785
+2246,Aida (Ahmed Helmy St.),True,True,0.00015,0.6096
+2247,Aida (Ahmed Helmy St.),True,True,0.00052,0.27216
+2248,Victoria (Ahmed Helmy St.),True,True,0.00037,0.33283
+2249,Victoria (Ahmed Helmy St.),True,True,0.00018,0.27075
+225,Gamal Abd Al Nasser Metro,True,True,0.0,0.5227
+2250,Al Sheikh Parking (Ahmed Helmy St.),True,True,0.0,0.44446
+2251,Al Sheikh Parking (Ahmed Helmy St.),True,True,0.00041,0.4684
+2252,Al Sahel Youth Center,True,True,0.00028,0.48377
+2253,Coop (Nasr Al Islam Square),True,True,0.00047,0.2726
+2254,Rimo Car (Ahmed Helmy St.),True,True,0.0,0.58544
+2255,Rimo Car (Ahmed Helmy St.),True,True,0.00029,0.29722
+2256,Azhari Institute (Ahmed Helmy St.),True,True,0.00043,0.27961
+2257,Azhari Institute (Ahmed Helmy St.),True,True,0.00063,0.38359
+2258,Real Estate Registration Office (Shobra),True,True,0.00059,0.55816
+2259,Bohooth,True,True,0.00056,0.45465
+226,Roxy,True,True,0.0,0.49711
+2260,Bohooth,True,True,0.00021,0.6303
+2261,National Research Center (Dokki),True,True,0.0003,0.55145
+2262,National Research Center (Dokki),True,True,0.00027,0.49397
+2263,Dokki Square,True,True,0.0,0.24378
+2264,Dokki Square,True,True,0.0,0.5302
+2265,Mohie Al Deen Aboul Ezz St. & Tahrir St.,True,True,0.0,0.52792
+2266,Mohie Al Deen Aboul Ezz St. & Tahrir St.,True,True,0.0,0.40019
+2267,Cairo University Main Gate,True,True,0.0,0.56036
+2268,Cairo University Main Gate,True,True,0.0,0.30894
+2269,Bulaq Al Dakrur,True,True,0.0,0.53133
+227,Abd Al Moneim Riad,True,True,0.0,0.13888
+2270,Bulaq Dakrur,True,True,0.0003,0.56452
+2271,Bulaq Dakrur,True,True,0.00047,0.62171
+2272,Sednawy (Sudan St.),True,True,0.00042,0.50969
+2273,Sednawy (Sudan St.),True,True,5e-05,0.56866
+2274,Saqqara St.,True,True,0.0,0.14719
+2275,Agricultural Center (Badrasheen),True,True,0.00045,0.46784
+2276,Misr Petroleum Gas Station (Badrasheen),True,True,0.0,0.23371
+2277,Anas Al Wogood Borg (Badrasheen),True,True,0.0,0.36784
+2278,Badrasheen Bus Station,True,True,0.0,0.0
+2279,Badrasheen Bus Station,True,True,0.0,0.0
+228,Abd Al Moneim Riad,True,True,0.00019,0.50753
+2280,Taqa Gas Station (Badrasheen),True,True,0.00054,0.42339
+2281,Taqa Gas Station (Badrasheen),True,True,0.00048,0.4171
+2282,Al Sabteyya School,True,True,0.0,0.14487
+2283,Conrad Hotel,True,True,0.00035,0.60506
+2284,Documentation Center (Bolak),True,True,0.00037,0.28904
+2285,Documentation Center (Bolak),True,True,0.00024,0.41739
+2286,Al Maagfera Mosque (Bolak),True,True,0.0,0.38512
+2287,Al Maagfera Mosque (Bolak),True,True,0.00046,0.14211
+2288,Al Ahli Bank (Courniche Boulaq),True,True,0.00035,0.39447
+2289,Al Ahli Bank (Courniche Boulaq),True,True,0.0,0.48799
+229,Abd Al Moneim Riad,True,True,0.00022,0.39209
+2290,Al Wekala (Nile Courniche),True,True,0.00029,0.16989
+2291,Al Wekala (Nile Courniche),True,True,0.00019,0.33963
+2292,Nile Towers (Nile Corniche),True,True,0.00031,0.20756
+2293,Nile Towers (Nile Corniche),True,True,0.00049,0.32431
+2294,Nile Towers (Nile Corniche),True,True,0.00059,0.59503
+2295,Ferdous (Rod Al Farag),True,True,0.00033,0.30168
+2296,Al Sahel Fire Department,True,True,0.0,0.38966
+2297,Al Sahel Fire Department,True,True,0.00047,0.08013
+2298,The Good Shepherd Nuns,True,True,0.00051,0.16864
+2299,Suez Canal Bank (Shobra St.),True,True,0.0,0.4295
+230,Lebanon Square,True,True,0.00051,0.51337
+2300,Banzion (Shobra St.),True,True,0.00047,0.27836
+2301,Misr Bank (Shobra St.),True,True,0.0005,0.43486
+2302,Koshary Aladin (Shobra),True,True,0.0,0.29921
+2303,Al Mostashfa St & Ahmed Helmy St,True,True,0.00067,0.39673
+2304,Al Mostashfa St & Ahmed Helmy St,True,True,0.0,0.2216
+2305,Ramses Language Schools (Khaloussi),True,True,0.00011,0.50885
+2306,Ramses Language Schools (Khaloussi),True,True,0.00034,0.64198
+2307,Amir Mall (Khaloussi),True,True,0.0,0.30934
+2308,Kahraba Club (Rod Al Farag),True,True,0.00032,0.39567
+2309,Kahraba Club (Rod Al Farag),True,True,0.00052,0.45615
+231,Lebanon Square,True,True,0.00019,0.36815
+2310,Al Taawon (Haram St),True,True,0.00031,0.42528
+2311,Al Taawon (Haram St),True,True,0.00037,0.36585
+2312,Nour Al Islam Azhari Institute (Kafr Al Gabal),True,True,0.0,0.48792
+2313,Nour Al Islam Azhari Institute (Kafr Al Gabal),True,True,0.0001,0.51773
+2314,Al Mansoureyya Rd. & Ring Rd.,True,True,0.00038,0.30693
+2315,Al Mansoureyya Rd. & Ring Rd.,True,True,0.00015,0.42089
+2316,Al Ward St. & Al Mansoureyya Rd.,True,True,0.0,0.54964
+2317,Al Ward St. & Al Mansoureyya Rd.,True,True,0.0,0.40464
+2318,Ibrahim Al Afifi Alley (Al Mansoureyya Rd.),True,True,0.0004,0.25208
+2319,Ibrahim Al Afifi Alley (Al Mansoureyya Rd.),True,True,0.00061,0.30157
+232,New Cairo Sporting Club,True,True,0.00034,0.45458
+2320,Al Tadreeb Gate (Teraet Al Ismaili St),True,True,0.00036,0.39354
+2321,Al Tadreeb Gate (Teraet Al Ismaili St),True,True,0.00043,0.09966
+2322,Ahmed Khalil St & Mogamaa Al Masanae St,True,True,0.00047,0.46607
+2323,Traffic Licensing Complex (Shubra),True,True,0.0,0.33414
+2324,Traffic Licensing Complex (Shubra),True,True,0.00034,0.19822
+2325,Ali Al Sheikh Tower (Abboud),True,True,0.0,0.34188
+2326,Ali Al Sheikh Tower (Abboud),True,True,0.00022,0.2959
+2327,Ministry of Agriculture (Dokki),True,True,0.00034,0.12249
+2328,Ministry of Agriculture (Dokki),True,True,0.00046,0.49965
+2329,Duty Free (Gameat Al Dowal St.),True,True,0.0,0.4749
+233,3rd Settlement Station,True,True,0.0,0.58582
+2330,Duty Free (Gameat Al Dowal St.),True,True,0.0,0.48126
+2331,Ahli Kuwaiti Bank (Sudan St.),True,True,0.00039,0.24578
+2332,Ahli Kuwaiti Bank (Sudan St.),True,True,0.00064,0.65479
+2333,Aden St. & Sudan St.,True,True,0.00063,0.15019
+2334,Aden St. & Sudan St.,True,True,0.00071,0.21106
+2335,Sudan St. (Ard Al Lewa),True,True,0.0,0.31268
+2336,Sudan St. (Ard Al Lewa),True,True,0.00044,0.24825
+2337,Abou Al Farag St & Rod Al Farag St,True,True,0.00012,0.44204
+2338,Antidote and Vacince (Mohandeseen),True,True,0.00023,0.39515
+2339,Antidote and Vacince (Mohandeseen),True,True,0.00011,0.53729
+234,3rd Settlement Station,True,True,0.0,0.38521
+2340,Papa Jones (Batal Ahmed St.),True,True,0.0,0.12823
+2341,Papa Jones (Batal Ahmed St.),True,True,0.0,0.44079
+2342,Alex Bank (Gameat Al Dowal St.),True,True,0.00052,0.26324
+2343,Alex Bank (Gameat Al Dowal St.),True,True,0.00025,0.60519
+2344,Ring Rd. Exit to Saft Al Laban,True,True,0.00054,0.58088
+2345,Ring Rd. Exit to Saft Al Laban,True,True,0.00054,0.50907
+2346,Nahya Steps (Ring Rd.),True,True,0.0,0.43854
+2347,Al Tarek Al Abead & Rind Rd.,True,True,0.00014,0.05985
+2348,Al Tarek Al Abead & Rind Rd.,True,True,0.00032,0.49587
+2349,Al Aalam Specialized Hospital,True,True,0.00043,0.36572
+235,Al Karma Compound Gate (Sheikh Zayed),True,True,0.00036,0.25683
+2350,Opera House,True,True,0.0,0.45508
+2351,Opera House,True,True,0.00049,0.60553
+2352,Cairo Club (Opera St.),True,True,0.00037,0.49364
+2353,Cairo Club (Opera St.),True,True,0.00017,0.5868
+2354,Police Hospital (Agouza),True,True,0.00056,0.44268
+2355,Police Hospital (Agouza),True,True,0.00012,0.16923
+2356,Al Agouza Steps (October Bridge),True,True,0.0,0.50264
+2357,Al Agouza Steps (October Bridge),True,True,0.00058,0.4267
+2358,Al Agouza Hospital,True,True,0.0,0.6569
+2359,Al Agouza Hospital,True,True,0.00018,0.64337
+236,Al Rawda & Al Horreya St.,True,True,0.00034,0.58937
+2360,Al Baloun Theatre (Al Agouza),True,True,0.00051,0.45251
+2361,Al Baloun Theatre (Al Agouza),True,True,0.00053,0.24136
+2362,Brazil St. & 26th of July,True,True,0.0,0.11159
+2363,Brazil St. & 26th of July,True,True,0.0,0.34589
+2364,Police Officers Club (Zamalek),True,True,0.0,0.48584
+2365,Police Officers Club (Zamalek),True,True,0.0,0.55345
+2366,Al Gezira Steps (October Bridge),True,True,0.00057,0.63074
+2367,Al Gezira Steps (October Bridge),True,True,0.0,0.25029
+2368,Al Warraq Water Station,True,True,0.0,0.44478
+2369,Al Warraq Water Station,True,True,0.00056,0.48368
+237,Zain Paint Store (Al Rawda Sheikh Zayed),True,True,0.0004,0.22324
+2370,Al Warraq Station,True,True,0.00041,0.68559
+2371,Al Warraq Station,True,True,0.00017,0.33647
+2372,Al Warraq Ferry,True,True,0.00024,0.13835
+2373,Al Warraq Ferry,True,True,0.00051,0.66048
+2374,Al Gazareen (Warraq),True,True,0.00033,0.27597
+2375,Al Gazareen (Warraq),True,True,0.00038,0.70627
+2376,Al Tawheed Wal Nour (Warraq),True,True,0.00024,0.24665
+2377,Al Tawheed Wal Nour (Warraq),True,True,0.00047,0.30235
+2378,Ministry of Irrigation (Warraq),True,True,0.0,0.37067
+2379,Ministry of Irrigation (Warraq),True,True,0.0,0.27989
+238,Hyper One (Sheikh Zayed),True,True,0.00055,0.46523
+2380,Marioteyya,True,True,0.00027,0.46647
+2381,Marioteyya,True,True,0.00032,0.23374
+2382,Imbaba,True,True,0.00047,0.51854
+2384,Imbaba,True,True,0.0,0.41646
+2385,Imbaba,True,True,0.0,0.48395
+2386,Imbaba,True,True,0.0,0.51591
+2387,Kabdet Al Prince (Imbaba),True,True,0.0,0.5168
+2388,Kabdet Al Prince (Imbaba),True,True,0.0,0.34027
+2389,North Imbaba,True,True,0.0,0.44155
+239,Al Mansoreya & 26th of July Corridor,True,True,0.00024,0.42275
+2390,North Imbaba,True,True,0.0,0.38922
+2391,East Imbaba,True,True,0.00029,0.29655
+2392,Imbaba Station,True,True,0.00055,0.50103
+2393,Imbaba Fevers Hospital,True,True,0.00033,0.45607
+2394,Hearing and Speech Institute (Imbaba),True,True,0.00046,0.59531
+2395,Hearing and Speech Institute (Imbaba),True,True,0.00042,0.60002
+2396,KFC (Gameat Al Dowal St.),True,True,0.0,0.36396
+2397,KFC (Gameat Al Dowal St.),True,True,0.0,0.5286
+2398,Wadi Al Nile St. & 26th of July Corridor (Mit Okba),True,True,0.00059,0.43741
+2399,Wadi Al Nile St. & 26th of July Corridor (Mit Okba),True,True,0.0005,0.57337
+24,Haram & Marioteya,True,True,0.0,0.18374
+240,Al Marioteya Rd. & 26th of July Corridor,True,True,0.00044,0.39672
+2400,Sphinx Square,True,True,0.00037,0.23104
+2401,Sphinx Square,True,True,0.00049,0.15214
+2402,Giza Directorate of Health Affairs,True,True,0.0,0.23913
+2403,Giza Directorate of Health Affairs,True,True,0.0,0.31834
+2404,B Tech (Ahmed Oraby St.),True,True,0.0,0.07843
+2405,B Tech (Ahmed Oraby St.),True,True,0.00036,0.40551
+2406,Madinat Al Talaba,True,True,0.0,0.31504
+2407,Madinat Al Talaba,True,True,0.0,0.45241
+2408,Northen Giza Courthouse,True,True,0.0,0.42864
+2409,Omar Efendi (Ahmed Oraby St.),True,True,0.00023,0.42534
+241,Al Barageel Entrance,True,True,0.00039,0.5095
+2410,Omar Efendi (Ahmed Oraby St.),True,True,0.0003,0.38356
+2411,Al Sawahel Canal St.,True,True,0.0004,0.48664
+2412,National Cardiac Institute,True,True,0.00031,0.05394
+2413,Masaken Ain Shams,True,True,0.0,0.58521
+2414,Al Salam Hospital (Al Salam City),True,True,0.0,0.48456
+2415,Al Rahman Mosque (Al Salam City),True,True,0.00052,0.4286
+2416,Mohamed Naguib St. (Al Salam City),True,True,0.0,0.18367
+2417,Salam Alexandria Station,True,True,0.0,0.45505
+2418,Salam Alexandria Station,True,True,0.00018,0.26788
+2419,Al Salam First Police Station,True,True,0.0,0.55672
+242,Ring Rd. Steps 1 (26th of July Corridor),True,True,0.0,0.44001
+2420,Al Salam First Police Station,True,True,0.0,0.37287
+2421,Abboud,True,True,0.0003,0.33298
+2422,Al Magzar (Al Mariouteya),True,True,0.0,0.25653
+2423,Al Magzar (Al Mariouteya),True,True,0.00037,0.32004
+2424,Al Magzar (Al Mariouteya),True,True,0.00037,0.4615
+2425,Haram St. & Talbeya,True,True,0.00034,0.34763
+2426,Al Shaboory Canal,True,True,0.00043,0.45879
+2427,Al Shaboory Canal,True,True,0.00047,0.20033
+2428,Al Shari' Al Gadeed (Bahteem),True,True,0.0,0.22216
+2429,Khosous,True,True,0.0004,0.37864
+243,Ring Rd. Steps 2 (26th of July Corridor),True,True,0.00031,0.5491
+2430,Bahteem Square,True,True,0.0,0.27323
+2431,Bahteem Square,True,True,0.00041,0.48018
+2434,Megawra 1 (15th of May),True,True,0.00033,0.30137
+2435,Manshiyat Nasser,True,True,0.00042,0.47365
+2436,Manshiyat Nasser,True,True,0.00031,0.4057
+2437,Abu Al Houl St.,True,True,0.00013,0.38782
+2438,Al Hawamdeyya Bridge St.,True,True,0.0,0.44381
+2439,Al Hawamdeyya Bridge St.,True,True,0.0,0.39588
+244,Ard Al Lewa Steps (26th of July Corridor),True,True,0.00021,0.33439
+2440,Basrawy,True,True,0.0,0.52352
+2441,Isbiko Station,True,True,0.0,0.28837
+2442,Abou Zaabal,True,True,0.00045,0.68454
+2443,Hadayek Al Qobba Police Station,True,True,0.0,0.58815
+2444,Hadayek Al Qobba Police Station,True,True,0.0,0.40057
+2445,Manshiyat Nasser,True,True,0.00057,0.51868
+2446,Manshiyat Nasser,True,True,0.00049,0.47031
+2447,Obour Market station,True,True,0.0,0.22239
+2448,Saft Al Laban,True,True,0.00049,0.38388
+2449,Om Bayoumi Station,True,True,0.0,0.68108
+2450,Om Bayoumi Station,True,True,0.0005,0.41117
+2451,Al Tayaran St. & Mostafa Al Nahas,True,True,0.0,0.14706
+2452,Al Tayaran St. & Mostafa Al Nahas,True,True,0.0,0.2223
+2453,Awwal Makram Ebeid,True,True,0.00046,0.50529
+2454,Awwal Makram Ebeid,True,True,0.00051,0.39219
+2455,Awwal Makram Ebeid,True,True,0.0,0.53026
+2456,Awwal Makram Ebeid,True,True,0.0,0.29411
+2457,8th District (Nasr City),True,True,0.0,0.40069
+2458,8th District (Nasr City),True,True,0.00067,0.46213
+2459,Ahmed Helmy,True,True,0.0,0.4452
+246,Zamalek Sporting Club,True,True,0.0002,0.49517
+2460,Ahmed Helmy,True,True,0.00036,0.04106
+2461,Arab Tuweila,True,True,0.0,0.4723
+2462,Alf Maskan,True,True,0.0,0.48433
+2463,Alf Maskan,True,True,0.0,0.48295
+2464,Alf Maskan,True,True,0.0,0.14702
+2465,Alf Maskan,True,True,0.0,0.14702
+2466,Awwal Makram Ebeid,True,True,0.00062,0.29348
+2467,Al Sayeda Aisha,True,True,0.00015,0.4756
+2468,Al Sayeda Aisha,True,True,0.00045,0.109
+2469,Alf Maskan,True,True,0.00056,0.57202
+247,Maspero Exit (15th of May Bridge),True,True,0.00046,0.36717
+2470,Al Warraq Station,True,True,0.00048,0.5531
+2471,Al Warraq Bus Station,True,True,0.00057,0.3142
+2472,Ramses,True,True,0.0,0.45256
+2473,Cairo Airport,True,True,0.0,0.47685
+2474,Cairo Airport,True,True,0.00015,0.48598
+2475,Cairo Airport,True,True,0.0,0.65506
+2476,Giza Square,True,True,0.00036,0.17741
+2478,Gesr El Suez Garage Station,True,True,0.0,0.36428
+2479,Al Nozha Al Gadeeda,True,True,0.0,0.49356
+2480,Saqr Quraish,True,True,0.00037,0.55138
+2481,Saqr Quraish,True,True,0.0,0.44483
+2482,Giza Square Station,True,True,0.0,0.30571
+2483,Salam Nahda,True,True,0.0,0.0
+2484,Abboud,True,True,0.00034,0.62899
+2485,Abboud,True,True,0.00033,0.37863
+2486,Haram Mashaal,True,True,0.0,0.37128
+2487,Lebanon Square,True,True,0.0,0.28872
+2488,Moneeb,True,True,0.00055,0.47508
+2489,Arab Maadi,True,True,0.0004,0.53268
+249,Ramses,True,True,0.00054,0.70275
+2492,Badr,True,True,0.0,0.28467
+2493,Badr,True,True,0.0,0.54625
+2494,Badr,True,True,0.00068,0.47135
+2495,Moneeb,True,True,0.0,0.47741
+2496,Asmarat,True,True,0.00045,0.63795
+2497,Al Tibeen,True,True,0.00034,0.53348
+2498,Al Tibeen,True,True,0.0,0.34601
+2499,Al Tibeen,True,True,0.00054,0.5744
+25,Al Tibeen,True,True,0.00061,0.32582
+250,Coptic Hospital,True,True,0.00045,0.22023
+2500,Bashtil,True,True,0.0,0.50931
+2501,Ring Rd. Exit to Bashtil,True,True,0.0,0.60174
+2502,Bashtil,True,True,0.0,0.38487
+2503,Abbaseya,True,True,0.00021,0.3084
+2504,Abbaseya,True,True,0.0,0.10605
+2505,Ahmed Helmy,True,True,7e-05,0.11668
+2506,Kilo 4 & Half Bus Station,True,True,0.00053,0.52699
+2508,Masaken Al Shrouq,True,True,0.0,0.54644
+2509,Masaken Al Shrouq,True,True,0.0,0.38512
+251,Ahmed Saaed Bridge Exit,True,True,0.00024,0.40114
+2510,Tolip (Zahraa Nasr City),True,True,0.0,0.36413
+2511,New Marg Station,True,True,0.00054,0.53187
+2512,Qalyub Steps (Ring Rd.),True,True,0.00058,0.31393
+2513,Filfil Mosque (Bashtil),True,True,0.0,0.30826
+2514,Filfil Mosque (Bashtil),True,True,0.00037,0.48964
+2515,Abou Wafya,True,True,0.0,0.38481
+2516,Jazirat Mohamed,True,True,0.0,0.45506
+2517,Kobry Orabi,True,True,0.0,0.51676
+2518,Sekat Hadid Al Mahager (Basateen),True,True,0.00044,0.55261
+2519,Moneeb,True,True,0.0,0.44645
+252,Al Nour Mosque (Abbaseya),True,True,0.0,0.35733
+2520,Megawra 3 Bus Station (15th of May),True,True,0.00024,0.52835
+2521,Megawra 3 Bus Station (15th of May),True,True,0.00049,0.15907
+2522,East Bulaq Dakrur (Nahya),True,True,0.0005,0.361
+2523,East Bulaq Dakrur (Nahya),True,True,0.0,0.05775
+2524,Megawra 11 (15th of May),True,True,0.0,0.0
+2525,Giza Square,True,True,0.0,0.2343
+2526,Kafr Tuhurmis,True,True,0.00046,0.36338
+2527,Kafr Tuhurmis,True,True,0.00055,0.30928
+2528,Korba District,True,True,0.00053,0.47124
+2529,Koleyet Al Banat (Azhar University),True,True,0.0,0.40071
+253,Gardenia Heights (5th Settlement),True,True,0.00026,0.68651
+2530,Mohagreen (Ezbet Al Nakhl),True,True,0.0,0.1255
+2531,Basrawy,True,True,0.00053,0.45078
+2532,Mazallat,True,True,0.00045,0.31005
+2533,Ain Shams Metro,True,True,0.0,0.30695
+2534,Al Sheikh Mansour,True,True,0.0,0.49806
+2535,Ezbet Al Nakhl,True,True,0.0,0.2361
+2536,Awwel El Zawya Station,True,True,0.0,0.44447
+2537,Awwel Al Zawya Bus Station,True,True,0.00016,0.33557
+2538,Isaaf,True,True,0.0,0.45023
+2539,Bulaq Dakrur,True,True,0.0,0.44121
+254,Al Nahda Square (5th Settlement),True,True,4e-05,0.66605
+2540,Dar Al Salam,True,True,0.00017,0.34877
+2541,Fayda Kamel,True,True,0.0,0.53741
+2542,Helmeyet Al Zatoun Metro,True,True,0.0,0.33358
+2543,Maadi Metro,True,True,0.0,0.23539
+2544,Fayda Kamel,True,True,0.00066,0.39453
+2545,Awwal Faisal,True,True,0.0,0.50157
+2546,Nahda City,True,True,0.00056,0.36644
+2547,Zahraa Madinet Nasr,True,True,0.0,0.34808
+255,Al Nahda Square (5th Settlement),True,True,0.00058,0.26834
+2550,Barageel St. (Ring Rd.),True,True,0.00022,0.57926
+2551,Barageel St. (Ring Rd.),True,True,0.00037,0.36271
+2552,Barageel St.,True,True,0.0,0.34719
+2553,Barageel St.,True,True,0.0,0.42354
+2554,Awsim,True,True,0.00051,0.42673
+2555,Awsim,True,True,6e-05,0.46919
+2556,Giza Square,True,True,0.0,0.58569
+2557,Al Khosous,True,True,0.0,0.0
+2558,Al Khosous,True,True,0.0,0.31086
+2559,Zahraa Metro,True,True,0.0,0.51331
+256,Al Narges 8 (5th Settlement),True,True,0.00037,0.31093
+2560,Sky Mart Mall (1st Settlement),True,True,0.0,0.43532
+2561,Higher Institute Of Marketing Commerce & Information Systems,True,True,0.0,0.60364
+2562,Ibrahim Al Rifaie School (1st Settlement),True,True,0.0,0.20038
+2563,Al Masanea Rd. & Nile Corniche,True,True,0.00023,0.1968
+2564,Al Masanea Rd. & Nile Corniche,True,True,0.0005,0.69646
+2565,Coop Gas Station (Helwan Corniche),True,True,0.00021,0.26303
+2566,Coop Gas Station (Helwan Corniche),True,True,0.0002,0.44548
+2567,Al Nour Mosque (Helwan Corniche),True,True,0.0,0.57639
+2568,Al Nour Mosque (Helwan Corniche),True,True,0.00032,0.36549
+2569,Al Qawmeya Cement Club,True,True,0.00049,0.60769
+257,Al Narges 7 (5th Settlement),True,True,0.0005,0.29154
+2570,Al Qawmeya Cement Club,True,True,0.00072,0.47723
+2571,Mffco Helwan (Helwan Corniche),True,True,0.00028,0.42405
+2572,Mffco Helwan (Helwan Corniche),True,True,0.00041,0.27391
+2573,Badr Pharmacy (Helwan Corniche),True,True,0.00021,0.45157
+2574,Badr Pharmacy (Helwan Corniche),True,True,0.00015,0.06269
+2575,Al Maraziq,True,True,0.0,0.0
+2576,Al Maraziq,True,True,0.0,0.0
+2577,Al Tarfaya (Dahshour),True,True,0.0,0.0
+2578,Moassasa,True,True,0.00016,0.54362
+2579,Moassasa,True,True,0.00039,0.50314
+258,Al Narges 4 (5th Settlement),True,True,0.00055,0.409
+2580,Moassasa,True,True,0.0,0.0
+2582,Officers Housing (Al Remaya St.),True,True,0.00029,0.15556
+2583,Al Azizeya Bridge,True,True,0.0,0.28418
+2584,Al Azizeya Bridge,True,True,0.00054,0.11932
+2585,Shabramant,True,True,0.0,0.28067
+2586,Shabramant,True,True,0.00038,0.33535
+2587,Ragab Sons (Al Magzar Mariouteya),True,True,0.00047,0.58521
+2588,Ragab Sons (Al Magzar Mariouteya),True,True,0.0,0.44133
+2589,Ragab Sons (Al Magzar Mariouteya),True,True,0.00029,0.45249
+259,Fatma Al Sharbatly Mosque,True,True,0.0,0.48468
+2590,Techno Tex Clothes Co (15th of May),True,True,0.0,0.22842
+2591,Techno Tex Clothes Co (15th of May),True,True,0.00051,0.20076
+2592,15th of May City Authority,True,True,0.0,0.58883
+2593,15th of May City Authority,True,True,0.00036,0.48259
+2594,Mafariq - Megawra 1 (15th of May),True,True,0.0,0.43838
+2595,Mafariq - Megawra 1 (15th of May),True,True,0.0,0.55835
+2596,Al Abtal City (15th of May),True,True,0.00056,0.35535
+2597,Al Abtal City (15th of May),True,True,0.00044,0.24765
+2598,Taaqa Gas Station (15th of May),True,True,0.00037,0.50147
+2599,Taaqa Gas Station (15th of May),True,True,0.00031,0.41107
+26,Badrashen,True,True,0.00068,0.33358
+260,Mountain View Square,True,True,0.00041,0.46848
+2600,Atlas Pharmacy (Atlas St),True,True,0.00032,0.5016
+2601,Helwan Mental Health Hospital,True,True,0.0,0.33327
+2602,Helwan Mental Health Hospital,True,True,0.00043,0.40036
+2603,Ain Helwan Metro,True,True,0.00032,0.32115
+2604,Ain Helwan Metro,True,True,4e-05,0.56675
+2605,Al Kahraba Housing Complex,True,True,0.0,0.59877
+2606,Al Kahraba Housing Complex,True,True,0.00054,0.43914
+2607,Mazlaqan Om Khinan (Al Hawamdeyya),True,True,0.0005,0.49351
+2608,Mazlaqan Om Khinan (Al Hawamdeyya),True,True,0.00049,0.28543
+2609,Mobil (Cairo Assyout Agricultural Rd.),True,True,0.00033,0.19495
+261,Mountain View Square,True,True,0.00039,0.16705
+2610,Mobil (Cairo Assyout Agricultural Rd.),True,True,0.00055,0.30532
+2611,Ring Rd. & Al Mansoureyya Rd.,True,True,0.0,0.45508
+2612,Al Checheeny St.,True,True,0.0,0.5037
+2613,Housing & Utilities Directorate (Giza),True,True,0.00058,0.66586
+2614,Housing & Utilities Directorate (Giza),True,True,0.00046,0.33922
+2615,Kerdasa Saft Al Laban Rd.,True,True,0.0,0.24018
+2616,Kerdasa Saft Al Laban Rd.,True,True,0.0,0.19001
+2617,Al Shorouq Academy Entrance,True,True,0.00072,0.40224
+2618,Al Shorouq Academy Entrance,True,True,0.00053,0.51328
+2619,Al Shorouq Entrance 3,True,True,0.0,0.0
+262,Air Force Hospital,True,True,9e-05,0.34957
+2620,Al Shorouq Entrance 3,True,True,0.0,0.0
+2621,New Heliopolis Entrance,True,True,0.0,0.21663
+2622,New Heliopolis Entrance,True,True,0.00017,0.42646
+2623,Egyptian Russian University,True,True,0.0,0.55399
+2624,Egyptian Russian University,True,True,0.0,0.50763
+2625,Badr Waste Area,True,True,0.0,0.47295
+2626,Badr Waste Area,True,True,0.00049,0.25506
+2627,Giza Square,True,True,0.0,0.39335
+2628,Warraq Al Arab,True,True,0.0,0.29407
+2629,New Heliopolis City Authority,True,True,0.0,0.69939
+263,CIB (South Teseen St.),True,True,0.00019,0.50007
+2630,New Heliopolis City Authority,True,True,0.0,0.3565
+2631,Falcon School (Shorouq City),True,True,0.0,0.0
+2632,Falcon School (Shorouq City),True,True,0.0,0.34717
+2633,Al Shorouq City Authority Steps,True,True,0.00046,0.51749
+2634,Huckstep,True,True,0.00049,0.42513
+2635,Fiat Service Center (Obour),True,True,0.00026,0.41893
+2636,Ain Shams University (Obour),True,True,8e-05,0.2763
+2637,Al Tawheed Wal Nour (Obour),True,True,0.0,0.14558
+2638,Al Fath Superjet (Nasr City),True,True,0.00044,0.27802
+2639,Al Fath Superjet (Nasr City),True,True,0.00046,0.66539
+264,Bank Al Etihad (South Teseen St.),True,True,0.00034,0.31935
+2640,Journalists Club (Al Bahr Al Aazam St.),True,True,0.00038,0.20078
+2641,Journalists Club (Al Bahr Al Aazam St.),True,True,0.0002,0.16074
+2642,Zenin,True,True,0.0,0.22234
+2643,Zenin,True,True,0.0,0.20222
+2644,Vodafone (Awsim),True,True,0.00026,0.47046
+2645,Qalyoub Al Balad Bus Station,True,True,0.00022,0.61042
+2646,Qalyoub District Court,True,True,0.00055,0.51019
+2647,Qalyub Specialized Hospital,True,True,0.00035,0.53273
+2648,Qalyub Specialized Hospital,True,True,0.0002,0.33552
+2649,Ring Rd. Exit to Al Warraq,True,True,0.0002,0.52537
+265,Downtown Mall,True,True,0.00024,0.469
+2650,Al Habib Mosque (Al Barageel),True,True,0.00063,0.52036
+2651,Al Barageel Entrance,True,True,0.00029,0.0238
+2652,Police Academy (Ring Rd.),True,True,0.00035,0.36821
+2653,Police Academy (Ring Rd.),True,True,0.00036,0.34681
+2654,Police Academy (Ring Rd.),True,True,0.0002,0.45644
+2655,Police Academy (Ring Rd.),True,True,0.00037,0.67076
+2656,Waha Garage (Nasr City),True,True,0.00026,0.60413
+2657,Waha Garage (Nasr City),True,True,0.0006,0.19131
+2658,Al Mansoureya Canal Rd. (Nahya),True,True,0.0,0.22911
+2659,Tiles Workshops (Berak Al Khayam Rd.),True,True,0.0,0.30706
+266,Downtown Mall,True,True,0.00052,0.44441
+2660,Abo Senna Steps,True,True,0.00038,0.48937
+2661,Abo Senna Steps,True,True,0.00043,0.47769
+2662,Al Moatamadiya Post Office,True,True,0.0,0.48091
+2663,Al Moatamadiya Post Office,True,True,0.0,0.42579
+2664,Bab Al Karim Mosque (Nahya),True,True,0.00046,0.44746
+2665,Bab Al Karim Mosque (Nahya),True,True,0.00012,0.70616
+2666,Al Bibany St.,True,True,0.0002,0.38997
+2667,Ali Basha St. & Al Qalaa St.,True,True,0.00053,0.42482
+2668,Al Masah (Nasr City),True,True,0.00052,0.39718
+2669,Al Masah (Nasr City),True,True,0.0005,0.21886
+267,South Teseen St. Entrance,True,True,0.00041,0.39349
+2670,Koleyet Al Banat (Azhar University),True,True,0.0005,0.15709
+2671,Al Masriya (Nasr City),True,True,0.00046,0.11006
+2672,Al Masriya (Nasr City),True,True,0.00053,0.50331
+2673,Masaken Al Shrouq Entrance,True,True,0.00048,0.48748
+2674,Masaken Al Shrouq Entrance,True,True,0.00042,0.0966
+2675,Almaza Bridge Entrance,True,True,0.00047,0.5964
+2676,Almaza Bridge Exit,True,True,0.00047,0.53934
+2677,Elecrticity Hospital (Suez Rd),True,True,0.00065,0.34253
+2678,Elecrticity Hospital (Suez Rd),True,True,0.0005,0.25871
+2679,Elecrticity Hospital (Suez Rd),True,True,0.00032,0.37901
+268,Windrose Academy,True,True,0.00054,0.61369
+2680,Al Shagara (Bashtil),True,True,0.0,0.29732
+2681,Cairo University Metro,True,True,0.00037,0.51155
+2682,Tharwat Bridge (Saft El Laban),True,True,0.00032,0.5463
+2683,Tharwat Bridge (Saft El Laban),True,True,0.00036,0.16751
+2684,Tharwat Bridge (Saft El Laban),True,True,0.00024,0.5837
+2685,Tharwat Bridge (Saft El Laban),True,True,0.0001,0.2976
+2686,Al Safwa Hospital (Shubra),True,True,0.00068,0.38754
+2687,Banque Misr (Aghakhan),True,True,0.00042,0.48329
+2688,Banque Misr (Aghakhan),True,True,0.00025,0.48259
+2689,Banque Misr (Aghakhan),True,True,0.00055,0.43458
+269,Baron Mall Pedestrian Bridge (Ring Rd.),True,True,0.00021,0.55937
+2690,Shubra Al Kheima City Authority,True,True,0.00057,0.28504
+2691,Shubra Al Khaima City Authority,True,True,0.0,0.25016
+2692,Moassasa Pedestrian Bridge,True,True,0.00045,0.44142
+2693,New Housing Complex (Al Khanka),True,True,0.00059,0.4168
+2694,New Housing Complex (Al Khanka),True,True,0.0,0.59343
+2695,Kafr Hamza Mosque,True,True,0.00033,0.22176
+2696,Kafr Hamza Mill,True,True,9e-05,0.52669
+2697,Abou Zaabal Bridge,True,True,0.00056,0.14873
+2698,Ahmed Zaki St. (Maadi),True,True,0.00053,0.3386
+2699,Sawaris Square (Maadi),True,True,0.0,0.54341
+27,Ghamra,True,True,0.00049,0.47311
+270,Wataneya Gas Station (Kattameya Ring Rd.),True,True,0.00058,0.16715
+2700,Mobil (Ahmed Esmat St.),True,True,0.00038,0.4284
+2701,Modern School (Ahmed Esmat St.),True,True,0.00028,0.49723
+2702,Ahmed Esmat St. & Ain Shams St.,True,True,0.00059,0.20822
+2703,Mazlaqan Ain Shams,True,True,0.0,0.44104
+2704,Palestine School (Ain Shams St.),True,True,0.00041,0.3438
+2705,Palestine School (Ain Shams St.),True,True,0.00057,0.63365
+2706,Al Qudsi Mosque (Ain Shams St.),True,True,0.00042,0.16943
+2707,Al Qudsi Mosque (Ain Shams St.),True,True,0.00058,0.5763
+2708,Sheikh Al Balad (Ain Shams St.),True,True,0.00059,0.29786
+2709,Sheikh Al Balad (Ain Shams St.),True,True,0.00028,0.2134
+271,Masaken Al Kendy,True,True,0.00037,0.60671
+2710,Al Shaarawy (Arbean St.),True,True,0.0,0.53015
+2711,Sheikh Selim Institute (Arbean St.),True,True,0.0004,0.43975
+2712,Al Haq Hospital (Arbean St.),True,True,0.0,0.55844
+2713,Al Matareyya Central,True,True,0.00049,0.57202
+2714,Turnery Mechanical Workshop (Al Matareyya),True,True,0.00038,0.39091
+2715,Al Masallah St. & Al Terilli St,True,True,0.0,0.54327
+2716,Mohamedan Light Hospital (Ain Shams),True,True,0.0,0.44105
+2717,Mohamedan Light Hospital (Ain Shams),True,True,0.0,0.24039
+2718,Massalah Gadeeda (Al Matareyya),True,True,0.0,0.14702
+2719,Al Abaseyya Institute for Computer & Commercial Sciences,True,True,0.00029,0.57323
+272,Basateen Steps (Ring Rd.),True,True,0.00053,0.37402
+2720,Al Abaseyya Institute for Computer & Commercial Sciences,True,True,0.0002,0.34756
+2721,Meriam's Tree (Al Matareyya),True,True,0.00013,0.34563
+2722,El Batran St.,True,True,0.0,0.27009
+2723,El Batran St.,True,True,0.0,0.39409
+2724,Madinat Al Solb (Al Tibeen),True,True,0.00054,0.5197
+2725,Moassasa,True,True,0.0,0.43791
+2726,Al Hadaba Al Wosta (Al Moqattam),True,True,0.0004,0.42868
+2727,Ataba,True,True,0.0,0.43368
+2728,Imbaba,True,True,0.0,0.22976
+2729,Kilo 4 & Half Bus Station,True,True,0.0,0.53002
+273,Ezbet Kheirallah Steps 2 (Ring Rd.),True,True,0.00023,0.17436
+2730,Abu El Numrus,True,True,0.0,0.35368
+2731,Shabramant,True,True,0.0,0.28848
+2732,Al Omraneyya,True,True,0.0,0.22977
+2733,Al Omraneyya,True,True,0.0,0.63076
+2734,Abboud,True,True,0.00054,0.6482
+2735,Awwel Al Zawya,True,True,0.00038,0.64542
+2736,Al Wehda (Imbaba),True,True,0.0,0.35651
+2737,Saqr Quraish,True,True,0.0,0.20256
+2738,Awwel Al Eshreen (Zenin),True,True,0.0,0.14708
+2739,Cairo University Metro,True,True,0.0,0.5864
+274,Al Bahr Al Aazam St. Exit Start,True,True,0.00018,0.43864
+2740,Al Tibeen,True,True,0.0005,0.18671
+2741,Mazghuna,True,True,0.0,0.0
+2742,Mazghuna,True,True,0.00033,0.29078
+2743,Moneeb,True,True,0.0,0.16411
+2744,Moneeb,True,True,0.0,0.3055
+2745,Marioteya & Ring Rd.,True,True,0.0,0.54494
+2746,Marioteya & Ring Rd.,True,True,0.0,0.4213
+2747,Dokki,True,True,0.0,0.05776
+2748,Dokki,True,True,0.00059,0.431
+2749,Roxy,True,True,0.0004,0.57822
+275,Al Bahr Al Aazam St. Exit End,True,True,0.00025,0.47727
+2751,Al Omraneyya,True,True,0.0,0.42256
+2752,Faculty of Agriculture - Ain Shams University,True,True,0.0004,0.18403
+2753,New Cairo Sporting Club,True,True,0.0,0.0
+2754,Abbaseya,True,True,0.00027,0.53576
+2755,Al Shari' Al Gadeed (Bahteem),True,True,0.00037,0.50579
+2756,Al Sayeda Zeinab,True,True,0.0,0.24757
+2757,Ard Al Lewa,True,True,0.0,0.34734
+2758,Ard Al Lewa,True,True,0.0,0.0
+2759,Moneeb,True,True,0.00054,0.3417
+276,The Egyptian Lawyers Association,True,True,0.0004,0.59164
+2760,Moneeb,True,True,0.00022,0.46014
+2761,Motseian,True,True,0.0,0.49687
+2762,Ramses,True,True,0.00061,0.29659
+2764,Ramses Station,True,True,0.0,0.61198
+2765,Giza Square,True,True,0.00036,0.37911
+2766,Abboud,True,True,0.00038,0.28994
+2767,Police Mosque (Salah Salem St.),True,True,0.00044,0.34365
+2768,Police Mosque (Salah Salem St.),True,True,0.00039,0.39255
+2769,Madinat Al Bo'oth Al Eslamyya,True,True,0.00037,0.16204
+277,Faculty of Medicine - Ain Shams University,True,True,0.00049,0.51665
+2770,Madinat Al Bo'oth Al Eslamyya,True,True,0.0,0.38514
+2771,Al Mostashfa St. & Faisel St.,True,True,0.0,0.42047
+2772,Al Mostashfa St. & Faisel St.,True,True,0.0,0.33998
+2773,Mosheer Ahmed Ismail Station (Sheraton),True,True,0.0,0.44111
+2774,Arab Maadi,True,True,0.00032,0.39967
+2775,Smart Village,True,True,0.0,0.36443
+2776,Al Mostaqbal Entrance,True,True,0.0,0.30183
+2777,Hyper One (Sheikh Zayed),True,True,0.0,0.22322
+2778,Hamada Emam - Industrial Zone 2,True,True,0.0,0.49681
+2779,Kattameya Traffic Department,True,True,0.0,0.0
+278,Abbaseya Bridge Etrance,True,True,0.00033,0.15154
+2780,Faculty of Agriculture - Ain Shams University,True,True,0.0,0.20322
+2781,Mazallat,True,True,0.0,0.43536
+2782,26th of July Corridor Exit to Alex Desert Rd.,True,True,0.0,0.65531
+2783,Coop Gas Station (Om Bayoumi),True,True,0.00041,0.39463
+2784,Libya St,True,True,0.0,0.41404
+2785,Zamzam Specialized Hospital (Om Bayoumi),True,True,0.0,0.24059
+2786,Ahmed Zaki St. (Maadi),True,True,0.00038,0.44088
+2787,Giza Park (Bashtil),True,True,0.0,0.14705
+2788,New Marg,True,True,0.0,0.45851
+2789,New Marg,True,True,0.0,0.5301
+279,Abbaseya Hospital,True,True,0.00044,0.4476
+2790,Al Remaya Square,True,True,0.00038,0.11844
+2791,Nazlet Al Ashtar Post Office,True,True,0.00051,0.24621
+2792,Abu Al Nomros Police Station,True,True,0.0,0.34753
+2793,Al Fath Schools (Abu Al Nomros),True,True,0.00042,0.1437
+2794,Moneeb,True,True,0.0,0.67044
+2795,Zamzam Specialized Hospital (Om Bayoumi),True,True,0.0,0.27642
+2796,Libya St,True,True,0.00016,0.52591
+2797,Coop Gas Station (Om Bayoumi),True,True,0.0,0.10054
+2798,Hadayek Al Qobba,True,True,0.0,0.14704
+2799,Hadayek Al Qobba Metro,True,True,0.00044,0.36311
+28,Ghamra,True,True,0.0003,0.4149
+280,Ramses Extension (North of Nasr Rd.),True,True,0.0,0.36721
+2800,Al Noqrashy School (Hadayek Al Qobba),True,True,0.00034,0.18839
+2801,Al Noqrashy School (Hadayek Al Qobba),True,True,0.00038,0.29631
+2802,Al Shimy Car Center (Hadayeq Al Qobba),True,True,0.00055,0.43993
+2803,Al Shimy Car Center (Hadayeq Al Qobba),True,True,0.0004,0.36358
+2804,Moassasa,True,True,0.00041,0.35019
+2805,Ahmed Helmy,True,True,0.0,0.66482
+2806,Abboud,True,True,0.00061,0.352
+2807,Abboud,True,True,0.00043,0.25076
+2808,Al Mostaqbal Square (Obour),True,True,0.0,0.49289
+2809,Ragab Sons (Al Shabab St. Obour),True,True,0.00043,0.23949
+281,Al Azhar Pedestrian Bridge,True,True,9e-05,0.54023
+2810,Shabab (Obour),True,True,0.0,0.48448
+2811,Shabab (Obour),True,True,0.00054,0.5853
+2812,Obour,True,True,0.00053,0.56387
+2813,Shabab (Obour),True,True,0.00045,0.58855
+2814,Teraat Al Zomor & Abu Bakr Al Siddiq St.,True,True,0.0,0.50934
+2815,Al Sekka (Ring Rd.),True,True,0.0,0.28866
+2816,Heliopolis Courthouse Complex,True,True,0.0,0.50925
+2817,Heliopolis Courthouse Complex,True,True,0.0,0.50926
+2818,New Nahda Police Station,True,True,0.0,0.34716
+2819,Al Salam Hospital (Al Salam City),True,True,0.0,0.29399
+282,Nasr City Sporting Club,True,True,0.0,0.38347
+2820,Ibrahim Abdel Raziq St. & Ain Shams St.,True,True,0.00043,0.65391
+2821,Obour Market - South,True,True,0.00015,0.11917
+2822,Gamaat Rd. (Obour),True,True,7e-05,0.40369
+2823,Gamaat Rd. (Obour),True,True,0.00045,0.06646
+2824,Al Teraa Al Bolaqiya St.,True,True,0.0,0.58809
+2825,Teraat Al Marioteyya St.,True,True,0.00027,0.67444
+2826,Teraat Al Marioteyya St.,True,True,0.0004,0.30734
+2827,Saft Al Laban Axis,True,True,0.00046,0.42905
+2828,Carrefour Maadi (Ring Rd.),True,True,0.00051,0.26543
+2829,Agyad School (Betcho),True,True,0.0,0.48471
+283,Nasr City Sporting Club,True,True,0.00043,0.42568
+2830,Bigam,True,True,0.00024,0.35014
+2831,Awlad Sokkar St. & Bigam Rd.,True,True,0.0,0.34717
+2832,Al Bassous,True,True,0.00017,0.28127
+2833,General Company for Land Reclamation,True,True,0.0,0.65554
+2834,Saft Al Laban Axis,True,True,0.00025,0.31656
+2835,Shabramant,True,True,3e-05,0.41262
+2836,Mobil (North Teseen St.),True,True,0.0,0.24234
+2837,The National Museum of Egyptian Civilization,True,True,0.00034,0.60036
+2838,Rehab Gate 6,True,True,0.00038,0.35159
+2839,Mobil (North Teseen St.),True,True,0.00053,0.51825
+284,2nd Nasr City Police Station,True,True,0.00023,0.53662
+2840,Gardenia Heights (5th Settlement),True,True,0.0,0.45509
+2841,Alf Masnaa,True,True,0.0,0.44134
+2842,Al Mostafa Mosque,True,True,0.00057,0.54647
+2843,Al Narges 4 (5th Settlement),True,True,0.00057,0.45346
+2844,Al Orouba St. & Mergheny St.,True,True,0.00055,0.46638
+2845,Ezbet Makar Bridge,True,True,0.00051,0.50285
+2846,Macdonald's (Mergheny St.),True,True,0.00052,0.31466
+2847,Al Orouba St. & Mergheny St.,True,True,0.00031,0.51361
+2848,Togareyeen City (Al Moqattam),True,True,9e-05,0.22194
+2849,Macdonald's (Mergheny St.),True,True,0.0,0.14704
+285,2nd Nasr City Police Station,True,True,0.0,0.1925
+2850,The National Museum of Egyptian Civilization,True,True,0.00071,0.43941
+2851,Togareyeen City (Al Moqattam),True,True,0.0002,0.37599
+2852,Al Horeyya Rd. (Badr),True,True,0.0,0.09617
+2853,Al Horeyya Rd. (Badr),True,True,0.00055,0.19988
+2854,10th District (Shorouq City),True,True,0.00019,0.47961
+2855,Egyptian Russian University - East,True,True,0.0,0.38463
+2856,Metro (Misr Helwan Rd.),True,True,0.00051,0.23218
+2857,Metro (Misr Helwan Rd.),True,True,0.00061,0.55676
+2858,Darb 1718,True,True,0.00054,0.37195
+2859,Darb 1718,True,True,0.00051,0.2075
+286,Al Fath Superjet (Nasr City),True,True,0.00053,0.51679
+2860,Basateen,True,True,0.0,0.44478
+2861,Al Narges 7 (5th Settlement),True,True,0.00046,0.47483
+2862,Wizarat District (New Administrative Capital),True,True,0.0,0.22239
+2863,Wizarat District (New Administrative Capital),True,True,0.00015,0.35061
+2864,R2 (New Administrative Capital),True,True,0.0,0.73541
+2865,R2 (New Administrative Capital),True,True,0.0,0.19255
+2866,Central Park (Badr),True,True,0.00021,0.48954
+2867,Central Park (Badr),True,True,0.00051,0.16209
+2868,Badr Station (Sheikh Zayed),True,True,0.00033,0.04452
+2869,Sheikh Zayed General Hospital Northside,True,True,0.00053,0.16813
+287,Al Gamaia Al Sharaia (Nasr City),True,True,0.00036,0.57885
+2870,Bayt Al Karam Al Shamy (Haram St.),True,True,0.00041,0.64243
+2871,Omar Ibn Al Khattab St. (Awsim),True,True,0.00052,0.46333
+2872,Marioteya Tunnel Entrance,True,True,0.0,0.49419
+2873,Marioteya Tunnel Exit,True,True,0.00052,0.45853
+2874,Gamal Al Din Al Banna St. & Al Checheeny St.,True,True,0.00047,0.46434
+2875,Gamal Al Din Al Banna St. & Al Checheeny St.,True,True,0.00035,0.47357
+2876,Al Bostan Compound Entrance,True,True,0.00053,0.35283
+2877,Al Bostan Compound Entrance,True,True,0.00053,0.5092
+2878,Al Kahraba St. & Tabarak St.,True,True,0.00056,0.22154
+2879,Al Kahraba St. & Tabarak St.,True,True,0.0,0.14713
+288,Azhar University City for Boys,True,True,0.00032,0.67644
+2880,Al Kahraba St. & Al Wahat Road,True,True,0.00024,0.30272
+2881,Al Kahraba St. & Al Wahat Road,True,True,0.00013,0.29818
+2882,Abu Al Houl St.,True,True,0.00056,0.57483
+2883,October University for Modern Sciences & Arts (MSA University),True,True,0.0,0.36468
+2884,Al Harania Footbridge,True,True,0.00019,0.22438
+2885,Al Kawthar St. & Gamal Al Din Al Banna St.,True,True,0.00047,0.62844
+2886,Sultana Weddings Centre (Saqqara),True,True,0.00027,0.09865
+2887,Al Harania Footbridge,True,True,0.00043,0.28663
+2888,Saqqara Rd. & Al Mansoureya Rd.,True,True,0.0,0.24236
+2889,Sultana Weddings Centre (Saqqara),True,True,0.00054,0.51768
+289,Ashrafco Tyres (Nasr City),True,True,0.00038,0.59397
+2890,Ezbet Makar Bridge,True,True,0.00027,0.2205
+2891,Saqqara Rd. & Al Mansoureya Rd.,True,True,0.00021,0.39244
+2892,Americana Plaza Mall,True,True,0.00058,0.49079
+2893,Americana Plaza Mall,True,True,0.0,0.33358
+2894,Dorat Al Karaz Mall,True,True,0.0,0.44131
+2895,Future University in Egypt (FUE),True,True,0.0,0.58832
+2896,Al Sheikh Al Jadid St.,True,True,0.0,0.30947
+2897,Dorat Al Karaz Mall,True,True,0.0,0.44131
+2898,Al Kawthar St. & Gamal Al Din Al Banna St.,True,True,0.00034,0.6396
+2899,Al Sheikh Al Jadid St.,True,True,0.0,0.3645
+29,Al Zawya Al Hamra,True,True,0.00051,0.5881
+290,Al Azhar University Southern Gate,True,True,0.00052,0.46054
+2900,Total Abou Al Gheit Rd.,True,True,0.00061,0.57355
+2901,Abu Al Gheit Ambulance Service,True,True,0.00042,0.22275
+2902,Shalqan Rd.,True,True,0.00035,0.41409
+2903,Total Abou Al Gheit Rd.,True,True,0.0,0.24227
+2904,Al Qanater Al Khayriya,True,True,0.0,0.44412
+2905,Shalqan Rd.,True,True,0.00036,0.3357
+2906,Al Sawalha Complex (Al Sekka Al Hadeed St.),True,True,0.00061,0.5995
+2907,Al Qanater Al Khayriya,True,True,0.0,0.53006
+2908,Al Gomhoreya St. & Al Masraf St.,True,True,0.00049,0.34326
+2909,Al Gomhoreya St. & Al Masraf St.,True,True,0.00062,0.38971
+291,Ahmed Al Sallab Mall (Nasr City),True,True,0.0,0.44461
+2910,Al Badrasheen City Council,True,True,0.00042,0.2751
+2911,Al Badrasheen City Council,True,True,0.00041,0.37462
+2912,Qawmeya Arabeya,True,True,0.00012,0.47948
+2913,Al Markaz St. (Abu Al Nomros),True,True,0.0,0.40109
+2914,Abu Al Gheit Ambulance Service,True,True,0.0,0.73498
+2915,Al Mukhtar Mosque (Bassous),True,True,5e-05,0.2065
+2916,Sharea Jadid (Marg Axis),True,True,0.0,0.48458
+2917,Al Shenawy St. & Sadat St.,True,True,0.0,0.30915
+2918,Lux School (Al Marg),True,True,0.00054,0.39974
+2919,Sharea Jadid (Marg Axis),True,True,0.00043,0.44831
+292,7th District Station (Nasr City),True,True,0.0,0.49395
+2920,El Warsha (Ezbet Al Nakhl),True,True,0.00033,0.46841
+2921,Al Shaheed Mosque (Al Marg),True,True,0.00044,0.28714
+2922,Al Zahraa & Al Bewehy St. (Alf Maskan),True,True,0.0,0.09617
+2923,Ahmed Ismail Square (Alf Maskan),True,True,0.00018,0.45152
+2924,6 October Bridge (Mostorod),True,True,0.00047,0.13672
+2925,6 October Bridge (Mostorod),True,True,0.0,0.45506
+2926,Ibrahim Mosque (Marg Axis),True,True,0.00023,0.47116
+2927,Ibrahim Mosque (Marg Axis),True,True,0.00021,0.42596
+2928,Teraat Taware' Axis,True,True,0.00046,0.49896
+2929,Al Zaeem (Rashah),True,True,2e-05,0.29935
+293,7th District Station (Nasr City),True,True,0.00027,0.34053
+2930,Al Shenawy St. & Sadat St.,True,True,0.00063,0.14155
+2931,Teraat Taware' Axis,True,True,0.00063,0.35003
+2932,Abu Bakr Al Sidiq Square (15th of May),True,True,0.0,0.45512
+2933,15th of May Checkpoint,True,True,0.00053,0.4361
+2934,Saft Al Laban,True,True,7e-05,0.26857
+2935,Saft Al Laban,True,True,0.0003,0.31468
+2936,Gardenia (Cairo Suez Rd.),True,True,0.00059,0.31515
+2937,Giza Park (Bashtil),True,True,0.00028,0.3269
+2938,Masaken Al Abd (Al Salam),True,True,0.00042,0.57454
+2939,Gardenia (Cairo Suez Rd.),True,True,0.0,0.53024
+294,Enppi,True,True,0.00036,0.60863
+2940,Sekka Hadid St. Pedesterian Bridge,True,True,0.00059,0.36208
+2941,Sekka Hadid St. Pedesterian Bridge,True,True,0.00022,0.36529
+2942,Teraat Al Khashab (Nile Corniche),True,True,0.00036,0.50898
+2943,Ragab Sons (Al Magzar Mariouteya),True,True,0.00026,0.46206
+2944,Helwan Station,True,True,0.00028,0.41331
+2945,Teraat Al Khashab (Nile Corniche),True,True,0.00023,0.47837
+2946,Omar Ibn Abd El Aziz St. & Al Sekka Al Hadid,True,True,0.0001,0.32212
+2947,Omar Ibn Abd El Aziz St. & Al Sekka Al Hadid,True,True,0.00048,0.54813
+2948,Soap Factory (Marg),True,True,0.00045,0.4359
+2949,Taba St. & 6 October St. (Salam),True,True,0.0,0.22239
+295,Future School (Nasr City),True,True,0.00031,0.66854
+2950,Al Wahab Mosque St. (Marg),True,True,0.00054,0.17497
+2951,Al Sheikh Agamy (Marg),True,True,0.00053,0.54962
+2952,Al Gabal Al Asfar (Marg),True,True,0.00032,0.37917
+2953,Al Wahab Mosque St. (Marg),True,True,0.0003,0.06712
+2954,Al Khanka (Al Salam Rd.),True,True,0.00022,0.51597
+2955,Al Kerdasi Schools (Marg),True,True,0.00065,0.58218
+2956,Mohamed Farid St. & Al Mathan St.,True,True,0.0,0.44421
+2957,Masaken Al Abd (Al Salam),True,True,0.0004,0.37137
+2958,Masaken Al Wadi Al Qadeem (Al Salam),True,True,0.00064,0.61177
+2959,Mohamed Farid St. & Al Mathan St.,True,True,0.00041,0.39715
+296,Kheir Zaman (Ahmed Al Zomor St.),True,True,0.00041,0.43907
+2960,Masaken Isbiko St.,True,True,0.00038,0.36664
+2961,Masaken Al Wadi Al Qadeem (Al Salam),True,True,0.00045,0.44081
+2962,Taba St. & 6 October St. (Salam),True,True,0.0,0.44478
+2963,Masaken Isbiko St.,True,True,0.00023,0.30053
+2964,Nozha - Nabil Al Waqaad,True,True,0.00046,0.40223
+2965,Al Omraneyya Al Gadida,True,True,0.00033,0.13818
+2966,Awlad Ragab Plumbing (6th of October),True,True,0.00054,0.57634
+2967,Awlad Ragab Plumbing (6th of October),True,True,0.00061,0.50547
+2968,Al Yasmin Compound North,True,True,0.00053,0.22713
+2969,Al Yasmin Compound North,True,True,0.00036,0.249
+297,Car Market (Nasr City),True,True,0.00015,0.6425
+2970,Al Montazah Compound,True,True,0.00061,0.43173
+2971,Al Montazah Compound,True,True,0.00037,0.2195
+2972,New International Exhibition Center,True,True,0.00034,0.44189
+2973,June 30th Stadium,True,True,0.00057,0.29236
+2974,June 30th Stadium,True,True,0.0,0.4858
+2975,Waha Garage (Nasr City),True,True,0.0,0.0
+2976,Dar Misr - 6th of October,True,True,0.00071,0.5302
+2977,Dar Misr - 6th of October,True,True,0.00043,0.36299
+2978,Madinat Al Solb (Al Tibeen),True,True,0.0,0.44478
+2979,10th of Ramadan City,True,True,0.0,0.29382
+298,Car Market (Nasr City),True,True,0.00047,0.57729
+2980,10th of Ramadan City,True,True,0.00048,0.21933
+2982,International Medical Center,True,True,0.0,0.0
+2983,International Medical Center,True,True,0.00046,0.4527
+2984,City Mall (Shorouq City),True,True,0.00046,0.55497
+2985,City Mall (Shorouq City),True,True,0.00031,0.31369
+2986,Fayed Desert Rd. Exit to Madinaty,True,True,0.00051,0.15286
+2987,Shorouq City,True,True,0.0,0.24229
+2988,Al Shorouq Entrance 3,True,True,0.00053,0.32883
+2989,Al Shorouq Entrance 3,True,True,0.00047,0.50923
+299,Al Mothalath (Ahmed Al Zomor St.),True,True,2e-05,0.25162
+2990,Middle Ring Road,True,True,0.00042,0.47123
+2991,Middle Ring Road,True,True,0.00011,0.6307
+2992,Fayed Desert Rd. Exit to Madinaty,True,True,0.0003,0.46074
+2993,Obour Tunnel,True,True,0.0004,0.62839
+2994,Obour Market - South,True,True,0.00056,0.57425
+2995,Obour Market - South,True,True,0.00029,0.5976
+2996,Obour Market station,True,True,0.00028,0.19051
+2997,Obour Market,True,True,0.00043,0.62435
+2998,Obour Market,True,True,0.00013,0.54753
+2999,Central Security Camp,True,True,0.00039,0.09213
+3,Saad Zaghloul Metro,True,True,0.00056,0.32546
+30,Al Khalafawy Square,True,True,0.0,0.50927
+300,Vodafone (Ahmed Al Zomor St.),True,True,0.0,0.29681
+3000,Central Security Camp,True,True,0.00045,0.43619
+3001,Central Security Camp,True,True,0.00032,0.31048
+3002,Mafareq,True,True,0.00042,0.00684
+3003,Mafareq,True,True,0.0,0.0
+3004,Police Training,True,True,0.0005,0.49811
+3005,Police Training,True,True,0.00013,0.33306
+3006,Isbiko Station,True,True,0.0,0.22208
+3007,Mohamed Farid St. & Al Mathan St.,True,True,0.0,0.44421
+3008,Mohamed Farid St. & Al Mathan St.,True,True,0.00063,0.64239
+3009,Hafez Pharmacy,True,True,0.0002,0.29114
+301,Vodafone (Ahmed Al Zomor St.),True,True,0.00029,0.36552
+3010,Hafez Pharmacy,True,True,0.00047,0.44208
+3011,Hafez Pharmacy,True,True,0.0,0.0
+3012,Salam Station (10th of Ramadan Station),True,True,0.0,0.0
+3013,Salam Station (10th of Ramadan Station),True,True,0.0,0.0
+3014,New terminal of 5th settlement,True,True,0.0004,0.64388
+3015,New terminal of 5th settlement,True,True,0.0,0.28899
+3016,Mohamed Naguib Axis intersection,True,True,0.00015,0.179
+3017,Mohamed Naguib Axis intersection,True,True,0.00042,0.68748
+3018,Suez Bridge Entrance to Ring Road,True,True,0.0,0.38219
+3019,Suez Bridge Entrance to Ring Road,True,True,0.00039,0.50552
+302,10th District (Nasr City),True,True,0.0,0.33704
+3020,Suez Bridge Entrance to Ring Road,True,True,0.00024,0.24728
+3021,Suez Bridge Entrance to Ring Road,True,True,0.00055,0.33537
+3022,Nissan (Kattameya),True,True,0.00035,0.2465
+3023,Helwan Observatory,True,True,0.00056,0.6089
+3024,Masaken Dahshour - Hassan Mall,True,True,0.0,0.0
+3025,Masaken dahshour terminal,True,True,0.0,0.0
+3026,Masaken dahshour terminal,True,True,0.0,0.53054
+3027,Degla Back (Badr tigers school),True,True,0.0,0.0
+3028,Hadaek October Government Office,True,True,0.0,0.0
+3029,Hadaek October Government Office,True,True,0.00036,0.38658
+303,Al Nour Mosque (Nasr City),True,True,0.00027,0.47876
+3030,Masaken Dahshour - Hassan Mall,True,True,0.0004,0.46489
+3031,Kafr Hamza Mosque,True,True,0.00038,0.14197
+3032,Abou Zaabal,True,True,0.00069,0.43719
+3033,Abou Zaabal Bridge,True,True,0.00037,0.36493
+3034,Kafr AL Shurafa,True,True,0.0,0.0
+304,Al Kahraba St. (Nasr City),True,True,0.00063,0.3961
+305,Sun Mall,True,True,0.00032,0.39712
+306,Tolip (Zahraa Nasr City),True,True,0.0,0.36446
+307,Emerald (New Cairo),True,True,0.00048,0.51357
+308,Twin Plaza,True,True,0.00046,0.49427
+309,Swan Lake Compound (1st Settlement),True,True,0.00031,0.47663
+31,Arab Maadi,True,True,0.00045,0.23218
+310,Al Shabab Entrance (1st Settlement),True,True,0.00031,0.45866
+311,Al Rahman Mosque (1st Settlement),True,True,0.00049,0.62805
+312,Al Shabrawy (1st Settlement),True,True,0.00042,0.39394
+313,Al Tawheed Mosque (1st Settlement),True,True,0.00047,0.44792
+314,Postal Office (1st Settlement),True,True,0.00016,0.16746
+315,Ibrahim Al Rifaie School (1st Settlement),True,True,0.00031,0.50368
+316,Didi Mall (1st Settlement),True,True,0.00032,0.49702
+317,Sky Mart Mall (1st Settlement),True,True,0.0001,0.62301
+318,Higher Institute Of Marketing Commerce & Information Systems,True,True,0.00056,0.40793
+319,Board of Trustees (6th of October),True,True,0.00063,0.58941
+32,Al Banhawi,True,True,0.0,0.03644
+320,Al Motamayez Entrance (6th of October),True,True,0.00037,0.33556
+321,Mobil - Mall of Arabia,True,True,0.00068,0.26014
+322,Nile University,True,True,0.00035,0.5495
+323,Ceramica Cleopatra (Sheikh Zayed),True,True,0.00039,0.02393
+324,Royal City Gate (Sheikh Zayed),True,True,0.00071,0.49702
+325,Alexandria Desert Rd. Steps (26th of July Corrdior),True,True,0.0,0.48465
+326,Alexandria Desert Rd. Steps (26th of July Corrdior),True,True,0.00025,0.21308
+327,26th of July Corridor Entrance from Ring Rd.,True,True,0.00049,0.49291
+328,Al Abeet Steps (Ring Rd.),True,True,0.00037,0.45793
+329,Gamal Abd Al Nasser Steps (Ring Rd.),True,True,0.00061,0.27064
+33,Faisal St.,True,True,0.0,0.07784
+330,Cairo Festival City (South Teseen St.),True,True,0.00018,0.46556
+331,Al Barageel Steps (Ring Rd.),True,True,0.0003,0.61288
+332,Al Barageel Steps (Ring Rd.),True,True,0.0,0.44114
+333,Al Sekka (Ring Rd.),True,True,0.00028,0.41551
+334,Bashtil (Ring Rd.),True,True,0.00038,0.38356
+335,Ezbet Al Mofti Steps (Ring Rd.),True,True,0.00069,0.43575
+336,Al Masabek Steps (Ring Rd.),True,True,0.00043,0.17138
+337,Qawmeya Steps (Ring Rd.),True,True,0.00045,0.15278
+338,Al Khouly Steps (Ring Rd.),True,True,0.00061,0.24047
+339,10 St. Steps (Ring Rd.),True,True,0.00037,0.3917
+34,Haram Mashaal,True,True,0.00045,0.34022
+340,Al Bosta Steps (Ring Rd.),True,True,0.00016,0.25994
+341,Al Warraq Exit (Ring Rd.),True,True,0.00028,0.41979
+342,Al Warraq Exit (Ring Rd.),True,True,0.00013,0.33401
+343,Total Gas Station Bassous (Ring Rd.),True,True,0.00054,0.45053
+344,Al Bassous Steps - Ring Road,True,True,0.0,0.59298
+345,Qalyub Exit (Cairo Alexandria Agriculture Rd.),True,True,0.00053,0.46102
+346,Moassasa Pedestrian Bridge,True,True,0.00034,0.32032
+347,Ard Khedr Pedestrian Bridge (Shubra Al Kheima),True,True,0.00051,0.16277
+348,Shubra Al Kheima Metro Station,True,True,0.0002,0.22491
+349,Ard Khedr Pedestrian Bridge (Shubra Al Kheima),True,True,0.00038,0.40181
+350,Shubra Al Kheima City Council,True,True,8e-05,0.54135
+351,Shubra Al Kheima Metro Station,True,True,0.00024,0.19872
+352,Obour Square (3rd Settlement),True,True,0.00056,0.57967
+353,Arabella Square,True,True,3e-05,0.64094
+354,Gamal Abd Al Nasser Square (5th Settlement),True,True,0.0,0.19261
+355,New Cairo Academy (5th Settlement),True,True,0.0,0.0
+356,New Cairo Academy (5th Settlement),True,True,0.00031,0.60858
+357,Ommal Square (5th Settlement),True,True,0.0,0.44478
+358,Al Saraya Mall (5th Settlement),True,True,0.00031,0.54765
+359,Akhnaton School,True,True,0.0004,0.4317
+36,Mostorod Ring Rd.,True,True,0.0,0.0
+360,Silver Star Mall (5th Settlement),True,True,0.00025,0.25272
+361,Al Manarah Center For International Conferences,True,True,0.00039,0.37321
+362,Military Cemetery (El-Moshir Tantawy Axis),True,True,0.00021,0.32928
+363,Cemeteries (Maadi),True,True,0.0,0.3472
+364,Al Shaheed Corridor,True,True,0.00057,0.49502
+365,Ahmed Badawi St.,True,True,0.0,0.51701
+366,Ahmed Oraby St.,True,True,0.0,0.46742
+367,Ramses Railway Station,True,True,0.0,0.51056
+368,Al Laimoon Bridge,True,True,0.0,0.32175
+369,Egyptian Media Production City,True,True,0.00042,0.29486
+37,Giza Helwan Bus Station,True,True,0.00044,0.65284
+370,Souq Al Gomla,True,True,0.00055,0.14849
+371,Al Salam Mosque (Wahat Rd.),True,True,0.00055,0.55907
+372,Al Fardous Compound Entrance (6th of October),True,True,0.00032,0.43343
+373,Al Ashgar District,True,True,0.00059,0.57311
+374,Zewail Rd. (Wahat Rd.),True,True,0.00017,0.16846
+375,Ebny Baitak (Wahat Rd.),True,True,0.0002,0.31269
+376,Ahram Gardens Resort (6th of October),True,True,0.00019,0.39958
+377,Mina Gate 4 (Hadayek Al Ahram),True,True,0.00039,0.40551
+378,Hadayek Al Ahram Gate 3,True,True,0.00029,0.40508
+379,Al Fayoum Rd.,True,True,0.00065,0.58716
+38,Bab Al Shaaria Square,True,True,0.00044,0.49269
+380,Khafraa Gate (Hadayek Al Ahram),True,True,0.0,0.49877
+381,Khofo Gate (Hadayek Al Ahram),True,True,0.00031,0.43021
+382,Credit Agricole (Al Mansoureyya Rd.),True,True,0.0,0.11119
+383,Roushdy Pharmacy (Al Remaya Square),True,True,0.0,0.24235
+384,Al Shabrawy (Al Mansoureyya Rd.),True,True,0.00042,0.42154
+385,Haram Mashaal (Al Mansoreya Rd.),True,True,0.0,0.30959
+386,QNB Bank (Haram St.),True,True,0.00028,0.22682
+387,Total (Haram Marioteya),True,True,0.0007,0.13026
+388,Al Mokhtabar (Haram St.),True,True,0.00056,0.48679
+389,Al Areesh (Haram St.),True,True,0.00018,0.10164
+39,Al Khosous,True,True,0.0,0.32763
+390,Bayt Al Karam Al Shamy (Haram St.),True,True,0.00015,0.3895
+391,Arab African Bank (Haram St.),True,True,0.00032,0.3929
+392,Civil Registry (Haram),True,True,0.00025,0.48194
+393,Three Pyramids Hotel,True,True,0.0,0.7022
+394,Haram Talbeya,True,True,0.00043,0.48077
+395,Al Salam Mosque (Haram St.),True,True,0.0,0.39343
+396,Radobis Cinema (Haram St.),True,True,0.0,0.37124
+397,Oriental Weavers (Al Haram),True,True,0.00055,0.15648
+398,Giza Metro,True,True,0.00036,0.19167
+399,Misr Gas Station (Giza Square),True,True,0.0,0.47533
+4,Gesr El Suez Garage Station,True,True,0.0,0.58806
+40,Moasasset Al Zakah,True,True,0.0,0.44097
+400,Giza Square,True,True,0.0,0.53034
+401,Ragab Sons (Al Shabab St. Obour),True,True,0.00012,0.34741
+402,Al Mostaqbal Square (Obour),True,True,0.00028,0.32103
+403,Epx Logistics For Transportation And Warehousing (Obour),True,True,0.00036,0.22629
+404,Al Shaheed Square (Obour),True,True,0.0,0.5088
+405,Safwa Clinics (Obour),True,True,0.00013,0.37089
+406,Safwa Clinics (Obour),True,True,0.00027,0.46452
+407,Plaza Club (Obour),True,True,0.00028,0.52671
+408,Plaza Club (Obour),True,True,0.00063,0.62069
+409,Al Taawon Gas Station (Al Shabab St. Obour),True,True,6e-05,0.51194
+41,Ataba,True,True,0.0,0.1832
+410,Banha University (Obour),True,True,0.00014,0.20996
+411,Obour City Authority,True,True,8e-05,0.31619
+412,Obour Sporting Club,True,True,0.00046,0.19558
+413,Obour Sporting Club,True,True,0.00056,0.55268
+414,Ahmed Oraby Square (Obour),True,True,0.00044,0.12897
+415,Ahmed Oraby Square (Obour),True,True,0.00049,0.37585
+416,Gamaa St. (Obour),True,True,0.00014,0.24371
+417,Ain Shams University (Obour),True,True,0.00042,0.21892
+418,Al Tawheed Wal Nour (Obour),True,True,0.00065,0.65424
+419,Habitat (Obour),True,True,0.00046,0.25291
+42,Qism El Marg,True,True,0.0,0.67604
+420,Habitat (Obour),True,True,0.00053,0.53284
+421,Amoun Fountain (Obour),True,True,0.00045,0.5925
+422,Amoun Fountain (Obour),True,True,0.00031,0.62202
+423,Fiat Service Center (Obour),True,True,0.00026,0.58146
+424,Carrefour (Obour),True,True,0.00054,0.56608
+425,Carrefour (Obour),True,True,0.00046,0.57566
+426,Eastern Gate Obour Market,True,True,0.00035,0.38517
+427,Obour Square,True,True,0.0,0.58828
+428,Southern Gate Obour Market,True,True,0.00056,0.30931
+429,Huckstep,True,True,0.00034,0.44998
+43,Kerdasa Station,True,True,0.00037,0.39212
+430,Obour Market - South,True,True,0.0004,0.42135
+431,Suez Bridge Entrance to Ring Road,True,True,0.00057,0.609
+432,Ismailiya Desert Rd. & Belbeis Desert Rd.,True,True,0.0,0.58829
+433,Ismailiya Desert Rd. & Belbeis Desert Rd.,True,True,0.00046,0.31177
+434,Al Salam Tunnel Ring Rd. Entrance,True,True,0.00021,0.37946
+435,Al Salam,True,True,0.00022,0.33847
+436,Al Salam,True,True,0.00056,0.15987
+437,New Marg Station,True,True,0.0,0.4148
+438,New Marg Exit (Ring Rd.),True,True,0.00025,0.60062
+439,Madbah Steps (Ring Rd.),True,True,0.0,0.22214
+44,Kerdasa Station,True,True,0.00029,0.4218
+440,Madbah Steps (Ring Rd.),True,True,0.00053,0.67104
+441,29 St. & Al Hamd Square,True,True,0.00012,0.08015
+442,Al Hamd Square Station,True,True,0.0,0.22239
+443,Silver Star Mall (5th Settlement),True,True,0.00029,0.57605
+444,Akhnaton School,True,True,0.00013,0.52657
+445,Akhnaton Square (5th Settlement),True,True,0.00038,0.55994
+446,Akhnaton Square (5th Settlement),True,True,0.0,0.36456
+447,Vitrac Square (5th Settlement),True,True,7e-05,0.51207
+448,Vitrac Square (5th Settlement),True,True,0.00028,0.50423
+449,Bloom Bank (South Teseen St.),True,True,0.00063,0.56555
+45,Moneeb,True,True,0.00011,0.63544
+450,Cairo Festival City (South Teseen St.),True,True,0.00049,0.17455
+451,Ikea (Cairo Festival City),True,True,0.00036,0.06957
+452,Cairo Festival City Pedestrian Bridge (Ring Rd.),True,True,0.00056,0.38358
+453,Cairo Festival City Pedestrian Bridge (Ring Rd.),True,True,0.00042,0.13859
+454,Nadi Al Baraka Steps (Ring Rd.),True,True,0.00052,0.53904
+455,Nadi Al Baraka Steps (Ring Rd.),True,True,0.0,0.45505
+456,Hadayek Al Qobba Youth Center,True,True,3e-05,0.45429
+457,Hadayek Al Qobba Youth Center,True,True,0.00045,0.03476
+458,Sekket Al Waili,True,True,0.00065,0.25868
+459,Sekket Al Waili,True,True,0.00045,0.3546
+46,Faculty of Applied Arts (Helwan University),True,True,0.0,0.0
+460,Manshiyat Al Gamal,True,True,0.00023,0.56744
+461,Al Zawya Al Hamra,True,True,0.00057,0.61763
+462,Kia Motors (Joseph Tito St.),True,True,0.00043,0.57285
+463,Al Herafyeen (Gesr Al Suez),True,True,0.0002,0.5371
+464,Huckstep Bridge Entrance,True,True,0.00018,0.47198
+465,Al Othman Motors (Ring Rd.),True,True,0.00064,0.41986
+466,Al Gazaer Exit (Ring Rd.),True,True,0.00042,0.43376
+467,Dusit Hotel,True,True,0.00053,0.57893
+468,Dusit Hotel,True,True,0.00025,0.44825
+469,Concord Plaza (5th Settlement),True,True,0.0002,0.50857
+47,Om Bayoumi,True,True,0.0,0.62107
+470,Concord Plaza (5th Settlement),True,True,0.00065,0.47296
+471,American University in Cairo (AUC) Gate 1 (New Cairo),True,True,0.00046,0.27532
+472,American University in Cairo (AUC) Gate 1 (New Cairo),True,True,0.0,0.24233
+473,Al Wehda Square,True,True,0.0,0.09631
+474,Arabella Square,True,True,0.0,0.53785
+475,Gamal Abd Al Nasser Square (5th Settlement),True,True,0.00021,0.34964
+476,Al Masah Hospital (Mahdy Arafa St.),True,True,0.00029,0.69644
+477,Al Masah Hospital (Mahdy Arafa St.),True,True,0.00047,0.44676
+478,Ragab Sons (Mahdy Arafa St.),True,True,0.0,0.5094
+479,Ragab Sons (Mahdy Arafa St.),True,True,0.00041,0.3358
+48,Salam Alexandria,True,True,0.0,0.34702
+480,Al Moemen Mosque,True,True,0.0007,0.50583
+481,Al Moemen Mosque,True,True,0.00044,0.52873
+482,Pizza Hut (Mostafa Al Nahas St.),True,True,0.00013,0.69399
+483,Pizza Hut (Mostafa Al Nahas St.),True,True,0.0003,0.31676
+484,Kids Land (Mostafa Al Nahas St.),True,True,0.0,0.53526
+485,Kids Land (Mostafa Al Nahas St.),True,True,0.0,0.43842
+486,Abbas Al Akkad St. & Mostafa Al Nahas St.,True,True,0.0,0.44119
+487,Abbas Al Akkad St. & Mostafa Al Nahas St.,True,True,0.0,0.28874
+488,7th District (Nasr City),True,True,0.00012,0.3742
+489,7th District (Nasr City),True,True,0.00058,0.28707
+49,10th of Ramadan (Ismailiya Desert Rd.),True,True,0.0,0.65495
+490,Police Hospital (Al Shaheed Corridor),True,True,0.00037,0.56534
+491,Al Shaheed Corridor Pedestrian Bridge,True,True,0.00057,0.22754
+492,Al Shaheed Corridor Pedestrian Bridge,True,True,0.0004,0.44407
+493,Total (Kattameya),True,True,0.00018,0.60441
+494,Baron Mall Pedestrian Bridge (Ring Rd.),True,True,2e-05,0.228
+495,Adidas Steps (Ring Rd.),True,True,0.00053,0.22099
+496,Carrefour Maadi (Ring Rd.),True,True,0.0005,0.65355
+497,Autostrad & Al Moneeb Axis,True,True,0.00021,0.37148
+498,Autostrad & Al Moneeb Axis,True,True,0.00016,0.51433
+499,Leather and Tanning Company (Autostrad),True,True,0.00019,0.22709
+5,Al Nozha Al Gadeeda,True,True,0.0,0.1445
+50,Al Malek Al Saleh,True,True,0.00045,0.42086
+500,Leather and Tanning Company (Autostrad),True,True,0.00053,0.04159
+501,Al Magzar Al Aali (Autostrad),True,True,0.00043,0.19595
+502,Al Magzar Al Aali (Autostrad),True,True,0.00049,0.52109
+503,Al Imam Al Shafei Cemetaries (Autostrad),True,True,0.00026,0.4292
+504,Al Imam Al Shafei Cemetaries (Autostrad),True,True,0.00033,0.30477
+505,Al Khelaa St.,True,True,0.00045,0.43156
+506,Al Khelaa St.,True,True,0.00055,0.46857
+507,Al Abageyya,True,True,0.00035,0.17844
+508,Salah Al Din Citadel (Salah Salem),True,True,0.00043,0.3118
+509,Abu Makarem Mosque (Al Waili),True,True,0.0,0.58835
+51,Al Malek Al Saleh,True,True,0.00046,0.28977
+510,Taki (Al Waili),True,True,0.00039,0.15486
+511,Greek Hospital,True,True,0.00046,0.39892
+512,Ahmed Al Sallab Mall (Nasr City),True,True,0.0,0.19249
+513,Fatma Al Sharbatly Mosque,True,True,0.00067,0.29208
+514,Air Force Hospital,True,True,0.00061,0.7044
+515,Mazar Mall,True,True,0.0003,0.62442
+516,Hyper One (Sheikh Zayed),True,True,0.0006,0.25027
+517,The Outlet Mall (6th of October),True,True,0.00054,0.39933
+518,10th District (Nasr City),True,True,0.00014,0.20426
+519,Sheikh Zayed General Hospital Northside,True,True,0.0007,0.07604
+52,Saqr Quraish,True,True,0.0,0.49535
+520,Zain Paint Store (Al Rawda Sheikh Zayed),True,True,0.00036,0.37716
+521,Al Rawda & Al Horreya St.,True,True,0.00047,0.41845
+522,Al Karma Compound Gate (Sheikh Zayed),True,True,0.00035,0.40848
+523,Al Tabba (6th of October),True,True,0.00032,0.38411
+524,Board of Trustees (6th of October),True,True,0.00067,0.26372
+525,Al Motamayez Entrance (6th of October),True,True,0.00024,0.44229
+526,Mall of Arabia,True,True,0.00029,0.51038
+527,Mall of Arabia,True,True,0.00025,0.31266
+528,Mobil - Mall of Arabia,True,True,0.00064,0.56284
+529,Nile University,True,True,0.00053,0.58419
+53,Al Tabba (Nasr City),True,True,0.0,0.22229
+530,Juhayna Square,True,True,0.00016,0.19154
+531,Al Gehaz Entrance (6th of October),True,True,0.00027,0.42388
+532,Al Gehaz Entrance (6th of October),True,True,0.0,0.21655
+533,Al Motamayez Wahat Entrance 2,True,True,0.00047,0.04943
+534,Al Motamayez Wahat Entrance 2,True,True,0.00036,0.72705
+535,Al Motamayez Wahat Entrance 1,True,True,0.00044,0.05138
+536,Al Motamayez Wahat Entrance 1,True,True,9e-05,0.15355
+537,Wadi Degla Sporting Club (6th of October),True,True,7e-05,0.46736
+538,Wadi Degla Sporting Club (6th of October),True,True,0.00033,0.55658
+539,Mall of Egypt,True,True,0.00041,0.57111
+54,Masaken Othman (Ezbet El Nakhl),True,True,0.00019,0.22657
+540,Mall of Egypt,True,True,0.00039,0.1513
+541,Egyptian Media Production City,True,True,0.00047,0.31177
+542,Souq Al Gomla,True,True,0.00041,0.55535
+543,Hilton Pyramids Golf (Dreamland),True,True,0.00053,0.5229
+544,Dreamland,True,True,0.00053,0.5848
+545,Al Salam Mosque (Wahat Rd.),True,True,0.0004,0.46974
+546,Al Shorouq City Authority Steps,True,True,0.00046,0.4158
+547,Al Khazan St. (6th of October),True,True,0.00021,0.49535
+548,Al Tawheed Wal Nour (Al Hossary),True,True,0.00053,0.21674
+549,Al Yasmine Compound (6th of October),True,True,0.00053,0.03777
+55,Motseian,True,True,0.00022,0.17098
+550,Al Yasmine Compound (6th of October),True,True,0.00051,0.14838
+551,Al Hossary Azhari Language School,True,True,0.00056,0.23679
+552,Al Hossary Azhari Language School,True,True,0.00059,0.414
+553,Telecom Egypt Central (6th Of October),True,True,0.00028,0.55504
+554,Telecom Egypt Central (6th Of October),True,True,0.00068,0.55492
+555,Telecom Egypt Central (6th Of October),True,True,0.00063,0.11141
+556,October University for Modern Sciences & Arts (MSA University),True,True,0.00042,0.28972
+557,October University for Modern Sciences & Arts (MSA University),True,True,0.00052,0.33555
+558,Dolphin Mall,True,True,0.00026,0.6893
+559,Misr University for Sciences and Technology (MUST),True,True,0.0,0.06672
+560,Dar Al Foad Hospital (6th of October),True,True,0.00015,0.25767
+561,Mall of Arabia,True,True,0.00051,0.42309
+562,Mobil - Mall of Arabia,True,True,0.00041,0.33883
+563,Juhayna Square,True,True,9e-05,0.45888
+564,Nile University,True,True,0.00035,0.35502
+565,Zayed 2000,True,True,0.00018,0.25772
+566,Zayed 2000,True,True,0.00057,0.36621
+567,Ceramica Cleopatra (Sheikh Zayed),True,True,0.00049,0.3022
+568,Royal City Gate (Sheikh Zayed),True,True,0.00052,0.30856
+569,Dandy Mall,True,True,0.00061,0.55731
+57,Bulaq Dakrur,True,True,0.00053,0.24144
+570,Dandy Mall,True,True,0.00044,0.18775
+571,Smart Village,True,True,0.00038,0.40605
+572,Smart Village,True,True,0.00018,0.36168
+573,Mazda Plaza (Alexandria Desert Rd.),True,True,0.00048,0.13464
+574,Mazda Plaza (Alexandria Desert Rd.),True,True,0.00047,0.54912
+575,Sheikh Zayed Entrance,True,True,7e-05,0.28605
+576,Sheikh Zayed Entrance,True,True,0.0001,0.58222
+577,SODIC (Sheikh Zayed),True,True,0.00044,0.22961
+578,SODIC (Sheikh Zayed),True,True,0.00054,0.46522
+579,Al Remaya Square,True,True,0.00042,0.51958
+58,El Kafr (Birak Al Khiyam),True,True,0.0,0.46062
+580,QNB Bank (Haram St),True,True,0.00056,0.56127
+581,Naguib Mahfouz Square (1st Settlement),True,True,0.00049,0.46165
+582,Rehab Gate 13,True,True,0.00038,0.42113
+583,Rehab Gate 13,True,True,0.00057,0.52563
+584,Rehab Square,True,True,0.00033,0.02624
+585,West Golf (Kattameya),True,True,0.00018,0.57359
+586,West Golf (Kattameya),True,True,0.00044,0.16745
+587,5th Settlement Authority,True,True,0.00041,0.50611
+588,5th Settlement Authority,True,True,0.00048,0.39781
+589,5th Settlement Authority,True,True,0.0,0.3852
+59,Bulaq Dakrur,True,True,0.0,0.18566
+590,Al Takwa Mosque (5th Settlement),True,True,0.00043,0.21518
+591,Al Takwa Mosque (5th Settlement),True,True,0.00042,0.4535
+592,5th Settlement Police Station,True,True,0.00026,0.58082
+593,Al Mahkama (New Cairo),True,True,9e-05,0.43547
+594,Al Mahkama (New Cairo),True,True,0.00039,0.17446
+595,Mahmoudeya Station,True,True,0.00053,0.11853
+596,Mahmoudeya Station,True,True,0.00038,0.5692
+597,Porto Cairo Mall,True,True,0.00035,0.58716
+598,Porto Cairo Mall,True,True,0.00035,0.52039
+599,Porto Cairo Mall,True,True,0.00022,0.50971
+6,Masaken Almaza,True,True,0.00057,0.35078
+60,Nahia,True,True,0.00022,0.17317
+600,Al Moshir Tantawi Corridor Entrance,True,True,0.00031,0.3013
+601,Al Moshir Tantawi Corridor Entrance,True,True,0.00048,0.15771
+602,Al Shaheed Corridor,True,True,0.00049,0.45271
+603,Al Areesh (Haram St.),True,True,0.00026,0.18666
+604,Civil Registry (Haram),True,True,0.00048,0.36404
+605,Al Salam Mosque (Haram St.),True,True,0.00054,0.14616
+606,Marioteya Rd. & Faisal St.,True,True,0.00016,0.57582
+607,Marioteya Rd. & Faisal St.,True,True,0.00048,0.22428
+608,Water Station (Alexandria Desert Road),True,True,0.00023,0.56289
+609,Water Station (Alexandria Desert Road),True,True,0.00045,0.51551
+61,Nahia,True,True,0.0,0.48592
+610,New Giza Gate 1,True,True,0.0,0.30949
+611,New Giza Gate 1,True,True,0.00048,0.46896
+612,Nour City steps (Ring Rd.),True,True,0.0004,0.55632
+613,Nour City steps (Ring Rd.),True,True,0.00018,0.65909
+614,Ring Rd. Exit to Saft Al Laban,True,True,0.00018,0.44359
+615,Bus Terminal to 6th of October,True,True,0.00014,0.41838
+616,Nahya Steps (Ring Rd.),True,True,0.00038,0.45702
+617,Ring Road Steps to 26th of July Mehwar,True,True,0.00058,0.32493
+618,Ring Road Steps to 26th of July Mehwar,True,True,0.00045,0.43552
+619,Al Mansoreya & 26th of July Corridor,True,True,0.00048,0.32191
+62,Nahia,True,True,0.0,0.57174
+620,Al Marioteya Rd. & 26th of July Corridor,True,True,0.00021,0.47938
+621,Al Sekka (Ring Rd.),True,True,0.0006,0.36244
+622,Bashtil (Ring Rd.),True,True,0.0002,0.5096
+623,Qawmeya Steps (Ring Rd.),True,True,0.00028,0.47677
+624,10 St. Steps (Ring Rd.),True,True,0.00035,0.36175
+625,Ring Road Exit to Qalyub,True,True,0.00013,0.44444
+626,Ring Rd. Steps to Qalyub,True,True,0.00042,0.48132
+627,Zamalek Sporting Club,True,True,0.00028,0.55982
+628,Ministry Of Youth And Sports,True,True,0.00039,0.54323
+629,Ministry Of Youth And Sports,True,True,0.00046,0.24228
+63,Kasr Al Ainy,True,True,0.0,0.0
+630,Wadi Al Nile St. & 26th of July Corridor (Mit Okba),True,True,0.00058,0.06767
+632,Ard Al Lewa Steps (26th of July Corridor),True,True,0.00044,0.54055
+633,Agouza Corniche,True,True,0.00011,0.66446
+634,Agouza Corniche,True,True,0.00037,0.24243
+635,Cairo University Main Gate,True,True,0.0,0.47265
+636,Cairo University Bridge,True,True,0.0,0.58837
+637,Cairo University Bridge,True,True,0.0,0.65538
+638,Faculty of Commerce (Cairo University),True,True,0.00042,0.39334
+639,Faculty of Commerce (Cairo University),True,True,0.0,0.0
+64,Mohagreen (Ezbet Al Nakhl),True,True,0.0,0.17556
+640,Cairo University Metro,True,True,0.00043,0.48981
+641,Cairo University Metro,True,True,0.00037,0.42359
+642,Motseian,True,True,0.00036,0.52401
+643,KFC (Al Lebeny St.),True,True,0.00031,0.49735
+644,Al Talbeya Steps (Ring Rd.),True,True,0.00031,0.44714
+645,Al Talbeya Steps (Ring Rd.),True,True,0.00052,0.45155
+646,Ring Rd. Exit to Moneeb,True,True,0.0,0.44132
+647,Ring Rd. Entrance from Moneeb,True,True,0.0,0.19262
+648,Gamal Abd Al Nasser Steps (Ring Rd.),True,True,0.00039,0.35485
+649,Helwan University,True,True,0.00049,0.59827
+65,Faisal Tawabek,True,True,0.00069,0.51874
+650,Ring Rd. Exit to Zahraa Misr Al Qadima,True,True,0.0,0.67639
+651,Ring Rd. Exit to Zahraa Misr Al Qadima,True,True,0.00041,0.20825
+652,Ezbet Kheirallah Steps 2 (Ring Rd.),True,True,0.00056,0.43064
+653,Moneeb,True,True,0.00051,0.49105
+654,Silver Nile Social Club (Nile Corniche),True,True,0.00017,0.48579
+655,Constitutional Court,True,True,0.00039,0.60011
+656,Al Saff,True,True,0.00059,0.16685
+657,Maasara Autostrad,True,True,0.00038,0.57833
+658,Al Rawda Square (Al Manial),True,True,0.0,0.47704
+659,Al Rawda Square (Al Manial),True,True,0.0,0.32589
+66,Faisal Tawabek,True,True,0.00053,0.15328
+660,Basha Square (Al Manial),True,True,0.0,0.53027
+661,Basha Square (Al Manial),True,True,0.0,0.17816
+662,Faculty of Dental & Oral Medicine - Cairo University (Manial),True,True,0.00065,0.3957
+663,KFC (Al Manial),True,True,0.00045,0.30659
+664,Kasr Al Ainy Hospital,True,True,0.0,0.30573
+665,Kempinski Nile Hotel (Qasr Al Nile),True,True,0.00034,0.41146
+666,Shepheard Hotel (Qasr Al Nile),True,True,0.0,0.63317
+667,Mobil Gas Station Bostan St. (Downtown),True,True,0.0006,0.56144
+668,Souq Bab Al Louq,True,True,9e-05,0.11284
+669,Noubar St.,True,True,0.0,0.30463
+67,Al Malek Al Saleh,True,True,0.0,0.49524
+670,Saqr Quraish,True,True,0.00057,0.25867
+671,Masaken Al Kendy,True,True,0.0,0.67639
+672,Masaken Al Kendy,True,True,0.0,0.30958
+673,Al Mearag Mosque (Ring Rd.),True,True,0.00042,0.31497
+674,Carrefour Maadi (Ring Rd.),True,True,0.00028,0.36854
+675,Egyptian Shooting Club Pedestrian Tunnle (Kattameya),True,True,0.00024,0.46886
+676,Egyptian Shooting Club Pedestrian Tunnle (Kattameya),True,True,0.00025,0.6368
+677,Al Sayeda Aisha Station,True,True,9e-05,0.38546
+678,Al Sayeda Aisha Station,True,True,0.00057,0.46633
+679,Al Sayeda Zeinab,True,True,0.00048,0.60601
+68,Imbaba,True,True,0.0,0.51664
+680,Cairo Security Directorate,True,True,0.00034,0.29751
+681,Ali Basha St. & Al Qalaa St.,True,True,0.0,0.3472
+682,Al Soltan Hassan Mosque,True,True,0.00052,0.52603
+683,Al Soltan Hassan Mosque,True,True,0.00047,0.41888
+684,Tahrir Square,True,True,0.00043,0.6793
+685,Tahrir Square,True,True,0.00061,0.48037
+686,Mohamed Naguib Metro Station,True,True,0.0,0.29414
+687,Ramses,True,True,0.00044,0.3293
+688,Ramses Railway Station,True,True,0.00037,0.14517
+689,Abbaseya,True,True,0.0,0.42236
+69,Imbaba,True,True,0.0,0.19277
+690,Abbaseya Bridge Entrance,True,True,0.0,0.67622
+691,Abbaseya Bridge Entrance,True,True,0.0,0.62646
+692,Ramses Extension (North of Nasr Rd.),True,True,0.00038,0.11151
+693,Al Azhar Pedestrian Bridge,True,True,0.00063,0.48456
+694,The Unknown Soldier Memorial,True,True,0.00056,0.39469
+695,The Unknown Soldier Memorial,True,True,0.00046,0.6174
+696,Rabaah Al Adaweya Mosque,True,True,0.0,0.16033
+697,Awwal Abbas Al Akkad,True,True,0.0,0.0
+698,Awwal Abbas Al Akkad,True,True,0.00048,0.35281
+699,Al Ahly Sporting Club (Nasr City),True,True,0.00052,0.14668
+7,Al Hawamdeyya,True,True,0.00024,0.52463
+70,Saqqara (Moroor),True,True,0.00043,0.40477
+700,Ramses Extension (South of Nasr Rd.),True,True,0.0,0.14706
+701,Ramses Extension (South of Nasr Rd.),True,True,0.00049,0.36037
+702,Ramses Extension (South of Nasr Rd.),True,True,0.00053,0.5206
+703,Al Fath Superjet (Nasr City),True,True,0.00022,0.53535
+704,Al Gamaia Al Sharaia (Nasr City),True,True,0.0004,0.36175
+705,Police Hospital (Al Shaheed Corridor),True,True,8e-05,0.61264
+706,Al Mokhayam Al Daaem (Nasr City),True,True,0.0,0.20703
+707,Al Mosheer Tantawy Mosque,True,True,0.00041,0.4722
+708,Azhar University City for Boys,True,True,0.00068,0.29794
+709,Health Insurance Hospital (Nasr City),True,True,0.00013,0.27262
+71,Saqqara (Moroor),True,True,0.00028,0.65316
+710,Al Andalous Specialized Hospital (7th District Nasr City),True,True,0.00029,0.20208
+711,Al Eman Mosque (Makram Ebeid St.),True,True,0.00063,0.43262
+712,Al Eman Mosque (Makram Ebeid St.),True,True,0.00031,0.4723
+713,Al Serag Mall,True,True,0.00056,0.26763
+714,10th District (Nasr City),True,True,0.0,0.26756
+715,Rod Al Farag Metro Station,True,True,0.00039,0.6719
+716,Al Sahel Police Department,True,True,0.00027,0.55611
+717,Saint Teresa Metro,True,True,0.0,0.67617
+718,Al Sahel Youth Center,True,True,0.00026,0.7061
+719,Khalafawi Square,True,True,0.00036,0.38844
+72,Lotus (5th Settlement),True,True,0.0,0.0
+720,Abou Wafya Bridge,True,True,0.0,0.36436
+721,Al Zawya Al Hamra,True,True,0.0,0.56424
+722,Sekket Al Waili St. (Kobry Al Qobba),True,True,0.0,0.24231
+723,Kobry Al Qobba,True,True,0.00033,0.55808
+724,Infantry House (Heliopolis),True,True,0.00061,0.45691
+725,Infantry House (Heliopolis),True,True,0.00048,0.53385
+726,Cairo Stadium,True,True,0.00037,0.5182
+727,Cairo Stadium,True,True,0.00063,0.56651
+728,Al Mazallat Metro Station,True,True,0.0,0.56424
+729,National Authority For Military Production,True,True,0.00029,0.13926
+73,El Itihad Square (Maadi),True,True,0.00024,0.33375
+730,Minerals & Refrigeration Center (Abboud),True,True,0.00026,0.37941
+731,Aswan Pedestrian Bridge (Shubra Al Kheima),True,True,0.00027,0.25268
+732,Aswan Pedestrian Bridge (Shubra Al Kheima),True,True,0.00015,0.49248
+733,Novartis Pharma (Al Zaytoun),True,True,0.00053,0.48255
+734,Novartis Pharma (Al Zaytoun),True,True,0.0,0.53512
+735,Ibrahim Anwar Mosque (Al Zaytoun),True,True,0.00053,0.40934
+736,Saray Al Qobba,True,True,0.0,0.60225
+737,Teraat Al Gabal St.,True,True,0.00039,0.37042
+738,Teraat Al Gabal St.,True,True,0.0,0.47685
+739,Al Thawra Hospital (Helipolis),True,True,0.0002,0.3664
+74,El Warsha (Ezbet Al Nakhl),True,True,0.0,0.67262
+740,Al Thawra Hospital (Helipolis),True,True,0.00037,0.39301
+741,Telecom Egypt Central (Almaza),True,True,8e-05,0.36018
+742,Telecom Egypt Central (Almaza),True,True,0.0,0.29408
+743,Samir & Ali Al Thawra St (Heliopolis),True,True,0.0006,0.43947
+744,City Stars Mall,True,True,0.00053,0.53922
+745,City Stars Mall,True,True,6e-05,0.50252
+746,Al Galaa Bridge,True,True,0.0,0.58814
+747,Al Galaa Bridge (Helipolis),True,True,0.0,0.33358
+748,Heliopolis Courthouse Complex,True,True,0.0,0.45506
+749,Adminstration Of Mobilization And Recruitment,True,True,0.00037,0.45016
+75,Zaker Hussein St. & Al Tayaran St.,True,True,0.0,0.38515
+750,Adminstration Of Mobilization And Recruitment,True,True,0.00031,0.31111
+751,Alf Maskan,True,True,0.0,0.58809
+752,Arab Specialized Hospital (Gesr Al Suez),True,True,0.00041,0.44232
+753,Arab Specialized Hospital (Gesr Al Suez),True,True,0.0,0.28852
+754,CTA Garage (Heliopolis),True,True,0.0,0.29403
+755,Obour Tunnel,True,True,0.0004,0.26492
+756,Ring Rd. Exit to Al Salam,True,True,0.00049,0.57631
+757,Ring Rd. Steps to New Marg,True,True,0.00019,0.37783
+758,Ring Rd. Steps to New Marg,True,True,0.0003,0.54734
+759,(Mostorod Bridge) Ring Road,True,True,0.0006,0.36321
+760,Bahteem,True,True,0.00042,0.49925
+761,Bahteem,True,True,0.00016,0.53753
+762,Bahteem,True,True,0.0,0.24228
+763,Fayed Desert Rd. Exit to Madinaty,True,True,0.00048,0.39067
+764,Al Horreya Square (Shorouq City),True,True,0.00019,0.2331
+765,Al Horreya Square (Shorouq City),True,True,0.00064,0.27127
+766,8th District (Shorouq City),True,True,0.00054,0.45808
+767,8th District (Shorouq City),True,True,0.00051,0.37156
+768,Al Nahda Square (Shorouq City),True,True,0.0,0.0
+769,Al Nahda Square (Shorouq City),True,True,0.00015,0.40885
+770,Youth Housing (Shorouq City),True,True,0.0,0.33358
+771,Youth Housing (Shorouq City),True,True,0.00039,0.37495
+772,Al Shorouq School (Shorouq City),True,True,0.00054,0.28032
+773,Al Shorouq School (Shorouq City),True,True,0.00054,0.26684
+774,Falcon School (Shorouq City),True,True,0.00041,0.29904
+775,10th District (Shorouq City),True,True,0.00046,0.18794
+776,Shorouq City,True,True,0.0,0.62636
+777,Sheraton,True,True,0.00022,0.39484
+778,Center Cairo Governorate Information Networks,True,True,0.0005,0.62642
+779,Ideal Standard (Nasr Rd.),True,True,0.00049,0.51032
+78,Roxy,True,True,0.00039,0.63201
+780,Masaken Ain Shams Station,True,True,0.0,0.14701
+781,Masaken Ain Shams,True,True,0.00067,0.34653
+782,Nour Al Islam Mosque (Shubra Al Kheima),True,True,0.00016,0.31595
+783,Abou Al Majd Center (Mostorod),True,True,0.00037,0.51838
+784,Al Shaarawy St. (Shubra Al Kheima),True,True,0.00026,0.50219
+785,Arab Engineering & Construction Company (Shubra Al Kheima),True,True,0.0,0.16541
+786,Isko,True,True,0.00043,0.24359
+787,Abbaseya,True,True,0.00062,0.0198
+788,Abou Al Reesh,True,True,0.00052,0.23941
+789,Moassasa,True,True,0.00058,0.15377
+79,Bashtil El Balad,True,True,0.0,0.35733
+790,Al Mostafa Mosque,True,True,0.00046,0.1501
+791,Al Sayeda Aisha,True,True,0.0,0.55904
+792,Salam Station (10th of Ramadan Station),True,True,0.00055,0.36154
+793,Salam Station (10th of Ramadan Station),True,True,0.00062,0.42093
+794,Salam Station (10th of Ramadan Station),True,True,0.00032,0.42231
+795,Salam Station (10th of Ramadan Station),True,True,0.00045,0.52964
+796,Ataba,True,True,0.0,0.0
+797,Ataba,True,True,0.00029,0.26673
+798,Basateen,True,True,0.00056,0.39087
+799,Bonook (5th Settlement),True,True,0.00056,0.48078
+8,Al Hawamdeyya,True,True,0.00029,0.64388
+80,Bashtil El Balad,True,True,0.00031,0.47983
+800,Bonook (5th Settlement),True,True,0.00046,0.30137
+801,Bonook (5th Settlement),True,True,0.00048,0.65038
+802,Al Hamd Square Station,True,True,0.0,0.1471
+803,1st Settlement Hospital,True,True,0.00051,0.48427
+804,Future University in Egypt (FUE),True,True,0.0,0.44469
+805,Future University in Egypt (FUE),True,True,0.00047,0.63559
+806,Gas (5th Settlement),True,True,0.0,0.53034
+807,Helwan Station,True,True,0.00054,0.25039
+809,Madinat Al Talaba,True,True,0.00031,0.01094
+81,Kit Kat Square,True,True,0.0,0.51145
+810,Masaken Zainhom Station,True,True,0.0,0.24233
+811,Massalah Gadeeda (Al Matareyya),True,True,0.00017,0.27573
+812,Mashaal (Haram),True,True,0.00043,0.12983
+813,Masraweya,True,True,0.00031,0.42299
+814,Masraweya,True,True,0.00059,0.3334
+815,Alexandria Desert Rd. Steps (26th of July Corrdior),True,True,0.0,0.58836
+816,26th of July Corridor & Alex Desert Rd.,True,True,0.00047,0.49028
+817,Misr 2000,True,True,0.00029,0.37075
+818,Konayyesa (Moneeb),True,True,0.00053,0.58701
+819,Konayyesa (Moneeb),True,True,0.00063,0.12558
+82,Kafr AL Shurafa,True,True,0.0,0.45506
+820,Konayyesa (Moneeb),True,True,0.00035,0.40958
+821,Konayyesa (Moneeb),True,True,0.00053,0.45253
+822,Kattameya Traffic Department,True,True,0.0,0.0
+823,Ommal Square (5th Settlement),True,True,0.0,0.2889
+824,Police Academy (Mostafa Kamel Axis),True,True,0.00059,0.44189
+825,Police Academy (Taha Hussein Axis),True,True,0.00016,0.55851
+826,Qalyub,True,True,0.0,0.2665
+827,Qawmeya Arabeya,True,True,0.0,0.3851
+828,Ramses,True,True,0.00054,0.43204
+829,Rehab Gate 6,True,True,0.00045,0.13793
+83,Kafr AL Shurafa,True,True,0.0,0.40963
+830,Rehab Square,True,True,0.00034,0.46658
+831,Al Shabab Entrance (5th Settlement),True,True,0.0,0.14711
+832,Al Shabab Entrance (5th Settlement),True,True,0.0,0.6764
+833,Moassasa,True,True,0.00069,0.23972
+834,Al Warraq,True,True,0.00041,0.40699
+835,Al Warraq,True,True,0.00063,0.1723
+836,Al Warraq,True,True,0.00037,0.22679
+837,Zahraa Madinet Nasr,True,True,1e-05,0.48776
+838,Heliopolis Sporting Club,True,True,0.0,0.44478
+839,Ceramica Square - Sheikh Zayed,True,True,0.0,0.0
+84,Giza Square,True,True,0.00048,0.06429
+840,Bashayer,True,True,0.0,0.34324
+841,Hadayek Al Mohandeseen Gate (Sheikh Zayed),True,True,0.00023,0.45728
+842,Al Gezira - Sheikh Zayed,True,True,0.00013,0.59013
+843,Durra Square,True,True,0.0,0.49593
+844,Al Sewedy (Laylat Al Qadr),True,True,0.00069,0.44334
+845,Asaer Al Fardous (6th of October),True,True,0.00034,0.66367
+846,Asaer Al Fardous (6th of October),True,True,0.00068,0.44296
+847,Al Safwa Wood Trading (6th of October),True,True,0.00062,0.2492
+848,Al Safwa Wood Trading (6th of October),True,True,0.00035,0.17783
+849,Abou Allaam (6th of October),True,True,0.00065,0.15834
+85,Roxy,True,True,0.0,0.56424
+850,Vodafone Square,True,True,0.0,0.48473
+851,Abou Allaam (6th of October),True,True,0.00042,0.42016
+852,Raslan (6th of October),True,True,0.00055,0.62026
+853,Al Wagih Center (6th of October),True,True,0.0,0.31143
+854,Oriental Weavers (6th of October),True,True,0.00025,0.70099
+855,Al Wagih Center (6th of October),True,True,0.00051,0.35042
+856,Al Khazan St. (6th of October),True,True,0.00069,0.10639
+857,Al Kabbani Furniture (6th of October),True,True,0.00029,0.51277
+858,Markaz Al Nakheel (6th of October),True,True,1e-05,0.40444
+859,Housing And Development Bank (6th of October),True,True,0.00044,0.48056
+86,Giza Square,True,True,0.00016,0.54091
+860,Al Mostafa Center (6th of October),True,True,0.00025,0.25185
+861,Al Ezaby Pharmacy Al Mehwar Al Markazi (6th of October),True,True,0.0003,0.30262
+862,Al Mostafa Center (6th of October),True,True,0.00041,0.26518
+863,Ragab Sons Al Mehwar Al Markazi (6th of October),True,True,0.00021,0.38009
+864,Daewoo,True,True,0.00015,0.39292
+865,Misr for Packing (6th of October),True,True,0.00016,0.26804
+866,7th District Entrance (6th of October),True,True,0.00049,0.52184
+867,Dolphin Mall,True,True,0.00057,0.35273
+868,Misr for Packing (6th of October),True,True,0.00028,0.22006
+869,6th Of October City Authority,True,True,0.00046,0.27989
+87,10th District (Nasr City),True,True,0.00042,0.51117
+870,Al Nour Mosque (6th of October),True,True,0.0,0.58667
+871,Al Tabba (6th of October),True,True,0.00046,0.24073
+872,Vodafone Square,True,True,0.00034,0.36923
+873,Raslan (6th of October),True,True,0.00017,0.49981
+874,10th District Station (6th of October),True,True,0.00046,0.43877
+875,Misr University for Sciences and Technology (MUST),True,True,0.00022,0.40413
+876,10th District Station (6th of October),True,True,0.00036,0.40023
+877,Dar Al Foad Hospital (6th of October),True,True,0.00037,0.40453
+878,Ahram Canadian University,True,True,0.00043,0.33374
+879,Industrial Zone's Banks Area (6th of October),True,True,0.00022,0.39329
+88,Al Khanka Local Unit,True,True,0.00054,0.41703
+880,Industrial Zone's Banks Area (6th of October),True,True,0.00019,0.42616
+881,Red Kiosk (6th of October),True,True,0.00059,0.44929
+882,Zayed 2000,True,True,0.00033,0.19098
+883,Red Kiosk (6th of October),True,True,0.00015,0.62431
+884,Ragab Sons 7th District (6th of October),True,True,0.00045,0.11742
+885,Ragab Sons 7th District (6th of October),True,True,0.00027,0.25391
+886,Blue Bells School (Al Motamayez),True,True,0.00068,0.51977
+887,Blue Bells School (Al Motamayez),True,True,0.00056,0.28028
+888,Al Motamayez Station,True,True,0.00041,0.37805
+889,Sheikh Zayed Specialized Hospital,True,True,0.00024,0.57682
+89,Ring Rd. Exit to Khosous,True,True,0.0,0.50833
+890,Sheikh Zayed Specialized Hospital,True,True,0.00054,0.51439
+891,Salamtak Labs (Dolce),True,True,0.00037,0.46669
+892,Al Hedaya Mosque (6th of October),True,True,0.00036,0.12859
+893,Al Kholafaa Al Rashedeen Mosque (6th of October),True,True,0.00054,0.69776
+894,Al Kholafaa Al Rashedeen Mosque (6th of October),True,True,0.0002,0.52928
+895,Abu Bakr Al Siddiq Mosque (6th of October),True,True,8e-05,0.27084
+896,Abu Bakr Al Siddiq Mosque (6th of October),True,True,3e-05,0.37933
+897,Zayed 2000,True,True,0.00044,0.191
+898,Ceramica Cleopatra (Sheikh Zayed),True,True,0.00032,0.37373
+899,Industrial Zone 3,True,True,0.0,0.19012
+9,New Marg,True,True,0.0,0.38503
+90,Ring Rd. Exit to Khosous,True,True,0.00019,0.28997
+900,Masaken Othman,True,True,0.00033,0.41575
+901,Al Hedaya Mosque (6th of October),True,True,0.00022,0.06034
+902,Masaken Othman,True,True,0.00032,0.53778
+903,Total  (6th of October),True,True,0.0,0.40355
+904,Ceramica Cleopatra (Sheikh Zayed),True,True,0.00051,0.34404
+905,Americana Plaza - Sheikh Zayed,True,True,0.0,0.0
+906,Durra Square,True,True,0.00052,0.24159
+907,Islamic Center (Sheikh Zayed),True,True,0.00047,0.1033
+908,Seoudi Market (Sheikh Zayed),True,True,0.00053,0.32047
+909,Al Safa Square (Sheikh Zayed),True,True,0.00017,0.61223
+91,Mostorod Ring Rd.,True,True,0.00035,0.6656
+910,Cairo University (Sheikh Zayed),True,True,0.0002,0.16028
+911,Zayed 2000 Gate 3,True,True,0.00051,0.54305
+912,16th District (Sheikh Zayed),True,True,0.00048,0.29399
+913,Tara Compound Entrance (Sheikh Zayed),True,True,0.0006,0.32945
+914,Al Nozha St. & 30 St. (Sheikh Zayed),True,True,0.00041,0.48588
+915,16th District (Sheikh Zayed),True,True,0.00057,0.57762
+916,Al Nozha St. & Al Horreya (Sheikh Zayed),True,True,0.0,0.58558
+917,Sheikh Zayed General Hospital,True,True,0.00054,0.666
+918,Magda Square,True,True,0.00051,0.60411
+919,Sheikh Zayed General Hospital,True,True,0.0,0.54915
+92,Abou Zaabal,True,True,0.0,0.0
+920,11th District Exit (Sheikh Zayed),True,True,0.00013,0.37083
+921,11th District Exit (Sheikh Zayed),True,True,0.00036,0.30418
+922,Al Nozha St. & Al Horreya (Sheikh Zayed),True,True,0.00014,0.44002
+923,Zayed Boys Secondary School,True,True,0.00038,0.54967
+924,11th District (Hay Al Hadi Ashr) Exit - Sheikh Zayed,True,True,0.00022,0.62838
+925,Ahram Canadian University,True,True,0.0,0.53047
+926,Health Affairs Directorate - 6th of October,True,True,0.00011,0.48273
+927,20 St. & Al Mostaqbal St. (Sheikh Zayed),True,True,0.0,0.53029
+928,Amr Ibn Al Aas School (Sheikh Zayed),True,True,0.00045,0.41198
+929,Al Rabwa (Sheikh Zayed),True,True,0.0,0.50022
+93,Zahraa Nasr City,True,True,0.0,0.15561
+930,Islamic Center (Sheikh Zayed),True,True,0.00045,0.59064
+931,Islamic Center (Sheikh Zayed),True,True,0.0006,0.38581
+932,Al Nozha St. & Al Horreya (Sheikh Zayed),True,True,0.0,0.44463
+933,Rihana Plaza (Sheikh Zayed),True,True,0.00069,0.33045
+934,Al Rabwa (Sheikh Zayed),True,True,0.0,0.26364
+935,Islamic Center (Sheikh Zayed),True,True,0.00052,0.4316
+936,Health Affairs Directorate - 6th of October,True,True,0.00055,0.36665
+937,Zayed 2000,True,True,0.0003,0.66156
+938,Rihana Plaza (Sheikh Zayed),True,True,0.00055,0.57266
+939,Islamic Center (Sheikh Zayed),True,True,0.00028,0.47741
+94,Ataba,True,True,0.0,0.0
+940,Al Nozha St. & 30 St. (Sheikh Zayed),True,True,0.00051,0.49923
+941,Seoudi Market (Sheikh Zayed),True,True,0.00056,0.25098
+942,Al Safa Square (Sheikh Zayed),True,True,0.00016,0.47
+943,Sheikh Zayed General Hospital,True,True,0.00067,0.50905
+944,CIC - Sheikh Zayed,True,True,0.0,0.30789
+945,Diamonds Mall (6th of October),True,True,0.00045,0.49808
+946,8th District (6th of October),True,True,0.0,0.14099
+947,Family Land (6th of October),True,True,0.00031,0.42842
+948,Family Land (6th of October),True,True,0.00026,0.43685
+949,Gamal Abd Al Nasser St. in Bashayer (6th of October),True,True,0.0,0.475
+95,Kobry Orabi,True,True,0.00045,0.43702
+950,Gamal Abd Al Nasser St. in Bashayer (6th of October),True,True,0.0,0.54056
+951,Al Fayrouz Center (6th of October),True,True,0.00048,0.65198
+952,Al Fayrouz Center (6th of October),True,True,0.00047,0.39914
+953,Industrial School (6th of October),True,True,0.00049,0.30086
+954,Industrial School (6th of October),True,True,0.00034,0.51646
+955,Al Muluk,True,True,0.0,0.41204
+956,Al Tawheed Wal Nour (Al Hossary),True,True,0.00051,0.0512
+957,Ragab Sons Al Mehwar Al Markazi (6th of October),True,True,0.00039,0.54286
+958,Housing And Development Bank (6th of October),True,True,0.00052,0.40127
+959,Al Nagda Square (6th of October),True,True,0.0,0.38895
+96,Abdullah El Refaey,True,True,0.0,0.33318
+960,Al Nagda Square (6th of October),True,True,0.0,0.24312
+961,Al Kabbani Furniture (6th of October),True,True,0.00022,0.33061
+962,Tiba Grand Mall (6th of October),True,True,3e-05,0.4425
+963,Tiba Grand Mall (6th of October),True,True,0.00048,0.66134
+964,Al Sewedy (Laylat Al Qadr),True,True,0.00032,0.63849
+965,Oriental Weavers (6th of October),True,True,0.00031,0.44891
+966,Laylat Al Qadr Entrance,True,True,0.00054,0.44689
+967,Anwar Al Sadat Square (6th of October),True,True,0.00046,0.31173
+968,Anwar Al Sadat Square (6th of October),True,True,0.00044,0.22366
+969,Bashayer Entrance (6th of October),True,True,0.0,0.3277
+97,Abdullah El Refaey,True,True,0.0,0.55934
+970,Bashayer Entrance (6th of October),True,True,0.0003,0.44632
+971,7th District Entrance (6th of October),True,True,0.0,0.10953
+972,7th District Entrance (6th of October),True,True,0.0,0.40473
+973,Farghali Realestate in Bashayer,True,True,0.0,0.37129
+974,Farghali Realestate in Bashayer,True,True,0.0,0.56426
+975,Emad Market (6th of October),True,True,0.00034,0.46757
+976,Emad Market (6th of October),True,True,0.0005,0.39553
+977,Kawkab Al Sharq Cafe - Bashayer,True,True,0.00037,0.32728
+978,Kawkab Al Sharq Cafe - Bashayer,True,True,0.00014,0.52135
+979,Hossary Station,True,True,0.0,0.38522
+98,Kit Kat Square,True,True,0.00055,0.37607
+980,Al Hegaz Mall (6th of October),True,True,0.00045,0.3912
+981,Al Hegaz Mall (6th of October),True,True,0.0002,0.44259
+982,Higher Technological Institute HTI (6th of October),True,True,0.00058,0.25775
+983,Higher Technological Institute HTI (6th of October),True,True,0.0006,0.33597
+984,Al Ezaby Pharmacy Al Mehwar Al Markazi (6th of October),True,True,0.00034,0.26913
+985,Al Central (Laylat Al Qadr),True,True,0.0,0.55331
+986,Al Central (Laylat Al Qadr),True,True,0.0,0.50951
+987,Yellow Kiosk (6th of October),True,True,0.00051,0.26719
+988,Yellow Kiosk (6th of October),True,True,0.00057,0.27778
+989,Realestate Regulation Authoity (6th of October),True,True,0.00021,0.21273
+99,Roxy,True,True,0.00053,0.40786
+990,Realestate Regulation Authoity (6th of October),True,True,0.00039,0.5372
+991,Export Development Authority (6th of October),True,True,0.00039,0.41409
+992,Export Development Authority (6th of October),True,True,0.00028,0.38334
+993,6th District (6th of October),True,True,0.0,0.33372
+994,6th District (6th of October),True,True,0.0,0.1335
+995,Salamtak Labs (Dolce),True,True,0.00034,0.5645
+996,Dolce,True,True,0.00026,0.60192
+997,Kan Kan 12th District (6th of October),True,True,0.00043,0.56123
+998,St. Mary and St. Mark Church (6th of October),True,True,0.00044,0.40915
+999,St. Mary and St. Mark Church (6th of October),True,True,0.00048,0.31238

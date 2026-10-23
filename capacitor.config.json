@@ -1,0 +1,14 @@
+{
+  "appId": "dev.mowaslaty.app",
+  "appName": "مواصلاتي",
+  "webDir": "dist-android",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "Geolocation": {
+      "permissions": ["location"]
+    }
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}
