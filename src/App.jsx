@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Sidebar from './components/Sidebar';
 import MapComponent from './components/MapComponent';
 import RouteDrawer from './components/RouteDrawer';
@@ -15,6 +15,7 @@ import TripTracker from './components/TripTracker';
 import useMultiStopPlanner from './utils/useMultiStopPlanner';
 import { buildMultiStopLegs, filterMultiStopPlan, journeyOptionKey } from './utils/multiStopPlanner';
 import { rideLegs } from './utils/journey';
+import { resolveExactRoute, routeIdFromSearch } from './utils/routeDeepLink.js';
 
 
 export default function App() {
@@ -25,6 +26,38 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [vehicleFilter, setVehicleFilter] = useState('ALL');
   const [selectedRoute, setSelectedRoute] = useState(null);
+  const [deepLinkRouteId, setDeepLinkRouteId] = useState(() => routeIdFromSearch(window.location.search));
+  const appliedDeepLinkRouteId = useRef(null);
+
+  useEffect(() => {
+    const onPopState = () => setDeepLinkRouteId(routeIdFromSearch(window.location.search));
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  useEffect(() => {
+    if (!deepLinkRouteId) {
+      if (appliedDeepLinkRouteId.current) {
+        const previousId = appliedDeepLinkRouteId.current;
+        setSelectedRoute(current => current?.id === previousId ? null : current);
+        appliedDeepLinkRouteId.current = null;
+      }
+      return;
+    }
+
+    const exactRoute = resolveExactRoute(routes, deepLinkRouteId);
+    if (!exactRoute) {
+      if (appliedDeepLinkRouteId.current) {
+        const previousId = appliedDeepLinkRouteId.current;
+        setSelectedRoute(current => current?.id === previousId ? null : current);
+        appliedDeepLinkRouteId.current = null;
+      }
+      return;
+    }
+    setSelectedRoute(exactRoute);
+    setActiveTab('explore');
+    appliedDeepLinkRouteId.current = exactRoute.id;
+  }, [deepLinkRouteId, routes]);
   
   // Phase 2 state (Nearest Drop & Specific Line Drop)
   // Live location ("موقعي")

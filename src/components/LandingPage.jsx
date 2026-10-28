@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { ArrowDownToLine, ArrowLeft, BusFront, Map, Route, Waypoints } from 'lucide-react';
 import { formatReleaseSize, validateReleaseManifest } from '../utils/experienceEntry.js';
+import { RAIL_NETWORKS, hashForHomeSection, hashForRailNetwork, resolveLandingHash } from '../utils/railNetworkNavigation.js';
 
 const MANIFEST_URL = '/downloads/android-release.json';
+const RouteDirectory = lazy(() => import('./RouteDirectory.jsx'));
+const MetroMapPanel = lazy(() => import('./MetroMapPanel.jsx'));
+const RailNetworkPanel = lazy(() => import('./RailNetworkPanel.jsx'));
+const HomeCommunity = lazy(() => import('./HomeCommunity.jsx'));
+const HOME_SECTIONS = ['home', 'routes', 'metro', 'community'];
+const NETWORKS = RAIL_NETWORKS;
+const locationFromHash = () => resolveLandingHash(window.location.hash);
 
 function TransitSketch() {
   return (
@@ -24,6 +32,44 @@ function TransitSketch() {
 export default function LandingPage({ onOpenPlanner }) {
   const [release, setRelease] = useState(null);
   const [checking, setChecking] = useState(true);
+  const [location, setLocation] = useState(locationFromHash);
+  const { activeSection, railNetwork } = { activeSection: location.section, railNetwork: location.network };
+
+  useEffect(() => {
+    const onPopState = () => setLocation(locationFromHash());
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  const selectSection = section => {
+    const sectionHash = hashForHomeSection(section, railNetwork);
+    const nextUrl = `${window.location.pathname}${window.location.search}${sectionHash}`;
+    const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (nextUrl !== currentUrl) window.history.pushState({}, '', nextUrl);
+    setLocation({ section, network: section === 'metro' ? railNetwork : location.network });
+  };
+
+  const selectRailNetwork = network => {
+    if (!NETWORKS.includes(network)) return;
+    const nextUrl = `${window.location.pathname}${window.location.search}${hashForRailNetwork(network)}`;
+    const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (nextUrl !== currentUrl) window.history.pushState({}, '', nextUrl);
+    setLocation({ section: 'metro', network });
+  };
+
+  const handleTabKeyDown = (event, currentSection) => {
+    const currentIndex = HOME_SECTIONS.indexOf(currentSection);
+    let nextIndex = currentIndex;
+    if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = HOME_SECTIONS.length - 1;
+    else if (event.key === 'ArrowLeft') nextIndex = (currentIndex + 1) % HOME_SECTIONS.length;
+    else if (event.key === 'ArrowRight') nextIndex = (currentIndex + HOME_SECTIONS.length - 1) % HOME_SECTIONS.length;
+    else return;
+    event.preventDefault();
+    const nextSection = HOME_SECTIONS[nextIndex];
+    selectSection(nextSection);
+    document.getElementById(`home-tab-${nextSection}`)?.focus();
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -42,6 +88,20 @@ export default function LandingPage({ onOpenPlanner }) {
         <span className="landing-header-note">دليلك للتنقل في القاهرة</span>
       </header>
 
+      <section className="home-tabs-section" aria-label="استكشف مواصلاتي">
+        <div className="home-tabs" role="tablist" aria-label="أقسام الصفحة الرئيسية">
+          <button id="home-tab-home" role="tab" tabIndex={activeSection === 'home' ? 0 : -1} aria-selected={activeSection === 'home'} aria-controls="home-panel" type="button" onKeyDown={event => handleTabKeyDown(event, 'home')} onClick={() => selectSection('home')}>الرئيسية</button>
+          <button id="home-tab-routes" role="tab" tabIndex={activeSection === 'routes' ? 0 : -1} aria-selected={activeSection === 'routes'} aria-controls="routes-panel" type="button" onKeyDown={event => handleTabKeyDown(event, 'routes')} onClick={() => selectSection('routes')}>خطوط المواصلات</button>
+          <button id="home-tab-metro" role="tab" tabIndex={activeSection === 'metro' ? 0 : -1} aria-selected={activeSection === 'metro'} aria-controls="metro-panel" type="button" onKeyDown={event => handleTabKeyDown(event, 'metro')} onClick={() => selectSection('metro')}>القطارات</button>
+          <button id="home-tab-community" role="tab" tabIndex={activeSection === 'community' ? 0 : -1} aria-selected={activeSection === 'community'} aria-controls="community-panel" type="button" onKeyDown={event => handleTabKeyDown(event, 'community')} onClick={() => selectSection('community')}>مجتمع الركاب</button>
+        </div>
+      </section>
+
+      <section id="community-panel" className="home-tab-panel landing-content-width" hidden={activeSection !== 'community'} role="tabpanel" aria-labelledby="home-tab-community">
+        {activeSection === 'community' && <Suspense fallback={<p className="directory-message" role="status">جارٍ فتح مجتمع الركاب…</p>}><HomeCommunity onOpenPlanner={onOpenPlanner}/></Suspense>}
+      </section>
+
+      <section id="home-panel" className="home-tab-panel landing-content-width" hidden={activeSection !== 'home'} role="tabpanel" aria-labelledby="home-tab-home">
       <section className="landing-hero" aria-labelledby="landing-title">
         <div className="hero-copy">
           <p className="hero-eyebrow"><span/> اكتشف طريقك، بطريقتك</p>
@@ -79,6 +139,31 @@ export default function LandingPage({ onOpenPlanner }) {
         <div className="install-icon"><ArrowDownToLine size={20}/></div>
         <div><p className="section-kicker">تثبيت بسيط وآمن</p><h2 id="install-title">كيف تثبت التطبيق؟</h2><p>{release?.available ? 'بعد تنزيل الملف، افتحه على هاتف أندرويد واتبع تعليمات التثبيت. قد يطلب الهاتف السماح بالتثبيت من المتصفح.' : 'عند توفر نسخة أندرويد، نزّل ملف التطبيق من هذه الصفحة وافتحه على هاتفك. سيطلب الهاتف السماح بالتثبيت من المتصفح عند الحاجة.'}</p></div>
         <span className="install-count">APK <span>·</span> أندرويد</span>
+      </section>
+      </section>
+
+      <section id="routes-panel" className="home-tab-panel landing-content-width" hidden={activeSection !== 'routes'} role="tabpanel" aria-labelledby="home-tab-routes">
+        {activeSection === 'routes' && <Suspense fallback={<p className="directory-message" role="status">جارٍ فتح دليل الخطوط…</p>}><RouteDirectory onOpenPlanner={onOpenPlanner}/></Suspense>}
+      </section>
+      <section id="metro-panel" className="home-tab-panel landing-content-width" hidden={activeSection !== 'metro'} role="tabpanel" aria-labelledby="home-tab-metro">
+        {activeSection === 'metro' && <>
+          <div className="rail-network-tabs" role="tablist" aria-label="شبكات القطارات">
+            {NETWORKS.map((network, index) => <button key={network} id={`rail-tab-${network}`} type="button" role="tab" aria-selected={railNetwork === network} aria-controls="rail-network-panel" tabIndex={railNetwork === network ? 0 : -1} onClick={() => selectRailNetwork(network)} onKeyDown={event => {
+              let next = index;
+              if (event.key === 'Home') next = 0;
+              else if (event.key === 'End') next = NETWORKS.length - 1;
+              else if (event.key === 'ArrowLeft') next = (index + 1) % NETWORKS.length;
+              else if (event.key === 'ArrowRight') next = (index + NETWORKS.length - 1) % NETWORKS.length;
+              else return;
+              event.preventDefault(); selectRailNetwork(NETWORKS[next]); document.getElementById(`rail-tab-${NETWORKS[next]}`)?.focus();
+            }}>{['المترو', 'القطار الكهربائي LRT', 'المونوريل'][index]}</button>)}
+          </div>
+          <div id="rail-network-panel" role="tabpanel" aria-labelledby={`rail-tab-${railNetwork}`}>
+            <Suspense fallback={<p className="directory-message" role="status">جارٍ فتح معلومات الشبكة…</p>}>
+              {railNetwork === 'metro' ? <MetroMapPanel/> : <RailNetworkPanel network={railNetwork}/>}
+            </Suspense>
+          </div>
+        </>}
       </section>
 
       <footer className="landing-footer"><a className="footer-brand" href="/">مواصلاتي</a><span>تخطيط تنقلك في القاهرة</span><a href="/app" onClick={onOpenPlanner}>ابدأ التخطيط <ArrowLeft size={14}/></a></footer>

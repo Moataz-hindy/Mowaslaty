@@ -1,0 +1,7 @@
+# Optional local Pages Functions configuration. Values intentionally empty.
+# Do not commit .dev.vars. Preserve existing map/walking API secrets there.
+SUPABASE_URL=
+SUPABASE_PUBLISHABLE_KEY=
+COMMUNITY_GOOGLE_ENABLED=false
+COMMUNITY_PUBLISHING_ENABLED=false
+# Bind local D1 as COMMUNITY_DB through Wrangler/Pages configuration.

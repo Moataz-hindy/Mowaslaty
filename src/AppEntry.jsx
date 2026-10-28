@@ -2,6 +2,7 @@ import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { resolveExperience } from './utils/experienceEntry.js';
 import LandingPage from './components/LandingPage.jsx';
+import AuthCallback from './components/AuthCallback.jsx';
 
 const Planner = lazy(() => import('./App.jsx'));
 const NativeAppBridge = Capacitor.isNativePlatform()
@@ -22,13 +23,15 @@ export default function AppEntry() {
   const openPlanner = event => {
     if (isNative || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    if (window.location.pathname !== '/app' && window.location.pathname !== '/app/') {
-      window.history.pushState({}, '', '/app');
-    }
+    const target = new URL(event.currentTarget.href, window.location.origin);
+    const destination = `${target.pathname}${target.search}${target.hash}`;
+    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (current !== destination) window.history.pushState({}, '', destination);
     setPathname(window.location.pathname);
     window.scrollTo(0, 0);
   };
 
+  if (!isNative && pathname === '/auth/callback') return <AuthCallback />;
   if (experience === 'landing') return <LandingPage onOpenPlanner={openPlanner} />;
   return (
     <Suspense fallback={<div className="entry-loading" role="status" aria-live="polite">جارٍ تحميل مخطط الرحلات…</div>}>

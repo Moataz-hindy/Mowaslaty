@@ -15,6 +15,7 @@ public/downloads/*.apk.sha256
 
 # local backups / scratch
 _backups/
+.superpowers/sdd/
 *.before-redesign
 
 # secrets & local env

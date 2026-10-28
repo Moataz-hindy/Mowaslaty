@@ -13,15 +13,21 @@
     "android:open": "cap open android",
     "android:debug": "npm run android:sync && cap run android",
     "android:release": "node scripts/android-release.mjs",
+    "android:local:prepare": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/android-local-release.ps1 -PrepareOnly",
+    "android:local:release": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/android-local-release.ps1 -Release",
     "android:publish": "node scripts/publish-android-release.mjs",
     "android:toolchain": "node scripts/check-android-toolchain.mjs",
-    "android:test": "node --test scripts/native-release.test.mjs"
+    "android:test": "node --test scripts/native-release.test.mjs",
+    "community:test": "node scripts/community-route-ids.mjs --check && node --test scripts/community-api.test.mjs scripts/community-sqlite.test.mjs scripts/community-integration.test.mjs",
+    "community:functions:build": "node scripts/community-functions-build.mjs",
+    "community:routes": "node scripts/community-route-ids.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.3",
     "@capacitor/app": "^8.1.2",
     "@capacitor/core": "^8.5.3",
     "@capacitor/geolocation": "^8.2.4",
+    "@supabase/supabase-js": "2.118.0",
     "@turf/turf": "^7.2.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.16.0",
@@ -29,11 +35,12 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.3",
     "@types/leaflet": "^1.9.16",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
-    "@capacitor/cli": "^8.5.3",
     "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^6.0.7"
+    "vite": "^6.0.7",
+    "wrangler": "4.154.0"
   }
 }

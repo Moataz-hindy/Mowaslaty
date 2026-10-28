@@ -30,8 +30,6 @@ import {
 } from 'lucide-react';
 // Chat assistant is "coming soon". The previous implementation is kept in
 // ./ChatAssistant.jsx; re-import it here when the new chatbot is ready.
-// Community hub is "coming soon". The previous implementation is kept in
-// ./CommunityHub.jsx; re-import it here when it's ready.
 import { VEHICLE_COLORS } from '../utils/i18n';
 import RouteEnds from './RouteEnds';
 import { getRouteEnds, lineLabel } from '../utils/routeEnds';
@@ -328,7 +326,7 @@ export default function Sidebar({
         </React.Fragment>)}
         <span className={journey.transfers ? 'transfer-pill' : 'direct-pill'}>{journey.transfers ? t.journeyTransferCount(journey.transfers) : t.directBadge}</span>
       </div><div className="time-badge"><Clock size={12}/><span>{t.totalTripTime(journey.totalTimeMinutes)}</span></div></div>
-      <JourneySteps journey={journey} lang={lang} t={t} isSelected={isSelected}
+      <JourneySteps journey={journey} lang={lang} t={t} summaryMode="walk" isSelected={isSelected}
         onStartTrip={() => onStartTrip?.({ route, dropCoord: firstRide.toCoord, dropName: lang === 'ar' ? 'محطة النزول' : 'alighting stop' })}/>
     </article>;
   };
@@ -408,7 +406,7 @@ export default function Sidebar({
       </header>
 
       {/* 6 Navigation Tabs (All Phases) */}
-      <nav className="mode-tabs six-tabs">
+      <nav className="mode-tabs five-tabs">
         <button 
           className={`tab-btn ${activeTab === 'explore' ? 'active' : ''}`}
           onClick={() => selectTab('explore')}
@@ -460,20 +458,10 @@ export default function Sidebar({
           <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
         </button>
 
-        <button 
-          className={`tab-btn mobile-secondary-mode ${activeTab === 'community' ? 'active' : ''}`}
-          onClick={() => selectTab('community')}
-          aria-pressed={activeTab === 'community'}
-          title="مجتمع الركاب"
-        >
-          <Users size={15} />
-          <span>المجتمع</span>
-          <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
-        </button>
         <div className={`mobile-more-modes ${moreModesOpen ? 'open' : ''}`}>
           <button
             type="button"
-            className={`tab-btn mobile-more-trigger ${['multi', 'chat', 'community'].includes(activeTab) ? 'active' : ''}`}
+            className={`tab-btn mobile-more-trigger ${['multi', 'chat'].includes(activeTab) ? 'active' : ''}`}
             aria-expanded={moreModesOpen}
             aria-haspopup="menu"
             onClick={() => {
@@ -493,11 +481,6 @@ export default function Sidebar({
               <button type="button" role="menuitem" onClick={() => { selectTab('chat'); setMoreModesOpen(false); }}>
                 <Sparkles size={16} />
                 <span>{lang === 'ar' ? 'المساعد' : 'Assistant'}</span>
-                <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
-              </button>
-              <button type="button" role="menuitem" onClick={() => { selectTab('community'); setMoreModesOpen(false); }}>
-                <Users size={16} />
-                <span>{lang === 'ar' ? 'المجتمع' : 'Community'}</span>
                 <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
               </button>
             </div>
@@ -1349,33 +1332,6 @@ export default function Sidebar({
         </div>
       )}
 
-      {/* TAB 5: COMMUNITY — coming soon */}
-      {activeTab === 'community' && (
-        <div className="coming-soon-panel">
-          <div className="coming-soon-icon" aria-hidden="true">
-            <Users size={26} />
-          </div>
-          <span className="coming-soon-pill">{lang === 'ar' ? 'قريباً' : 'Coming soon'}</span>
-          <h3 className="coming-soon-title">
-            {lang === 'ar' ? 'مجتمع الركاب' : 'Rider community'}
-          </h3>
-          <p className="coming-soon-text">
-            {lang === 'ar'
-              ? 'مكان يشارك فيه الركاب تحديثات الأجرة والتحويلات والمواعيد على كل خط. نعمل عليه حالياً.'
-              : 'A place for riders to share fare changes, detours and timing updates for every line. We are working on it.'}
-          </p>
-          <div className="coming-soon-actions">
-            <button type="button" className="btn-primary" onClick={() => selectTab('explore')}>
-              <Compass size={15} />
-              <span>{lang === 'ar' ? 'تصفح الخطوط' : 'Browse lines'}</span>
-            </button>
-            <button type="button" className="btn-primary-outline" onClick={() => selectTab('nearest')}>
-              <Navigation size={15} />
-              <span>{t.tabNearest}</span>
-            </button>
-          </div>
-        </div>
-      )}
     </aside>
   );
 }

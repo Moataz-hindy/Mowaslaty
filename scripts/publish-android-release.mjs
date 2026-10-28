@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { copyFile, mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, readdir, rename, stat, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -43,8 +43,17 @@ const sha256 = createHash('sha256').update(apk).digest('hex');
 const downloads = path.resolve('public/downloads');
 await mkdir(downloads, { recursive: true });
 const filename = `mowaslaty-${metadata.version}.apk`;
-await copyFile(apkPath, path.join(downloads, filename));
+const publishedApkPath = path.join(downloads, filename);
+if (existsSync(publishedApkPath)) {
+  const previousApk = await readFile(publishedApkPath);
+  const previousHash = createHash('sha256').update(previousApk).digest('hex');
+  if (previousHash !== sha256) fail(`Version collision: ${filename} already exists with different bytes. Bump ANDROID_VERSION before publishing.`);
+}
+await copyFile(apkPath, publishedApkPath);
 const manifest = createReleaseManifest(metadata, { sizeBytes: info.size, sha256 });
-await writeFile(path.join(downloads, 'android-release.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 await writeFile(path.join(downloads, `${filename}.sha256`), `${sha256}  ${filename}\n`, 'utf8');
+const manifestPath = path.join(downloads, 'android-release.json');
+const tempManifestPath = path.join(downloads, `.android-release-${process.pid}.json.tmp`);
+await writeFile(tempManifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+await rename(tempManifestPath, manifestPath);
 console.log(`Published ${filename} (${info.size} bytes, SHA-256 ${sha256}). Rebuild the website to ship the manifest and APK.`);

@@ -4,11 +4,13 @@ android {
     namespace = "dev.mowaslaty.app"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
+        def androidVersionCode = System.getenv('ANDROID_VERSION_CODE') ?: '1'
+        def androidVersion = System.getenv('ANDROID_VERSION') ?: '1.0'
         applicationId "dev.mowaslaty.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode (System.getenv('ANDROID_VERSION_CODE') ?: '1') as Integer
-        versionName System.getenv('ANDROID_VERSION') ?: "1.0"
+        versionCode = androidVersionCode.toInteger()
+        versionName = androidVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -18,10 +20,14 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(System.getenv('ANDROID_KEYSTORE_PATH') ?: 'missing-release-keystore')
-            storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD') ?: ''
-            keyAlias System.getenv('ANDROID_KEY_ALIAS') ?: ''
-            keyPassword System.getenv('ANDROID_KEY_PASSWORD') ?: ''
+            def keystorePath = System.getenv('ANDROID_KEYSTORE_PATH') ?: 'missing-release-keystore'
+            def keystorePassword = System.getenv('ANDROID_KEYSTORE_PASSWORD') ?: ''
+            def signingKeyAlias = System.getenv('ANDROID_KEY_ALIAS') ?: ''
+            def signingKeyPassword = System.getenv('ANDROID_KEY_PASSWORD') ?: ''
+            storeFile = file(keystorePath)
+            storePassword = keystorePassword
+            keyAlias = signingKeyAlias
+            keyPassword = signingKeyPassword
         }
     }
     buildTypes {

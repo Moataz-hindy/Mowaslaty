@@ -18,7 +18,7 @@ catch (error) { console.error(`Android release failed: ${error.message}`); proce
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 const nativeBuild = spawnSync(npm, ['run', 'native:build'], { stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });
 if (nativeBuild.error || nativeBuild.status !== 0) process.exit(nativeBuild.status ?? 1);
-const sync = spawnSync(process.execPath, ['node_modules/@capacitor/cli/bin/cap', 'sync', 'android'], { stdio: 'inherit', env: process.env });
+const sync = spawnSync(process.execPath, ['node_modules/@capacitor/cli/bin/capacitor', 'sync', 'android'], { stdio: 'inherit', env: process.env });
 if (sync.error || sync.status !== 0) process.exit(sync.status ?? 1);
 const gradle = process.platform === 'win32' ? '.\\gradlew.bat' : './gradlew';
 const build = spawnSync(gradle, ['assembleRelease'], { cwd: path.resolve('android'), stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });

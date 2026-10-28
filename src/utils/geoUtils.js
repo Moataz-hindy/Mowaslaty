@@ -1,4 +1,5 @@
 import * as turf from '@turf/turf';
+import { fetchPublicService } from './publicServiceFetch';
 
 /**
  * Normalizes Arabic text for flexible matching
@@ -119,7 +120,7 @@ export async function resolveLocationInput(input) {
       // Our own Cloudflare Pages Function (functions/api/expand.js)
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 6000);
-      const res = await fetch(`/api/expand?url=${encodeURIComponent(trimmed)}`, { signal: controller.signal });
+      const res = await fetchPublicService(`/api/expand?url=${encodeURIComponent(trimmed)}`, { signal: controller.signal });
       clearTimeout(timer);
       if (res.ok && (res.headers.get('content-type') || '').includes('application/json')) {
         const data = await res.json();
@@ -504,7 +505,7 @@ export async function fetchWalkingRoute(startCoord, endCoord) {
       const url = `/api/walk?from=${sLng},${sLat}&to=${eLng},${eLat}`;
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 6000);
-      const res = await fetch(url, { signal: controller.signal });
+      const res = await fetchPublicService(url, { signal: controller.signal });
       clearTimeout(timer);
       if (res.ok && (res.headers.get('content-type') || '').includes('application/json')) {
         data = await res.json();

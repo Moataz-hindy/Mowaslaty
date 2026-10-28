@@ -4,8 +4,6 @@ import { loadPlaces } from '../utils/dataLoader';
 import { normalizeText } from '../utils/geoUtils';
 import { CAIRO_LANDMARKS } from './MapSearchBar';
 import { filterMultiStopPlan, journeyOptionKey } from '../utils/multiStopPlanner';
-import { vehicleRouteLabel } from '../utils/routeEnds';
-import { rideLegs } from '../utils/journey';
 import JourneySteps from './JourneySteps';
 
 const VEHICLES = ['ALL', 'Metro', 'Minibus', 'Bus', 'Microbus'];
@@ -73,17 +71,9 @@ export function MultiStopPlanner({
   const renderJourney = (journey, leg, kind) => {
     const key = journeyOptionKey(journey);
     const selected = selection?.legKey === leg.key && selection?.optionKey === key;
-    const routes = rideLegs(journey).map(ride => ride.route);
-    const routeNames = routes.filter(Boolean).map(route => {
-      const ends = lang === 'ar'
-        ? (route.origin_ar && route.dest_ar ? `${route.origin_ar} ← ${route.dest_ar}` : route.long_ar || (route.origin && route.dest ? `${route.origin} ← ${route.dest}` : null))
-        : (route.origin_en && route.dest_en ? `${route.origin_en} → ${route.dest_en}` : route.long_en || (route.origin_en || route.origin ? `${route.origin_en || route.origin} → ${route.dest_en || route.dest || ''}` : null));
-      return [vehicleRouteLabel(route, lang), ends].filter(Boolean).filter((value, index, all) => all.indexOf(value) === index).join(' · ');
-    }).join(' + ');
     return <button key={key} type="button" data-journey-id={key} className={`multi-stop-option ${selected ? 'selected' : ''}`}
       aria-pressed={selected} onClick={() => { onSelectJourney(leg.key, key); onShowMap(); }}>
-      <span className="multi-stop-option-top"><strong>{kind === 'direct' ? text('directBadge') : text('transferBadge')}</strong><span>{routeNames}</span></span>
-      {kind === 'transfer' && <span>{text('journeyTransferCount')(journey.transfers || Math.max(0, routes.length - 1))}</span>}
+      <span className="multi-stop-option-top"><strong>{kind === 'direct' ? text('directBadge') : text('transferBadge')}</strong></span>
       <JourneySteps journey={journey} lang={lang} t={t} />
     </button>;
   };
