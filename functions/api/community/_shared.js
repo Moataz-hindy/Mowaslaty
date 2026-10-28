@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import routeIds from './route-ids.json' with { type: 'json' };
+import routeIds from './_route-ids.js';
 export const categories = ['fare', 'detour', 'frequency', 'tip', 'route'];
 const routes = new Set(routeIds);
 export const routeIdsJson = JSON.stringify(routeIds);

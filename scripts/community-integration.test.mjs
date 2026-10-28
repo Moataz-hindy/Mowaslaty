@@ -14,6 +14,7 @@ import { onRequestGet as getMine } from '../functions/api/community/mine.js';
 import routeSummary from '../public/data/routes_summary.v2.json' with { type: 'json' };
 import { filterRouteSummary, ROUTE_EXCLUSIONS } from '../src/utils/routePolicy.js';
 import manifest from '../functions/api/community/route-ids.json' with { type: 'json' };
+import runtimeManifest from '../functions/api/community/_route-ids.js';
 class D1 {
   constructor(db) {
     this.db = db;
@@ -103,6 +104,7 @@ const read = async r => ({
   body: await r.json()
 });
 test('authenticated D1 integration covers ownership, moderation revisions, parent visibility and idempotent votes', async () => {
+  assert.deepEqual(runtimeManifest, manifest);
   assert.deepEqual(manifest, filterRouteSummary(routeSummary).map(route => route.id).filter((id, index, all) => typeof id === 'string' && id.length <= 128 && all.indexOf(id) === index).sort());
   assert.equal(manifest.some(id => Object.hasOwn(ROUTE_EXCLUSIONS, id)), false);
   const db = new DatabaseSync(':memory:');
