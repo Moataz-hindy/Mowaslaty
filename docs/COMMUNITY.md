@@ -32,15 +32,13 @@ Authenticated APIs accept `Authorization: Bearer ...`. The server verifies the a
 
 Moderation decisions include the queue item's `expectedRevision`. The decision and audit entry share an atomic database batch and only succeed for that revision. Edits, hiding and review advance the revision; stale review returns409 and requires reloading the content. A moderator cannot approve text changed since it was shown in their queue.
 
-## Production connection — later
+## Production connection — status (29 October 2026)
 
-These steps are separate from local implementation. Do not use unrelated existing projects, put server secrets in `VITE_` variables, or share credentials in chat.
+Production is configured on the dedicated Supabase project `wgggdxnzltbfavgerpww` and the Cloudflare D1 database `mowaslaty-community`, bound to Pages as `COMMUNITY_DB`. The repository migrations in `migrations/community/` were applied manually through the D1 Console. Wrangler migration tracking was not used. Do not reapply these SQL migrations to the production database.
 
-1. Create a dedicated Supabase project. Enable Google in Auth providers; configure Google OAuth credentials in the Supabase dashboard. In Google use the Supabase callback shown there. Set the production site as the Supabase Site URL and allow exactly `https://YOUR-SITE/auth/callback` as a redirect. For local testing allow the actual local origin plus `/auth/callback`. Avoid wildcard production redirects.
-2. Create a Cloudflare D1 database and bind it to the Pages project as exactly `COMMUNITY_DB`. Apply SQL migrations from `migrations/community/` in numerical order, first locally, then to the dedicated remote database after review. No remote migration has been applied by this implementation.
-3. Set the Pages runtime values below. A publishable key is intentionally public. Never use a service-role or secret key here. Google client secrets belong only in the provider configuration.
-4. Deploy and test OAuth on the deployed origin. Submit a test update and verify it stays pending. A trusted operator must designate a moderator in D1; there is no automatic first-user administrator.
-5. Enable publishing after schema and moderation are ready. Verify anonymous/expired sessions, owner isolation, approval/rejection, comments, voting and rate limits on the deployed runtime.
+Google OAuth with the `openid`, `email` and `profile` scopes is configured and the Google app audience is in production. The public privacy notice is available at `/privacy.html`; the owner-approved manual account/data request contact is `moatazhindy17@gmail.com`. Hiding a post or comment does not erase an account or all related records. Retention and provider backup/log policies are not represented as fixed periods.
+
+The following Pages runtime values are configured. A publishable key is intentionally public. Never put a service-role key or provider secret in `VITE_` variables or publish them. Google client secrets belong only in the provider configuration; do not document or share secret values here.
 
 | Runtime value | Meaning |
 | --- | --- |
@@ -50,13 +48,29 @@ These steps are separate from local implementation. Do not use unrelated existin
 | `COMMUNITY_PUBLISHING_ENABLED` | Exact `true` to enable writes. |
 | `COMMUNITY_DB` | D1 binding, not a string environment variable. |
 
-PKCE uses the fixed `/auth/callback` route. The code is exchanged once and removed from browser history. The callback returns to `/#community`; arbitrary return URLs are not accepted. Sessions are managed by the Supabase SDK. Real Google OAuth requires external setup and is not verified by unit tests.
+### Deployed checks (29 October 2026)
+
+A human completed Google sign-in on the production site; the account profile and moderator queue loaded. Anonymous requests to the account and moderation endpoints returned `401`. An owner-created internal QA submission moved to pending review and was rejected by the moderator; it was not publicly visible. This did not exercise production comments or voting.
+
+QA exposed a client-state issue: the private submissions view kept showing `pending` after a moderator rejected the item, until a reload. A local fix now updates the matching private status after a successful moderation response and removes a post from the public feed when its status becomes non-approved. The regression tests and production build pass locally, but the fix has not yet been deployed or rechecked against the private QA submission. Treat end-to-end moderation status synchronization as pending that deployed check. The offline community suite covers API, SQLite and integration behavior; it is not a substitute for production comment/vote validation.
+
+Publishing is enabled in configuration. Continue with the remaining deployed-origin checks below; do not treat the items not explicitly listed above as production-verified.
+
+### Setup and runtime validation recipe
+
+For a new environment, create a dedicated Supabase project. Enable Google in Auth providers and configure Google OAuth credentials in the Supabase dashboard. In Google use the Supabase callback shown there. Set the production site as the Supabase Site URL and allow exactly `https://YOUR-SITE/auth/callback` as a redirect. For local testing allow the actual local origin plus `/auth/callback`. Avoid wildcard production redirects.
+
+For a new D1 database, bind it to the Pages project as exactly `COMMUNITY_DB` and apply SQL migrations from `migrations/community/` in numerical order after review. The production database named above is already migrated; do not repeat those migrations there.
+
+After deployment, test OAuth on the deployed origin. Submit a test update and verify it remains pending until moderation. Confirm that the resulting decision appears immediately in the author's private submissions view and that a non-approved post is absent from the public feed. A trusted operator must designate a moderator in D1; there is no automatic first-user administrator. Verify anonymous/expired sessions, owner isolation, approval/rejection, comments, voting and rate limits on the deployed runtime. Publishing is enabled in configuration, but runtime checks not recorded above remain pending.
+
+PKCE uses the fixed `/auth/callback` route. The code is exchanged once and removed from browser history. The callback returns to `/#community`; arbitrary return URLs are not accepted. Sessions are managed by the Supabase SDK. Unit tests do not verify the deployed Google OAuth flow.
 
 ## Development and verification
 
 Plain Vite runs only the frontend, not Pages Functions. Use a local Pages runtime with a local D1 binding for end-to-end API testing. `.dev.vars` is ignored and may contain local configuration. Copy names from `.dev.vars.example`, retaining existing local map/walking secrets.
 
-`0001_initial.sql` defines users, reports, comments and votes. Further migrations add authorization, moderation and rate limits. Do not rewrite applied migrations. Soft deletion hides content; it is not account erasure. Account deletion, abuse response, retention and privacy notice require an explicit production operating policy before launch.
+`0001_initial.sql` defines users, reports, comments and votes. Further migrations add authorization, moderation and rate limits. Do not rewrite applied migrations. Soft deletion hides content; it is not account erasure. Manual account/data requests are handled through the contact published in `/privacy.html`; no fixed automatic retention period or self-service account deletion is documented.
 
 Community integration tests use in-memory SQLite to exercise SQL without an account. Auth transport is isolated in verifier tests. Tests do not log in real people, create external content or apply remote migrations.
 

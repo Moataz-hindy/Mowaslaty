@@ -9,6 +9,7 @@ import { normalizeDirectorySearch } from '../utils/routeDirectory.js';
 import { currentToken, request } from '../community/api.js';
 import { getAuthClient, signInWithGoogle } from '../community/auth.js';
 import { advanceIfChanged, appendUniqueById, createEpochController } from '../community/asyncState.js';
+import { applyModerationDecision } from '../community/moderationState.js';
 import './CommunityHub.css';
 
 const CATEGORY_LABELS = {
@@ -303,7 +304,18 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
     if (busyActions[busyKey]) return;
     const snapshot = authSnapshot(), requestEpoch = moderationEpoch.current.capture();
     setBusyActions(value => ({ ...value, [busyKey]: true }));
-    try { await authenticatedRequest('/moderation', { method: 'PATCH', body: { targetType: item.targetType || (moderationKind === 'comments' ? 'comment' : 'post'), id: item.id, status, expectedRevision: item.revision } }); if (authSnapshotIsCurrent(snapshot) && moderationEpoch.current.isCurrent(requestEpoch)) setModerationItems(items => items.filter(row => row.id !== item.id)); }
+    const targetType = item.targetType || (moderationKind === 'comments' ? 'comment' : 'post');
+    try {
+      await authenticatedRequest('/moderation', { method: 'PATCH', body: { targetType, id: item.id, status, expectedRevision: item.revision } });
+      if (authSnapshotIsCurrent(snapshot) && moderationEpoch.current.isCurrent(requestEpoch)) {
+        setModerationItems(items => items.filter(row => row.id !== item.id));
+        setOwnPosts(items => applyModerationDecision({ posts: items }, targetType, item.id, status).posts);
+        setOwnComments(items => applyModerationDecision({ comments: items }, targetType, item.id, status).comments);
+        if (targetType === 'post' && status !== 'approved') {
+          setPublicPosts(items => applyModerationDecision({ posts: [], publicPosts: items }, targetType, item.id, status).publicPosts);
+        }
+      }
+    }
     catch (error) { if (!authSnapshotIsCurrent(snapshot) || !moderationEpoch.current.isCurrent(requestEpoch)) return; if (error.status === 409 || error.code === 'Conflict') { setActionError('تغير المحتوى، أعد تحميل قائمة المراجعة.'); setBusyActions(value => ({ ...value, [busyKey]: false })); await loadModeration(); } else setActionError('تعذر تحديث حالة المراجعة.'); }
     finally { if (authSnapshotIsCurrent(snapshot) && moderationEpoch.current.isCurrent(requestEpoch)) setBusyActions(value => ({ ...value, [busyKey]: false })); }
   };
