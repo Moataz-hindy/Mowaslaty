@@ -166,7 +166,7 @@ export default function LandingPage({ onOpenPlanner }) {
         </>}
       </section>
 
-      <footer className="landing-footer"><a className="footer-brand" href="/">مواصلاتي</a><span>تخطيط تنقلك في القاهرة</span><a href="/app" onClick={onOpenPlanner}>ابدأ التخطيط <ArrowLeft size={14}/></a></footer>
+      <footer className="landing-footer"><a className="footer-brand" href="/">مواصلاتي</a><span>تخطيط تنقلك في القاهرة</span><a href="/privacy.html">الخصوصية / Privacy</a><a href="/app" onClick={onOpenPlanner}>ابدأ التخطيط <ArrowLeft size={14}/></a></footer>
     </main>
   );
 }

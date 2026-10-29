@@ -232,7 +232,7 @@ export default function ChatAssistant({ routes, onSelectRoute, lang }) {
                 value={apiKey} 
                 onChange={(e) => setApiKey(e.target.value)} 
               />
-              <span className="key-hint">يتم حفظ المفتاح محلياً في متصفحك فقط ولا يُرسل لأي جهة أخرى.</span>
+              <span className="key-hint">يُحفظ المفتاح في هذا المتصفح. عند استخدام Gemini، يُرسل مفتاحك وسؤالك وبيانات المسار اللازمة للإجابة إلى Google.</span>
             </div>
           )}
 
