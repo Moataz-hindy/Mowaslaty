@@ -20,7 +20,24 @@
 .community-brand p, .community-section-title p { margin: 5px 0 0; color: var(--community-muted); font-size: 16px; line-height: 1.55; }
 .community-account { display: grid; gap: 10px; }
 .community-readonly { margin: 0; padding: 12px 14px; border: 1px solid #e8d5af; border-radius: 10px; background: var(--community-amber-pale); color: #514127; font-size: 14px; line-height: 1.6; }
-.community-account-row, .community-alias > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.community-account-button { width: fit-content; max-width: 100%; min-height: 44px; display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 13px; border: 1px solid var(--community-line); border-radius: 9px; background: var(--community-white); color: var(--community-ink); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.community-account-button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.community-account-button svg { flex: none; color: var(--community-muted); }
+.community-account-dialog { width: min(460px, calc(100% - 32px)); max-width: none; max-height: min(720px, calc(100dvh - 32px)); margin: auto; padding: 22px; overflow-y: auto; border: 1px solid var(--community-line); border-radius: 16px; background: var(--community-paper); color: var(--community-ink); box-shadow: 0 18px 60px #17130e44; }
+.community-account-dialog::backdrop { background: #17130e77; }
+.community-account-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 20px; }
+.community-account-dialog-head h3 { margin: 0; font-size: 21px; font-weight: 800; }
+.community-account-dialog-head p, .community-account-signout p { margin: 5px 0 0; color: var(--community-muted); font-size: 14px; line-height: 1.5; }
+.community-account-dialog .community-alias { gap: 9px; }
+.community-account-dialog .community-alias > label { font-weight: 700; }
+.community-account-dialog .community-alias .community-primary { justify-self: start; margin-top: 3px; }
+.community-account-signout { display: grid; justify-items: start; gap: 9px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--community-line); }
+.community-account-signout h4 { margin: 0; font-size: 16px; }
+.community-account-signout p { margin: 0; }
+.community-hub :where(.community-account-button, .community-account-dialog button, .community-account-dialog input):focus-visible { outline: 3px solid #d5a243; outline-offset: 3px; }
+.community-account-dialog form > button:disabled { opacity: .55; cursor: wait; }
+.community-account-dialog .community-account-signout button:disabled { opacity: .55; cursor: wait; }
+.community-account-dialog:not([open]) { display: none; }
 .community-alias { display: grid; gap: 6px; color: var(--community-ink); font-size: 14px; }
 .community-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 7px; border: 1px solid var(--community-line); border-radius: 12px; background: var(--community-white); }
 .community-view-tabs { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
@@ -37,7 +54,7 @@
 .community-field { min-width: 0; display: grid; align-content: start; gap: 7px; color: var(--community-ink); font-size: 14px; font-weight: 650; }
 .community-field input, .community-field select, .community-field textarea, .community-search input, .community-alias input, .community-comments textarea, .community-own-edit textarea { width: 100%; min-width: 0; border: 1px solid #bfb5a6; border-radius: 8px; background: #fff; color: var(--community-ink); font: inherit; font-size: 16px; font-weight: 400; }
 .community-field select { font-weight: 500; }
-.community-field input, .community-field select { min-height: 44px; padding: 0 11px; }
+.community-field input, .community-field select, .community-alias input { min-height: 44px; padding: 0 11px; }
 .community-field textarea, .community-own-edit textarea { min-height: 104px; padding: 11px; line-height: 1.6; resize: vertical; }
 .community-field input:focus, .community-field select:focus, .community-field textarea:focus, .community-search:focus-within, .community-alias input:focus, .community-comments textarea:focus, .community-own-edit textarea:focus { outline: 3px solid #d5a243; outline-offset: 2px; border-color: var(--community-amber); }
 .community-field-help { color: var(--community-muted); font-size: 12px; font-weight: 400; line-height: 1.5; }
@@ -111,8 +128,9 @@
   .community-filter-chips { gap: 7px; }
   .community-filter-chips button { padding-inline: 10px; font-size: 13px; }
   .community-form-actions > button { flex: 1 1 auto; }
-  .community-account-row, .community-alias > div { align-items: stretch; flex-direction: column; }
-  .community-account-row .community-secondary, .community-alias button { width: 100%; }
+  .community-account-dialog { width: 100%; max-height: calc(100dvh - env(safe-area-inset-top) - 12px); margin: auto 0 0; padding: 22px 18px calc(20px + env(safe-area-inset-bottom)); border-radius: 18px 18px 0 0; }
+  .community-account-dialog .community-alias .community-primary { width: 100%; }
+  .community-account-signout button { width: 100%; }
   .community-post-footer { align-items: flex-start; flex-direction: column; }
   .community-post-footer > div { width: 100%; }
   .community-post-footer button { flex: 1 1 auto; }

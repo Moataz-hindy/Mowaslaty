@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, Bus, Inbox, LoaderCircle, Plus, Search, Trash2, X } from 'lucide-react';
+import { ArrowUpRight, Bus, Inbox, LoaderCircle, LogOut, Plus, Search, Settings, Trash2, X } from 'lucide-react';
 import {
   addDraft, COMMUNITY_BODY_LIMIT, COMMUNITY_CATEGORIES, deleteDraft,
   readDraftStore, updateDraft,
@@ -65,6 +65,12 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
   const [session, setSession] = useState(null);
   const [account, setAccount] = useState(null);
   const [aliasValue, setAliasValue] = useState('');
+  const [accountSettingsOpen, setAccountSettingsOpen] = useState(false);
+  const [aliasBusy, setAliasBusy] = useState(false);
+  const [aliasMessage, setAliasMessage] = useState('');
+  const [aliasError, setAliasError] = useState('');
+  const [signOutBusy, setSignOutBusy] = useState(false);
+  const [signOutError, setSignOutError] = useState('');
   const [ownPosts, setOwnPosts] = useState([]);
   const [comments, setComments] = useState({});
   const [myVotes, setMyVotes] = useState({});
@@ -88,6 +94,9 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
   const moderationEpoch = useRef(createEpochController());
   const commentEpochs = useRef(new Map());
   const activeUserId = useRef(null);
+  const accountSettingsDialog = useRef(null);
+  const accountSettingsButton = useRef(null);
+  const aliasInput = useRef(null);
   const isArabic = lang === 'ar';
   const statusLabel = status => ({ pending: 'قيد المراجعة', approved: 'مقبول', rejected: 'مرفوض', hidden: 'مخفي' }[status] || 'الحالة غير معروفة');
   const labels = CATEGORY_LABELS[isArabic ? 'ar' : 'en'];
@@ -116,6 +125,8 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
     setActionError('');
     commentEpochs.current.clear(); moderationEpoch.current.advance(); setModerationBusy(false);
     setBusyActions({});
+    setAccountSettingsOpen(false); setAliasBusy(false); setAliasMessage(''); setAliasError('');
+    setSignOutBusy(false); setSignOutError('');
     setView(current => current === 'mine' || current === 'moderation' ? 'public' : current);
   };
   const applySession = (nextSession, event) => {
@@ -151,6 +162,16 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
   }, [authClient]);
 
   useEffect(() => { setAliasValue(account?.displayName || ''); }, [account?.displayName]);
+  useEffect(() => {
+    const dialog = accountSettingsDialog.current;
+    if (!dialog) return;
+    if (accountSettingsOpen && !dialog.open) {
+      dialog.showModal();
+      aliasInput.current?.focus();
+    } else if (!accountSettingsOpen && dialog.open) {
+      dialog.close();
+    }
+  }, [accountSettingsOpen]);
   useEffect(() => {
     if ((view === 'mine' && !session) || (view === 'moderation' && (!session || !account?.isModerator))) setView('public');
   }, [view, session, account?.isModerator]);
@@ -400,6 +421,46 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
     const route = routes.find(item => item.id === routeId);
     if (route && onSelectRoute) onSelectRoute(route);
   };
+  const savePublicAlias = async event => {
+    event.preventDefault();
+    const displayName = aliasValue.trim();
+    if (displayName.length < 2 || displayName.length > 80) {
+      setAliasError(text(lang, 'اختر اسماً عاماً من حرفين إلى 80 حرفاً.', 'Choose a public name between 2 and 80 characters.'));
+      setAliasMessage('');
+      return;
+    }
+    if (aliasBusy || signOutBusy) return;
+    const snapshot = authSnapshot();
+    setAliasBusy(true); setAliasError(''); setAliasMessage('');
+    try {
+      const data = await authenticatedRequest('/me', { method: 'PATCH', body: { displayName } });
+      if (!authSnapshotIsCurrent(snapshot)) return;
+      setAccount(data.user); setAliasValue(data.user.displayName);
+      setActionError(''); setAliasMessage(text(lang, 'تم حفظ الاسم العام.', 'Public name saved.'));
+    } catch (error) {
+      if (!error.stale && authSnapshotIsCurrent(snapshot)) {
+        setAliasError(error.status === 400 || error.code === 'InvalidDisplayName'
+          ? text(lang, 'اختر اسماً عاماً من حرفين إلى 80 حرفاً.', 'Choose a public name between 2 and 80 characters.')
+          : text(lang, 'تعذر حفظ الاسم العام. تحقق من الاتصال وحاول مرة أخرى.', 'Could not save the public name. Check your connection and try again.'));
+      }
+    } finally {
+      if (authSnapshotIsCurrent(snapshot)) setAliasBusy(false);
+    }
+  };
+  const signOut = async () => {
+    if (signOutBusy || aliasBusy || !authClient) return;
+    const snapshot = authSnapshot();
+    setSignOutBusy(true); setSignOutError('');
+    try {
+      const { error } = await authClient.auth.signOut({ scope: 'local' });
+      if (error) throw error;
+      if (authSnapshotIsCurrent(snapshot)) applySession(null, 'SIGNED_OUT');
+    } catch {
+      if (authSnapshotIsCurrent(snapshot)) setSignOutError(text(lang, 'تعذر تسجيل الخروج. تحقق من الاتصال وحاول مرة أخرى.', 'Could not sign out. Check your connection and try again.'));
+    } finally {
+      if (authSnapshotIsCurrent(snapshot)) setSignOutBusy(false);
+    }
+  };
   const hasFeedFilters = !!query.trim() || category !== 'ALL';
   const emptyStateTitle = view === 'drafts'
     ? (draftStore.drafts.length ? text(lang, 'لا توجد مسودات تطابق التصفية', 'No drafts match these filters') : text(lang, 'لا توجد مسودات بعد', 'No drafts yet'))
@@ -421,11 +482,34 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
       <div className="community-account" aria-label="الحساب والمشاركة">
         {!session ? <><p className="community-readonly" role="status">{capabilities?.authenticationAvailable ? 'سجّل الدخول للمشاركة. اختر اسماً عاماً بنفسك؛ لن نستخدم اسم Google أو بريدك.' : 'المجتمع متاح للقراءة. تسجيل الدخول والمشاركة غير مهيئين حالياً.'}</p>
           {capabilities?.authenticationAvailable && <button type="button" className="community-primary" onClick={async () => { try { const { error } = await signInWithGoogle(authClient); if (error) throw error; } catch { setActionError('تعذر بدء تسجيل الدخول. حاول مرة أخرى.'); } }}>تسجيل الدخول عبر Google</button>}
-        </> : <div className="community-account-row"><strong>{account?.displayName || 'حساب المجتمع'}</strong><button type="button" className="community-secondary" onClick={async () => { applySession(null, 'SIGNED_OUT'); await authClient.auth.signOut(); }}>تسجيل الخروج</button></div>}
-        {session && <form className="community-alias" onSubmit={async event => { event.preventDefault(); const displayName = event.currentTarget.elements.displayName.value.trim(); try { const data = await authenticatedRequest('/me', { method: 'PATCH', body: { displayName } }); setAccount(data.user); setActionError(''); } catch (error) { if (!error.stale) setActionError('تعذر حفظ الاسم العام. اختر اسماً من 2 إلى 40 حرفاً.'); } }}>
-          <label htmlFor="community-alias">الاسم الظاهر للعامة</label><div><input id="community-alias" name="displayName" value={aliasValue} onChange={event => setAliasValue(event.target.value)} maxLength={40} placeholder="اختر اسماً عاماً"/><button className="community-secondary" type="submit">حفظ الاسم</button></div>
-        </form>}
+        </> : <button ref={accountSettingsButton} type="button" className="community-account-button" onClick={() => {
+          setAliasValue(account?.displayName || ''); setAliasError(''); setAliasMessage(''); setSignOutError(''); setAccountSettingsOpen(true);
+        }} aria-haspopup="dialog" aria-label={text(lang, 'إعدادات الحساب', 'Account settings')}>
+          <span>{account?.displayName || text(lang, 'حسابي', 'My account')}</span><Settings size={18} aria-hidden="true" />
+        </button>}
       </div>
+      <dialog ref={accountSettingsDialog} className="community-account-dialog" aria-labelledby="community-account-dialog-title" onCancel={() => setAccountSettingsOpen(false)} onClose={() => {
+        if (accountSettingsOpen) setAccountSettingsOpen(false);
+        if (accountSettingsButton.current?.isConnected) accountSettingsButton.current.focus();
+      }}>
+        <div className="community-account-dialog-head">
+          <div><h3 id="community-account-dialog-title">{text(lang, 'إعدادات الحساب', 'Account settings')}</h3><p>{text(lang, 'اختر الاسم الذي سيظهر للآخرين في المجتمع.', 'Choose the name others will see in the community.')}</p></div>
+          <button type="button" className="community-icon-button" aria-label={text(lang, 'إغلاق إعدادات الحساب', 'Close account settings')} onClick={() => setAccountSettingsOpen(false)}><X size={18} /></button>
+        </div>
+        <form className="community-alias" onSubmit={savePublicAlias}>
+          <label htmlFor="community-alias">{text(lang, 'الاسم الظاهر للعامة', 'Public name')}</label>
+          <input ref={aliasInput} id="community-alias" name="displayName" value={aliasValue} onChange={event => { setAliasValue(event.target.value); setAliasError(''); setAliasMessage(''); }} maxLength={80} minLength={2} autoComplete="off" placeholder={text(lang, 'اختر اسماً عاماً', 'Choose a public name')} disabled={aliasBusy || signOutBusy}/>
+          <span className="community-field-help">{text(lang, 'من حرفين إلى 80 حرفاً. لن نستخدم اسم Google أو بريدك.', '2–80 characters. Your Google name and email will not be used.')}</span>
+          {aliasError && <p className="community-form-message error" role="alert">{aliasError}</p>}
+          {aliasMessage && <p className="community-form-message" role="status">{aliasMessage}</p>}
+          <button className="community-primary" type="submit" disabled={aliasBusy || signOutBusy}>{aliasBusy ? text(lang, 'جارٍ الحفظ…', 'Saving…') : text(lang, 'حفظ الاسم العام', 'Save public name')}</button>
+        </form>
+        <div className="community-account-signout">
+          <h4>{text(lang, 'تسجيل الخروج', 'Sign out')}</h4><p>{text(lang, 'سيتم تسجيل الخروج من هذا الجهاز.', 'You will be signed out on this device.')}</p>
+          {signOutError && <p className="community-form-message error" role="alert">{signOutError}</p>}
+          <button type="button" className="community-secondary" onClick={signOut} disabled={signOutBusy || aliasBusy}><LogOut size={16} aria-hidden="true" />{signOutBusy ? text(lang, 'جارٍ تسجيل الخروج…', 'Signing out…') : text(lang, 'تسجيل الخروج', 'Sign out')}</button>
+        </div>
+      </dialog>
       {actionError && <p role="alert" className="community-form-message error">{actionError}</p>}
       </header>
 
