@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, Bus, Inbox, LoaderCircle, LogOut, Plus, Search, Settings, Trash2, X } from 'lucide-react';
+import { ArrowUpLeft, ArrowUpRight, Bus, Inbox, LoaderCircle, LogOut, MessageCircle, Plus, Search, Settings, ThumbsDown, ThumbsUp, Trash2, UserRound, X } from 'lucide-react';
 import {
   addDraft, COMMUNITY_BODY_LIMIT, COMMUNITY_CATEGORIES, deleteDraft,
   readDraftStore, updateDraft,
@@ -17,6 +17,13 @@ const CATEGORY_LABELS = {
   en: { fare: 'Fare', detour: 'Detour', frequency: 'Frequency', tip: 'Tip', route: 'Route correction' },
 };
 const text = (lang, ar, en) => lang === 'ar' ? ar : en;
+const englishLocalDate = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+const englishLocalTime = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+const formatEnglishLocalTimestamp = value => {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return '';
+  return `${englishLocalDate.format(date)}, ${englishLocalTime.format(date).replace(/\b(am|pm)\b/i, part => part.toUpperCase())}`;
+};
 const routeTitle = (route, lang) => {
   if (!route) return '';
   const { from, to } = getRouteEnds(route, lang);
@@ -586,17 +593,31 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
                 const route = routes.find(candidate => candidate.id === item.routeId);
                 const isDraft = view === 'drafts'; const isOwn = view === 'mine';
                 return <article className="community-post" key={item.id}>
-                  <div className="community-post-meta"><span className="community-category">{labels[item.category]}</span>
-                    <time dateTime={item.createdAt}>{new Date(item.createdAt).toLocaleString(isArabic ? 'ar-EG' : 'en', { dateStyle: 'medium', timeStyle: 'short' })}</time>
+                  <div className="community-post-meta">
+                    <div className={`community-post-byline${isDraft ? ' is-draft' : ''}`}>
+                      {!isDraft && item.authorDisplayName && <span className="community-post-byline-author"><UserRound size={15} aria-hidden="true"/><bdi dir="auto">{item.authorDisplayName}</bdi></span>}
+                      <time dateTime={item.createdAt} lang="en" dir="ltr">{formatEnglishLocalTimestamp(item.createdAt)}</time>
+                    </div>
+                    <span className="community-category">{labels[item.category]}</span>
                   </div>
-                  {route ? <a className="community-post-route" href={`/app?route=${encodeURIComponent(route.id)}`} onClick={onOpenPlanner || (onSelectRoute ? event => { event.preventDefault(); openRoute(item.routeId); } : undefined)}><Bus size={15} />{routeTitle(route, lang)}<ArrowUpRight size={14} /></a>
-                    : <p className="community-post-route unavailable"><Bus size={15} />{text(lang, 'المسار الأصلي غير متاح في بيانات المسارات الحالية', 'Original route is unavailable in the current route data')}</p>}
+                  {route ? <a className="community-post-route" href={`/app?route=${encodeURIComponent(route.id)}`} onClick={onOpenPlanner || (onSelectRoute ? event => { event.preventDefault(); openRoute(item.routeId); } : undefined)}><Bus size={17} aria-hidden="true"/><span className="community-post-route-title">{routeTitle(route, lang)}</span>{isArabic ? <ArrowUpLeft size={15} aria-hidden="true"/> : <ArrowUpRight size={15} aria-hidden="true"/>}</a>
+                    : <div className="community-post-route unavailable"><Bus size={17} aria-hidden="true"/><span className="community-post-route-title">{text(lang, 'المسار الأصلي غير متاح في بيانات المسارات الحالية', 'Original route is unavailable in the current route data')}</span></div>}
                   <p className="community-post-body">{item.body}</p>
-                  <div className="community-post-footer">{isDraft ? <><span>{text(lang, 'مسودة خاصة على هذا الجهاز', 'Private draft on this device')}</span><div><button type="button" onClick={() => startEdit(item)}>{text(lang, 'تعديل', 'Edit')}</button><button type="button" className="danger" onClick={() => removeDraft(item.id)}><Trash2 size={14} />{text(lang, 'حذف', 'Delete')}</button><button type="button" disabled={!session || !capabilities?.publishingAvailable || busyActions[`submit:${item.id}`]} onClick={() => submitDraft(item)}>{busyActions[`submit:${item.id}`] ? 'جارٍ الإرسال…' : 'إرسال للمراجعة'}</button></div></>
-                    : item.authorDisplayName ? <span>{item.authorDisplayName}{isOwn ? ` · ${statusLabel(item.status)}` : ''}</span> : null}</div>
-                  {isOwn && <div className="community-form-actions"><button type="button" className="community-secondary" onClick={() => { setEditingOwnId(item.id); setOwnEditBody(item.body); }}>تعديل وإعادة الإرسال للمراجعة</button><button type="button" className="community-secondary" onClick={async () => { try { await authenticatedRequest(`/posts/${encodeURIComponent(item.id)}`, { method: 'DELETE' }); setOwnPosts(items => items.filter(row => row.id !== item.id)); } catch (error) { if (!error.stale) setActionError('تعذر حذف الإرسال.'); } }}>حذف الإرسال</button></div>}
+                  <div className={`community-post-footer${isDraft ? ' draft-footer' : ''}`}>
+                    {isDraft && <span className="community-post-note">{text(lang, 'مسودة خاصة على هذا الجهاز', 'Private draft on this device')}</span>}
+                    {isOwn && <span className="community-post-note">{text(lang, 'الحالة:', 'Status:')} {statusLabel(item.status)}</span>}
+                    {isDraft ? <div className="community-draft-actions"><button type="button" onClick={() => startEdit(item)}>{text(lang, 'تعديل', 'Edit')}</button><button type="button" className="danger" onClick={() => removeDraft(item.id)}><Trash2 size={14} />{text(lang, 'حذف', 'Delete')}</button><button type="button" disabled={!session || !capabilities?.publishingAvailable || busyActions[`submit:${item.id}`]} onClick={() => submitDraft(item)}>{busyActions[`submit:${item.id}`] ? text(lang, 'جارٍ الإرسال…', 'Sending…') : text(lang, 'إرسال للمراجعة', 'Submit for review')}</button></div> : null}
+                    {isOwn && <div className="community-private-actions"><button type="button" className="community-secondary" onClick={() => { setEditingOwnId(item.id); setOwnEditBody(item.body); }}>{text(lang, 'تعديل وإعادة الإرسال للمراجعة', 'Edit and resubmit for review')}</button><button type="button" className="community-secondary" onClick={async () => { try { await authenticatedRequest(`/posts/${encodeURIComponent(item.id)}`, { method: 'DELETE' }); setOwnPosts(items => items.filter(row => row.id !== item.id)); } catch (error) { if (!error.stale) setActionError('تعذر حذف الإرسال.'); } }}>{text(lang, 'حذف الإرسال', 'Delete submission')}</button></div>}
+                    {!isDraft && !isOwn && view === 'public' && <div className="community-post-actions">
+                      <div className="community-vote-controls" role="group" aria-label={text(lang, 'التصويت على التحديث', 'Vote on update')}>
+                        <button type="button" aria-pressed={myVotes[item.id] === 1} disabled={busyActions[`vote:${item.id}`]} onClick={() => vote(item.id, voteValueFor(item.id, 1))} aria-label={text(lang, 'تصويت إيجابي', 'Upvote')}><ThumbsUp size={17} aria-hidden="true"/></button>
+                        <span className="community-vote-score" aria-label={text(lang, `صافي الأصوات ${item.voteScore ?? 0}`, `Vote score ${item.voteScore ?? 0}`)}>{item.voteScore ?? 0}</span>
+                        <button type="button" aria-pressed={myVotes[item.id] === -1} disabled={busyActions[`vote:${item.id}`]} onClick={() => vote(item.id, voteValueFor(item.id, -1))} aria-label={text(lang, 'تصويت سلبي', 'Downvote')}><ThumbsDown size={17} aria-hidden="true"/></button>
+                      </div>
+                      <button type="button" className="community-comments-action" aria-expanded={Boolean(comments[item.id])} onClick={() => openComments(item.id)}><MessageCircle size={17} aria-hidden="true"/><span>{text(lang, 'التعليقات', 'Comments')}</span><span className="community-comments-count">{item.commentCount ?? 0}</span></button>
+                    </div>}
+                  </div>
                   {isOwn && editingOwnId === item.id && <form className="community-own-edit" onSubmit={async event => { event.preventDefault(); try { const data = await authenticatedRequest(`/posts/${encodeURIComponent(item.id)}`, { method: 'PATCH', body: { routeId: item.routeId, category: item.category, body: ownEditBody } }); setOwnPosts(items => items.map(row => row.id === item.id ? data.post : row)); setEditingOwnId(null); } catch (error) { if (!error.stale) setActionError('تعذر حفظ التعديل.'); } }}><textarea value={ownEditBody} maxLength={COMMUNITY_BODY_LIMIT} onChange={event => setOwnEditBody(event.target.value)}/><button type="submit" className="community-primary">حفظ وإعادة المراجعة</button></form>}
-                  {!isDraft && !isOwn && view === 'public' && <div className="community-social"><button type="button" aria-pressed={myVotes[item.id] === 1} disabled={busyActions[`vote:${item.id}`]} onClick={() => vote(item.id, voteValueFor(item.id, 1))} aria-label="تصويت إيجابي أو إلغاء التصويت">▲ {item.voteScore ?? 0}</button><button type="button" aria-pressed={myVotes[item.id] === -1} disabled={busyActions[`vote:${item.id}`]} onClick={() => vote(item.id, voteValueFor(item.id, -1))} aria-label="تصويت سلبي أو إلغاء التصويت">▼</button><button type="button" onClick={() => openComments(item.id)}>التعليقات ({item.commentCount ?? 0})</button></div>}
                   {comments[item.id] && <div className="community-comments">{comments[item.id].map(comment => <p key={comment.id}><strong>{comment.authorDisplayName}</strong> {comment.body}</p>)}{commentCursors[item.id] && <button className="community-secondary" type="button" onClick={() => loadMoreComments(item.id)}>تحميل المزيد من التعليقات</button>}{session ? <><textarea aria-label="تعليق جديد" maxLength={1000} value={commentText[item.id] || ''} onChange={event => setCommentText(value => ({ ...value, [item.id]: event.target.value }))}/><button type="button" disabled={busyActions[`comment:${item.id}`]} className="community-secondary" onClick={() => sendComment(item.id)}>إرسال التعليق للمراجعة</button></> : <p>سجّل الدخول لإضافة تعليق.</p>}</div>}
                 </article>;
               }))}

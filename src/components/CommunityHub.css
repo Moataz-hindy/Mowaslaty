@@ -88,22 +88,40 @@
 .community-spin { animation: community-spin 1s linear infinite; }
 @keyframes community-spin { to { transform: rotate(360deg); } }
 .community-state-error { color: var(--community-muted); }
-.community-post { min-width: 0; padding: 16px; overflow-wrap: anywhere; }
-.community-post-meta, .community-post-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-.community-post-meta time, .community-post-footer { color: var(--community-muted); font-size: 12px; }
+.community-post { min-width: 0; display: grid; gap: 14px; padding: 18px; overflow-wrap: anywhere; }
+.community-post-meta { min-width: 0; display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.community-post-byline { min-width: 0; display: grid; justify-items: start; gap: 2px; }
+.community-post-byline-author { min-width: 0; display: inline-flex; align-items: center; gap: 6px; color: var(--community-ink); font-size: 14px; font-weight: 700; line-height: 1.4; }
+.community-post-byline-author bdi { min-width: 0; overflow-wrap: anywhere; }
+.community-post-byline time { margin-inline-start: 21px; color: var(--community-muted); font-size: 12px; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.community-post-byline.is-draft time { margin-inline-start: 0; }
 .community-category { display: inline-flex; padding: 5px 9px; border-radius: 99px; background: var(--community-amber-pale); color: #514127; font-size: 12px; }
-.community-post-route { width: fit-content; max-width: 100%; display: flex; align-items: center; gap: 6px; margin: 12px 0 8px; padding: 0; border: 0; background: transparent; color: var(--community-ink); text-align: start; overflow-wrap: anywhere; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.community-post-route { width: 100%; max-width: 100%; min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 11px 13px; border: 1px solid var(--community-line); border-inline-start: 4px solid var(--community-amber); border-radius: 10px; background: #fffefa; color: var(--community-ink); text-align: start; overflow-wrap: anywhere; font: inherit; font-size: 14px; font-weight: 750; line-height: 1.55; }
+.community-post-route-title { min-width: 0; overflow-wrap: anywhere; }
 .community-post-route:link, .community-post-route:visited { color: var(--community-ink); text-decoration: none; }
-.community-post-route:hover { text-decoration: underline; }
-.community-post-route.unavailable { color: var(--community-muted); cursor: default; font-weight: 500; }
-.community-post-body { margin: 0 0 12px; color: var(--community-ink); white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; line-height: 1.75; }
-.community-post-footer > div { display: flex; flex-wrap: wrap; gap: 7px; }
-.community-post-footer button { min-height: 40px; padding-inline: 10px; font-size: 13px; }
+.community-post-route:link { cursor: pointer; }
+.community-post-route:hover { border-color: #d6c5a6; background: #fffdf7; }
+.community-post-route.unavailable { color: var(--community-muted); font-weight: 500; }
+.community-post-body { min-width: 0; margin: 0; color: var(--community-ink); white-space: pre-wrap; overflow-wrap: anywhere; font-size: 16px; line-height: 1.8; }
+.community-post-footer { min-width: 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 12px; border-top: 1px solid var(--community-line); }
+.community-post-author { min-width: 0; display: inline-flex; align-items: center; gap: 7px; color: var(--community-muted); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.community-post-author > span { min-width: 0; overflow-wrap: anywhere; }
+.community-post-actions { min-width: 0; display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+.community-vote-controls { display: inline-flex; align-items: center; gap: 2px; padding: 2px; border: 1px solid var(--community-line); border-radius: 99px; background: #fffefa; }
+.community-vote-controls button, .community-comments-action { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 9px; border: 0; border-radius: 99px; background: transparent; color: var(--community-muted); font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; }
+.community-vote-controls button[aria-pressed="true"] { background: var(--community-amber-pale); color: var(--community-ink); }
+.community-vote-controls button:disabled { opacity: .55; cursor: wait; }
+.community-vote-score { min-width: 25px; color: var(--community-ink); text-align: center; font-size: 13px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.community-comments-action { padding-inline: 11px; border: 1px solid var(--community-line); background: #fffefa; white-space: nowrap; }
+.community-comments-count { min-width: 19px; padding: 2px 5px; border-radius: 99px; background: var(--community-paper); text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; }
+.community-post-note { color: var(--community-muted); font-size: 13px; line-height: 1.5; }
+.community-draft-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+.community-draft-actions button { min-height: 44px; padding-inline: 10px; border: 1px solid #bfb5a6; border-radius: 8px; background: var(--community-white); color: var(--community-ink); font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; }
+.community-draft-actions button.danger { color: #9b3027; }
+.community-draft-actions button:disabled { opacity: .5; cursor: not-allowed; }
+.community-private-actions { display: flex; flex-wrap: wrap; gap: 7px; }
 .community-post-footer button.danger, .community-form-message.error, .community-storage-notice { color: #9b3027; }
 .community-storage-notice { margin: 0; font-size: 14px; line-height: 1.5; }
-.community-social { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; }
-.community-social button { min-height: 40px; padding: 0 12px; border: 1px solid var(--community-line); border-radius: 99px; background: #fff; color: var(--community-muted); font: inherit; font-size: 13px; cursor: pointer; }
-.community-social button[aria-pressed="true"] { border-color: var(--community-amber); background: var(--community-amber-pale); color: var(--community-ink); }
 .community-comments { display: grid; gap: 10px; margin-top: 14px; padding: 14px; border: 1px solid var(--community-line); border-radius: 9px; background: var(--community-paper); }
 .community-comments p { margin: 0; color: var(--community-ink); font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
 .community-comments textarea { min-height: 72px; padding: 10px; }
@@ -124,14 +142,17 @@
   .community-view-tabs button { justify-content: center; padding-inline: 8px; text-align: center; }
   .community-new-draft { width: 100%; }
   .community-form-grid { grid-template-columns: minmax(0, 1fr); }
-  .community-composer, .community-filter-panel, .community-post { padding: 13px; }
+  .community-composer, .community-filter-panel { padding: 13px; }
+  .community-post { gap: 12px; padding: 14px; }
   .community-filter-chips { gap: 7px; }
   .community-filter-chips button { padding-inline: 10px; font-size: 13px; }
   .community-form-actions > button { flex: 1 1 auto; }
   .community-account-dialog { width: 100%; max-height: calc(100dvh - env(safe-area-inset-top) - 12px); margin: auto 0 0; padding: 22px 18px calc(20px + env(safe-area-inset-bottom)); border-radius: 18px 18px 0 0; }
   .community-account-dialog .community-alias .community-primary { width: 100%; }
   .community-account-signout button { width: 100%; }
-  .community-post-footer { align-items: flex-start; flex-direction: column; }
-  .community-post-footer > div { width: 100%; }
-  .community-post-footer button { flex: 1 1 auto; }
+  .community-post-footer { align-items: flex-start; flex-direction: column; gap: 9px; }
+  .community-post-actions { width: 100%; justify-content: space-between; }
+  .community-post-actions > button { flex: 0 0 auto; }
+  .community-draft-actions { width: 100%; }
+  .community-draft-actions button { flex: 1 1 auto; }
 }
