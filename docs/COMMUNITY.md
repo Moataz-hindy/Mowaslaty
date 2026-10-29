@@ -50,11 +50,9 @@ The following Pages runtime values are configured. A publishable key is intentio
 
 ### Deployed checks (29 October 2026)
 
-A human completed Google sign-in on the production site; the account profile and moderator queue loaded. Anonymous requests to the account and moderation endpoints returned `401`. An owner-created internal QA submission moved to pending review and was rejected by the moderator; it was not publicly visible. This did not exercise production comments or voting.
+Production checks confirmed human Google sign-in, account profile access, and moderator queue access. Anonymous requests to the account and moderation endpoints returned `401`. In private QA, a submission appeared as pending, was rejected through the moderator queue, and immediately appeared as rejected in the author's private submissions view without a reload. The public posts endpoint returned zero posts throughout; no test content was publicly visible. This did not exercise production comments or voting.
 
-QA exposed a client-state issue: the private submissions view kept showing `pending` after a moderator rejected the item, until a reload. A local fix now updates the matching private status after a successful moderation response and removes a post from the public feed when its status becomes non-approved. The regression tests and production build pass locally, but the fix has not yet been deployed or rechecked against the private QA submission. Treat end-to-end moderation status synchronization as pending that deployed check. The offline community suite covers API, SQLite and integration behavior; it is not a substitute for production comment/vote validation.
-
-Publishing is enabled in configuration. Continue with the remaining deployed-origin checks below; do not treat the items not explicitly listed above as production-verified.
+The deployed moderation status synchronization is verified for that private post rejection flow. Publishing is enabled in configuration. The other deployed-origin checks below remain pending unless explicitly listed above; in particular, this does not establish production comment/vote behavior or complete security validation. The offline community suite covers API, SQLite and integration behavior but does not replace those production checks.
 
 ### Setup and runtime validation recipe
 
@@ -62,7 +60,7 @@ For a new environment, create a dedicated Supabase project. Enable Google in Aut
 
 For a new D1 database, bind it to the Pages project as exactly `COMMUNITY_DB` and apply SQL migrations from `migrations/community/` in numerical order after review. The production database named above is already migrated; do not repeat those migrations there.
 
-After deployment, test OAuth on the deployed origin. Submit a test update and verify it remains pending until moderation. Confirm that the resulting decision appears immediately in the author's private submissions view and that a non-approved post is absent from the public feed. A trusted operator must designate a moderator in D1; there is no automatic first-user administrator. Verify anonymous/expired sessions, owner isolation, approval/rejection, comments, voting and rate limits on the deployed runtime. Publishing is enabled in configuration, but runtime checks not recorded above remain pending.
+For a new deployment, test OAuth on the deployed origin. Submit a test update and verify it remains pending until moderation. Confirm that the resulting decision appears immediately in the author's private submissions view and that a non-approved post is absent from the public feed. A trusted operator must designate a moderator in D1; there is no automatic first-user administrator. Verify anonymous/expired sessions, owner isolation, comments, voting and rate limits on the deployed runtime. Production checks not recorded above remain pending.
 
 PKCE uses the fixed `/auth/callback` route. The code is exchanged once and removed from browser history. The callback returns to `/#community`; arbitrary return URLs are not accepted. Sessions are managed by the Supabase SDK. Unit tests do not verify the deployed Google OAuth flow.
 
