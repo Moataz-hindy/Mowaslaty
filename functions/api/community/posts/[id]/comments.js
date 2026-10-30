@@ -1,4 +1,5 @@
 import { account, body, cursorFor, cursorParam, csrf, fail, id, iso, json, publishing, rate, results, validText } from '../../_shared.js';
+import { containsBlockedArabicWord } from '../../_content-filter.js';
 export async function onRequestGet({
   request,
   env,
@@ -44,7 +45,8 @@ export async function onRequestPost({
     cid = id();
   try {
     if (!(await rate(db, a.user.id, 'comment', 20))) return fail('RateLimited', 429);
-    const inserted = await db.prepare("INSERT INTO community_comments(id,report_id,user_id,body,status,created_at) SELECT ?,?,?,?,'pending',? WHERE EXISTS (SELECT 1 FROM community_reports WHERE id=? AND status='approved')").bind(cid, params.id, a.user.id, b.value.body.trim(), t, params.id).run();
+    if (containsBlockedArabicWord(a.user.displayName) || containsBlockedArabicWord(b.value.body)) return fail('ContentBlocked', 400);
+    const inserted = await db.prepare("INSERT INTO community_comments(id,report_id,user_id,body,status,created_at,reviewed_at) SELECT ?,?,?,?,'approved',?,? WHERE EXISTS (SELECT 1 FROM community_reports WHERE id=? AND status='approved')").bind(cid, params.id, a.user.id, b.value.body.trim(), t, t, params.id).run();
     if (inserted?.success !== true) throw new Error('Database write failed');
     if (inserted?.meta?.changes !== 1) return fail('NotFound', 404);
     return json({
@@ -54,7 +56,7 @@ export async function onRequestPost({
         body: b.value.body.trim(),
         createdAt: iso(t),
         authorDisplayName: a.user.displayName,
-        status: 'pending'
+        status: 'approved'
       }
     }, 201);
   } catch {

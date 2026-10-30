@@ -192,10 +192,12 @@ test('authenticated D1 integration covers ownership, moderation revisions, paren
       const own = await read(await getMine({ request: req('mine'), env }));
       assert.deepEqual(Object.keys(own.body.posts[0]).sort(), ['authorDisplayName', 'body', 'category', 'commentCount', 'createdAt', 'id', 'routeId', 'status', 'voteScore'].sort());
       assert.equal(own.body.posts[0].authorDisplayName, 'Alice');
-      assert.equal((await read(await feed({
+      assert.equal(own.body.posts[0].status, 'approved');
+      const firstPublicPost = (await read(await feed({
         request: req('posts'),
         env
-      }))).body.posts.length, 0);
+      }))).body.posts[0];
+      assert.equal(firstPublicPost.id, own.body.posts[0].id);
       assert.equal((await read(await createPost({
         request: req('posts', 'POST', 'bob', {
           routeId: 'metro_T_L1_N',
@@ -264,7 +266,7 @@ test('authenticated D1 integration covers ownership, moderation revisions, paren
         }),
         env
       }))).status, 401);
-      const post = db.prepare("SELECT id,revision FROM community_reports WHERE user_id=(SELECT id FROM community_users WHERE auth_subject LIKE '%user-alice')").get();
+      const post = db.prepare("INSERT INTO community_reports(id,user_id,route_id,category,body,status) VALUES('pending-parent',(SELECT id FROM community_users WHERE auth_subject LIKE '%user-alice'),'metro_T_L1_N','tip','legacy pending parent','pending') RETURNING id,revision").get();
       assert.equal((await read(await editPost({
         request: req(`posts/${post.id}`, 'PATCH', 'bob', {
           routeId: 'metro_T_L1_N',
@@ -321,23 +323,7 @@ test('authenticated D1 integration covers ownership, moderation revisions, paren
         }
       }));
       assert.equal(commentRes.status, 201);
-      assert.equal((await read(await listComments({
-        request: req(`posts/${post.id}/comments`),
-        env,
-        params: {
-          id: post.id
-        }
-      }))).body.comments.length, 0);
-      const comment = db.prepare("SELECT id,revision FROM community_comments WHERE body='hello'").get();
-      assert.equal((await read(await moderate({
-        request: req('moderation', 'PATCH', 'moderator', {
-          targetType: 'comment',
-          id: comment.id,
-          status: 'approved',
-          expectedRevision: comment.revision
-        }),
-        env
-      }))).status, 200);
+      assert.equal(commentRes.body.comment.status, 'approved');
       assert.equal((await read(await listComments({
         request: req(`posts/${post.id}/comments`),
         env,
@@ -345,6 +331,7 @@ test('authenticated D1 integration covers ownership, moderation revisions, paren
           id: post.id
         }
       }))).body.comments.length, 1);
+      const comment = db.prepare("SELECT id,revision FROM community_comments WHERE body='hello'").get();
       const originalCommentAt = commentRes.body.comment.createdAt;
       const editedComment = await read(await editComment({
         request: req(`comments/${comment.id}`, 'PATCH', 'alice', { body: 'updated comment' }),
@@ -354,11 +341,9 @@ test('authenticated D1 integration covers ownership, moderation revisions, paren
       assert.equal(editedComment.status, 200);
       assert.equal(editedComment.body.comment.createdAt, originalCommentAt);
       assert.equal(editedComment.body.comment.authorDisplayName, 'Alice');
-      assert.equal(editedComment.body.comment.status, 'pending');
-      await moderate({
-        request: req('moderation', 'PATCH', 'moderator', { targetType: 'comment', id: comment.id, status: 'approved', expectedRevision: 2 }),
-        env
-      });
+      assert.equal(editedComment.body.comment.status, 'approved');
+      const immediatelyEditedComments = await read(await listComments({ request: req(`posts/${post.id}/comments`), env, params: { id: post.id } }));
+      assert.equal(immediatelyEditedComments.body.comments[0].body, 'updated comment');
       COMMUNITY_DB.beforeRun = async sql => {
         if (sql.startsWith('INSERT INTO community_votes')) {
           db.prepare("UPDATE community_reports SET status='hidden' WHERE id=?").run(post.id);
@@ -494,6 +479,153 @@ test('approved feed applies route policy before keyset pagination and limits', a
     assert.deepEqual(second.body.posts.map(post => post.id), ['allow-c']);
     assert.equal(second.body.nextCursor, null);
   } finally {
+    db.close();
+  }
+});
+
+test('clean community writes publish immediately and blocked edits leave approved content untouched', async () => {
+  const db = new DatabaseSync(':memory:');
+  const oldFetch = globalThis.fetch;
+  try {
+    db.exec(await readFile(new URL('../migrations/community/0001_initial.sql', import.meta.url), 'utf8'));
+    db.exec(await readFile(new URL('../migrations/community/0002_accounts_moderation.sql', import.meta.url), 'utf8'));
+    const COMMUNITY_DB = new D1(db);
+    const env = {
+      COMMUNITY_DB,
+      COMMUNITY_GOOGLE_ENABLED: 'true',
+      COMMUNITY_PUBLISHING_ENABLED: 'true',
+      SUPABASE_URL: 'https://project.supabase.co',
+      SUPABASE_PUBLISHABLE_KEY: `sb_publishable_${'x'.repeat(30)}`
+    };
+    globalThis.fetch = async (_input, init) => {
+      const token = new Headers(init?.headers).get('authorization')?.replace('Bearer ', '');
+      if (!token) return new Response('{}', { status: 401 });
+      return new Response(JSON.stringify({ id: token === 'moderator' ? 'user-moderator' : token === 'bob' ? 'user-bob' : 'user-alice' }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' }
+      });
+    };
+    assert.equal((await read(await mePatch({ request: req('me', 'PATCH', 'alice', { displayName: 'Alice' }), env }))).status, 200);
+    db.prepare("INSERT INTO community_users(id,auth_subject,display_name,is_moderator) VALUES('moderator-id','https://project.supabase.co|user-moderator','Moderator',1)").run();
+
+    const cleanPost = await read(await createPost({
+      request: req('posts', 'POST', 'alice', { routeId: 'metro_T_L1_N', category: 'tip', body: 'محطة أكتوبر قريبة من كسوف الشمس' }), env
+    }));
+    assert.equal(cleanPost.status, 201);
+    assert.equal(cleanPost.body.post.status, 'approved');
+    assert.equal((await read(await feed({ request: req('posts'), env }))).body.posts[0].id, cleanPost.body.post.id);
+
+    const reportCountBeforeBlockedCreate = db.prepare('SELECT count(*) AS n FROM community_reports').get().n;
+    const blockedPost = await read(await createPost({
+      request: req('posts', 'POST', 'alice', { routeId: 'metro_T_L1_N', category: 'tip', body: 'معلومة عَرْص' }), env
+    }));
+    assert.equal(blockedPost.status, 400);
+    assert.equal(blockedPost.body.code, 'ContentBlocked');
+    assert.equal(db.prepare('SELECT count(*) AS n FROM community_reports').get().n, reportCountBeforeBlockedCreate);
+
+    const originalBody = cleanPost.body.post.body;
+    const originalPostRevision = db.prepare('SELECT revision FROM community_reports WHERE id=?').get(cleanPost.body.post.id).revision;
+    const blockedPostEdit = await read(await editPost({
+      request: req(`posts/${cleanPost.body.post.id}`, 'PATCH', 'alice', { routeId: 'metro_T_L1_N', category: 'tip', body: 'معلومة كـسم' }),
+      env,
+      params: { id: cleanPost.body.post.id }
+    }));
+    assert.equal(blockedPostEdit.status, 400);
+    assert.equal(blockedPostEdit.body.code, 'ContentBlocked');
+    assert.equal(db.prepare('SELECT body,status FROM community_reports WHERE id=?').get(cleanPost.body.post.id).body, originalBody);
+    assert.equal(db.prepare('SELECT status FROM community_reports WHERE id=?').get(cleanPost.body.post.id).status, 'approved');
+    assert.equal(db.prepare('SELECT revision FROM community_reports WHERE id=?').get(cleanPost.body.post.id).revision, originalPostRevision);
+    assert.equal((await read(await feed({ request: req('posts'), env }))).body.posts[0].body, originalBody);
+
+    const cleanPostEdit = await read(await editPost({
+      request: req(`posts/${cleanPost.body.post.id}`, 'PATCH', 'alice', { routeId: 'metro_T_L1_N', category: 'tip', body: 'تعديل نظيف عند كفر الشيخ' }),
+      env,
+      params: { id: cleanPost.body.post.id }
+    }));
+    assert.equal(cleanPostEdit.body.post.status, 'approved');
+    assert.equal((await read(await feed({ request: req('posts'), env }))).body.posts[0].body, 'تعديل نظيف عند كفر الشيخ');
+
+    const cleanComment = await read(await createComment({
+      request: req(`posts/${cleanPost.body.post.id}/comments`, 'POST', 'alice', { body: 'شكراً على التوضيح' }),
+      env,
+      params: { id: cleanPost.body.post.id }
+    }));
+    assert.equal(cleanComment.status, 201);
+    assert.equal(cleanComment.body.comment.status, 'approved');
+    assert.equal((await read(await listComments({ request: req(`posts/${cleanPost.body.post.id}/comments`), env, params: { id: cleanPost.body.post.id } }))).body.comments.length, 1);
+
+    const blockedComment = await read(await createComment({
+      request: req(`posts/${cleanPost.body.post.id}/comments`, 'POST', 'alice', { body: 'يا خول' }),
+      env,
+      params: { id: cleanPost.body.post.id }
+    }));
+    assert.equal(blockedComment.status, 400);
+    assert.equal(blockedComment.body.code, 'ContentBlocked');
+    assert.equal(db.prepare('SELECT count(*) AS n FROM community_comments').get().n, 1);
+
+    const originalCommentRevision = db.prepare('SELECT revision FROM community_comments WHERE id=?').get(cleanComment.body.comment.id).revision;
+    const blockedCommentEdit = await read(await editComment({
+      request: req(`comments/${cleanComment.body.comment.id}`, 'PATCH', 'alice', { body: 'ك​سمك' }),
+      env,
+      params: { id: cleanComment.body.comment.id }
+    }));
+    assert.equal(blockedCommentEdit.status, 400);
+    assert.equal(blockedCommentEdit.body.code, 'ContentBlocked');
+    assert.equal(db.prepare('SELECT body,status FROM community_comments WHERE id=?').get(cleanComment.body.comment.id).body, 'شكراً على التوضيح');
+    assert.equal(db.prepare('SELECT status FROM community_comments WHERE id=?').get(cleanComment.body.comment.id).status, 'approved');
+    assert.equal(db.prepare('SELECT revision FROM community_comments WHERE id=?').get(cleanComment.body.comment.id).revision, originalCommentRevision);
+    assert.equal((await read(await listComments({ request: req(`posts/${cleanPost.body.post.id}/comments`), env, params: { id: cleanPost.body.post.id } }))).body.comments[0].body, 'شكراً على التوضيح');
+
+    const cleanCommentEdit = await read(await editComment({
+      request: req(`comments/${cleanComment.body.comment.id}`, 'PATCH', 'alice', { body: 'تعليق نظيف محدث' }),
+      env,
+      params: { id: cleanComment.body.comment.id }
+    }));
+    assert.equal(cleanCommentEdit.body.comment.status, 'approved');
+    assert.equal((await read(await listComments({ request: req(`posts/${cleanPost.body.post.id}/comments`), env, params: { id: cleanPost.body.post.id } }))).body.comments[0].body, 'تعليق نظيف محدث');
+
+    const blockedAlias = await read(await mePatch({ request: req('me', 'PATCH', 'alice', { displayName: 'عرص' }), env }));
+    assert.equal(blockedAlias.status, 400);
+    assert.equal(blockedAlias.body.code, 'ContentBlocked');
+    assert.equal(db.prepare("SELECT display_name FROM community_users WHERE auth_subject LIKE '%user-alice'").get().display_name, 'Alice');
+
+    db.prepare("UPDATE community_users SET display_name='عرص' WHERE auth_subject LIKE '%user-alice'").run();
+    const commentCountBeforeBlockedAliasComment = db.prepare('SELECT count(*) AS n FROM community_comments').get().n;
+    const blockedAliasComment = await read(await createComment({
+      request: req(`posts/${cleanPost.body.post.id}/comments`, 'POST', 'alice', { body: 'Clean comment' }), env, params: { id: cleanPost.body.post.id }
+    }));
+    assert.equal(blockedAliasComment.status, 400);
+    assert.equal(blockedAliasComment.body.code, 'ContentBlocked');
+    assert.equal(db.prepare('SELECT count(*) AS n FROM community_comments').get().n, commentCountBeforeBlockedAliasComment);
+
+    const reportCountBeforeBlockedAliasPost = db.prepare('SELECT count(*) AS n FROM community_reports').get().n;
+    const blockedAliasPost = await read(await createPost({
+      request: req('posts', 'POST', 'alice', { routeId: 'metro_T_L1_N', category: 'tip', body: 'Clean body' }), env
+    }));
+    assert.equal(blockedAliasPost.status, 400);
+    assert.equal(blockedAliasPost.body.code, 'ContentBlocked');
+    assert.equal(db.prepare('SELECT count(*) AS n FROM community_reports').get().n, reportCountBeforeBlockedAliasPost);
+
+    db.prepare("UPDATE community_users SET display_name='Alice' WHERE auth_subject LIKE '%user-alice'").run();
+    const commentRevision = db.prepare('SELECT revision FROM community_comments WHERE id=?').get(cleanComment.body.comment.id).revision;
+    const staleHide = await read(await moderate({
+      request: req('moderation', 'PATCH', 'moderator', { targetType: 'comment', id: cleanComment.body.comment.id, status: 'hidden', expectedRevision: commentRevision - 1 }), env
+    }));
+    assert.equal(staleHide.status, 409);
+    const hiddenComment = await read(await moderate({
+      request: req('moderation', 'PATCH', 'moderator', { targetType: 'comment', id: cleanComment.body.comment.id, status: 'hidden', expectedRevision: commentRevision }), env
+    }));
+    assert.equal(hiddenComment.status, 200);
+    assert.equal((await read(await listComments({ request: req(`posts/${cleanPost.body.post.id}/comments`), env, params: { id: cleanPost.body.post.id } }))).body.comments.length, 0);
+
+    const postRevision = db.prepare('SELECT revision FROM community_reports WHERE id=?').get(cleanPost.body.post.id).revision;
+    const hiddenPost = await read(await moderate({
+      request: req('moderation', 'PATCH', 'moderator', { targetType: 'post', id: cleanPost.body.post.id, status: 'hidden', expectedRevision: postRevision }), env
+    }));
+    assert.equal(hiddenPost.status, 200);
+    assert.equal((await read(await feed({ request: req('posts'), env }))).body.posts.some(post => post.id === cleanPost.body.post.id), false);
+  } finally {
+    globalThis.fetch = oldFetch;
     db.close();
   }
 });

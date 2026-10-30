@@ -1,4 +1,5 @@
 import { account, body as readBody, categories, csrf, fail, id, iso, json, publishing, rate, results, routeIdsJson, run, validPost } from './_shared.js';
+import { containsBlockedArabicWord } from './_content-filter.js';
 const CATEGORIES = new Set(categories);
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 50;
@@ -130,7 +131,8 @@ export async function onRequestPost({
     pid = id();
   try {
     if (!(await rate(db, auth.user.id, 'post', 8))) return fail('RateLimited', 429);
-    await run(db.prepare("INSERT INTO community_reports(id,user_id,route_id,category,body,status,created_at,updated_at) VALUES(?,?,?,?,?,'pending',?,?)").bind(pid, auth.user.id, parsed.value.routeId, parsed.value.category, parsed.value.body.trim(), t, t));
+    if (containsBlockedArabicWord(auth.user.displayName) || containsBlockedArabicWord(parsed.value.body)) return fail('ContentBlocked', 400);
+    await run(db.prepare("INSERT INTO community_reports(id,user_id,route_id,category,body,status,created_at,updated_at,reviewed_at) VALUES(?,?,?,?,?,'approved',?,?,?)").bind(pid, auth.user.id, parsed.value.routeId, parsed.value.category, parsed.value.body.trim(), t, t, t));
     return json({
       post: {
         id: pid,
@@ -139,7 +141,7 @@ export async function onRequestPost({
         body: parsed.value.body.trim(),
         createdAt: iso(t),
         authorDisplayName: auth.user.displayName,
-        status: 'pending'
+        status: 'approved'
       }
     }, 201);
   } catch {

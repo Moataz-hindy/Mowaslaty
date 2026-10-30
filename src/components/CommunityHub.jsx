@@ -38,6 +38,7 @@ const matchesSearch = (item, query, route) => {
   const haystack = `${item.body} ${item.category} ${route?.num || ''} ${route?.origin || ''} ${route?.dest || ''} ${route?.origin_en || ''} ${route?.dest_en || ''}`.toLocaleLowerCase();
   return haystack.includes(query.trim().toLocaleLowerCase());
 };
+const sortComments = items => [...items].sort((left, right) => Date.parse(left.createdAt) - Date.parse(right.createdAt) || left.id.localeCompare(right.id));
 
 async function getJson(url) {
   const response = await fetch(url, { headers: { Accept: 'application/json' } });
@@ -87,7 +88,7 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
   const [ownCommentBody, setOwnCommentBody] = useState('');
   const [commentText, setCommentText] = useState({});
   const [moderationItems, setModerationItems] = useState([]);
-  const [moderationStatus, setModerationStatus] = useState('pending');
+  const [moderationStatus, setModerationStatus] = useState('approved');
   const [moderationKind, setModerationKind] = useState('posts');
   const [editingOwnId, setEditingOwnId] = useState(null);
   const [ownEditBody, setOwnEditBody] = useState('');
@@ -95,6 +96,7 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
   const [moderationCursor, setModerationCursor] = useState(null);
   const [moderationBusy, setModerationBusy] = useState(false);
   const [actionError, setActionError] = useState('');
+  const [actionMessage, setActionMessage] = useState('');
   const [busyActions, setBusyActions] = useState({});
   const authEpoch = useRef(createEpochController());
   const feedEpoch = useRef(createEpochController());
@@ -105,7 +107,12 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
   const accountSettingsButton = useRef(null);
   const aliasInput = useRef(null);
   const isArabic = lang === 'ar';
-  const statusLabel = status => ({ pending: 'قيد المراجعة', approved: 'مقبول', rejected: 'مرفوض', hidden: 'مخفي' }[status] || 'الحالة غير معروفة');
+  const statusLabel = status => ({
+    pending: text(lang, 'قيد المراجعة', 'Pending'),
+    approved: text(lang, 'منشور', 'Published'),
+    rejected: text(lang, 'مرفوض', 'Rejected'),
+    hidden: text(lang, 'مخفي', 'Hidden'),
+  }[status] || text(lang, 'الحالة غير معروفة', 'Unknown status'));
   const labels = CATEGORY_LABELS[isArabic ? 'ar' : 'en'];
   const selectedRoute = routes.find(route => route.id === selectedRouteId);
 
@@ -130,6 +137,7 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
     setComments({}); setCommentCursors({}); setCommentText({}); setMyVotes({}); setAliasValue(''); setEditingOwnId(null);
     setEditingOwnCommentId(null); setOwnEditBody(''); setOwnCommentBody('');
     setActionError('');
+    setActionMessage('');
     commentEpochs.current.clear(); moderationEpoch.current.advance(); setModerationBusy(false);
     setBusyActions({});
     setAccountSettingsOpen(false); setAliasBusy(false); setAliasMessage(''); setAliasError('');
@@ -246,17 +254,24 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
     if (busyActions[`submit:${draft.id}`]) return;
     const snapshot = authSnapshot();
     setBusyActions(value => ({ ...value, [`submit:${draft.id}`]: true }));
-    setActionError('');
+    setActionError(''); setActionMessage('');
     try {
       const payload = await authenticatedRequest('/posts', { method: 'POST', body: { routeId: draft.routeId, category: draft.category, body: draft.body } });
       if (!authSnapshotIsCurrent(snapshot)) return;
       const result = deleteDraft(draft.id);
       if (result.ok) setDraftStore({ ok: true, drafts: result.drafts });
-      setOwnPosts(items => [payload.post, ...items]); setView('mine');
-      setDraftActionMessage(text(lang, 'أُرسل التحديث للمراجعة. سيظهر للعامة بعد الموافقة.', 'Sent for review. It will appear publicly after approval.'));
+      setOwnPosts(items => [payload.post, ...items]); setView('mine'); setRefresh(value => value + 1);
+      setDraftActionMessage(text(lang, 'نُشر التحديث مباشرة.', 'Your update is now public.'));
       setDraftActionError(false);
     } catch (error) {
-      if (authSnapshotIsCurrent(snapshot)) setActionError(error.code === 'DisplayNameRequired' ? 'اختر اسماً عاماً في حسابك قبل الإرسال.' : 'تعذر إرسال التحديث. بقيت المسودة محفوظة على هذا الجهاز.');
+      if (authSnapshotIsCurrent(snapshot)) {
+        setDraftActionMessage(''); setActionMessage('');
+        setActionError(error.code === 'DisplayNameRequired'
+          ? text(lang, 'اختر اسماً عاماً من إعدادات الحساب قبل النشر.', 'Choose a public name in account settings before publishing.')
+          : error.code === 'ContentBlocked'
+            ? text(lang, 'احذف الكلمة المحظورة من التحديث أو اختر اسماً عاماً آخر، ثم أعد المحاولة. بقيت المسودة محفوظة على هذا الجهاز.', 'Remove the blocked word from the update or choose another public name, then try again. Your draft is still saved on this device.')
+            : text(lang, 'تعذر نشر التحديث. بقيت المسودة محفوظة على هذا الجهاز.', 'Could not publish the update. Your draft is still saved on this device.'));
+      }
     } finally { if (authSnapshotIsCurrent(snapshot)) setBusyActions(value => ({ ...value, [`submit:${draft.id}`]: false })); }
   };
 
@@ -265,7 +280,7 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
     commentEpochs.current.set(postId, controller);
     const requestEpoch = controller.advance();
     setBusyActions(value => ({ ...value, [`comments:${postId}`]: false }));
-    try { const data = await request(`/posts/${encodeURIComponent(postId)}/comments?limit=20`); if (controller.isCurrent(requestEpoch)) { setComments(value => ({ ...value, [postId]: data.comments || [] })); setCommentCursors(value => ({ ...value, [postId]: data.nextCursor || null })); } }
+    try { const data = await request(`/posts/${encodeURIComponent(postId)}/comments?limit=20`); if (controller.isCurrent(requestEpoch)) { setComments(value => ({ ...value, [postId]: sortComments(data.comments || []) })); setCommentCursors(value => ({ ...value, [postId]: data.nextCursor || null })); } }
     catch { if (controller.isCurrent(requestEpoch)) setActionError('تعذر تحميل التعليقات.'); }
   };
   const loadMoreComments = async postId => {
@@ -273,19 +288,97 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
     const controller = commentEpochs.current.get(postId); if (!controller) return;
     const requestEpoch = controller.capture();
     setBusyActions(value => ({ ...value, [`comments:${postId}`]: true }));
-    try { const params = new URLSearchParams({ limit: '20', cursor }); const data = await request(`/posts/${encodeURIComponent(postId)}/comments?${params}`); if (controller.isCurrent(requestEpoch)) { setComments(value => ({ ...value, [postId]: appendUniqueById(value[postId] || [], data.comments || []) })); setCommentCursors(value => ({ ...value, [postId]: data.nextCursor || null })); } }
+    try { const params = new URLSearchParams({ limit: '20', cursor }); const data = await request(`/posts/${encodeURIComponent(postId)}/comments?${params}`); if (controller.isCurrent(requestEpoch)) { setComments(value => ({ ...value, [postId]: sortComments(appendUniqueById(value[postId] || [], data.comments || [])) })); setCommentCursors(value => ({ ...value, [postId]: data.nextCursor || null })); } }
     catch { if (controller.isCurrent(requestEpoch)) setActionError('تعذر تحميل المزيد من التعليقات.'); }
     finally { if (controller.isCurrent(requestEpoch)) setBusyActions(value => ({ ...value, [`comments:${postId}`]: false })); }
   };
   const sendComment = async postId => {
-    if (!session) { setActionError('سجّل الدخول لإضافة تعليق.'); return; }
+    if (!session) { setActionError(text(lang, 'سجّل الدخول لإضافة تعليق.', 'Sign in to add a comment.')); return; }
     const body = commentText[postId]?.trim(); if (!body) return;
     if (busyActions[`comment:${postId}`]) return;
     const snapshot = authSnapshot();
     setBusyActions(value => ({ ...value, [`comment:${postId}`]: true }));
-    try { const data = await authenticatedRequest(`/posts/${encodeURIComponent(postId)}/comments`, { method: 'POST', body: { body } }); if (authSnapshotIsCurrent(snapshot)) { if (data.comment) setOwnComments(items => appendUniqueById([data.comment, ...items], [])); setCommentText(value => ({ ...value, [postId]: '' })); setActionError('أُرسل التعليق للمراجعة.'); } }
-    catch { if (authSnapshotIsCurrent(snapshot)) setActionError('تعذر إرسال التعليق للمراجعة.'); }
+    try {
+      const data = await authenticatedRequest(`/posts/${encodeURIComponent(postId)}/comments`, { method: 'POST', body: { body } });
+      if (authSnapshotIsCurrent(snapshot)) {
+        if (data.comment) {
+          setOwnComments(items => appendUniqueById([data.comment, ...items], []));
+          commentEpochs.current.get(postId)?.advance();
+          setBusyActions(value => ({ ...value, [`comments:${postId}`]: false }));
+          setComments(value => ({ ...value, [postId]: sortComments(appendUniqueById(value[postId] || [], [data.comment])) }));
+          setPublicPosts(items => items.map(post => post.id === postId ? { ...post, commentCount: (post.commentCount || 0) + 1 } : post));
+        }
+        setCommentText(value => ({ ...value, [postId]: '' })); setActionError('');
+        setActionMessage(text(lang, 'نُشر تعليقك مباشرة.', 'Your comment is now public.'));
+      }
+    }
+    catch (error) {
+      if (authSnapshotIsCurrent(snapshot)) {
+        setActionMessage('');
+        setActionError(error.code === 'ContentBlocked'
+          ? text(lang, 'احذف الكلمة المحظورة من التعليق أو اختر اسماً عاماً آخر، ثم أعد المحاولة. بقي النص في الحقل.', 'Remove the blocked word from the comment or choose another public name, then try again. Your text remains in the field.')
+          : error.code === 'DisplayNameRequired'
+            ? text(lang, 'اختر اسماً عاماً من إعدادات الحساب قبل التعليق.', 'Choose a public name in account settings before commenting.')
+            : text(lang, 'تعذر نشر التعليق. بقي النص في الحقل.', 'Could not publish the comment. Your text remains in the field.'));
+      }
+    }
     finally { if (authSnapshotIsCurrent(snapshot)) setBusyActions(value => ({ ...value, [`comment:${postId}`]: false })); }
+  };
+  const saveOwnPost = async item => {
+    const key = `edit-post:${item.id}`;
+    if (busyActions[key]) return;
+    const snapshot = authSnapshot();
+    setBusyActions(value => ({ ...value, [key]: true })); setActionError(''); setActionMessage('');
+    try {
+      const data = await authenticatedRequest(`/posts/${encodeURIComponent(item.id)}`, { method: 'PATCH', body: { routeId: item.routeId, category: item.category, body: ownEditBody } });
+      if (!authSnapshotIsCurrent(snapshot)) return;
+      setOwnPosts(items => items.map(row => row.id === item.id ? data.post : row));
+      setEditingOwnId(null); setRefresh(value => value + 1);
+      setActionError('');
+      setActionMessage(text(lang, 'حُفظت التعديلات ونُشرت مباشرة.', 'Changes saved and published immediately.'));
+    } catch (error) {
+      if (!error.stale && authSnapshotIsCurrent(snapshot)) {
+        setActionMessage('');
+        setActionError(error.code === 'DisplayNameRequired'
+          ? text(lang, 'اختر اسماً عاماً من إعدادات الحساب قبل النشر.', 'Choose a public name in account settings before publishing.')
+          : error.code === 'ContentBlocked'
+            ? text(lang, 'احذف الكلمة المحظورة من التحديث أو اختر اسماً عاماً آخر. بقي النص في الحقل.', 'Remove the blocked word from the update or choose another public name. Your text remains in the field.')
+            : text(lang, 'تعذر حفظ التحديث. بقي النص في الحقل.', 'Could not save the update. Your text remains in the field.'));
+      }
+    } finally {
+      if (authSnapshotIsCurrent(snapshot)) setBusyActions(value => ({ ...value, [key]: false }));
+    }
+  };
+  const saveOwnComment = async comment => {
+    const key = `edit-comment:${comment.id}`;
+    if (busyActions[key]) return;
+    const snapshot = authSnapshot();
+    setBusyActions(value => ({ ...value, [key]: true })); setActionError(''); setActionMessage('');
+    try {
+      const data = await authenticatedRequest(`/comments/${encodeURIComponent(comment.id)}`, { method: 'PATCH', body: { body: ownCommentBody } });
+      if (!authSnapshotIsCurrent(snapshot)) return;
+      setOwnComments(items => items.map(row => row.id === comment.id ? data.comment : row));
+      const controller = commentEpochs.current.get(comment.reportId);
+      controller?.advance();
+      setBusyActions(value => ({ ...value, [`comments:${comment.reportId}`]: false }));
+      setComments(value => value[comment.reportId]
+        ? { ...value, [comment.reportId]: sortComments(value[comment.reportId].map(row => row.id === comment.id ? data.comment : row)) }
+        : value);
+      setEditingOwnCommentId(null);
+      setActionError('');
+      setActionMessage(text(lang, 'تم تحديث التعليق ونشره مباشرة.', 'Comment updated and published immediately.'));
+    } catch (error) {
+      if (!error.stale && authSnapshotIsCurrent(snapshot)) {
+        setActionMessage('');
+        setActionError(error.code === 'DisplayNameRequired'
+          ? text(lang, 'اختر اسماً عاماً من إعدادات الحساب قبل النشر.', 'Choose a public name in account settings before publishing.')
+          : error.code === 'ContentBlocked'
+            ? text(lang, 'احذف الكلمة المحظورة من التعليق أو اختر اسماً عاماً آخر. بقي النص في الحقل.', 'Remove the blocked word from the comment or choose another public name. Your text remains in the field.')
+            : text(lang, 'تعذر حفظ التعليق. بقي النص في الحقل.', 'Could not save the comment. Your text remains in the field.'));
+      }
+    } finally {
+      if (authSnapshotIsCurrent(snapshot)) setBusyActions(value => ({ ...value, [key]: false }));
+    }
   };
   const vote = async (postId, value) => {
     if (!session) { setActionError('سجّل الدخول للتصويت.'); return; }
@@ -443,12 +536,17 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
       const data = await authenticatedRequest('/me', { method: 'PATCH', body: { displayName } });
       if (!authSnapshotIsCurrent(snapshot)) return;
       setAccount(data.user); setAliasValue(data.user.displayName);
+      setOwnPosts(items => items.map(item => ({ ...item, authorDisplayName: data.user.displayName })));
+      setOwnComments(items => items.map(item => ({ ...item, authorDisplayName: data.user.displayName })));
+      setRefresh(value => value + 1);
       setActionError(''); setAliasMessage(text(lang, 'تم حفظ الاسم العام.', 'Public name saved.'));
     } catch (error) {
       if (!error.stale && authSnapshotIsCurrent(snapshot)) {
-        setAliasError(error.status === 400 || error.code === 'InvalidDisplayName'
-          ? text(lang, 'اختر اسماً عاماً من حرفين إلى 80 حرفاً.', 'Choose a public name between 2 and 80 characters.')
-          : text(lang, 'تعذر حفظ الاسم العام. تحقق من الاتصال وحاول مرة أخرى.', 'Could not save the public name. Check your connection and try again.'));
+        setAliasError(error.code === 'ContentBlocked'
+          ? text(lang, 'اختر اسماً آخر؛ الاسم يحتوي على كلمة محظورة.', 'Choose another name; this one contains a blocked word.')
+          : error.status === 400 || error.code === 'InvalidDisplayName'
+            ? text(lang, 'اختر اسماً عاماً من حرفين إلى 80 حرفاً.', 'Choose a public name between 2 and 80 characters.')
+            : text(lang, 'تعذر حفظ الاسم العام. تحقق من الاتصال وحاول مرة أخرى.', 'Could not save the public name. Check your connection and try again.'));
       }
     } finally {
       if (authSnapshotIsCurrent(snapshot)) setAliasBusy(false);
@@ -472,13 +570,13 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
   const emptyStateTitle = view === 'drafts'
     ? (draftStore.drafts.length ? text(lang, 'لا توجد مسودات تطابق التصفية', 'No drafts match these filters') : text(lang, 'لا توجد مسودات بعد', 'No drafts yet'))
     : view === 'mine'
-      ? (hasFeedFilters ? text(lang, 'لا توجد منشورات تطابق التصفية', 'No posts match these filters') : text(lang, 'لم ترسل منشورات بعد', 'You have not sent any posts yet'))
+      ? (hasFeedFilters ? text(lang, 'لا توجد منشورات تطابق التصفية', 'No posts match these filters') : text(lang, 'لم تنشر تحديثات بعد', 'You have not published any updates yet'))
       : hasFeedFilters ? text(lang, 'لا توجد نتائج مطابقة', 'No matching updates') : text(lang, 'لا توجد تحديثات بعد', 'No updates yet');
   const emptyStateDescription = view === 'drafts'
     ? text(lang, 'احفظ تحديثاً كمسودة لتعود إليه في أي وقت.', 'Save an update as a draft to come back to it anytime.')
     : view === 'mine'
-      ? (hasFeedFilters ? text(lang, 'جرّب تغيير كلمات البحث أو اختيار نوع آخر.', 'Try changing your search or choosing another category.') : text(lang, 'أرسل مسودة للمراجعة لتتابع حالتها هنا.', 'Submit a draft for review to follow its status here.'))
-      : hasFeedFilters ? text(lang, 'جرّب تغيير كلمات البحث أو اختيار نوع آخر.', 'Try different search words or choose another category.') : text(lang, 'ستظهر هنا التحديثات العامة بعد اعتمادها.', 'Public updates will appear here after review.');
+      ? (hasFeedFilters ? text(lang, 'جرّب تغيير كلمات البحث أو اختيار نوع آخر.', 'Try changing your search or choosing another category.') : text(lang, 'انشر تحديثاً من مسوداتك لمتابعة حالته هنا.', 'Publish an update from your drafts to follow its status here.'))
+      : hasFeedFilters ? text(lang, 'جرّب تغيير كلمات البحث أو اختيار نوع آخر.', 'Try different search words or choose another category.') : text(lang, 'ستظهر هنا التحديثات التي يشاركها الركاب.', 'Updates shared by riders will appear here.');
 
   return (
     <section className={`community-hub${variant === 'page' ? ' community-hub-page' : ''}`} dir={isArabic ? 'rtl' : 'ltr'}>
@@ -518,6 +616,7 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
         </div>
       </dialog>
       {actionError && <p role="alert" className="community-form-message error">{actionError}</p>}
+      {actionMessage && <p role="status" className="community-form-message">{actionMessage}</p>}
       </header>
 
       {!draftStore.ok && <p className="community-storage-notice" role="alert">{text(lang, 'تعذرت قراءة المسودات المحفوظة. قد تكون بيانات التخزين تالفة أو غير متاحة؛ لن ندّعي حفظ التغييرات.', 'Saved drafts could not be read. Storage may be unavailable or corrupted; changes will not be described as saved.')}</p>}
@@ -528,7 +627,7 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
         <button type="button" aria-pressed={view === 'public'} onClick={() => setView('public')}>{text(lang, 'التحديثات العامة', 'Public updates')}</button>
         <button type="button" aria-pressed={view === 'drafts'} onClick={() => setView('drafts')}>{text(lang, 'مسوداتي', 'My drafts')} <span>{draftStore.drafts.length}</span></button>
         {session && <button type="button" aria-pressed={view === 'mine'} onClick={() => setView('mine')}>إرسالاتي</button>}
-        {session && account?.isModerator && <button type="button" aria-pressed={view === 'moderation'} onClick={() => { setView('moderation'); loadModeration(); }}>المراجعة</button>}
+        {session && account?.isModerator && <button type="button" aria-pressed={view === 'moderation'} onClick={() => { setView('moderation'); loadModeration(); }}>{text(lang, 'إدارة المحتوى', 'Manage content')}</button>}
       </div>
       {!isComposerOpen ? <button type="button" className="community-new-draft" onClick={() => { resetForm(); setIsComposerOpen(true); }}><Plus size={17} />{text(lang, 'مسودة جديدة', 'New draft')}</button> : null}
       </div>
@@ -564,6 +663,7 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
               placeholder={text(lang, 'اكتب تحديثاً واضحاً للمسافرين…', 'Write a clear update for riders…')} />
             <small className="community-field-help">{body.length}/{COMMUNITY_BODY_LIMIT}</small>
           </label>
+          <p className="community-field-help">{text(lang, 'يُنشر التحديث مباشرة. استخدم لغة محترمة وتجنب الألفاظ المحظورة.', 'Updates publish immediately. Use respectful language and avoid prohibited words.')}</p>
           {formMessage && <p className={`community-form-message ${formError ? 'error' : ''}`} role={formError ? 'alert' : 'status'}>{formMessage}</p>}
           <div className="community-form-actions">
             <button type="submit" className="community-primary" disabled={!body.trim() || (!editingId && !selectedRouteId) || (editingId && !selectedRoute && !canKeepUnavailableDraftRoute)}><Plus size={16} />{editingId ? text(lang, 'حفظ التعديل', 'Save changes') : text(lang, 'حفظ كمسودة', 'Save draft')}</button>
@@ -582,10 +682,34 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
       </div></section>
 
       <section className="community-feed" aria-live="polite">
-        <div className="community-feed-title"><h3>{view === 'drafts' ? text(lang, 'مسوداتي على هذا الجهاز', 'My device drafts') : view === 'mine' ? 'إرسالاتي وحالات مراجعتها' : view === 'moderation' ? 'قائمة مراجعة المنشورات' : text(lang, 'التحديثات العامة', 'Public updates')}</h3>
+        <div className="community-feed-title"><h3>{view === 'drafts' ? text(lang, 'مسوداتي على هذا الجهاز', 'My device drafts') : view === 'mine' ? text(lang, 'إرسالاتي', 'My submissions') : view === 'moderation' ? text(lang, 'إدارة المحتوى المنشور', 'Manage published content') : text(lang, 'التحديثات العامة', 'Public updates')}</h3>
         </div>
-        {view === 'moderation' && session && account?.isModerator ? <><div className="community-form-actions"><label>النوع <select value={moderationKind} onChange={event => changeModerationFilter(event.target.value, moderationStatus)}>{[['posts','منشورات'],['comments','تعليقات']].map(([v,l]) => <option key={v} value={v}>{l}</option>)}</select></label><label>الحالة <select value={moderationStatus} onChange={event => changeModerationFilter(moderationKind, event.target.value)}>{['pending','approved','rejected','hidden'].map(v => <option key={v} value={v}>{statusLabel(v)}</option>)}</select></label><button className="community-secondary" type="button" onClick={loadModeration} disabled={moderationBusy}>تحميل</button></div>{moderationBusy && <div className="community-state" role="status">جارٍ تحميل قائمة المراجعة…</div>}{moderationItems.length ? moderationItems.map(item => <article className="community-post" key={item.id}><span className="community-category">{statusLabel(item.status)}</span><p className="community-post-body">{item.body}</p><div className="community-form-actions"><button className="community-primary" type="button" onClick={() => moderate(item, 'approved')}>موافقة</button><button className="community-secondary" type="button" onClick={() => moderate(item, 'rejected')}>رفض</button><button className="community-secondary" type="button" onClick={() => moderate(item, 'hidden')}>إخفاء</button></div></article>) : !moderationBusy && <div className="community-state">لا توجد عناصر للمراجعة.</div>}{moderationCursor && <button className="community-secondary" type="button" disabled={moderationBusy} onClick={loadMoreModeration}>تحميل المزيد للمراجعة</button>}</> : null}
-        {view === 'mine' && session && ownComments.map(comment => <article className="community-post" key={`comment-${comment.id}`}><span className="community-category">تعليق · {statusLabel(comment.status)}</span>{editingOwnCommentId === comment.id ? <form className="community-own-edit" onSubmit={async event => { event.preventDefault(); try { const data = await authenticatedRequest(`/comments/${encodeURIComponent(comment.id)}`, { method: 'PATCH', body: { body: ownCommentBody } }); setOwnComments(items => items.map(row => row.id === comment.id ? (data.comment || { ...row, body: ownCommentBody, status: 'pending' }) : row)); setEditingOwnCommentId(null); } catch (error) { if (!error.stale) setActionError('تعذر حفظ التعليق.'); } }}><textarea value={ownCommentBody} maxLength={1000} onChange={event => setOwnCommentBody(event.target.value)}/><button type="submit" className="community-primary">حفظ وإعادة المراجعة</button><button type="button" className="community-secondary" onClick={() => setEditingOwnCommentId(null)}>إلغاء</button></form> : <><p className="community-post-body">{comment.body}</p><div className="community-form-actions"><button type="button" className="community-secondary" onClick={() => { setEditingOwnCommentId(comment.id); setOwnCommentBody(comment.body); }}>تعديل وإعادة المراجعة</button><button type="button" className="community-secondary" onClick={async () => { try { await authenticatedRequest(`/comments/${encodeURIComponent(comment.id)}`, { method: 'DELETE' }); setOwnComments(items => items.filter(row => row.id !== comment.id)); } catch (error) { if (!error.stale) setActionError('تعذر حذف التعليق.'); } }}>حذف التعليق</button></div></>}</article>)}
+        {view === 'moderation' && session && account?.isModerator ? <>
+          <div className="community-form-actions">
+            <label>{text(lang, 'النوع', 'Type')} <select value={moderationKind} onChange={event => changeModerationFilter(event.target.value, moderationStatus)}>{[['posts', text(lang, 'منشورات', 'Posts')], ['comments', text(lang, 'تعليقات', 'Comments')]].map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+            <label>{text(lang, 'الحالة', 'Status')} <select value={moderationStatus} onChange={event => changeModerationFilter(moderationKind, event.target.value)}>{['pending', 'approved', 'rejected', 'hidden'].map(value => <option key={value} value={value}>{statusLabel(value)}</option>)}</select></label>
+            <button className="community-secondary" type="button" onClick={loadModeration} disabled={moderationBusy}>{text(lang, 'تحميل', 'Refresh')}</button>
+          </div>
+          {moderationBusy && <div className="community-state" role="status">{text(lang, 'جارٍ تحميل المحتوى…', 'Loading content…')}</div>}
+          {moderationItems.length ? moderationItems.map(item => <article className="community-post" key={item.id}>
+            <span className="community-category">{statusLabel(item.status)}</span><p className="community-post-body">{item.body}</p>
+            <div className="community-form-actions"><button className="community-secondary" type="button" onClick={() => moderate(item, 'hidden')}>{text(lang, 'إخفاء المحتوى', 'Hide content')}</button></div>
+          </article>) : !moderationBusy && <div className="community-state">{text(lang, 'لا يوجد محتوى في هذه الحالة.', 'No content in this status.')}</div>}
+          {moderationCursor && <button className="community-secondary" type="button" disabled={moderationBusy} onClick={loadMoreModeration}>{text(lang, 'تحميل المزيد', 'Load more')}</button>}
+        </> : null}
+        {view === 'mine' && session && ownComments.map(comment => <article className="community-post" key={`comment-${comment.id}`}>
+          <span className="community-category">{text(lang, 'تعليق', 'Comment')} · {statusLabel(comment.status)}</span>
+          {editingOwnCommentId === comment.id
+            ? <form className="community-own-edit" onSubmit={event => { event.preventDefault(); saveOwnComment(comment); }}>
+              <textarea value={ownCommentBody} maxLength={1000} onChange={event => setOwnCommentBody(event.target.value)} disabled={busyActions[`edit-comment:${comment.id}`]}/>
+              <button type="submit" className="community-primary" disabled={busyActions[`edit-comment:${comment.id}`]}>{text(lang, 'حفظ التعديل', 'Save changes')}</button>
+              <button type="button" className="community-secondary" onClick={() => setEditingOwnCommentId(null)}>{text(lang, 'إلغاء', 'Cancel')}</button>
+            </form>
+            : <><p className="community-post-body">{comment.body}</p><div className="community-form-actions">
+              <button type="button" className="community-secondary" onClick={() => { setEditingOwnCommentId(comment.id); setOwnCommentBody(comment.body); }}>{text(lang, 'تعديل التعليق', 'Edit comment')}</button>
+              <button type="button" className="community-secondary" onClick={async () => { try { await authenticatedRequest(`/comments/${encodeURIComponent(comment.id)}`, { method: 'DELETE' }); setOwnComments(items => items.filter(row => row.id !== comment.id)); } catch (error) { if (!error.stale) setActionError(text(lang, 'تعذر حذف التعليق.', 'Could not delete comment.')); } }}>{text(lang, 'حذف التعليق', 'Delete comment')}</button>
+            </div></>}
+        </article>)}
         {view !== 'moderation' && (view !== 'mine' || session) && (view === 'public' && feedState === 'loading' ? <div className="community-state" role="status"><LoaderCircle className="community-spin" size={22} />{text(lang, 'جارٍ تحميل التحديثات العامة…', 'Loading public updates…')}</div>
           : view === 'public' && feedState === 'unavailable' ? <div className="community-state community-state-error" role="alert"><p>{text(lang, 'التحديثات العامة غير متاحة حالياً. يمكنك حفظ مسوداتك على هذا الجهاز.', 'Public updates are unavailable right now. You can save drafts on this device.')}</p><button type="button" className="community-secondary" onClick={() => setRefresh(value => value + 1)}>{text(lang, 'إعادة المحاولة', 'Retry')}</button></div>
             : !visibleItems.length ? <div className="community-state community-empty-card"><span className="community-empty-icon" aria-hidden="true"><Inbox size={22} /></span><h4>{emptyStateTitle}</h4><p>{emptyStateDescription}</p></div>
@@ -606,8 +730,8 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
                   <div className={`community-post-footer${isDraft ? ' draft-footer' : ''}`}>
                     {isDraft && <span className="community-post-note">{text(lang, 'مسودة خاصة على هذا الجهاز', 'Private draft on this device')}</span>}
                     {isOwn && <span className="community-post-note">{text(lang, 'الحالة:', 'Status:')} {statusLabel(item.status)}</span>}
-                    {isDraft ? <div className="community-draft-actions"><button type="button" onClick={() => startEdit(item)}>{text(lang, 'تعديل', 'Edit')}</button><button type="button" className="danger" onClick={() => removeDraft(item.id)}><Trash2 size={14} />{text(lang, 'حذف', 'Delete')}</button><button type="button" disabled={!session || !capabilities?.publishingAvailable || busyActions[`submit:${item.id}`]} onClick={() => submitDraft(item)}>{busyActions[`submit:${item.id}`] ? text(lang, 'جارٍ الإرسال…', 'Sending…') : text(lang, 'إرسال للمراجعة', 'Submit for review')}</button></div> : null}
-                    {isOwn && <div className="community-private-actions"><button type="button" className="community-secondary" onClick={() => { setEditingOwnId(item.id); setOwnEditBody(item.body); }}>{text(lang, 'تعديل وإعادة الإرسال للمراجعة', 'Edit and resubmit for review')}</button><button type="button" className="community-secondary" onClick={async () => { try { await authenticatedRequest(`/posts/${encodeURIComponent(item.id)}`, { method: 'DELETE' }); setOwnPosts(items => items.filter(row => row.id !== item.id)); } catch (error) { if (!error.stale) setActionError('تعذر حذف الإرسال.'); } }}>{text(lang, 'حذف الإرسال', 'Delete submission')}</button></div>}
+                    {isDraft ? <div className="community-draft-actions"><button type="button" onClick={() => startEdit(item)}>{text(lang, 'تعديل', 'Edit')}</button><button type="button" className="danger" onClick={() => removeDraft(item.id)}><Trash2 size={14} />{text(lang, 'حذف', 'Delete')}</button><button type="button" disabled={!session || !capabilities?.publishingAvailable || busyActions[`submit:${item.id}`]} onClick={() => submitDraft(item)}>{busyActions[`submit:${item.id}`] ? text(lang, 'جارٍ النشر…', 'Publishing…') : text(lang, 'نشر التحديث', 'Publish update')}</button></div> : null}
+                    {isOwn && <div className="community-private-actions"><button type="button" className="community-secondary" onClick={() => { setEditingOwnId(item.id); setOwnEditBody(item.body); }}>{text(lang, 'تعديل التحديث', 'Edit update')}</button><button type="button" className="community-secondary" onClick={async () => { try { await authenticatedRequest(`/posts/${encodeURIComponent(item.id)}`, { method: 'DELETE' }); setOwnPosts(items => items.filter(row => row.id !== item.id)); setPublicPosts(items => items.filter(row => row.id !== item.id)); } catch (error) { if (!error.stale) setActionError(text(lang, 'تعذر حذف الإرسال.', 'Could not delete submission.')); } }}>{text(lang, 'حذف الإرسال', 'Delete submission')}</button></div>}
                     {!isDraft && !isOwn && view === 'public' && <div className="community-post-actions">
                       <div className="community-vote-controls" role="group" aria-label={text(lang, 'التصويت على التحديث', 'Vote on update')}>
                         <button type="button" aria-pressed={myVotes[item.id] === 1} disabled={busyActions[`vote:${item.id}`]} onClick={() => vote(item.id, voteValueFor(item.id, 1))} aria-label={text(lang, 'تصويت إيجابي', 'Upvote')}><ThumbsUp size={17} aria-hidden="true"/></button>
@@ -617,8 +741,8 @@ export default function CommunityHub({ routes = [], onSelectRoute, onOpenPlanner
                       <button type="button" className="community-comments-action" aria-expanded={Boolean(comments[item.id])} onClick={() => openComments(item.id)}><MessageCircle size={17} aria-hidden="true"/><span>{text(lang, 'التعليقات', 'Comments')}</span><span className="community-comments-count">{item.commentCount ?? 0}</span></button>
                     </div>}
                   </div>
-                  {isOwn && editingOwnId === item.id && <form className="community-own-edit" onSubmit={async event => { event.preventDefault(); try { const data = await authenticatedRequest(`/posts/${encodeURIComponent(item.id)}`, { method: 'PATCH', body: { routeId: item.routeId, category: item.category, body: ownEditBody } }); setOwnPosts(items => items.map(row => row.id === item.id ? data.post : row)); setEditingOwnId(null); } catch (error) { if (!error.stale) setActionError('تعذر حفظ التعديل.'); } }}><textarea value={ownEditBody} maxLength={COMMUNITY_BODY_LIMIT} onChange={event => setOwnEditBody(event.target.value)}/><button type="submit" className="community-primary">حفظ وإعادة المراجعة</button></form>}
-                  {comments[item.id] && <div className="community-comments">{comments[item.id].map(comment => <p key={comment.id}><strong>{comment.authorDisplayName}</strong> {comment.body}</p>)}{commentCursors[item.id] && <button className="community-secondary" type="button" onClick={() => loadMoreComments(item.id)}>تحميل المزيد من التعليقات</button>}{session ? <><textarea aria-label="تعليق جديد" maxLength={1000} value={commentText[item.id] || ''} onChange={event => setCommentText(value => ({ ...value, [item.id]: event.target.value }))}/><button type="button" disabled={busyActions[`comment:${item.id}`]} className="community-secondary" onClick={() => sendComment(item.id)}>إرسال التعليق للمراجعة</button></> : <p>سجّل الدخول لإضافة تعليق.</p>}</div>}
+                  {isOwn && editingOwnId === item.id && <form className="community-own-edit" onSubmit={event => { event.preventDefault(); saveOwnPost(item); }}><textarea value={ownEditBody} maxLength={COMMUNITY_BODY_LIMIT} onChange={event => setOwnEditBody(event.target.value)} disabled={busyActions[`edit-post:${item.id}`]}/><button type="submit" className="community-primary" disabled={busyActions[`edit-post:${item.id}`]}>{text(lang, 'حفظ التعديل', 'Save changes')}</button></form>}
+                  {comments[item.id] && <div className="community-comments">{comments[item.id].map(comment => <p key={comment.id}><strong><bdi dir="auto">{comment.authorDisplayName}</bdi></strong> {comment.body}</p>)}{commentCursors[item.id] && <button className="community-secondary" type="button" onClick={() => loadMoreComments(item.id)}>{text(lang, 'تحميل المزيد من التعليقات', 'Load more comments')}</button>}{session ? <><textarea aria-label={text(lang, 'تعليق جديد', 'New comment')} maxLength={1000} value={commentText[item.id] || ''} disabled={busyActions[`comment:${item.id}`]} onChange={event => { setCommentText(value => ({ ...value, [item.id]: event.target.value })); setActionError(''); setActionMessage(''); }}/><button type="button" disabled={busyActions[`comment:${item.id}`]} className="community-secondary" onClick={() => sendComment(item.id)}>{busyActions[`comment:${item.id}`] ? text(lang, 'جارٍ النشر…', 'Publishing…') : text(lang, 'نشر التعليق', 'Publish comment')}</button></> : <p>{text(lang, 'سجّل الدخول لإضافة تعليق.', 'Sign in to add a comment.')}</p>}</div>}
                 </article>;
               }))}
         {view === 'public' && feedState === 'ready' && feedCursor && <button type="button" disabled={busyActions.more} className="community-secondary community-more" onClick={loadMore}>{busyActions.more ? 'جارٍ التحميل…' : 'تحميل المزيد'}</button>}

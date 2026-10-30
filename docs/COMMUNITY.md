@@ -2,9 +2,11 @@
 
 The community lives at `/#community`, outside the planner. Supabase Auth handles Google sign-in; Cloudflare Pages Functions and D1 handle community data. No Supabase database is used. Repository code does not create cloud resources or enable production login by itself.
 
-## Drafts, identity and review
+## Drafts, identity and publication filtering
 
-Drafts use `mowaslaty_community_drafts_v1` in the current browser. They remain available when login or the API is unavailable. The former prototype's seeded storage key is ignored and left untouched. A draft is sent only when explicitly submitted. New posts and comments require moderation; saving a draft never publishes it.
+Drafts use `mowaslaty_community_drafts_v1` in the current browser. They remain available when login or the API is unavailable. The former prototype's seeded storage key is ignored and left untouched. A draft is published only when its owner explicitly chooses Publish; saving a draft never sends it.
+
+New posts and comments, and clean edits, publish immediately. Before content writes, the server checks the post/comment body and public name against the small explicit list in `functions/api/community/_content-filter.js`. Matching uses NFKC normalization, removes Arabic diacritics, tatweel and common invisible characters, normalizes selected Arabic letter variants, and matches whole tokens with a few common attached prefixes. A listed word returns `400 ContentBlocked`; the write does not change stored content. This limited word list is not exhaustive abuse detection. Moderators can still hide published content, and existing pending/rejected/hidden records are not bulk changed by this policy.
 
 The display name is an explicitly chosen public alias. Google email/name, provider tokens, auth subject and internal user ID are not public feed fields. Provider profile metadata never grants moderator access. Role and banned status come from D1 on each authenticated request.
 
@@ -16,15 +18,15 @@ All responses are JSON with `Cache-Control: no-store`. Missing configuration dis
 | --- | --- |
 | `GET /api/community/capabilities` | Enabled login/publishing and public Supabase configuration. |
 | `GET/PATCH /api/community/me` | Own account and chosen public alias. |
-| `GET/POST /api/community/posts` | Approved feed / submit update for review. |
-| `PATCH/DELETE /api/community/posts/:id` | Edit or hide own post; editing returns it to review. |
-| `GET /api/community/mine` | Own submissions and review statuses. |
-| `GET/POST /api/community/posts/:id/comments` | Approved comments / submit comment for review. |
+| `GET/POST /api/community/posts` | Approved feed / publish an update immediately after word filtering. |
+| `PATCH/DELETE /api/community/posts/:id` | Edit own post (clean edits publish immediately) / hide own post. |
+| `GET /api/community/mine` | Own submissions and their current status. |
+| `GET/POST /api/community/posts/:id/comments` | Approved comments / publish a comment immediately after word filtering. |
 | `PATCH/DELETE /api/community/comments/:id` | Edit or hide own comment. |
 | `GET/PUT /api/community/posts/:id/vote` | Own vote, value `1`, `-1`, or `0` to remove. |
 | `GET/PATCH /api/community/moderation` | Moderator queue and audited decisions. |
 
-Public posts: `id`, `routeId`, `category`, `body`, `createdAt`, `authorDisplayName`, `voteScore`, `commentCount`. Public comments: `id`, `reportId`, `body`, `createdAt`, `authorDisplayName`. Only approved parent posts expose comments or accept comments/votes. Editing an approved post removes it from the feed until reviewed again.
+Public posts: `id`, `routeId`, `category`, `body`, `createdAt`, `authorDisplayName`, `voteScore`, `commentCount`. Public comments: `id`, `reportId`, `body`, `createdAt`, `authorDisplayName`. Only approved parent posts expose comments or accept comments/votes. Clean post/comment edits remain published immediately; blocked edits leave the old content and revision unchanged. Hidden content cannot be edited by its owner.
 
 Feed filters: `category=ALL|fare|detour|frequency|tip|route`, `q` up to120 characters, `limit`1–50 (default20), opaque `cursor`. Route IDs are validated against the application's policy-filtered dataset. Original transit data is unchanged.
 
@@ -50,9 +52,9 @@ The following Pages runtime values are configured. A publishable key is intentio
 
 ### Deployed checks (29 October 2026)
 
-Production checks confirmed human Google sign-in, account profile access, and moderator queue access. Anonymous requests to the account and moderation endpoints returned `401`. In private QA, a submission appeared as pending, was rejected through the moderator queue, and immediately appeared as rejected in the author's private submissions view without a reload. The public posts endpoint returned zero posts throughout; no test content was publicly visible. This did not exercise production comments or voting.
+Before the immediate-publishing change, production QA confirmed human Google sign-in, account profile access, moderator queue access, and `401` responses to anonymous account/moderation requests. A clearly marked private test post was pending and then rejected; the public feed stayed empty and the author's private view updated without a reload. This record documents the previous moderation policy only. It is not a production test of the new immediate-publishing or word-filter behavior.
 
-The deployed moderation status synchronization is verified for that private post rejection flow. Publishing is enabled in configuration. The other deployed-origin checks below remain pending unless explicitly listed above; in particular, this does not establish production comment/vote behavior or complete security validation. The offline community suite covers API, SQLite and integration behavior but does not replace those production checks.
+Publishing is enabled in configuration. The immediate-publishing and word-filter behavior has only been exercised by local SQLite integration tests so far. Production comments, votes, and broader security behavior are not asserted as verified. The offline community suite covers API, SQLite and integration behavior but does not replace deployed-origin checks.
 
 ### Setup and runtime validation recipe
 
@@ -60,7 +62,7 @@ For a new environment, create a dedicated Supabase project. Enable Google in Aut
 
 For a new D1 database, bind it to the Pages project as exactly `COMMUNITY_DB` and apply SQL migrations from `migrations/community/` in numerical order after review. The production database named above is already migrated; do not repeat those migrations there.
 
-For a new deployment, test OAuth on the deployed origin. Submit a test update and verify it remains pending until moderation. Confirm that the resulting decision appears immediately in the author's private submissions view and that a non-approved post is absent from the public feed. A trusted operator must designate a moderator in D1; there is no automatic first-user administrator. Verify anonymous/expired sessions, owner isolation, comments, voting and rate limits on the deployed runtime. Production checks not recorded above remain pending.
+For a deployment, test OAuth on the deployed origin. Verify a clean update/comment appears immediately, a listed Arabic word is rejected without overwriting prior content on edit, and moderators can still hide published content. Avoid creating public test posts. A trusted operator must designate a moderator in D1; there is no automatic first-user administrator. Verify anonymous/expired sessions, owner isolation, comments, voting and rate limits on the deployed runtime. Production checks not recorded above remain pending.
 
 PKCE uses the fixed `/auth/callback` route. The code is exchanged once and removed from browser history. The callback returns to `/#community`; arbitrary return URLs are not accepted. Sessions are managed by the Supabase SDK. Unit tests do not verify the deployed Google OAuth flow.
 

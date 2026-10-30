@@ -18,7 +18,7 @@
     "android:publish": "node scripts/publish-android-release.mjs",
     "android:toolchain": "node scripts/check-android-toolchain.mjs",
     "android:test": "node --test scripts/native-release.test.mjs",
-    "community:test": "node scripts/community-route-ids.mjs --check && node --test scripts/community-api.test.mjs scripts/community-sqlite.test.mjs scripts/community-integration.test.mjs",
+    "community:test": "node scripts/community-route-ids.mjs --check && node --test scripts/community-api.test.mjs scripts/community-sqlite.test.mjs scripts/community-integration.test.mjs scripts/community-content-filter.test.mjs",
     "community:functions:build": "node scripts/community-functions-build.mjs",
     "community:routes": "node scripts/community-route-ids.mjs"
   },

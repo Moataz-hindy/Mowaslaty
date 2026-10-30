@@ -1,4 +1,5 @@
 import { account, body, csrf, fail, json, publishing, run } from './_shared.js';
+import { containsBlockedArabicWord } from './_content-filter.js';
 export async function onRequestGet({
   request,
   env
@@ -25,6 +26,7 @@ export async function onRequestPatch({
   const b = await body(request, 512);
   if (b.error) return b.error;
   if (typeof b.value?.displayName !== 'string' || b.value.displayName.trim().length < 2 || b.value.displayName.trim().length > 80) return fail('InvalidDisplayName', 400);
+  if (containsBlockedArabicWord(b.value.displayName)) return fail('ContentBlocked', 400);
   try {
     await run(env.COMMUNITY_DB.prepare('UPDATE community_users SET display_name=? WHERE id=?').bind(b.value.displayName.trim(), a.user.id));
     return json({

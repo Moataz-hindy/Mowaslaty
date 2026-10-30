@@ -1,4 +1,5 @@
 import { account, body, csrf, fail, iso, json, publishing, rate, validPost } from '../_shared.js';
+import { containsBlockedArabicWord } from '../_content-filter.js';
 export async function onRequestPatch({
   request,
   env,
@@ -11,11 +12,13 @@ export async function onRequestPatch({
   const b = await body(request, 16384);
   if (b.error) return b.error;
   if (!validPost(b.value)) return fail('InvalidPost', 400);
+  if (!a.user.displayName?.trim()) return fail('DisplayNameRequired', 409);
   const db = env.COMMUNITY_DB,
     t = Date.now();
   try {
     if (!(await rate(db, a.user.id, 'post-edit', 12))) return fail('RateLimited', 429);
-    const r = await db.prepare("UPDATE community_reports SET route_id=?,category=?,body=?,status='pending',updated_at=?,reviewed_at=NULL,reviewed_by=NULL,moderation_note=NULL,revision=revision+1 WHERE id=? AND user_id=? AND status!='hidden'").bind(b.value.routeId, b.value.category, b.value.body.trim(), t, params.id, a.user.id).run();
+    if (containsBlockedArabicWord(a.user.displayName) || containsBlockedArabicWord(b.value.body)) return fail('ContentBlocked', 400);
+    const r = await db.prepare("UPDATE community_reports SET route_id=?,category=?,body=?,status='approved',updated_at=?,reviewed_at=?,reviewed_by=NULL,moderation_note=NULL,revision=revision+1 WHERE id=? AND user_id=? AND status!='hidden'").bind(b.value.routeId, b.value.category, b.value.body.trim(), t, t, params.id, a.user.id).run();
     if (!r.meta?.changes) return fail('NotFound', 404);
     const saved = await db.prepare('SELECT created_at AS createdAt FROM community_reports WHERE id=?').bind(params.id).first();
     return json({
@@ -25,7 +28,7 @@ export async function onRequestPatch({
         body: b.value.body.trim(),
         createdAt: iso(saved.createdAt),
         authorDisplayName: a.user.displayName || 'Community member',
-        status: 'pending'
+        status: 'approved'
       }
     });
   } catch {
