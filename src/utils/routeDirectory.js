@@ -1,6 +1,6 @@
 import { getRouteEnds, westernDigits } from './routeEnds.js';
 
-export const DIRECTORY_VEHICLES = Object.freeze(['Microbus', 'Bus', 'Minibus']);
+export const DIRECTORY_VEHICLES = Object.freeze(['BRT', 'Microbus', 'Bus', 'Minibus']);
 
 export function normalizeDirectorySearch(value) {
   return westernDigits(String(value ?? ''))
@@ -21,7 +21,7 @@ function searchableText(route) {
   return normalizeDirectorySearch([
     route.num, route.short_ar, route.short_en,
     endsAr.from, endsAr.to, endsEn.from, endsEn.to,
-    ...(route.via_stops || []), ...(route.via_stops_en || [])
+    ...(route.via_stops || []), ...(route.via_stops_en || []), ...(route.via_stops_ar || [])
   ].filter(Boolean).join(' '));
 }
 

@@ -84,6 +84,15 @@ export default function RouteDrawer({
         </span>
         {farFromDestination && <AlertTriangle size={15} aria-hidden="true" />}
       </div>
+      {selectedRoute.vehicle === 'BRT' && <div className="journey-data-notice">
+        <p>{lang === 'ar' ? 'هندسة المسار مستندة إلى خريطة مجتمعية تقديرية. نمط الخدمة ومحطاتها مستندان إلى تقارير صحفية؛ راجع المشغل قبل الرحلة. مداخل المحطات والتحويلات غير متحققة.' :
+          'The route shape comes from an approximate community map. Service pattern and calls come from press reports; confirm with the operator. Station entrances and transfers are unverified.'}</p>
+        <div className="brt-sources">
+          {selectedRoute.sourceMetadata?.geometrySource && <a href={selectedRoute.sourceMetadata.geometrySource} target="_blank" rel="noopener noreferrer">{lang === 'ar' ? 'مرجع الخريطة المجتمعي' : 'Community map reference'}</a>}
+          {selectedRoute.sourceMetadata?.serviceCorridorSource && <a href={selectedRoute.sourceMetadata.serviceCorridorSource} target="_blank" rel="noopener noreferrer">{lang === 'ar' ? 'إعلان حدود التشغيل' : 'Operating boundary announcement'}</a>}
+          {(selectedRoute.sourceMetadata?.servicePatternSources || []).map(source => <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{lang === 'ar' ? 'تقرير نمط الخدمة' : 'Reported service pattern'}</a>)}
+        </div>
+      </div>}
 
       <button
         type="button"

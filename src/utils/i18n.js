@@ -36,6 +36,7 @@ export const I18N = {
     resultsCount: (n) => `${n} خط ومسار متاح`,
     all: "الكل",
     metro: "مترو الأنفاق",
+    brt: "الأتوبيس الترددي السريع",
     minibus: "ميني باص",
     bus: "أتوبيس هيئة",
     microbus: "ميكروباص",
@@ -85,6 +86,8 @@ export const I18N = {
     categoryMicrobus: "ميكروباص",
     categoryBus: "أتوبيس هيئة",
     categoryMetro: "مترو الأنفاق",
+    categoryBrt: "BRT الترددي",
+    brtServiceCaveat: "المسار والمسافات تقديرية من خريطة مجتمعية، ونمط الخدمة والمحطات تقريبيان؛ راجع المشغل. المداخل والتحويلات غير متحققة.",
 
     // Phase 3: Journey Planner (A to B)
     plannerBannerTitle: "حدد نقطة البداية ونقطة الوصول",
@@ -170,6 +173,7 @@ export const I18N = {
     resultsCount: (n) => `${n} routes available`,
     all: "All",
     metro: "Cairo Metro",
+    brt: "Cairo BRT",
     minibus: "Minibus",
     bus: "CTA Bus",
     microbus: "Microbus",
@@ -219,6 +223,8 @@ export const I18N = {
     categoryMicrobus: "Microbus",
     categoryBus: "CTA Bus",
     categoryMetro: "Cairo Metro",
+    categoryBrt: "Cairo BRT",
+    brtServiceCaveat: "Route shape, distances and station calls are estimates from a community map; confirm service with the operator. Entrances and transfers are unverified.",
 
     // Phase 3: Journey Planner (A to B)
     plannerBannerTitle: "Set Starting Point & Destination",
@@ -271,6 +277,7 @@ export const I18N = {
 
 export const VEHICLE_COLORS = {
   Metro: '#2E4A78',
+  BRT: '#087E8B',
   Minibus: '#E39B12',
   Bus: '#1E7F55',
   Microbus: '#5B45B0',

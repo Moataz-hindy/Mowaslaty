@@ -626,61 +626,71 @@ html, body, #root {
   border: 0;
 }
 
-/* stops as a vertical line diagram */
-.stop-sequence-item {
+/* Shared numbered timeline for route stops in the sidebar and directory. */
+.route-stop-timeline {
+  --stop-timeline-color: var(--card-color, #6B46B8);
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+.directory-stops-list ol.route-stop-timeline { margin: 0; padding: 4px 0; list-style: none; }
+
+.route-stop-timeline .stop-sequence-item {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-start;
+  gap: 10px;
   font-size: 13px;
-  min-height: 32px;
-  padding: 0 4px;
+  min-height: 34px;
+  padding: 5px 4px;
 }
 
-.stop-sequence-item::before {
+.route-stop-timeline .stop-sequence-item::before {
   content: '';
   position: absolute;
-  inset-inline-start: 12px;
+  inset-inline-start: 18px;
   top: 0;
   bottom: 0;
-  width: 3px;
+  width: 2px;
   margin-inline-start: -1px;
-  background: var(--card-color, var(--border-strong));
+  background: var(--stop-timeline-color);
+  opacity: 0.55;
 }
 
-.stop-sequence-item:first-child::before { top: 50%; }
-.stop-sequence-item:last-child::before { bottom: 50%; }
+.route-stop-timeline .stop-sequence-item:first-child::before { top: 19px; }
+.route-stop-timeline .stop-sequence-item:last-child::before { bottom: calc(100% - 19px); }
 
-.stop-seq-idx {
+.route-stop-timeline .stop-seq-idx {
   position: relative;
   z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
-  margin-inline-start: 1px;
+  width: 28px;
+  height: 28px;
+  margin-inline-start: 0;
   box-sizing: border-box;
   background: var(--bg-card);
-  color: var(--text-secondary);
-  border: 2px solid var(--card-color, var(--border-strong));
+  color: var(--stop-timeline-color);
+  border: 2px solid var(--stop-timeline-color);
   border-radius: 50%;
   font-family: var(--font-display);
-  font-size: 9.5px;
+  font-size: 11px;
   font-weight: 600;
   flex-shrink: 0;
 }
 
-.stop-sequence-item:first-child .stop-seq-idx,
-.stop-sequence-item:last-child .stop-seq-idx {
+.route-stop-timeline .stop-sequence-item:first-child .stop-seq-idx {
   background: var(--ink);
   border-color: var(--ink);
   color: var(--text-on-ink);
 }
 
-.stop-seq-name {
+.route-stop-timeline .stop-seq-name {
   color: var(--text-primary);
   line-height: 1.35;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .btn-select-line-for-nearest {
@@ -716,6 +726,42 @@ html, body, #root {
   padding: 0 24px 24px;
   gap: 16px;
 }
+
+.feedback-entry {
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.feedback-entry-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.feedback-entry-action:hover { background: var(--bg-surface); }
+.feedback-entry-action:focus-visible,
+.feedback-entry-address a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.feedback-entry-note,
+.feedback-entry-address { margin: 5px 0 0; color: var(--text-secondary); }
+.feedback-entry-address a { color: inherit; text-decoration: underline; text-underline-offset: 2px; user-select: text; }
+.planner-feedback-entry { padding-top: 4px; }
+.feedback-form { display: grid; gap: 12px; margin-top: 12px; width: 100%; max-width: 560px; }
+.feedback-form label { display: grid; gap: 5px; font-weight: 600; }
+.feedback-form textarea, .feedback-form input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #aaa; border-radius: 8px; background: #fff; color: #171717; font: inherit; }
+.feedback-form textarea { min-height: 110px; resize: vertical; }
+.feedback-form .feedback-entry-action { justify-self: start; cursor: pointer; }
+.feedback-form .feedback-entry-action:disabled { opacity: .6; cursor: wait; }
 
 /* Intro: plain heading + one line, no boxed banner */
 .destination-banner,
@@ -1498,6 +1544,8 @@ html, body, #root {
 
 .journey-summary { display: flex; flex-wrap: wrap; gap: 7px 12px; margin: 8px 0; color: var(--text-secondary); font-size: 12px; }
 .journey-data-notice { margin: 8px 0 0; color: var(--text-muted); font-size: 11px; line-height: 1.45; }
+.brt-sources { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
+.brt-sources a { color: var(--text-secondary); text-decoration: underline; }
 .journey-suggested-drop-notice { margin: 4px 0; padding: 6px 8px; border-inline-start: 3px solid var(--accent-amber); background: var(--bg-surface); color: var(--text-secondary); font-size: 12px; line-height: 1.45; }
 .step-item small { display: block; color: var(--text-muted); font-size: 10px; line-height: 1.4; }
 
@@ -1980,7 +2028,7 @@ body.theme-dark .leaflet-tile-pane {
 }
 
 /* =========================================================
-   PHASE 4: 5-Tab Navigation Bar & Chat & Community Styles
+   PHASE 4: Tab Navigation, Chat & Community Styles
    ========================================================= */
 .mode-tabs.five-tabs {
   display: flex;
@@ -3842,10 +3890,10 @@ body.theme-dark .success-toast { filter: brightness(0.9); }
   overflow: visible;
 }
 
-/* five mode tabs: equal columns, icon above label */
+/* four mode tabs: equal columns, icon above label */
 .mode-tabs.five-tabs {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   overflow: visible;
 }
 .mode-tabs.five-tabs .tab-btn {
@@ -4099,7 +4147,7 @@ body.theme-dark .success-toast { filter: brightness(0.9); }
 .mode-tabs,
 .mode-tabs.five-tabs {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0;
   margin: 0;
   padding: 0 16px;
@@ -4499,7 +4547,19 @@ body, .sidebar { font-weight: 400; }
 }
 
 /* ---- Trip tracking panel ---- */
-.trip-start-btn { width: 100%; margin-top: 6px; }
+.trip-start-btn {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 44px;
+  height: auto;
+  box-sizing: border-box;
+  margin-top: 6px;
+  padding: 8px 12px;
+  line-height: 1.35;
+  white-space: normal;
+}
+.trip-start-btn svg { flex: 0 0 auto; }
+.trip-start-btn span { min-width: 0; }
 .trip-tracker {
   position: absolute;
   bottom: 24px;
@@ -5172,7 +5232,7 @@ html {
 }
 
 /* Multi-stop planner */
-.mode-tabs.five-tabs { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.mode-tabs.five-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .mode-tabs.five-tabs .tab-btn { min-width: 0; padding-inline: 6px; font-size: 12px; }
 .multi-stop-tab-container {
   display: flex;
@@ -5239,4 +5299,44 @@ html {
   .multi-stop-tab-container { flex: none; overflow: visible; padding: 0 14px calc(24px + env(safe-area-inset-bottom)); }
   .multi-stop-point, .multi-stop-leg { padding: 10px; }
   .multi-stop-option-top { align-items: flex-start; }
+}
+
+/* Phone density pass for route search, train details, and journey results. */
+@media (max-width: 760px) {
+  .search-input-wrapper input,
+  .map-search-box input,
+  .planner-tab-container input[type="text"],
+  .planner-tab-container input[type="search"],
+  .planner-tab-container input:not([type]) { font-size: 16px; }
+  .planner-tab-container { gap: 10px; }
+  .planner-banner { padding: 12px 14px; }
+  .planner-banner h2, .planner-banner .banner-title { font-size: 17px; line-height: 1.35; }
+  .planner-banner p, .planner-banner .banner-sub { font-size: 13px; line-height: 1.5; }
+  .results-count { font-size: 15px; }
+  .route-card { gap: 7px; padding: 10px; }
+  .route-card-title, .route-row-text .route-card-title { font-size: 14px; line-height: 1.4; }
+  .route-ends-sub, .route-full-title { font-size: 12px; line-height: 1.45; overflow-wrap: anywhere; }
+  .route-row-meta { font-size: 12px; }
+  .route-card .route-via-stops { font-size: 12px; line-height: 1.5; }
+  .nearest-card, .journey-card, .chosen-line-result-card { gap: 8px; padding: 12px; }
+  .chosen-result-title, .journey-route-title { font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; }
+  .walk-distance-pill, .time-badge { font-size: 14px; }
+  .chosen-drop-metrics, .nearest-card-footer { gap: 5px 10px; font-size: 12px; }
+  .planner-inputs-card { padding: 3px; }
+  .planner-input-row { gap: 7px; padding-inline: 7px; }
+  .coord-selector-box { min-height: 50px; padding: 5px 8px; }
+  .coord-label { font-size: 12px; }
+  .coord-value { font-family: var(--font-family); font-size: 14px; }
+  .preset-trip-btn { min-height: 46px; font-size: 13px; }
+  .step-item { gap: 9px; padding-bottom: 10px; font-size: 13px; line-height: 1.5; }
+  .step-item small { font-size: 12px; }
+  .journey-ride-block { padding: 9px; }
+  .journey-ride-heading > strong { font-size: 13px; }
+  .journey-leg-metric { font-size: 12px; }
+  .journey-stop-label, .journey-stop-row strong,
+  .journey-walk-copy strong, .journey-walk-copy > span { font-size: 12px; line-height: 1.45; }
+  .journey-stop-row { grid-template-columns: 10px minmax(64px, auto) minmax(0, 1fr); gap: 6px; }
+  .journey-summary { font-size: 12px; }
+  .active-route-drawer .detail-name { font-size: 17px; line-height: 1.35; overflow-wrap: anywhere; }
+  .active-route-drawer .detail-meta { font-size: 12px; line-height: 1.4; white-space: normal; }
 }

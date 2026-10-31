@@ -1,0 +1,12 @@
+html, body, #root { height: auto; min-height: 100%; overflow: visible; }
+/* Styling only the isolated development fixture shell; journey visuals come from src/index.css. */
+body { margin: 0; background: #f3f2ed; }
+.journey-preview { max-width: 1080px; margin: 0 auto; padding: 24px; color: var(--text-primary); font-family: system-ui, sans-serif; }
+.journey-preview > header { margin-bottom: 18px; }
+.journey-preview > header small { color: #9b5e00; font-weight: 700; letter-spacing: .08em; }
+.journey-preview > header h1 { margin: 5px 0; font-size: 24px; }
+.journey-preview > header p { margin: 0; color: var(--text-secondary); }
+.journey-preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 14px; }
+.journey-preview-card { min-width: 0; padding: 14px; border: 1px solid var(--border-subtle); border-radius: 14px; background: var(--bg-card); }
+.journey-preview-card h2 { margin: 0 0 12px; font-size: 15px; }
+@media (max-width: 380px) { .journey-preview { padding: 12px; } }

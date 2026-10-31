@@ -20,6 +20,7 @@ import { resolveExactRoute, routeIdFromSearch } from './utils/routeDeepLink.js';
 
 export default function App() {
   const [routes, setRoutes] = useState([]);
+  const [brtUnavailable, setBrtUnavailable] = useState(false);
   const [geometries, setGeometries] = useState(null);
   const [stops, setStops] = useState([]);
   const [activeTab, setActiveTab] = useState('explore');
@@ -209,6 +210,7 @@ export default function App() {
     loadRoutes()
       .then(data => {
         setRoutes(data);
+        setBrtUnavailable(data.brtUnavailable === true);
       })
       .catch(err => console.error('Failed to load routes summary:', err));
 
@@ -228,6 +230,7 @@ export default function App() {
     return routes.filter(r => {
       if (vehicleFilter !== 'ALL') {
         if (vehicleFilter === 'Metro' && r.vehicle !== 'Metro') return false;
+        if (vehicleFilter === 'BRT' && r.vehicle !== 'BRT') return false;
         if (vehicleFilter === 'Minibus' && r.vehicle !== 'Minibus') return false;
         if (vehicleFilter === 'Bus' && r.vehicle !== 'Bus') return false;
         if (vehicleFilter === 'Microbus' && r.vehicle !== 'Microbus') return false;
@@ -336,35 +339,38 @@ export default function App() {
       return;
     }
     let cancelled = false;
+    const controller = new AbortController();
     setPlannedJourneys(EMPTY_PLAN);
     setPlanLoading(true);
     setPlanError(null);
     computePlan(originCoord, destCoord, { routes, geometries, stops }, 1200, { vehicle: vehicleFilter, maxTransferWalkMeters: 600,
-      maxTotalWalkMeters: 3600, maxTransfers: 2 })
+      maxTotalWalkMeters: 3600, maxTransfers: 2, signal: controller.signal,
+      onProgress: update => {
+        if (!cancelled && update?.phase === 'direct' && update.plan) setPlannedJourneys(update.plan);
+      } })
       .then(res => {
         if (cancelled) return;
         setPlannedJourneys(res || EMPTY_PLAN);
       })
       .catch(err => { if (!cancelled) { console.error(err); setPlanError(err?.message || String(err)); setPlannedJourneys(EMPTY_PLAN); } })
       .finally(() => { if (!cancelled) setPlanLoading(false); });
-    return () => { cancelled = true; };
+    return () => { cancelled = true; controller.abort(); };
   }, [originCoord, destCoord, routes, geometries, stops, vehicleFilter, planRetry]);
 
   // Automatically select the best direct journey when calculated
   useEffect(() => {
     if (activeTab !== 'planner') return;
-    if (plannedJourneys.directRoutes && plannedJourneys.directRoutes.length > 0) {
-      const best = plannedJourneys.directRoutes[0];
-      setActiveJourney(best);
-      setSelectedRoute(rideLegs(best)[0]?.route || null);
-    } else if (plannedJourneys.transferRoutes && plannedJourneys.transferRoutes.length > 0) {
-      const bestTransfer = plannedJourneys.transferRoutes[0];
-      setActiveJourney(bestTransfer);
-      setSelectedRoute(rideLegs(bestTransfer)[0]?.route || null);
-    } else {
-      setActiveJourney(null);
+    const options = [...(plannedJourneys.directRoutes || []), ...(plannedJourneys.transferRoutes || [])];
+    const selected = activeJourney && options.find(item => journeyOptionKey(item) === journeyOptionKey(activeJourney));
+    const best = selected || plannedJourneys.directRoutes?.[0] || plannedJourneys.transferRoutes?.[0] || null;
+    if (!best) {
+      if (activeJourney) setActiveJourney(null);
+      return;
     }
-  }, [plannedJourneys, activeTab]);
+    if (!activeJourney || journeyOptionKey(activeJourney) !== journeyOptionKey(best)) setActiveJourney(best);
+    const route = rideLegs(best)[0]?.route || null;
+    if (route && route.id !== selectedRoute?.id) setSelectedRoute(route);
+  }, [plannedJourneys, activeTab, activeJourney, selectedRoute]);
 
   // Map Click Handler for all modes
   const handleMapClick = (coord) => {
@@ -527,6 +533,7 @@ export default function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         vehicleFilter={vehicleFilter}
+        brtUnavailable={brtUnavailable}
         setVehicleFilter={setVehicleFilter}
         routes={routes}
         filteredRoutes={filteredRoutes}

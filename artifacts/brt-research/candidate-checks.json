@@ -1,0 +1,133 @@
+{
+  "note": "Internal consistency of unverified community map only; not real-world accuracy.",
+  "stationOffsets": [
+    {
+      "name": "الاسكندرية الزراعى",
+      "distanceToCommunityPathM": 1.4
+    },
+    {
+      "name": "العقيد احمد عبدالرحيم",
+      "distanceToCommunityPathM": 0.4
+    },
+    {
+      "name": "شبرا بنها",
+      "distanceToCommunityPathM": 0.0
+    },
+    {
+      "name": "بهتيم",
+      "distanceToCommunityPathM": 0.4
+    },
+    {
+      "name": "مسطرد",
+      "distanceToCommunityPathM": 0.2
+    },
+    {
+      "name": "الخصوص",
+      "distanceToCommunityPathM": 0.3
+    },
+    {
+      "name": "المرج",
+      "distanceToCommunityPathM": 1.0
+    },
+    {
+      "name": "محمد نجيب",
+      "distanceToCommunityPathM": 0.0
+    },
+    {
+      "name": "مؤسسة الزكاة",
+      "distanceToCommunityPathM": 0.0
+    },
+    {
+      "name": "الفريق ابراهيم عرابي",
+      "distanceToCommunityPathM": 0.4
+    },
+    {
+      "name": "السلام",
+      "distanceToCommunityPathM": 0.3
+    },
+    {
+      "name": "عدلى منصور",
+      "distanceToCommunityPathM": 0.5
+    },
+    {
+      "name": "طريق السويس",
+      "distanceToCommunityPathM": 0.7
+    },
+    {
+      "name": "أكاديمية الشرطة",
+      "distanceToCommunityPathM": 5.1
+    },
+    {
+      "name": "المشير طنطاوى",
+      "distanceToCommunityPathM": 0.2
+    },
+    {
+      "name": "الجولف",
+      "distanceToCommunityPathM": 0.3
+    },
+    {
+      "name": "طريق السخنة",
+      "distanceToCommunityPathM": 0.4
+    },
+    {
+      "name": "المعادي",
+      "distanceToCommunityPathM": 0.2
+    },
+    {
+      "name": "زهراء المعادي",
+      "distanceToCommunityPathM": 0.7
+    },
+    {
+      "name": "المقطم",
+      "distanceToCommunityPathM": 0.8
+    },
+    {
+      "name": "الاوتوستراد",
+      "distanceToCommunityPathM": 0.6
+    },
+    {
+      "name": "محور الجزائر",
+      "distanceToCommunityPathM": 0.0
+    },
+    {
+      "name": "الإمامين",
+      "distanceToCommunityPathM": 0.5
+    },
+    {
+      "name": "الزهراء",
+      "distanceToCommunityPathM": 0.5
+    },
+    {
+      "name": "البحر الاعظم",
+      "distanceToCommunityPathM": 0.1
+    },
+    {
+      "name": "العمرانية",
+      "distanceToCommunityPathM": 0.4
+    },
+    {
+      "name": "الطالبية",
+      "distanceToCommunityPathM": 0.5
+    },
+    {
+      "name": "المريوطية",
+      "distanceToCommunityPathM": 1.2
+    },
+    {
+      "name": "المنصورية",
+      "distanceToCommunityPathM": 0.1
+    },
+    {
+      "name": "صن كابيتال",
+      "distanceToCommunityPathM": 0.4
+    },
+    {
+      "name": "زويل",
+      "distanceToCommunityPathM": 0.3
+    },
+    {
+      "name": "المتحف المصري الكبير",
+      "distanceToCommunityPathM": 1.2
+    }
+  ]
+}

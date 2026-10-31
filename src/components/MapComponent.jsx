@@ -6,6 +6,7 @@ import { matchRouteStops } from '../utils/tripTracker';
 import { attachTileRecovery } from '../utils/mapTileRecovery';
 import { journeyRidePath } from '../utils/journey';
 import { vehicleRouteLabel } from '../utils/routeEnds';
+import { escapeMapText as text, safeMapColor } from '../utils/mapHtml';
 
 // Inline stroke icons for Leaflet divIcons / popups (no emoji)
 const svg = (d, size = 16, sw = 2) =>
@@ -214,12 +215,12 @@ export default function MapComponent({
         <div class="search-popup-header">
           <span class="search-popup-icon">${svg(isMetro ? ICONS.train : ICONS.pin, 16)}</span>
           <div>
-            <strong class="search-popup-title">${searchLocation.name}</strong>
-            <div class="search-popup-cat">${searchLocation.category || (isMetro ? 'محطة مترو أنفاق' : 'معلم / مكان')}</div>
+            <strong class="search-popup-title">${text(searchLocation.name)}</strong>
+            <div class="search-popup-cat">${text(searchLocation.category || (isMetro ? 'محطة مترو أنفاق' : 'معلم / مكان'))}</div>
           </div>
         </div>
-        ${searchLocation.district ? `<div class="search-popup-meta">الحي / المنطقة: <strong>${searchLocation.district}</strong></div>` : ''}
-        ${searchLocation.lines && searchLocation.lines.length > 0 ? `<div class="search-popup-lines">خطوط المترو المارة: <strong>${searchLocation.lines.join(', ')}</strong></div>` : ''}
+        ${searchLocation.district ? `<div class="search-popup-meta">الحي / المنطقة: <strong>${text(searchLocation.district)}</strong></div>` : ''}
+        ${searchLocation.lines && searchLocation.lines.length > 0 ? `<div class="search-popup-lines">خطوط المترو المارة: <strong>${text(searchLocation.lines.join(', '))}</strong></div>` : ''}
       </div>
     `;
 
@@ -251,8 +252,10 @@ export default function MapComponent({
     const coords = geometries[routeToRender.id];
     if (!coords || coords.length === 0) return;
 
-    const color = routeToRender.color || VEHICLE_COLORS[routeToRender.vehicle] || VEHICLE_COLORS.Default;
+    const color = safeMapColor(routeToRender.color || VEHICLE_COLORS[routeToRender.vehicle] || VEHICLE_COLORS.Default);
     const isMetro = routeToRender.vehicle === 'Metro';
+    const routeOrigin = text(lang === 'ar' ? (routeToRender.origin_ar || routeToRender.origin) : (routeToRender.origin_en || routeToRender.origin));
+    const routeDestination = text(lang === 'ar' ? (routeToRender.dest_ar || routeToRender.dest) : (routeToRender.dest_en || routeToRender.dest));
 
     const glowLine = L.polyline(coords, {
       color: '#FFFFFF',
@@ -266,6 +269,7 @@ export default function MapComponent({
       color: color,
       weight: isMetro ? 7 : 5,
       opacity: 0.98,
+      dashArray: routeToRender.geometryEstimated ? '8, 7' : undefined,
       lineCap: 'round',
       lineJoin: 'round'
     });
@@ -289,7 +293,7 @@ export default function MapComponent({
           fillOpacity: 1,
           bubblingMouseEvents: false
         })
-          .bindTooltip(s.name, { direction: 'top', offset: [0, -4], className: 'route-stop-tooltip' })
+          .bindTooltip(text(s.name), { direction: 'top', offset: [0, -4], className: 'route-stop-tooltip' })
           .addTo(stopsGroup);
       });
     }
@@ -300,8 +304,8 @@ export default function MapComponent({
     const startIcon = L.divIcon({
       className: 'custom-terminal-marker',
       html: isMetro 
-        ? `<div class="custom-terminal-icon metro" style="background:${color};" title="${t.startTerminal}: ${routeToRender.origin}">${svg(ICONS.train, 15)}</div>`
-        : `<div class="custom-terminal-icon start" title="${t.startTerminal}: ${routeToRender.origin}">أ</div>`,
+        ? `<div class="custom-terminal-icon metro" style="background:${color};" title="${t.startTerminal}: ${routeOrigin}">${svg(ICONS.train, 15)}</div>`
+        : `<div class="custom-terminal-icon start" title="${t.startTerminal}: ${routeOrigin}">أ</div>`,
       iconSize: [32, 32],
       iconAnchor: [16, 16]
     });
@@ -309,17 +313,17 @@ export default function MapComponent({
     const endIcon = L.divIcon({
       className: 'custom-terminal-marker',
       html: isMetro 
-        ? `<div class="custom-terminal-icon metro" style="background:${color};" title="${t.endTerminal}: ${routeToRender.dest}">${svg(ICONS.train, 15)}</div>`
-        : `<div class="custom-terminal-icon end" title="${t.endTerminal}: ${routeToRender.dest}">ب</div>`,
+        ? `<div class="custom-terminal-icon metro" style="background:${color};" title="${t.endTerminal}: ${routeDestination}">${svg(ICONS.train, 15)}</div>`
+        : `<div class="custom-terminal-icon end" title="${t.endTerminal}: ${routeDestination}">ب</div>`,
       iconSize: [32, 32],
       iconAnchor: [16, 16]
     });
 
     group.addLayer(
-      L.marker(startPt, { icon: startIcon }).bindPopup(`<strong>${t.startTerminal}:</strong> ${routeToRender.origin}`)
+      L.marker(startPt, { icon: startIcon }).bindPopup(`<strong>${t.startTerminal}:</strong> ${routeOrigin}`)
     );
     group.addLayer(
-      L.marker(endPt, { icon: endIcon }).bindPopup(`<strong>${t.endTerminal}:</strong> ${routeToRender.dest}`)
+      L.marker(endPt, { icon: endIcon }).bindPopup(`<strong>${t.endTerminal}:</strong> ${routeDestination}`)
     );
 
 
@@ -358,10 +362,15 @@ export default function MapComponent({
     // If active nearest item is selected
     if (activeNearest && activeNearest.dropCoord) {
       const dropCoord = activeNearest.dropCoord;
-      const stopTitle = activeNearest.nearestStop 
+      const stopTitle = text(activeNearest.nearestStop
         ? (lang === 'ar' ? activeNearest.nearestStop.ar : activeNearest.nearestStop.en)
-        : (lang === 'ar' ? 'نقطة النزول' : 'Drop-off Point');
+        : (lang === 'ar' ? 'نقطة النزول' : 'Drop-off Point'));
       const isOfficialStop = activeNearest.nearestStop?.isOfficialStop;
+      const isBoardingStation = activeNearest.nearestStop?.isBoardingStation;
+      const dropCategory = isBoardingStation
+        ? (lang === 'ar' ? 'موقع محطة مرشح · الوصول غير متحقق' : 'Candidate station location · access unverified')
+        : isOfficialStop ? (lang === 'ar' ? 'محطة نزول رسمية' : 'Official Bus Stop')
+          : (lang === 'ar' ? 'أقرب نقطة على المسار' : 'Nearest Route Point');
 
       const dropIcon = L.divIcon({
         className: 'custom-drop-marker',
@@ -377,7 +386,7 @@ export default function MapComponent({
             <span class="walk-popup-icon">${svg(ICONS.walk, 15)}</span>
             <div>
               <strong class="walk-popup-title">${stopTitle}</strong>
-              <div class="walk-popup-cat">${isOfficialStop ? (lang === 'ar' ? 'محطة نزول رسمية' : 'Official Bus Stop') : (lang === 'ar' ? 'أقرب نقطة على المسار' : 'Nearest Route Point')}</div>
+              <div class="walk-popup-cat">${dropCategory}</div>
             </div>
           </div>
           <div class="walk-popup-metrics">
@@ -470,7 +479,7 @@ export default function MapComponent({
                 <span class="walk-popup-icon">${svg(ICONS.walk, 15)}</span>
                 <div>
                   <strong class="walk-popup-title">${stopTitle}</strong>
-                  <div class="walk-popup-cat">${isOfficialStop ? (lang === 'ar' ? 'محطة نزول رسمية' : 'Official Bus Stop') : (lang === 'ar' ? 'أقرب نقطة على المسار' : 'Nearest Route Point')}</div>
+                  <div class="walk-popup-cat">${dropCategory}</div>
                 </div>
               </div>
               <div class="walk-popup-metrics">
@@ -511,7 +520,7 @@ export default function MapComponent({
                 <span class="walk-popup-icon">${svg(ICONS.walk, 15)}</span>
                 <div>
                   <strong class="walk-popup-title">${stopTitle}</strong>
-                  <div class="walk-popup-cat">${isOfficialStop ? (lang === 'ar' ? 'محطة نزول رسمية' : 'Official Bus Stop') : (lang === 'ar' ? 'أقرب نقطة على المسار' : 'Nearest Route Point')}</div>
+              <div class="walk-popup-cat">${dropCategory}</div>
                 </div>
               </div>
               <div class="walk-popup-metrics">
@@ -583,13 +592,13 @@ export default function MapComponent({
           return;
         }
         const route = leg.route || {};
-        const color = route.color || VEHICLE_COLORS[route.vehicle] || VEHICLE_COLORS.Default;
+        const color = safeMapColor(route.color || VEHICLE_COLORS[route.vehicle] || VEHICLE_COLORS.Default);
         const selectedPath = journeyRidePath(leg, geometries);
         const path = selectedPath.path;
         journeyCoords.push(...path);
         if (path.length > 1) {
           group.addLayer(L.polyline(path, { color: '#FFFFFF', weight: 9, opacity: 0.95, lineCap: 'round', lineJoin: 'round' }));
-          group.addLayer(L.polyline(path, { color, weight: 5, opacity: 0.98, lineCap: 'round', lineJoin: 'round' }));
+          group.addLayer(L.polyline(path, { color, weight: 5, opacity: 0.98, dashArray: selectedPath.estimated ? '8, 7' : undefined, lineCap: 'round', lineJoin: 'round' }));
         }
         [
           { coord: leg.fromCoord, label: lang === 'ar' ? `اركب ${vehicleRouteLabel(route, lang)}` : `Board ${vehicleRouteLabel(route, lang)}` },
@@ -599,9 +608,9 @@ export default function MapComponent({
         ].forEach((point, markerIndex) => {
           if (!point.coord) return;
           const icon = L.divIcon({ className: markerIndex === 0 ? 'pickup-pin' : 'drop-pin-badge',
-            html: `<div class="step-stop-pin ${markerIndex === 0 ? 'pickup' : 'drop'}" style="${markerIndex === 0 ? `background:${color};` : ''}">${markerIndex === 0 ? svg(ICONS.bus, 12) : svg(ICONS.walk, 12)} ${point.label}</div>`,
+            html: `<div class="step-stop-pin ${markerIndex === 0 ? 'pickup' : 'drop'}" style="${markerIndex === 0 ? `background:${color};` : ''}">${markerIndex === 0 ? svg(ICONS.bus, 12) : svg(ICONS.walk, 12)} ${text(point.label)}</div>`,
             iconSize: [94, 26], iconAnchor: [47, 13] });
-          group.addLayer(L.marker(point.coord, { icon }).bindPopup(`<strong>${point.label}</strong>`));
+          group.addLayer(L.marker(point.coord, { icon }).bindPopup(`<strong>${text(point.label)}</strong>`));
         });
       });
       if (journeyCoords.length > 1) fitWithOverlays(L.latLngBounds(journeyCoords));
@@ -713,7 +722,7 @@ export default function MapComponent({
           weight: isMetro ? 2.5 : 1.5,
           fillColor: isMetro ? (s.is_interchange ? '#15171C' : '#2E4A78') : '#4E535C',
           fillOpacity: 0.95
-        }).bindPopup(`<strong>${lang === 'ar' ? (s.name_ar || s.name_en) : s.name_en}</strong>${isMetro && s.is_interchange ? '<br><span style="color:#4E535C;font-weight:600;">محطة تبادلية</span>' : ''}`);
+        }).bindPopup(`<strong>${text(lang === 'ar' ? (s.name_ar || s.name_en) : s.name_en)}</strong>${isMetro && s.is_interchange ? '<br><span style="color:#4E535C;font-weight:600;">محطة تبادلية</span>' : ''}`);
 
         group.addLayer(circle);
       });

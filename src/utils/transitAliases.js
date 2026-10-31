@@ -264,8 +264,8 @@ export function routeMatchesTokens(route, tokens) {
     ? normalizeText(route.sub_districts.join(' ')) 
     : '';
 
-  const viaStopsJoined = route.via_stops 
-    ? normalizeText(route.via_stops.join(' ')) 
+  const viaStopsJoined = route.via_stops
+    ? normalizeText([...route.via_stops, ...(route.via_stops_ar || []), ...(route.via_stops_en || [])].join(' '))
     : '';
 
   for (const token of tokens) {

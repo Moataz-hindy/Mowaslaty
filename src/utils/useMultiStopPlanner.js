@@ -37,6 +37,7 @@ export default function useMultiStopPlanner({ points, routes, geometries, stops,
   useEffect(() => {
     const runId = ++runRef.current;
     let cancelled = false;
+    const controller = new AbortController();
     const currentLegs = buildMultiStopLegs(points, searchOptions);
     const validKeys = new Set(currentLegs.map(leg => leg.key));
     if (!routes?.length) {
@@ -55,7 +56,8 @@ export default function useMultiStopPlanner({ points, routes, geometries, stops,
     runMultiStopPlans(currentLegs, { routes, geometries, stops }, {
       cache: cacheRef.current,
       options: searchOptions,
-      compute: computePlan,
+      compute: (origin, destination, data, maxWalk, options) => computePlan(origin, destination, data, maxWalk,
+        { ...options, signal: controller.signal }),
       isCancelled: () => cancelled || runRef.current !== runId,
       onResult: result => {
         if (cancelled || runRef.current !== runId || !validKeys.has(result.key)) return;
@@ -65,7 +67,7 @@ export default function useMultiStopPlanner({ points, routes, geometries, stops,
         } }));
       }
     });
-    return () => { cancelled = true; };
+    return () => { cancelled = true; controller.abort(); };
   }, [points, routes, geometries, stops, routesById, searchOptions, retryVersion]);
 
   const visibleLegs = legs.map(leg => {

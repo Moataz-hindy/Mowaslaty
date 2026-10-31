@@ -1,5 +1,5 @@
 export function resolveExperience(pathname, isNative = false) {
-  if (isNative || pathname === '/app' || pathname === '/app/') return 'app';
+  if (pathname === '/app' || pathname === '/app/') return 'app';
   return 'landing';
 }
 

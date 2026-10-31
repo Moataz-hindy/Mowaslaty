@@ -13,7 +13,6 @@ import {
   Sun, 
   Languages,
   Clock,
-  Sparkles,
   Users,
   ExternalLink,
   Loader2,
@@ -28,8 +27,6 @@ import {
   Filter,
   MoreHorizontal
 } from 'lucide-react';
-// Chat assistant is "coming soon". The previous implementation is kept in
-// ./ChatAssistant.jsx; re-import it here when the new chatbot is ready.
 import { VEHICLE_COLORS } from '../utils/i18n';
 import RouteEnds from './RouteEnds';
 import { getRouteEnds, lineLabel } from '../utils/routeEnds';
@@ -37,6 +34,7 @@ import { rideLegs } from '../utils/journey';
 import JourneySteps from './JourneySteps';
 import { expandSearchQuery, routeMatchesTokens } from '../utils/transitAliases';
 import MultiStopPlanner from './MultiStopPlanner';
+import FeedbackEntry from './FeedbackEntry.jsx';
 
 
 // Short "origin ← destination" title for list rows, when the data has
@@ -58,6 +56,7 @@ export default function Sidebar({
   searchQuery,
   setSearchQuery,
   vehicleFilter,
+  brtUnavailable = false,
   setVehicleFilter,
   routes,
   filteredRoutes,
@@ -284,6 +283,7 @@ export default function Sidebar({
     const items = nearestResults || [];
     return {
       ALL: items.length,
+      BRT: items.filter(i => i.vehicleCategory === 'BRT' || i.route.vehicle === 'BRT').length,
       Minibus: items.filter(i => i.vehicleCategory === 'Minibus' || i.route.vehicle === 'Minibus').length,
       Microbus: items.filter(i => ['Microbus', 'Tomnaya', 'Box'].includes(i.route.vehicle) || i.vehicleCategory === 'Microbus').length,
       Bus: items.filter(i => i.route.vehicle === 'Bus' || i.vehicleCategory === 'Bus').length,
@@ -295,6 +295,7 @@ export default function Sidebar({
     const items = nearestResults || [];
     if (nearestVehicleFilter === 'ALL') return items;
     return items.filter(item => {
+      if (nearestVehicleFilter === 'BRT') return item.vehicleCategory === 'BRT' || item.route.vehicle === 'BRT';
       if (nearestVehicleFilter === 'Minibus') return item.vehicleCategory === 'Minibus' || item.route.vehicle === 'Minibus';
       if (nearestVehicleFilter === 'Microbus') return ['Microbus', 'Tomnaya', 'Box'].includes(item.route.vehicle) || item.vehicleCategory === 'Microbus';
       if (nearestVehicleFilter === 'Bus') return item.route.vehicle === 'Bus' || item.vehicleCategory === 'Bus';
@@ -405,7 +406,7 @@ export default function Sidebar({
         </div>
       </header>
 
-      {/* 6 Navigation Tabs (All Phases) */}
+      {/* 4 Navigation Tabs */}
       <nav className="mode-tabs five-tabs">
         <button 
           className={`tab-btn ${activeTab === 'explore' ? 'active' : ''}`}
@@ -447,21 +448,10 @@ export default function Sidebar({
           <span>{t.tabMultiStop}</span>
         </button>
 
-        <button 
-          className={`tab-btn mobile-secondary-mode ${activeTab === 'chat' ? 'active' : ''}`}
-          onClick={() => selectTab('chat')}
-          aria-pressed={activeTab === 'chat'}
-          title="المساعد الذكي"
-        >
-          <Sparkles size={15} />
-          <span>المساعد</span>
-          <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
-        </button>
-
         <div className={`mobile-more-modes ${moreModesOpen ? 'open' : ''}`}>
           <button
             type="button"
-            className={`tab-btn mobile-more-trigger ${['multi', 'chat'].includes(activeTab) ? 'active' : ''}`}
+            className={`tab-btn mobile-more-trigger ${activeTab === 'multi' ? 'active' : ''}`}
             aria-expanded={moreModesOpen}
             aria-haspopup="menu"
             onClick={() => {
@@ -477,11 +467,6 @@ export default function Sidebar({
               <button type="button" role="menuitem" onClick={() => { selectTab('multi'); setMoreModesOpen(false); }}>
                 <ListOrdered size={16} />
                 <span>{t.tabMultiStop}</span>
-              </button>
-              <button type="button" role="menuitem" onClick={() => { selectTab('chat'); setMoreModesOpen(false); }}>
-                <Sparkles size={16} />
-                <span>{lang === 'ar' ? 'المساعد' : 'Assistant'}</span>
-                <span className="tab-pill-badge soon">{lang === 'ar' ? 'قريباً' : 'Soon'}</span>
               </button>
             </div>
           )}
@@ -515,6 +500,7 @@ export default function Sidebar({
             <div className="filter-chips">
               {[
                 { id: 'ALL', label: t.all },
+                { id: 'BRT', label: t.brt },
                 { id: 'Metro', label: t.metro },
                 { id: 'Minibus', label: t.minibus },
                 { id: 'Bus', label: t.bus },
@@ -536,12 +522,13 @@ export default function Sidebar({
                 </button>
               ))}
             </div>
+            {brtUnavailable && <p className="journey-data-notice">{lang === 'ar' ? 'تعذر تحميل بيانات الأتوبيس الترددي؛ بقية شبكة النقل متاحة.' : 'BRT data could not be loaded; the rest of the transit network is available.'}</p>}
 
           </section>
 
           <div className="results-header">
             <span className="results-count">{t.resultsCount(filteredRoutes.length)}</span>
-            <span className="phase-tag">{lang === 'ar' ? 'مترو · أتوبيس · ميني باص · ميكروباص' : 'Metro · Bus · Minibus · Microbus'}</span>
+          <span className="phase-tag">{lang === 'ar' ? 'مترو · BRT · أتوبيس · ميني باص · ميكروباص' : 'Metro · BRT · Bus · Minibus · Microbus'}</span>
           </div>
 
           <div className="routes-container">
@@ -627,7 +614,7 @@ export default function Sidebar({
                             </button>
 
                             {expandedStopsRouteId === r.id && (
-                              <div className="route-stops-sequence-list" onClick={(e) => e.stopPropagation()}>
+                              <div className="route-stops-sequence-list route-stop-timeline" onClick={(e) => e.stopPropagation()}>
                                 {r.via_stops.map((stopName, idx) => (
                                   <div key={idx} className="stop-sequence-item">
                                     <span className="stop-seq-idx">{idx + 1}</span>
@@ -846,6 +833,7 @@ export default function Sidebar({
               <div className="nearest-category-chips-bar">
                 {[
                   { id: 'ALL', label: t.categoryAll, dot: null, count: nearestCategoryCounts.ALL },
+                  { id: 'BRT', label: t.categoryBrt, dot: VEHICLE_COLORS.BRT, count: nearestCategoryCounts.BRT },
                   { id: 'Minibus', label: t.categoryMinibus, dot: VEHICLE_COLORS.Minibus, count: nearestCategoryCounts.Minibus },
                   { id: 'Microbus', label: t.categoryMicrobus, dot: VEHICLE_COLORS.Microbus, count: nearestCategoryCounts.Microbus },
                   { id: 'Bus', label: t.categoryBus, dot: VEHICLE_COLORS.Bus, count: nearestCategoryCounts.Bus },
@@ -1005,6 +993,7 @@ export default function Sidebar({
                                 </div>
 
                                 <h4 className="route-card-title"><RouteEnds route={r} lang={lang} fallback={title} /></h4>
+                                {r.vehicle === 'BRT' && <p className="journey-data-notice">{lang === 'ar' ? 'موقع المحطة تقديري؛ مدخلها غير متحقق.' : 'Station location is approximate; entrance is unverified.'}</p>}
 
                                 <div className="nearest-card-footer">
                                   <span className="walk-time-badge">
@@ -1117,6 +1106,7 @@ export default function Sidebar({
                           </div>
 
                           <h4 className="route-card-title"><RouteEnds route={r} lang={lang} fallback={title} /></h4>
+                          {r.vehicle === 'BRT' && <p className="journey-data-notice">{lang === 'ar' ? 'موقع المحطة تقديري؛ مدخلها غير متحقق.' : 'Station location is approximate; entrance is unverified.'}</p>}
 
                           <div className="nearest-card-footer">
                             <span className="walk-time-badge">
@@ -1271,13 +1261,17 @@ export default function Sidebar({
                     : "حدد نقطة البداية ونقطة الوصول على الخريطة لعرض مسارات الرحلة"}
                 </p>
               </div>
-            ) : planLoading ? (
+            ) : planLoading && !plannedJourneys?.directRoutes?.length ? (
               <div className="empty-state" role="status">
                 <Loader2 size={28} className="spin-icon" />
                 <p>{lang === 'ar' ? 'جاري البحث عن أفضل الخطوط...' : 'Finding the best routes...'}</p>
               </div>
             ) : (
               <>
+                {planLoading && plannedJourneys?.directRoutes?.length > 0 && <div className="empty-state" role="status">
+                  <Loader2 size={18} className="spin-icon" />
+                  <p>{lang === 'ar' ? 'المسارات المباشرة جاهزة، جارٍ البحث عن التحويلات...' : 'Direct routes are ready; finding transfers…'}</p>
+                </div>}
                 {planError ? <div className="empty-state" role="alert"><p>{t.journeyLoadError}</p><button type="button" onClick={onRetryPlan}>{t.journeyRetry}</button></div> : null}
                 {!planError && journeyGroups.map(group => {
                   const visible = group.journeys.slice(0, 3);
@@ -1295,6 +1289,7 @@ export default function Sidebar({
               </>
             )}
           </div>
+          <FeedbackEntry lang={lang} className="planner-feedback-entry" />
         </div>
       )}
 
@@ -1302,34 +1297,6 @@ export default function Sidebar({
         <MultiStopPlanner {...multiStopProps}
           onPickPoint={id => { multiStopProps.onPickPoint?.(id); setSheetExpanded(false); }}
           onShowMap={() => setSheetExpanded(false)} lang={lang} t={t} />
-      )}
-
-      {/* TAB 4: CHAT ASSISTANT — coming soon */}
-      {activeTab === 'chat' && (
-        <div className="coming-soon-panel">
-          <div className="coming-soon-icon" aria-hidden="true">
-            <Sparkles size={26} />
-          </div>
-          <span className="coming-soon-pill">{lang === 'ar' ? 'قريباً' : 'Coming soon'}</span>
-          <h3 className="coming-soon-title">
-            {lang === 'ar' ? 'المساعد الذكي' : 'Smart assistant'}
-          </h3>
-          <p className="coming-soon-text">
-            {lang === 'ar'
-              ? 'مساعد محادثة تسأله عن أي مشوار أو خط أو محطة، ويرد عليك بالطريقة الأسهل. نعمل عليه حالياً.'
-              : 'A chat assistant you can ask about any trip, line or station, and get the easiest way there. We are working on it.'}
-          </p>
-          <div className="coming-soon-actions">
-            <button type="button" className="btn-primary" onClick={() => selectTab('planner')}>
-              <Route size={15} />
-              <span>{lang === 'ar' ? 'خطط رحلتك الآن' : 'Plan a trip now'}</span>
-            </button>
-            <button type="button" className="btn-primary-outline" onClick={() => selectTab('explore')}>
-              <Compass size={15} />
-              <span>{lang === 'ar' ? 'تصفح الخطوط' : 'Browse lines'}</span>
-            </button>
-          </div>
-        </div>
       )}
 
     </aside>

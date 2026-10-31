@@ -20,6 +20,7 @@ export function JourneySteps({ journey, lang = 'ar', t = {}, onStartTrip, isSele
   const legs = Array.isArray(journey.legs) ? journey.legs : [];
   const rideCount = legs.filter(leg => leg.kind === 'ride').length;
   const hasSuggestedDrop = legs.some(leg => leg.kind === 'ride' && leg.flexibleDrop);
+  const hasBrtRide = legs.some(leg => leg.kind === 'ride' && leg.route?.vehicle === 'BRT');
   const metric = (key, value) => <span className="journey-leg-metric" key={key}>{value}</span>;
   return <>
     {summaryMode !== 'none' && <div className="journey-summary">
@@ -47,6 +48,7 @@ export function JourneySteps({ journey, lang = 'ar', t = {}, onStartTrip, isSele
               {metric('duration', label('estimatedMinutesShort', minutes(leg.durationMinutes)))}
             </span>
           </header>
+          {leg.route?.vehicle === 'BRT' && <p className="journey-data-notice">{label('brtServiceCaveat')}</p>}
           <div className="journey-stop-row">
             <span className="journey-stop-dot" aria-hidden="true" />
             <span className="journey-stop-label">{label('journeyBoardingLabel')}</span>
@@ -61,7 +63,7 @@ export function JourneySteps({ journey, lang = 'ar', t = {}, onStartTrip, isSele
       ))}
     </div>
     {showNotices && rideCount > 0 && <p className="journey-walk-notice">{label('journeyWalkNotice')}</p>}
-    {showNotices && <p className="journey-data-notice">{label('journeyServiceNotice')}</p>}
+    {showNotices && !hasBrtRide && <p className="journey-data-notice">{label('journeyServiceNotice')}</p>}
     {rideCount === 1 && isSelected && onStartTrip && <button type="button" className="btn-primary trip-start-btn" onClick={onStartTrip}>
       <MapPin size={15} /><span>{lang === 'ar' ? 'تتبع هذه الرحلة حتى محطة النزول' : 'Track this ride to its alighting stop'}</span>
     </button>}

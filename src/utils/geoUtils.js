@@ -156,6 +156,7 @@ export async function resolveLocationInput(input) {
  * @returns {Array<Object>} Ranked list of nearest route options
  */
 export function getVehicleCategory(vehicle) {
+  if (vehicle === 'BRT') return 'BRT';
   if (vehicle === 'Metro') return 'Metro';
   if (vehicle === 'Minibus') return 'Minibus';
   if (vehicle === 'Bus') return 'Bus';
@@ -202,6 +203,7 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
   }
 
   const categoryBins = {
+    BRT: [],
     Metro: [],
     Minibus: [],
     Microbus: [],
@@ -209,6 +211,26 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
   };
 
   for (const route of routesSummary) {
+    if (route.vehicle === 'BRT' && route.boardingMode === 'fixed-station') {
+      if (requireBoth && rideCoord) continue;
+      const allowed = new Set([...(route.via_stops || []), ...(route.via_stops_en || []), ...(route.via_stops_ar || [])]);
+      const stationStops = stopsSummary.filter(stop => (stop.type === 'brt' || String(stop.id || '').startsWith('brt:station:')) &&
+        (allowed.has(stop.name_en || stop.nameEn) || allowed.has(stop.name_ar || stop.nameAr)))
+        .map(stop => ({ stop, meters: turf.distance(targetPoint, turf.point([Number(stop.lng), Number(stop.lat)]), { units: 'meters' }) }))
+        .sort((a, b) => a.meters - b.meters)[0];
+      if (stationStops && stationStops.meters <= maxDistanceMeters) {
+        const { stop, meters } = stationStops;
+        const distMeters = Math.round(meters);
+        const nearestStop = { ar: stop.name_ar || stop.nameAr, en: stop.name_en || stop.nameEn, id: stop.id,
+          distMeters: 0, isOfficialStop: false, isBoardingStation: true, accessVerified: false };
+        categoryBins.BRT.push({ route, vehicleCategory: 'BRT', distanceMeters: distMeters,
+          walkMinutes: Math.max(1, Math.round(distMeters / 80)), dropCoord: [Number(stop.lat), Number(stop.lng)],
+          targetCoord: [tLat, tLng], nearestStop, rideCoord: null, pickupCoord: null, walkToPickupMeters: null,
+          walkToPickupMinutes: 0, rideDistanceKm: null, totalWalkMeters: distMeters, passesBoth: false, fixedStation: true,
+          accessVerified: false });
+      }
+      continue;
+    }
     const bounds = route.bounds;
     if (!bounds) continue;
 
@@ -330,7 +352,7 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
   }
 
   // Sort each category by best criteria
-  for (const cat of ['Metro', 'Minibus', 'Microbus', 'Bus']) {
+  for (const cat of ['BRT', 'Metro', 'Minibus', 'Microbus', 'Bus']) {
     categoryBins[cat].sort((a, b) => {
       if (requireBoth && a.passesBoth && b.passesBoth) {
         return a.totalWalkMeters - b.totalWalkMeters;
@@ -341,8 +363,8 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
 
   // Build a quota-balanced pool of top candidates so no category is starved
   const finalCandidates = [];
-  for (const cat of ['Metro', 'Minibus', 'Microbus', 'Bus']) {
-    const quota = cat === 'Metro' ? 10 : quotaPerCategory;
+  for (const cat of ['BRT', 'Metro', 'Minibus', 'Microbus', 'Bus']) {
+    const quota = cat === 'Metro' ? 10 : cat === 'BRT' ? 30 : quotaPerCategory;
     finalCandidates.push(...categoryBins[cat].slice(0, quota));
   }
 
@@ -356,6 +378,7 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
 
   // Attach categorical breakdown directly to the array
   finalCandidates.byCategory = {
+    BRT: categoryBins.BRT.slice(0, 30),
     Metro: categoryBins.Metro.slice(0, 10),
     Minibus: categoryBins.Minibus.slice(0, quotaPerCategory),
     Microbus: categoryBins.Microbus.slice(0, quotaPerCategory),
@@ -364,6 +387,7 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
 
   finalCandidates.counts = {
     ALL: finalCandidates.length,
+    BRT: categoryBins.BRT.length,
     Metro: categoryBins.Metro.length,
     Minibus: categoryBins.Minibus.length,
     Microbus: categoryBins.Microbus.length,
@@ -385,6 +409,24 @@ export function findNearestDropPoints(targetCoord, routesSummary, routesGeometry
  */
 export function calculateRouteDropPoint(targetCoord, route, coords, stopsSummary = []) {
   if (!targetCoord || !route || !coords || coords.length === 0) return null;
+
+  if (route.vehicle === 'BRT' && route.boardingMode === 'fixed-station') {
+    const allowed = new Set([...(route.via_stops || []), ...(route.via_stops_en || []), ...(route.via_stops_ar || [])]);
+    const target = turf.point([Number(targetCoord[1]), Number(targetCoord[0])]);
+    const station = stopsSummary.filter(stop => (stop.type === 'brt' || String(stop.id || '').startsWith('brt:station:')) &&
+      (allowed.has(stop.name_en || stop.nameEn) || allowed.has(stop.name_ar || stop.nameAr))).map(stop => ({ stop,
+        meters: turf.distance(target, turf.point([Number(stop.lng), Number(stop.lat)]), { units: 'meters' }) }))
+      .sort((a, b) => a.meters - b.meters)[0];
+    if (!station) return null;
+    const stop = station.stop;
+    const distMeters = Math.round(station.meters);
+    return { route, distanceMeters: distMeters, estimatedStreetMeters: Math.round(distMeters * 1.25),
+      walkMinutes: Math.max(1, Math.round(distMeters / 80)), dropCoord: [Number(stop.lat), Number(stop.lng)],
+      targetCoord: [Number(targetCoord[0]), Number(targetCoord[1])], nearestStop: {
+        ar: stop.name_ar || stop.nameAr, en: stop.name_en || stop.nameEn, id: stop.id,
+        distMeters: 0, isOfficialStop: false, isBoardingStation: true, accessVerified: false
+      }, fixedStation: true, accessVerified: false };
+  }
 
   try {
     const [tLat, tLng] = targetCoord;

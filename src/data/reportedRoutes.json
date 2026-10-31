@@ -1,0 +1,580 @@
+{
+  "reviewedDate": "2026-10-30",
+  "routes": [
+    {
+      "id": "reported-319",
+      "number": "319",
+      "operatorAr": null,
+      "originAr": "إسبيكو (مدينة السلام)",
+      "destinationAr": "مطار القاهرة الدولي",
+      "viaAr": [
+        "إسبيكو",
+        "مساكن العبد القديم",
+        "شارع الحرية",
+        "شارع السادات",
+        "موقف السلام",
+        "الطريق الدائري",
+        "عدلي منصور",
+        "جسر السويس",
+        "الجراج",
+        "عبد الحميد بدوي",
+        "طريق المطار",
+        "مطار القاهرة الدولي"
+      ],
+      "status": "trial-reported",
+      "sourceUrl": "https://www.facebook.com/share/p/1LfW3CjYmD/",
+      "sourceKind": "public-post",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": 30,
+      "notes": [
+        "المنشور المرتبط يصف خدمة تجريبية إلى المطار؛ وصف بدر–القلعة في الملخص المرفق لا يطابق هذا المنشور ولم يُعتمد.",
+        "لم يتحدد مبنى الوصول بالمطار أو مسار العودة أو المشغل في المنشور.",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-1101",
+      "number": "1101",
+      "operatorAr": "هيئة النقل العام بالقاهرة",
+      "originAr": "المظلات",
+      "destinationAr": "التجمع الأول",
+      "viaAr": [
+        "المظلات",
+        "عبود",
+        "السواح",
+        "الأميرية",
+        "سراى القبة",
+        "روكسي",
+        "الميرغني",
+        "نادي هليوبوليس",
+        "كلية البنات",
+        "شارع الطيران",
+        "رابعة العدوية",
+        "عباس العقاد",
+        "مصطفى النحاس",
+        "الحي العاشر",
+        "زهراء مدينة نصر",
+        "التجمع الأول"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://www.facebook.com/56w6mwa9lat",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "يوجد رقم مماثل في بيانات التطبيق بمسار أو مشغل مختلف؛ هذا الوصف المتداول يحتاج إلى مطابقة، ولا يستبدل الخط المسجل.",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-982",
+      "number": "982",
+      "operatorAr": "هيئة النقل العام بالقاهرة",
+      "originAr": "الحوامدية",
+      "destinationAr": "جامعة القاهرة",
+      "viaAr": [
+        "الحوامدية",
+        "طريق مصر أسيوط الزراعي",
+        "أبو النمرس",
+        "المنيب",
+        "ميدان الجيزة",
+        "جامعة القاهرة"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://www.facebook.com/56w6mwa9lat",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "يوجد رقم مماثل في بيانات التطبيق بمسار أو مشغل مختلف؛ هذا الوصف المتداول يحتاج إلى مطابقة، ولا يستبدل الخط المسجل.",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-988",
+      "number": "988",
+      "operatorAr": "هيئة النقل العام بالقاهرة",
+      "originAr": "البدرشين",
+      "destinationAr": "أحمد حلمي",
+      "viaAr": [
+        "البدرشين",
+        "الحوامدية",
+        "أبو النمرس",
+        "جامعة القاهرة",
+        "أحمد حلمي"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://www.facebook.com/56w6mwa9lat",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-120",
+      "number": "120",
+      "operatorAr": "هيئة النقل العام بالقاهرة",
+      "originAr": "الحوامدية",
+      "destinationAr": "المنيب",
+      "viaAr": [
+        "الحوامدية",
+        "طريق القاهرة أسيوط الزراعي",
+        "محطة المنيب"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://www.facebook.com/56w6mwa9lat",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "يوجد رقم مماثل في بيانات التطبيق بمسار أو مشغل مختلف؛ هذا الوصف المتداول يحتاج إلى مطابقة، ولا يستبدل الخط المسجل.",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-m5",
+      "number": "M5",
+      "operatorAr": "نيو الماسة",
+      "originAr": "مدينة الشروق",
+      "destinationAr": "ميدان التحرير",
+      "viaAr": [
+        "مدينة الشروق",
+        "70 عمارة",
+        "دار مصر",
+        "إسكان الشباب",
+        "العبور",
+        "السور القديم",
+        "ميدان الكمين",
+        "أكاديمية الشروق",
+        "الجامعة البريطانية",
+        "بوابة مدينتي 1",
+        "طريق السويس",
+        "سيتي سنتر ألماظة",
+        "أول مكرم",
+        "أول عباس",
+        "نادي السكة",
+        "جامعة عين شمس",
+        "العباسية",
+        "رمسيس",
+        "ميدان التحرير"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://www.facebook.com/56w6mwa9lat",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "يوجد رقم مماثل في بيانات التطبيق بمسار أو مشغل مختلف؛ هذا الوصف المتداول يحتاج إلى مطابقة، ولا يستبدل الخط المسجل.",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q1",
+      "number": "Q1",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "المؤسسة (شبرا الخيمة)",
+      "destinationAr": "إسكان شباب العبور",
+      "viaAr": [
+        "المؤسسة",
+        "الطريق الدائري",
+        "المرج الجديدة",
+        "مؤسسة الزكاة",
+        "السلام",
+        "الحرفيين",
+        "موقف العاشر",
+        "كارفور العبور",
+        "الحي السادس",
+        "إسكان شباب العبور"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q2",
+      "number": "Q2",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "شبرا الخيمة (كوبري عرابي)",
+      "destinationAr": "العبور الجديدة",
+      "viaAr": [
+        "كوبري عرابي",
+        "الشارع الجديد",
+        "مسطرد",
+        "التعاون",
+        "المطرية",
+        "حلمية الزيتون",
+        "التجنيد",
+        "الألف مسكن",
+        "جسر السويس",
+        "حديقة بدر",
+        "سوق القنال",
+        "أول جمال",
+        "عدلي منصور",
+        "موقف العاشر",
+        "سوق العبور",
+        "كارفور",
+        "أحياء العبور",
+        "إسكان الشباب",
+        "العبور الجديدة"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "تم مد الخط من نطاق مدينة العبور القديمة ليشمل أحياء العبور الجديدة.",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q3",
+      "number": "Q3",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "ميدان عبد المنعم رياض",
+      "destinationAr": "العبور الجديدة",
+      "viaAr": [
+        "ميدان عبد المنعم رياض",
+        "الإسعاف",
+        "رمسيس",
+        "غمرة",
+        "العباسية",
+        "صلاح سالم",
+        "كوبري الفنجري",
+        "يوسف عباس",
+        "نفق الثورة",
+        "شيراتون",
+        "الكلية الحربية",
+        "جوزيف تيتو",
+        "أول جمال",
+        "موقف العاشر",
+        "سوق العبور",
+        "كارفور",
+        "جهاز مدينة العبور",
+        "العبور الجديدة"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q4",
+      "number": "Q4",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "طنط الجزيرة",
+      "destinationAr": "القصر العيني",
+      "viaAr": [
+        "طنط الجزيرة",
+        "طوخ",
+        "قليوب",
+        "ميت حلفا",
+        "أبو سنة",
+        "ميت نما",
+        "الثلاجة",
+        "المؤسسة",
+        "المظلات",
+        "كورنيش النيل",
+        "معهد ناصر",
+        "كوبري الساحل",
+        "أركاديا",
+        "مبنى الإذاعة والتلفزيون ماسبيرو",
+        "ميدان التحرير",
+        "القصر العيني"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "الرقم وارد لمسارين مختلفين: طنط الجزيرة–القصر العيني، والعبور–الحي السابع بمدينة نصر؛ لم يُحسم إن كانا فرعين أم تعارضاً في المصادر.",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q5",
+      "number": "Q5",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "قليوب المحطة",
+      "destinationAr": "مساكن أسكو",
+      "viaAr": [
+        "قليوب المحطة",
+        "الأجينة",
+        "السعادنة",
+        "كوم أشفين",
+        "عرب الكوبري",
+        "بلقس",
+        "الطريق الدائري",
+        "مساكن أسكو"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q6",
+      "number": "Q6",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "كفر شكر",
+      "destinationAr": "موقف رمسيس الجديد",
+      "viaAr": [
+        "كفر شكر",
+        "بنها",
+        "طوخ",
+        "قها",
+        "ميت حلفا",
+        "ميت نما",
+        "قليوب",
+        "الطريق الدائري",
+        "المؤسسة",
+        "كلية الزراعة",
+        "المظلات",
+        "شارع شبرا",
+        "مسرة",
+        "موقف رمسيس"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q7",
+      "number": "Q7",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "العمرانية",
+      "destinationAr": "زهراء عين شمس",
+      "viaAr": [
+        "العمرانية",
+        "أم المصريين",
+        "ميدان الجيزة",
+        "جامعة القاهرة",
+        "حديقة الحيوان",
+        "القصر العيني",
+        "السيدة عائشة",
+        "زهراء عين شمس"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "تم رصد تعديل في مسار الخط لتفادي التكدس المروري في قطاع الجيزة.",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q8",
+      "number": "Q8",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "الزاوية الحمراء",
+      "destinationAr": "التجمع الخامس",
+      "viaAr": [
+        "الزاوية الحمراء",
+        "سكة الوايلي",
+        "حدائق القبة",
+        "كوبري القبة",
+        "كوبري الفنجري",
+        "نادي السكة",
+        "التجمع الخامس"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q9",
+      "number": "Q9",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "الحي الترفيهي (مدينة العبور)",
+      "destinationAr": "مساكن الأميرية",
+      "viaAr": [
+        "الحي الترفيهي",
+        "دار مصر",
+        "المنطقة الصناعية الرابعة",
+        "ميدان الفيروز",
+        "النهضة",
+        "الإنتاج الحربي",
+        "موقف السلام",
+        "جمال عبد الناصر",
+        "حديقة بدر",
+        "الألف مسكن",
+        "التجنيد",
+        "روكسي",
+        "مساكن الأميرية"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "تختلف المعلومات بين الحي الترفيهي بالعبور–الأميرية وبين الزاوية الحمراء–العبور الجديدة؛ لم يُحسم المسار الحالي.",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q10",
+      "number": "Q10",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "سنديون",
+      "destinationAr": "مترو المؤسسة (شبرا الخيمة)",
+      "viaAr": [
+        "سنديون",
+        "مدخل طنان",
+        "قلما",
+        "كفر أبو جمعة",
+        "قليوب",
+        "ميت حلفا",
+        "الطريق الدائري",
+        "ميت نما",
+        "مترو المؤسسة"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q11",
+      "number": "Q11",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "طنان",
+      "destinationAr": "موقف رمسيس الجديد",
+      "viaAr": [
+        "طنان",
+        "سنديون",
+        "قليوب",
+        "ميت حلفا",
+        "ميت نما",
+        "مؤسسة النقل العام",
+        "كلية الزراعة",
+        "المظلات",
+        "الخلفاوي",
+        "شارع شبرا",
+        "القللي",
+        "موقف رمسيس الجديد"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-q12",
+      "number": "Q12",
+      "operatorAr": "الشركة الإنجليزية للنقل الجماعي",
+      "originAr": "قليوب",
+      "destinationAr": "الحي السابع (مدينة نصر)",
+      "viaAr": [
+        "قليوب",
+        "ميت حلفا",
+        "الطريق الدائري",
+        "المؤسسة",
+        "كلية الزراعة",
+        "المظلات",
+        "الخلفاوي",
+        "الزاوية الحمراء",
+        "ولي العهد",
+        "حدائق القبة",
+        "نادي السكة",
+        "جامعة الأزهر",
+        "رابعة العدوية",
+        "التأمين الصحي",
+        "نوري خطاب",
+        "الحي السابع"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://56w6-mwa9lat.com/",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    },
+    {
+      "id": "reported-sahmoud-october",
+      "number": null,
+      "operatorAr": "سهمود",
+      "originAr": "حدائق أكتوبر (المنطقة الخامسة والسابعة ابني بيتك)",
+      "destinationAr": "ميدان رمسيس",
+      "viaAr": [
+        "موقف سهمود",
+        "طريق زويل",
+        "طريق الواحات",
+        "حدائق الأهرام",
+        "ميدان الرماية",
+        "شارع الهرم",
+        "ميدان الجيزة",
+        "جامعة القاهرة",
+        "القصر العيني",
+        "ميدان التحرير",
+        "ميدان رمسيس"
+      ],
+      "status": "reported-unverified",
+      "sourceUrl": "https://www.facebook.com/56w6mwa9lat",
+      "sourceKind": "submitted-research-summary",
+      "publishedDate": null,
+      "reportedHeadwayMinutes": null,
+      "notes": [
+        "الخط لا يحمل رقماً رسمياً معلناً ويُشار إليه باسم مشغله التجاري (خط سهمود).",
+        "مسار العودة والتشغيل الحالي غير متحققين؛ نقاط المرور معلومات وصفية وليست محطات صعود معتمدة."
+      ],
+      "plannerAvailable": false
+    }
+  ]
+}

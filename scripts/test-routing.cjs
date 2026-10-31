@@ -15,6 +15,7 @@ const { planJourney } = load('src/utils/tripPlanner.js');
 const { createRoutingIndex } = load('src/utils/routingNetwork.js');
 const { journeyRidePath } = load('src/utils/journey.js');
 const shippedNetwork = require('../public/data/routing_network.v1.json');
+const shippedBrtCatalogue = require('../public/data/brt_catalogue.v1.json');
 const stop = (id, lat, lng) => ({ id, nameEn: id, nameAr: id, lat, lng });
 const stops = [stop('a', 30, 31), stop('b', 30.01, 31), stop('c', 30.02, 31), stop('d', 30.03, 31)];
 const trip = (id, calls, vehicle = 'Bus') => ({ id, appRouteId: id, source: 'gtfs', calls: calls.map(([stopId, sequence, canBoard = true, canAlight = true, distanceMeters]) => ({
@@ -179,9 +180,16 @@ test('rejects malformed trip order and never bridges missing calls', () => {
 
 test('network load failures can retry', async () => {
   const loader = load('src/utils/dataLoader.js');
+  let networkCalls = 0;
   let calls = 0;
-  global.fetch = async () => { calls++; return calls === 1 ? { ok: false, status: 503 } : { ok: true, json: async () => network }; };
+  global.fetch = async url => {
+    calls++;
+    if (url === '/data/bt_catalogue.v1.json' || url === '/data/brt_catalogue.v1.json') return { ok: true, json: async () => shippedBrtCatalogue };
+    networkCalls++;
+    return networkCalls === 1 ? { ok: false, status: 503 } : { ok: true, json: async () => network };
+  };
   await assert.rejects(loader.loadRoutingNetwork());
-  assert.equal((await loader.loadRoutingNetwork()).version, 1);
-  assert.equal(calls, 2);
+  assert.equal((await loader.loadRoutingNetwork()).version, '1+brt1');
+  assert.equal(networkCalls, 2);
+  assert.equal(calls, 3);
 });

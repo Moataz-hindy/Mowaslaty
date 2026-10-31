@@ -2,11 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { resolveExperience, validateReleaseManifest } from './experienceEntry.js';
 
-test('route selection keeps native users in planner and website root on landing', () => {
+test('website and native root open homepage while app links open planner', () => {
   assert.equal(resolveExperience('/', false), 'landing');
   assert.equal(resolveExperience('/app', false), 'app');
   assert.equal(resolveExperience('/app/', false), 'app');
-  assert.equal(resolveExperience('/', true), 'app');
+  assert.equal(resolveExperience('/', true), 'landing');
+  assert.equal(resolveExperience('/app', true), 'app');
+  assert.equal(resolveExperience('/app/', true), 'app');
 });
 
 test('release manifest accepts only complete same-origin APK releases', () => {

@@ -6,7 +6,7 @@ import { CAIRO_LANDMARKS } from './MapSearchBar';
 import { filterMultiStopPlan, journeyOptionKey } from '../utils/multiStopPlanner';
 import JourneySteps from './JourneySteps';
 
-const VEHICLES = ['ALL', 'Metro', 'Minibus', 'Bus', 'Microbus'];
+const VEHICLES = ['ALL', 'Metro', 'BRT', 'Minibus', 'Bus', 'Microbus'];
 const empty = () => {};
 
 export function MultiStopPlanner({
@@ -41,7 +41,7 @@ export function MultiStopPlanner({
 
   const candidates = useMemo(() => {
     const localStops = stops.map(stop => ({
-      name_ar: stop.name_ar, name_en: stop.name_en, category: 'station', coord: [Number(stop.lat), Number(stop.lng)]
+      name_ar: stop.name_ar, name_en: stop.name_en, aliases: stop.aliases || [], category: 'station', coord: [Number(stop.lat), Number(stop.lng)]
     }));
     const all = [...CAIRO_LANDMARKS, ...localStops, ...placeIndex].filter(item =>
       Array.isArray(item.coord) && item.coord.every(Number.isFinite)
@@ -66,7 +66,7 @@ export function MultiStopPlanner({
       .slice(0, 8).map(row => row.item);
   };
   const text = key => t[key] || key;
-  const vehicleName = value => value === 'ALL' ? text('multiAll') : value === 'Metro' ? text('metro') : value === 'Minibus' ? text('minibus') : value === 'Bus' ? text('bus') : text('microbus');
+  const vehicleName = value => value === 'ALL' ? text('multiAll') : value === 'Metro' ? text('metro') : value === 'BRT' ? text('brt') : value === 'Minibus' ? text('minibus') : value === 'Bus' ? text('bus') : text('microbus');
   const endpoints = (leg, index) => `${index + 1}. ${leg.from.label || text('multiPoint')} → ${index + 2}. ${leg.to.label || text('multiPoint')}`;
   const renderJourney = (journey, leg, kind) => {
     const key = journeyOptionKey(journey);

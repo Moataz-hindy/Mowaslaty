@@ -50,6 +50,19 @@ export function buildTrack(route, coords, stops, dropCoord, dropName) {
   for (let i = 1; i < coords.length; i++) cum.push(cum[i - 1] + haversine(coords[i - 1], coords[i]));
   const track = { route, coords, cum, length: cum[cum.length - 1] };
 
+  if (Array.isArray(route.stopIds)) {
+    const stopById = new Map((stops || []).map(stop => [stop.id, stop]));
+    const stopsAlong = route.stopIds.map(stopId => {
+      const stop = stopById.get(stopId);
+      if (!stop) return null;
+      const projection = project(track, [stop.lat, stop.lng]);
+      if (projection.offset > 80) return null;
+      return { name: stop.name_ar || stop.nameAr || stop.name_en || stop.nameEn, stopId, along: projection.along, offset: projection.offset };
+    }).filter(Boolean).sort((a, b) => a.along - b.along);
+    const dropProj = project(track, dropCoord);
+    return { ...track, stopsAlong, drop: { coord: dropCoord, name: dropName, along: dropProj.along } };
+  }
+
   // Stops of this line in order: match via_stops names to known stop
   // positions that lie on the line (within 80 m).
   const byName = new Map();
@@ -136,6 +149,18 @@ export function matchRouteStops(route, coords, stops) {
   const cum = [0];
   for (let i = 1; i < coords.length; i++) cum.push(cum[i - 1] + haversine(coords[i - 1], coords[i]));
   const track = { coords, cum };
+  if (Array.isArray(route.stopIds)) {
+    const stopById = new Map((stops || []).map(stop => [stop.id, stop]));
+    const matched = [];
+    for (const stopId of route.stopIds) {
+      const stop = stopById.get(stopId);
+      if (!stop) continue;
+      const projection = project(track, [stop.lat, stop.lng]);
+      if (projection.offset <= 80) matched.push({ name: stop.name_ar || stop.nameAr || stop.name_en || stop.nameEn, coord: [stop.lat, stop.lng],
+        along: projection.along, offset: projection.offset, stopId });
+    }
+    return matched.sort((a, b) => a.along - b.along);
+  }
   const byName = new Map();
   for (const s of stops || []) {
     const key = normalizeText(s.name_ar || s.name_en);

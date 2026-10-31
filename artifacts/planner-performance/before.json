@@ -1,0 +1,672 @@
+{
+  "label": "before",
+  "createdAt": "2026-10-30T14:35:43.379Z",
+  "runtime": "v24.14.0",
+  "loadMs": {
+    "routingNetwork": 51.1684,
+    "decodedGeometries": 17.832
+  },
+  "dataset": {
+    "routes": 1780,
+    "trips": 1779,
+    "stops": 3039,
+    "geometries": 1780,
+    "geometryPoints": 150263,
+    "brtRoutes": 2,
+    "brtTrips": 2,
+    "brtGeometryPoints": 544,
+    "brtUnavailable": false
+  },
+  "runs": [
+    {
+      "name": "direct_metro_helwan_sadat",
+      "origin": [
+        29.84921,
+        31.33443
+      ],
+      "destination": [
+        30.04401,
+        31.2357
+      ],
+      "options": {
+        "vehicle": "Metro"
+      },
+      "coldMs": 34.1433,
+      "warmMs": [
+        7.8374,
+        5.9219,
+        5.4211
+      ],
+      "medianWarmMs": 5.9219,
+      "scannedCalls": 2904,
+      "expandedLabels": 105,
+      "eligibleTrips": 10,
+      "signature": {
+        "status": "ok",
+        "directRoutes": [
+          {
+            "id": "metro_T_L1_N:1-18",
+            "rank": 74.1861,
+            "rideIds": [
+              "metro_T_L1_N"
+            ],
+            "sequences": [
+              [
+                1,
+                18
+              ]
+            ],
+            "flexibleDrops": [
+              null
+            ]
+          }
+        ],
+        "transferRoutes": [
+          {
+            "id": "metro_T_L1_N:1-19|metro_T_L1_S:15-16",
+            "rank": 85.6877,
+            "rideIds": [
+              "metro_T_L1_N",
+              "metro_T_L1_S"
+            ],
+            "sequences": [
+              [
+                1,
+                19
+              ],
+              [
+                15,
+                16
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null
+            ]
+          },
+          {
+            "id": "metro_T_L1_N:1-18|metro_T_L2_N:9-10|metro_T_L2_S:10-11",
+            "rank": 89.2051,
+            "rideIds": [
+              "metro_T_L1_N",
+              "metro_T_L2_N",
+              "metro_T_L2_S"
+            ],
+            "sequences": [
+              [
+                1,
+                18
+              ],
+              [
+                9,
+                10
+              ],
+              [
+                10,
+                11
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "metro_T_L1_N:1-18|metro_T_L2_N:9-10",
+            "rank": 92.15212458039004,
+            "rideIds": [
+              "metro_T_L1_N",
+              "metro_T_L2_N"
+            ],
+            "sequences": [
+              [
+                1,
+                18
+              ],
+              [
+                9,
+                10
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null
+            ]
+          },
+          {
+            "id": "metro_T_L1_N:1-2|metro_T_L1_S:30-31|metro_T_L1_N:1-18",
+            "rank": 94.63870000000001,
+            "rideIds": [
+              "metro_T_L1_N",
+              "metro_T_L1_S",
+              "metro_T_L1_N"
+            ],
+            "sequences": [
+              [
+                1,
+                2
+              ],
+              [
+                30,
+                31
+              ],
+              [
+                1,
+                18
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "metro_T_L1_N:1-19|metro_T_L3_W:20-21|metro_T_L3_E:3-4",
+            "rank": 104.98864683702888,
+            "rideIds": [
+              "metro_T_L1_N",
+              "metro_T_L3_W",
+              "metro_T_L3_E"
+            ],
+            "sequences": [
+              [
+                1,
+                19
+              ],
+              [
+                20,
+                21
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "metro_T_L1_N:1-18|metro_T_L2_N:9-11|metro_T_L3_W:19-20",
+            "rank": 105.12364683702886,
+            "rideIds": [
+              "metro_T_L1_N",
+              "metro_T_L2_N",
+              "metro_T_L3_W"
+            ],
+            "sequences": [
+              [
+                1,
+                18
+              ],
+              [
+                9,
+                11
+              ],
+              [
+                19,
+                20
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "transfer_metro_attaba_roxy",
+      "origin": [
+        30.0524,
+        31.2471
+      ],
+      "destination": [
+        30.0936,
+        31.3144
+      ],
+      "options": {
+        "vehicle": "Metro"
+      },
+      "coldMs": 6.4308,
+      "warmMs": [
+        6.5657,
+        7.9117,
+        5.7054
+      ],
+      "medianWarmMs": 6.5657,
+      "scannedCalls": 4258,
+      "expandedLabels": 169,
+      "eligibleTrips": 10,
+      "signature": {
+        "status": "ok",
+        "directRoutes": [
+          {
+            "id": "metro_T_L1_N:20-26",
+            "rank": 46.42860971112552,
+            "rideIds": [
+              "metro_T_L1_N"
+            ],
+            "sequences": [
+              [
+                20,
+                26
+              ]
+            ],
+            "flexibleDrops": [
+              null
+            ]
+          }
+        ],
+        "transferRoutes": [
+          {
+            "id": "metro_T_L2_N:11-12|metro_T_L1_N:20-26",
+            "rank": 42.5083697336936,
+            "rideIds": [
+              "metro_T_L2_N",
+              "metro_T_L1_N"
+            ],
+            "sequences": [
+              [
+                11,
+                12
+              ],
+              [
+                20,
+                26
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null
+            ]
+          },
+          {
+            "id": "metro_T_L3_W:19-20|metro_T_L1_N:19-26",
+            "rank": 45.3037697336936,
+            "rideIds": [
+              "metro_T_L3_W",
+              "metro_T_L1_N"
+            ],
+            "sequences": [
+              [
+                19,
+                20
+              ],
+              [
+                19,
+                26
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null
+            ]
+          },
+          {
+            "id": "metro_T_L2_N:11-12|metro_T_L1_N:20-27|metro_T_L1_S:7-8",
+            "rank": 53.991369733693595,
+            "rideIds": [
+              "metro_T_L2_N",
+              "metro_T_L1_N",
+              "metro_T_L1_S"
+            ],
+            "sequences": [
+              [
+                11,
+                12
+              ],
+              [
+                20,
+                27
+              ],
+              [
+                7,
+                8
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "metro_T_L1_N:20-27|metro_T_L1_S:7-8",
+            "rank": 57.911609711125514,
+            "rideIds": [
+              "metro_T_L1_N",
+              "metro_T_L1_S"
+            ],
+            "sequences": [
+              [
+                20,
+                27
+              ],
+              [
+                7,
+                8
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "direct_bus_1078_geometry",
+      "origin": [
+        30.0662451,
+        31.4501627
+      ],
+      "destination": [
+        29.973723,
+        31.24716
+      ],
+      "options": {
+        "vehicle": "Bus"
+      },
+      "coldMs": 12648.2656,
+      "warmMs": [
+        13546.9761,
+        13904.7822,
+        13528.2299
+      ],
+      "medianWarmMs": 13546.9761,
+      "scannedCalls": 1360965,
+      "expandedLabels": 5853,
+      "eligibleTrips": 502,
+      "signature": {
+        "status": "ok",
+        "directRoutes": [
+          {
+            "id": "CTA_1078_O:1-73",
+            "rank": 124.03020000002263,
+            "rideIds": [
+              "CTA_1078_O"
+            ],
+            "sequences": [
+              [
+                1,
+                73
+              ]
+            ],
+            "flexibleDrops": [
+              null
+            ]
+          }
+        ],
+        "transferRoutes": [
+          {
+            "id": "DrQRMyEqf8ANl11qH5Ncc:1-16|CTA_1161_R:18-44|DAmgOfI1Qjuv8Fag9fURC:28-42",
+            "rank": 116.51650000002263,
+            "rideIds": [
+              "DrQRMyEqf8ANl11qH5Ncc",
+              "CTA_1161_R",
+              "DAmgOfI1Qjuv8Fag9fURC"
+            ],
+            "sequences": [
+              [
+                1,
+                16
+              ],
+              [
+                18,
+                44
+              ],
+              [
+                28,
+                42
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "CTA_1161_R:1-44|DAmgOfI1Qjuv8Fag9fURC:28-37|CTA_910_R:40-45",
+            "rank": 117.97480000002264,
+            "rideIds": [
+              "CTA_1161_R",
+              "DAmgOfI1Qjuv8Fag9fURC",
+              "CTA_910_R"
+            ],
+            "sequences": [
+              [
+                1,
+                44
+              ],
+              [
+                28,
+                37
+              ],
+              [
+                40,
+                45
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "CTA_1161_R:1-44|DAmgOfI1Qjuv8Fag9fURC:28-40|Pm6vFBVJIXhbgUN0wbI_1:36-38",
+            "rank": 117.97480000002263,
+            "rideIds": [
+              "CTA_1161_R",
+              "DAmgOfI1Qjuv8Fag9fURC",
+              "Pm6vFBVJIXhbgUN0wbI_1"
+            ],
+            "sequences": [
+              [
+                1,
+                44
+              ],
+              [
+                28,
+                40
+              ],
+              [
+                36,
+                38
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "CTA_1161_R:1-44|DAmgOfI1Qjuv8Fag9fURC:28-41|J4CmDIvSgpMPx0vJjX0nI:36-37",
+            "rank": 117.97480000002263,
+            "rideIds": [
+              "CTA_1161_R",
+              "DAmgOfI1Qjuv8Fag9fURC",
+              "J4CmDIvSgpMPx0vJjX0nI"
+            ],
+            "sequences": [
+              [
+                1,
+                44
+              ],
+              [
+                28,
+                41
+              ],
+              [
+                36,
+                37
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "CTA_1161_R:1-44|DAmgOfI1Qjuv8Fag9fURC:28-37|CTA_1078_O:68-73",
+            "rank": 117.97480000002264,
+            "rideIds": [
+              "CTA_1161_R",
+              "DAmgOfI1Qjuv8Fag9fURC",
+              "CTA_1078_O"
+            ],
+            "sequences": [
+              [
+                1,
+                44
+              ],
+              [
+                28,
+                37
+              ],
+              [
+                68,
+                73
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "CTA_1161_R:1-33|DAmgOfI1Qjuv8Fag9fURC:17-42|pCFy1IddUrv10qXzIg1jC:1-63@29.97365,31.24667",
+            "rank": 119.20661535442564,
+            "rideIds": [
+              "CTA_1161_R",
+              "DAmgOfI1Qjuv8Fag9fURC",
+              "pCFy1IddUrv10qXzIg1jC"
+            ],
+            "sequences": [
+              [
+                1,
+                33
+              ],
+              [
+                17,
+                42
+              ],
+              [
+                1,
+                63
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              [
+                29.973651,
+                31.246665
+              ]
+            ]
+          },
+          {
+            "id": "CTA_1161_R:1-33|DAmgOfI1Qjuv8Fag9fURC:17-42|MICwitlNCVr30ld8VbVLI:1-27@29.97364,31.24665",
+            "rank": 119.2340273894863,
+            "rideIds": [
+              "CTA_1161_R",
+              "DAmgOfI1Qjuv8Fag9fURC",
+              "MICwitlNCVr30ld8VbVLI"
+            ],
+            "sequences": [
+              [
+                1,
+                33
+              ],
+              [
+                17,
+                42
+              ],
+              [
+                1,
+                27
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              [
+                29.973645,
+                31.246651
+              ]
+            ]
+          },
+          {
+            "id": "DrQRMyEqf8ANl11qH5Ncc:1-16|CTA_1161_R:18-44|sVLjQqeGzl6qcdkCewmBA:30-43",
+            "rank": 118.20930360275882,
+            "rideIds": [
+              "DrQRMyEqf8ANl11qH5Ncc",
+              "CTA_1161_R",
+              "sVLjQqeGzl6qcdkCewmBA"
+            ],
+            "sequences": [
+              [
+                1,
+                16
+              ],
+              [
+                18,
+                44
+              ],
+              [
+                30,
+                43
+              ]
+            ],
+            "flexibleDrops": [
+              null,
+              null,
+              null
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "no_service_remote",
+      "origin": [
+        30.6,
+        31.7
+      ],
+      "destination": [
+        30.61,
+        31.71
+      ],
+      "options": {
+        "vehicle": "ALL"
+      },
+      "coldMs": 4.6042,
+      "warmMs": [
+        4.2037,
+        4.6848,
+        4.1503
+      ],
+      "medianWarmMs": 4.2037,
+      "scannedCalls": 0,
+      "expandedLabels": 0,
+      "eligibleTrips": 1779,
+      "signature": {
+        "status": "no-nearby-stops",
+        "directRoutes": [],
+        "transferRoutes": []
+      }
+    }
+  ]
+}

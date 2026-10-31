@@ -1,0 +1,1872 @@
+{
+  "label": "after-profile",
+  "createdAt": "2026-10-30T14:49:52.608Z",
+  "runtime": "v24.14.0",
+  "loadMs": {
+    "routingNetwork": 45.925,
+    "decodedGeometries": 18.4901
+  },
+  "dataset": {
+    "routes": 1780,
+    "trips": 1779,
+    "stops": 3039,
+    "geometries": 1780,
+    "geometryPoints": 150263,
+    "brtRoutes": 2,
+    "brtTrips": 2,
+    "brtGeometryPoints": 544,
+    "brtUnavailable": false
+  },
+  "runs": [
+    {
+      "name": "urban_all_attaba_roxy",
+      "origin": [
+        30.0524,
+        31.2471
+      ],
+      "destination": [
+        30.0936,
+        31.3144
+      ],
+      "options": {},
+      "scopedTrips": null,
+      "coldMs": 16531.7903,
+      "warmMs": [],
+      "medianWarmMs": null,
+      "scannedCalls": 4242377,
+      "expandedLabels": 14026,
+      "flexibleProjectionSkips": 28617,
+      "eligibleTrips": 1779,
+      "signature": {
+        "status": "ok",
+        "directRoutes": [
+          {
+            "id": "YW7kHHRpjoLOGxVAJxLjS:1-42@30.09066,31.31335",
+            "rank": 28.98530903990911,
+            "totalTimeMinutes": 29,
+            "totalWalkMeters": 682,
+            "totalRideKm": 6.8,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 340.04485954754637,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.0516,
+                  31.25051
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "YW7kHHRpjoLOGxVAJxLjS",
+                "fromSequence": 1,
+                "toSequence": 42,
+                "flexibleDrop": true,
+                "distanceMeters": 6819.916098521595,
+                "fromCoord": [
+                  30.0516,
+                  31.25051
+                ],
+                "toCoord": [
+                  30.09066,
+                  31.31335
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 342,
+                "fromCoord": [
+                  30.09066,
+                  31.31335
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "3omwXBNIXFwmsOp6t0g0f:1-27",
+            "rank": 30.680646096689365,
+            "totalTimeMinutes": 30.7,
+            "totalWalkMeters": 343,
+            "totalRideKm": 8.8,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 340.04485954754637,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.0516,
+                  31.25051
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "3omwXBNIXFwmsOp6t0g0f",
+                "fromSequence": 1,
+                "toSequence": 27,
+                "flexibleDrop": false,
+                "distanceMeters": 8799.6,
+                "fromCoord": [
+                  30.0516,
+                  31.25051
+                ],
+                "toCoord": [
+                  30.09359883476298,
+                  31.314374019800585
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 2.502828187602884,
+                "fromCoord": [
+                  30.09359883476298,
+                  31.314374019800585
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "F-qa8NHvy7MY8TP0ZVgZN:1-42@30.09322,31.31530",
+            "rank": 31.071970309449725,
+            "totalTimeMinutes": 31.1,
+            "totalWalkMeters": 562,
+            "totalRideKm": 8,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 466.3880861551941,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05002461897716,
+                  31.251093705597825
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "F-qa8NHvy7MY8TP0ZVgZN",
+                "fromSequence": 1,
+                "toSequence": 42,
+                "flexibleDrop": true,
+                "distanceMeters": 8014.039744169932,
+                "fromCoord": [
+                  30.05002461897716,
+                  31.251093705597825
+                ],
+                "toCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 96,
+                "fromCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "CTA_1081_O:2-49@30.09322,31.31531",
+            "rank": 31.361394680650108,
+            "totalTimeMinutes": 31.4,
+            "totalWalkMeters": 777,
+            "totalRideKm": 7.2,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 679.5752915666662,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "CTA_1081_O",
+                "fromSequence": 2,
+                "toSequence": 49,
+                "flexibleDrop": true,
+                "distanceMeters": 7218.067845355594,
+                "fromCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ],
+                "toCoord": [
+                  30.093222501481293,
+                  31.31531159533617
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 97,
+                "fromCoord": [
+                  30.093222501481293,
+                  31.31531159533617
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "CTA_92or1050_R:11-35",
+            "rank": 31.456094231190338,
+            "totalTimeMinutes": 31.5,
+            "totalWalkMeters": 441,
+            "totalRideKm": 8.6,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 340.04485954754637,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.0516,
+                  31.25051
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "CTA_92or1050_R",
+                "fromSequence": 11,
+                "toSequence": 35,
+                "flexibleDrop": false,
+                "distanceMeters": 8649,
+                "fromCoord": [
+                  30.0516,
+                  31.25051
+                ],
+                "toCoord": [
+                  30.0930041,
+                  31.31518794
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 100.68267894768101,
+                "fromCoord": [
+                  30.0930041,
+                  31.31518794
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "DBv2n5htZ_4Z123BEos8s:2-46@30.09322,31.31530",
+            "rank": 32.86995999809902,
+            "totalTimeMinutes": 32.9,
+            "totalWalkMeters": 776,
+            "totalRideKm": 7.7,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 679.5752915666662,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "DBv2n5htZ_4Z123BEos8s",
+                "fromSequence": 2,
+                "toSequence": 46,
+                "flexibleDrop": true,
+                "distanceMeters": 7725.089617838566,
+                "fromCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ],
+                "toCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 96,
+                "fromCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "uOmpDsDqNvPF-NeqgxiIq:13-49@30.09066,31.31335",
+            "rank": 33.20432258814155,
+            "totalTimeMinutes": 33.2,
+            "totalWalkMeters": 1022,
+            "totalRideKm": 6.8,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 679.5752915666662,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "uOmpDsDqNvPF-NeqgxiIq",
+                "fromSequence": 13,
+                "toSequence": 49,
+                "flexibleDrop": true,
+                "distanceMeters": 6811.543814519408,
+                "fromCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ],
+                "toCoord": [
+                  30.09066,
+                  31.31335
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 342,
+                "fromCoord": [
+                  30.09066,
+                  31.31335
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "CTA_940S_O:2-42@30.09322,31.31531",
+            "rank": 33.30828914678141,
+            "totalTimeMinutes": 33.3,
+            "totalWalkMeters": 777,
+            "totalRideKm": 7.9,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 679.5752915666662,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "CTA_940S_O",
+                "fromSequence": 2,
+                "toSequence": 42,
+                "flexibleDrop": true,
+                "distanceMeters": 7867.032667399361,
+                "fromCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ],
+                "toCoord": [
+                  30.093222501481293,
+                  31.31531159533617
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 97,
+                "fromCoord": [
+                  30.093222501481293,
+                  31.31531159533617
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "5-uXnV_YMj-7tj-mclLA4:27-62@30.09322,31.31530",
+            "rank": 33.4117253870358,
+            "totalTimeMinutes": 33.4,
+            "totalWalkMeters": 972,
+            "totalRideKm": 7.1,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 876.4777329707412,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.049903366527094,
+                  31.25573758157849
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "5-uXnV_YMj-7tj-mclLA4",
+                "fromSequence": 27,
+                "toSequence": 62,
+                "flexibleDrop": true,
+                "distanceMeters": 7085.251241633847,
+                "fromCoord": [
+                  30.049903366527094,
+                  31.25573758157849
+                ],
+                "toCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 96,
+                "fromCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "WqGztPVJ3dzZ7U43w-jsg:14-52@30.09322,31.31530",
+            "rank": 33.75837691015771,
+            "totalTimeMinutes": 33.8,
+            "totalWalkMeters": 776,
+            "totalRideKm": 8,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 679.5752915666662,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "WqGztPVJ3dzZ7U43w-jsg",
+                "fromSequence": 14,
+                "toSequence": 52,
+                "flexibleDrop": true,
+                "distanceMeters": 8021.228588524794,
+                "fromCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ],
+                "toCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 96,
+                "fromCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "CTA_1063_R:1-23",
+            "rank": 33.77221723981097,
+            "totalTimeMinutes": 33.8,
+            "totalWalkMeters": 753,
+            "totalRideKm": 8.1,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 255.52904044908314,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05226,
+                  31.24975
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "CTA_1063_R",
+                "fromSequence": 1,
+                "toSequence": 23,
+                "flexibleDrop": false,
+                "distanceMeters": 8119.7,
+                "fromCoord": [
+                  30.05226,
+                  31.24975
+                ],
+                "toCoord": [
+                  30.091329200495178,
+                  31.30994419935918
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 497.5203387357947,
+                "fromCoord": [
+                  30.091329200495178,
+                  31.30994419935918
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "V8f_EIo16ogzSvrgRo1nv:19-51@30.09322,31.31530",
+            "rank": 33.775488599483126,
+            "totalTimeMinutes": 33.8,
+            "totalWalkMeters": 776,
+            "totalRideKm": 8,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 679.5752915666662,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "V8f_EIo16ogzSvrgRo1nv",
+                "fromSequence": 19,
+                "toSequence": 51,
+                "flexibleDrop": true,
+                "distanceMeters": 8026.932484966599,
+                "fromCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ],
+                "toCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 96,
+                "fromCoord": [
+                  30.09321599533847,
+                  31.31529770958691
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "0aCIFc27lpFi-ZB9v0i5p:15-52@30.09066,31.31335",
+            "rank": 33.77747394944731,
+            "totalTimeMinutes": 33.8,
+            "totalWalkMeters": 1022,
+            "totalRideKm": 7,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 679.5752915666662,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "0aCIFc27lpFi-ZB9v0i5p",
+                "fromSequence": 15,
+                "toSequence": 52,
+                "flexibleDrop": true,
+                "distanceMeters": 7002.594268287994,
+                "fromCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ],
+                "toCoord": [
+                  30.09066,
+                  31.31335
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 342,
+                "fromCoord": [
+                  30.09066,
+                  31.31335
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "CTA_507_R:17-57@30.09073,31.31318",
+            "rank": 33.86445135136691,
+            "totalTimeMinutes": 33.9,
+            "totalWalkMeters": 1020,
+            "totalRideKm": 7,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 679.5752915666662,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "CTA_507_R",
+                "fromSequence": 17,
+                "toSequence": 57,
+                "flexibleDrop": true,
+                "distanceMeters": 7039.920068927861,
+                "fromCoord": [
+                  30.05700477905531,
+                  31.24245744413008
+                ],
+                "toCoord": [
+                  30.09073000395148,
+                  31.313184749325224
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 340,
+                "fromCoord": [
+                  30.09073000395148,
+                  31.313184749325224
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "CTA_1087_R:16-55@30.09073,31.31318",
+            "rank": 34.16023625790383,
+            "totalTimeMinutes": 34.2,
+            "totalWalkMeters": 1113,
+            "totalRideKm": 6.7,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 773.3205398034315,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.0589850353154,
+                  31.244515481526513
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "CTA_1087_R",
+                "fromSequence": 16,
+                "toSequence": 55,
+                "flexibleDrop": true,
+                "distanceMeters": 6747.90983678698,
+                "fromCoord": [
+                  30.0589850353154,
+                  31.244515481526513
+                ],
+                "toCoord": [
+                  30.09073000395148,
+                  31.313184749325224
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 340,
+                "fromCoord": [
+                  30.09073000395148,
+                  31.313184749325224
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          }
+        ],
+        "transferRoutes": [
+          {
+            "id": "metro_T_L2_S:9-11|82kndFLQ75MFJVK20-GAf:33-44|i6G03L0pCL-gufJqOikEz:1-49@30.09359,31.31439",
+            "rank": 70.86900101635104,
+            "totalTimeMinutes": 60.9,
+            "totalWalkMeters": 25,
+            "totalRideKm": 20.2,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 21.2907768156808,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05242,
+                  31.24688
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "metro_T_L2_S",
+                "fromSequence": 9,
+                "toSequence": 11,
+                "flexibleDrop": false,
+                "distanceMeters": 1666.2999999999993,
+                "fromCoord": [
+                  30.05242,
+                  31.24688
+                ],
+                "toCoord": [
+                  30.04401,
+                  31.2357
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 2.8394525876767847,
+                "fromCoord": [
+                  30.04401,
+                  31.2357
+                ],
+                "toCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "82kndFLQ75MFJVK20-GAf",
+                "fromSequence": 33,
+                "toSequence": 44,
+                "flexibleDrop": false,
+                "distanceMeters": 5255.299999999999,
+                "fromCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ],
+                "toCoord": [
+                  30.018284,
+                  31.251779
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 0,
+                "fromCoord": [
+                  30.018284,
+                  31.251779
+                ],
+                "toCoord": [
+                  30.018284,
+                  31.251779
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "i6G03L0pCL-gufJqOikEz",
+                "fromSequence": 1,
+                "toSequence": 49,
+                "flexibleDrop": true,
+                "distanceMeters": 13263.357716269687,
+                "fromCoord": [
+                  30.018284,
+                  31.251779
+                ],
+                "toCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 1,
+                "fromCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "metro_T_L2_S:9-11|c2NjHWq9fzpTrP1H1WjOy:16-21|i6G03L0pCL-gufJqOikEz:10-49@30.09359,31.31439",
+            "rank": 48.45211788781933,
+            "totalTimeMinutes": 38.5,
+            "totalWalkMeters": 25,
+            "totalRideKm": 12.7,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 21.2907768156808,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05242,
+                  31.24688
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "metro_T_L2_S",
+                "fromSequence": 9,
+                "toSequence": 11,
+                "flexibleDrop": false,
+                "distanceMeters": 1666.2999999999993,
+                "fromCoord": [
+                  30.05242,
+                  31.24688
+                ],
+                "toCoord": [
+                  30.04401,
+                  31.2357
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 2.8394525876767847,
+                "fromCoord": [
+                  30.04401,
+                  31.2357
+                ],
+                "toCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "c2NjHWq9fzpTrP1H1WjOy",
+                "fromSequence": 16,
+                "toSequence": 21,
+                "flexibleDrop": false,
+                "distanceMeters": 2106.7000000000007,
+                "fromCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ],
+                "toCoord": [
+                  30.043674210905426,
+                  31.2528008515474
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 0,
+                "fromCoord": [
+                  30.043674210905426,
+                  31.2528008515474
+                ],
+                "toCoord": [
+                  30.043674210905426,
+                  31.2528008515474
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "i6G03L0pCL-gufJqOikEz",
+                "fromSequence": 10,
+                "toSequence": 49,
+                "flexibleDrop": true,
+                "distanceMeters": 8939.663340092453,
+                "fromCoord": [
+                  30.043674210905426,
+                  31.2528008515474
+                ],
+                "toCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 1,
+                "fromCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "metro_T_L2_S:9-11|tG4t7DCG8aRlRpB6t566W:23-27|i6G03L0pCL-gufJqOikEz:9-49@30.09359,31.31439",
+            "rank": 48.46578930459894,
+            "totalTimeMinutes": 38.5,
+            "totalWalkMeters": 25,
+            "totalRideKm": 12.7,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 21.2907768156808,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05242,
+                  31.24688
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "metro_T_L2_S",
+                "fromSequence": 9,
+                "toSequence": 11,
+                "flexibleDrop": false,
+                "distanceMeters": 1666.2999999999993,
+                "fromCoord": [
+                  30.05242,
+                  31.24688
+                ],
+                "toCoord": [
+                  30.04401,
+                  31.2357
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 2.8394525876767847,
+                "fromCoord": [
+                  30.04401,
+                  31.2357
+                ],
+                "toCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "tG4t7DCG8aRlRpB6t566W",
+                "fromSequence": 23,
+                "toSequence": 27,
+                "flexibleDrop": false,
+                "distanceMeters": 1608.5999999999985,
+                "fromCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ],
+                "toCoord": [
+                  30.039724,
+                  31.25036
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 0,
+                "fromCoord": [
+                  30.039724,
+                  31.25036
+                ],
+                "toCoord": [
+                  30.039724,
+                  31.25036
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "i6G03L0pCL-gufJqOikEz",
+                "fromSequence": 9,
+                "toSequence": 49,
+                "flexibleDrop": true,
+                "distanceMeters": 9442.320479018994,
+                "fromCoord": [
+                  30.039724,
+                  31.25036
+                ],
+                "toCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 1,
+                "fromCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "metro_T_L2_S:9-11|VX9dZ5U6Sms4LhiB7ooh4:11-18|i6G03L0pCL-gufJqOikEz:12-49@30.09359,31.31439",
+            "rank": 48.37057507560702,
+            "totalTimeMinutes": 38.4,
+            "totalWalkMeters": 25,
+            "totalRideKm": 12.7,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 21.2907768156808,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05242,
+                  31.24688
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "metro_T_L2_S",
+                "fromSequence": 9,
+                "toSequence": 11,
+                "flexibleDrop": false,
+                "distanceMeters": 1666.2999999999993,
+                "fromCoord": [
+                  30.05242,
+                  31.24688
+                ],
+                "toCoord": [
+                  30.04401,
+                  31.2357
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 2.8394525876767847,
+                "fromCoord": [
+                  30.04401,
+                  31.2357
+                ],
+                "toCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "VX9dZ5U6Sms4LhiB7ooh4",
+                "fromSequence": 11,
+                "toSequence": 18,
+                "flexibleDrop": false,
+                "distanceMeters": 2633.2,
+                "fromCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ],
+                "toCoord": [
+                  30.048029191231244,
+                  31.25491525243658
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 0,
+                "fromCoord": [
+                  30.048029191231244,
+                  31.25491525243658
+                ],
+                "toCoord": [
+                  30.048029191231244,
+                  31.25491525243658
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "i6G03L0pCL-gufJqOikEz",
+                "fromSequence": 12,
+                "toSequence": 49,
+                "flexibleDrop": true,
+                "distanceMeters": 8385.982402688353,
+                "fromCoord": [
+                  30.048029191231244,
+                  31.25491525243658
+                ],
+                "toCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 1,
+                "fromCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "metro_T_L2_S:9-11|c2NjHWq9fzpTrP1H1WjOy:16-26|3omwXBNIXFwmsOp6t0g0f:4-48@30.09359,31.31439",
+            "rank": 49.19257214262363,
+            "totalTimeMinutes": 39.2,
+            "totalWalkMeters": 26,
+            "totalRideKm": 13,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 21.2907768156808,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05242,
+                  31.24688
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "metro_T_L2_S",
+                "fromSequence": 9,
+                "toSequence": 11,
+                "flexibleDrop": false,
+                "distanceMeters": 1666.2999999999993,
+                "fromCoord": [
+                  30.05242,
+                  31.24688
+                ],
+                "toCoord": [
+                  30.04401,
+                  31.2357
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 2.8394525876767847,
+                "fromCoord": [
+                  30.04401,
+                  31.2357
+                ],
+                "toCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "c2NjHWq9fzpTrP1H1WjOy",
+                "fromSequence": 16,
+                "toSequence": 26,
+                "flexibleDrop": false,
+                "distanceMeters": 3433.300000000001,
+                "fromCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ],
+                "toCoord": [
+                  30.0547762,
+                  31.2578038
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 0,
+                "fromCoord": [
+                  30.0547762,
+                  31.2578038
+                ],
+                "toCoord": [
+                  30.0547762,
+                  31.2578038
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "3omwXBNIXFwmsOp6t0g0f",
+                "fromSequence": 4,
+                "toSequence": 48,
+                "flexibleDrop": true,
+                "distanceMeters": 7855.714758360555,
+                "fromCoord": [
+                  30.0547762,
+                  31.2578038
+                ],
+                "toCoord": [
+                  30.09358670363448,
+                  31.31439228421522
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 2,
+                "fromCoord": [
+                  30.09358670363448,
+                  31.31439228421522
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "metro_T_L2_S:9-11|J_6BqjK5XPmvpWbYg7cGo:11-18|3omwXBNIXFwmsOp6t0g0f:2-48@30.09359,31.31439",
+            "rank": 50.18474414040395,
+            "totalTimeMinutes": 40.2,
+            "totalWalkMeters": 26,
+            "totalRideKm": 13.3,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 21.2907768156808,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05242,
+                  31.24688
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "metro_T_L2_S",
+                "fromSequence": 9,
+                "toSequence": 11,
+                "flexibleDrop": false,
+                "distanceMeters": 1666.2999999999993,
+                "fromCoord": [
+                  30.05242,
+                  31.24688
+                ],
+                "toCoord": [
+                  30.04401,
+                  31.2357
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 2.8394525876767847,
+                "fromCoord": [
+                  30.04401,
+                  31.2357
+                ],
+                "toCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "J_6BqjK5XPmvpWbYg7cGo",
+                "fromSequence": 11,
+                "toSequence": 18,
+                "flexibleDrop": false,
+                "distanceMeters": 2926.2,
+                "fromCoord": [
+                  30.044035016695517,
+                  31.23569408233386
+                ],
+                "toCoord": [
+                  30.05002461897716,
+                  31.251093705597825
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 0,
+                "fromCoord": [
+                  30.05002461897716,
+                  31.251093705597825
+                ],
+                "toCoord": [
+                  30.05002461897716,
+                  31.251093705597825
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "3omwXBNIXFwmsOp6t0g0f",
+                "fromSequence": 2,
+                "toSequence": 48,
+                "flexibleDrop": true,
+                "distanceMeters": 8693.538757620661,
+                "fromCoord": [
+                  30.05002461897716,
+                  31.251093705597825
+                ],
+                "toCoord": [
+                  30.09358670363448,
+                  31.31439228421522
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 2,
+                "fromCoord": [
+                  30.09358670363448,
+                  31.31439228421522
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "metro_T_L2_N:11-14|3ZA9yhKgNaHbbYLy2R_Ch:1-14|i6G03L0pCL-gufJqOikEz:29-49@30.09359,31.31439",
+            "rank": 48.17595031328129,
+            "totalTimeMinutes": 38.2,
+            "totalWalkMeters": 30,
+            "totalRideKm": 12.6,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 21.2907768156808,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05242,
+                  31.24688
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "metro_T_L2_N",
+                "fromSequence": 11,
+                "toSequence": 14,
+                "flexibleDrop": false,
+                "distanceMeters": 3140.6000000000004,
+                "fromCoord": [
+                  30.05242,
+                  31.24688
+                ],
+                "toCoord": [
+                  30.08059,
+                  31.24546
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 7.881290405383875,
+                "fromCoord": [
+                  30.08059,
+                  31.24546
+                ],
+                "toCoord": [
+                  30.08060916,
+                  31.24538114
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "3ZA9yhKgNaHbbYLy2R_Ch",
+                "fromSequence": 1,
+                "toSequence": 14,
+                "flexibleDrop": false,
+                "distanceMeters": 7073.3,
+                "fromCoord": [
+                  30.08060916,
+                  31.24538114
+                ],
+                "toCoord": [
+                  30.08443852324105,
+                  31.296179166530205
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 0,
+                "fromCoord": [
+                  30.08443852324105,
+                  31.296179166530205
+                ],
+                "toCoord": [
+                  30.08443852324105,
+                  31.296179166530205
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "i6G03L0pCL-gufJqOikEz",
+                "fromSequence": 29,
+                "toSequence": 49,
+                "flexibleDrop": true,
+                "distanceMeters": 2385.699824339326,
+                "fromCoord": [
+                  30.08443852324105,
+                  31.296179166530205
+                ],
+                "toCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 1,
+                "fromCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          },
+          {
+            "id": "metro_T_L2_N:11-14|CTA_914_O:1-28|i6G03L0pCL-gufJqOikEz:24-49@30.09359,31.31439",
+            "rank": 66.85353293349317,
+            "totalTimeMinutes": 56.9,
+            "totalWalkMeters": 30,
+            "totalRideKm": 18.8,
+            "legs": [
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 21.2907768156808,
+                "fromCoord": [
+                  30.0524,
+                  31.2471
+                ],
+                "toCoord": [
+                  30.05242,
+                  31.24688
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "metro_T_L2_N",
+                "fromSequence": 11,
+                "toSequence": 14,
+                "flexibleDrop": false,
+                "distanceMeters": 3140.6000000000004,
+                "fromCoord": [
+                  30.05242,
+                  31.24688
+                ],
+                "toCoord": [
+                  30.08059,
+                  31.24546
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 7.881290405383875,
+                "fromCoord": [
+                  30.08059,
+                  31.24546
+                ],
+                "toCoord": [
+                  30.08060916,
+                  31.24538114
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "CTA_914_O",
+                "fromSequence": 1,
+                "toSequence": 28,
+                "flexibleDrop": false,
+                "distanceMeters": 11587.8,
+                "fromCoord": [
+                  30.08060916,
+                  31.24538114
+                ],
+                "toCoord": [
+                  30.071948,
+                  31.287469
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 0,
+                "fromCoord": [
+                  30.071948,
+                  31.287469
+                ],
+                "toCoord": [
+                  30.071948,
+                  31.287469
+                ]
+              },
+              {
+                "kind": "ride",
+                "tripId": "i6G03L0pCL-gufJqOikEz",
+                "fromSequence": 24,
+                "toSequence": 49,
+                "flexibleDrop": true,
+                "distanceMeters": 4097.060697743287,
+                "fromCoord": [
+                  30.071948,
+                  31.287469
+                ],
+                "toCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ]
+              },
+              {
+                "kind": "walk",
+                "tripId": null,
+                "fromSequence": null,
+                "toSequence": null,
+                "flexibleDrop": false,
+                "distanceMeters": 1,
+                "fromCoord": [
+                  30.093588412016064,
+                  31.314393179194564
+                ],
+                "toCoord": [
+                  30.0936,
+                  31.3144
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

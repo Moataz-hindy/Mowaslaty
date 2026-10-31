@@ -5,6 +5,7 @@
 // Responds in the OSRM shape the app already understands:
 //   { code: 'Ok', routes: [{ distance, duration, geometry: { coordinates } }] }
 
+import { serviceBudget, boundedText } from '../_service-security.js';
 const CAIRO_BOUNDS = { minLng: 30.5, maxLng: 32.2, minLat: 29.5, maxLat: 30.6 };
 
 function parsePoint(value) {
@@ -21,10 +22,10 @@ function parsePoint(value) {
 const json = (body, status = 200, extra = {}) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json; charset=utf-8', ...extra }
+    headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...extra }
   });
 
-export async function onRequestGet({ request, env, waitUntil }) {
+export async function onRequestGet({ request, env = {}, waitUntil }) {
   const url = new URL(request.url);
   const from = parsePoint(url.searchParams.get('from'));
   const to = parsePoint(url.searchParams.get('to'));
@@ -36,15 +37,17 @@ export async function onRequestGet({ request, env, waitUntil }) {
   const cache = caches.default;
   const hit = await cache.match(cacheKey);
   if (hit) return hit;
+  const denied = await serviceBudget(request, env, 'walk');
+  if (denied) return denied;
 
   let route;
   try {
     route = env.GEOAPIFY_KEY
       ? await viaGeoapify(from, to, env.GEOAPIFY_KEY)
       : await viaOpenRouteService(from, to, env.ORS_API_KEY);
-  } catch (e) {
+  } catch {
     // quota used up (429) or upstream down: the app falls back to a straight line
-    return json({ code: 'UpstreamError', message: String(e.message || e) }, 502);
+    return json({ code: 'UpstreamError' }, 502);
   }
   if (!route) return json({ code: 'NoRoute' }, 404);
 
@@ -63,9 +66,9 @@ export async function onRequestGet({ request, env, waitUntil }) {
 // Geoapify Routing API, mode=walk. Waypoints are lat,lon separated by "|".
 async function viaGeoapify([fLng, fLat], [tLng, tLat], key) {
   const url = `https://api.geoapify.com/v1/routing?waypoints=${fLat},${fLng}|${tLat},${tLng}&mode=walk&apiKey=${encodeURIComponent(key)}`;
-  const res = await fetch(url, { headers: { Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`geoapify ${res.status}`);
-  const data = await res.json();
+  const res = await fetch(url, { signal: AbortSignal.timeout(8000), redirect: 'manual', headers: { Accept: 'application/json' } });
+  if (!res.ok) { await res.body?.cancel(); throw new Error(`geoapify ${res.status}`); }
+  const data = JSON.parse(await boundedText(res, 1000000));
   const f = data.features && data.features[0];
   if (!f) return null;
   // geometry is a MultiLineString (one line per leg) -> flatten to one line
@@ -81,9 +84,9 @@ async function viaGeoapify([fLng, fLat], [tLng, tLat], key) {
 // openrouteservice Directions API, profile foot-walking.
 async function viaOpenRouteService(from, to, key) {
   const url = `https://api.openrouteservice.org/v2/directions/foot-walking?start=${from.join(',')}&end=${to.join(',')}`;
-  const res = await fetch(url, { headers: { Authorization: key, Accept: 'application/geo+json' } });
-  if (!res.ok) throw new Error(`ors ${res.status}`);
-  const data = await res.json();
+  const res = await fetch(url, { signal: AbortSignal.timeout(8000), redirect: 'manual', headers: { Authorization: key, Accept: 'application/geo+json' } });
+  if (!res.ok) { await res.body?.cancel(); throw new Error(`ors ${res.status}`); }
+  const data = JSON.parse(await boundedText(res, 1000000));
   const f = data.features && data.features[0];
   if (!f) return null;
   const summary = (f.properties && f.properties.summary) || {};

@@ -1,0 +1,238 @@
+.volunteer-routes {
+  box-sizing: border-box;
+  width: min(1240px, calc(100% - 80px));
+  max-width: 1240px;
+  margin: 48px auto 0;
+  padding: 30px 32px 26px;
+  border: 1px solid var(--landing-line, #CFC9BA);
+  border-top: 3px solid var(--landing-ochre, #8A5200);
+  border-radius: 24px;
+  background: #F1ECDD;
+  color: var(--landing-ink, #0B0B0B);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .04), 0 16px 32px -24px rgba(0, 0, 0, .24);
+  direction: rtl;
+}
+
+.volunteer-routes-topline {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--landing-ochre, #8A5200);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.volunteer-routes-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.volunteer-routes-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.volunteer-routes-intro h2 {
+  margin: 0;
+  font-size: clamp(21px, 2vw, 27px);
+  line-height: 1.4;
+}
+
+.volunteer-routes-intro p {
+  max-width: 680px;
+  margin: 5px 0 0;
+  color: #38352F;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.volunteer-routes-mark {
+  flex: 0 0 auto;
+  color: var(--landing-ochre, #8A5200);
+}
+
+.volunteer-routes-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.volunteer-routes-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.volunteer-step-number {
+  display: grid;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--landing-amber, #E0A21A);
+  color: #0B0B0B;
+  font-weight: 700;
+}
+
+.volunteer-routes-steps li > span:last-child {
+  display: grid;
+  gap: 3px;
+}
+
+.volunteer-routes-steps strong {
+  font-size: 14px;
+}
+
+.volunteer-routes-steps small {
+  color: #38352F;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.volunteer-routes-privacy {
+  margin: 17px 0 0;
+  padding: 9px 12px;
+  border-right: 3px solid var(--landing-ochre, #8A5200);
+  background: rgba(255, 255, 255, .48);
+  color: #38352F;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.volunteer-routes-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.volunteer-routes-primary,
+.volunteer-routes-tool {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.volunteer-routes-primary {
+  padding: 0 16px;
+  background: #0B0B0B;
+  color: #F7F5F0 !important;
+}
+
+.volunteer-routes-tool {
+  padding: 0 12px;
+  border: 1px solid #8A5200;
+  color: #5E3900 !important;
+}
+
+.volunteer-routes-primary:hover,
+.volunteer-routes-tool:hover {
+  filter: brightness(.92);
+}
+
+.volunteer-routes-email-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  margin: 7px 0 0;
+  color: #38352F;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.volunteer-routes-email {
+  user-select: text;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.volunteer-routes-howto {
+  margin-top: 14px;
+  color: #38352F;
+  font-size: 13px;
+}
+
+.volunteer-routes-howto summary {
+  width: fit-content;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: #5E3900;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.volunteer-routes-howto p {
+  max-width: 760px;
+  margin: 0;
+  padding-bottom: 4px;
+  line-height: 1.75;
+}
+
+.volunteer-routes a:focus-visible,
+.volunteer-routes summary:focus-visible,
+.volunteer-routes-email:focus-visible {
+  outline: 3px solid #2B4C9B;
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .volunteer-routes {
+    width: calc(100% - var(--phone-gutter, 18px) * 2);
+    margin-top: 36px;
+    padding: 22px 18px 18px;
+  }
+
+  .volunteer-routes-steps {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .volunteer-routes-steps small {
+    font-size: 12px;
+  }
+
+  .volunteer-routes-intro p {
+    font-size: 14px;
+  }
+
+  .volunteer-routes-mark {
+    width: 27px;
+    height: 27px;
+  }
+
+  .volunteer-routes-actions {
+    align-items: stretch;
+  }
+
+  .volunteer-routes-primary,
+  .volunteer-routes-tool {
+    width: 100%;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 960px) {
+  .volunteer-routes { width: calc(100% - 40px); }
+}

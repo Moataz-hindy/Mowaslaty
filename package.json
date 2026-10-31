@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "security:test": "node --test src/utils/mapHtml.test.js scripts/service-security.test.mjs scripts/feedback-security.test.mjs scripts/expand-security.test.mjs scripts/walk-security.test.mjs",
     "dev": "vite",
     "start": "vite",
     "build": "vite build",

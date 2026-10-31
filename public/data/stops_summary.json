@@ -3377,7 +3377,7 @@
   {
     "id": 386,
     "name_en": "QNB Bank (Haram St.)",
-    "name_ar": "بنك QNB (شارع الهرم)",
+    "name_ar": "بنك كيو إن بي (شارع الهرم)",
     "lat": 29.98873,
     "lng": 31.14656
   },
@@ -13254,7 +13254,7 @@
   {
     "id": 1232,
     "name_en": "Misr International University (MIU) (Obour)",
-    "name_ar": "جامعة مصر الدولية (MIU) (العبور)",
+    "name_ar": "جامعة مصر الدولية (العبور)",
     "lat": 30.16631,
     "lng": 31.49109
   },
@@ -20716,7 +20716,7 @@
   {
     "id": 2895,
     "name_en": "Future University in Egypt (FUE)",
-    "name_ar": "جامعة المستقبل (FUE)",
+    "name_ar": "جامعة المستقبل",
     "lat": 30.02601,
     "lng": 31.49064
   },
@@ -21577,7 +21577,7 @@
   {
     "id": 2883,
     "name_en": "October University for Modern Sciences & Arts (MSA University)",
-    "name_ar": "جامعة أكتوبر للعلوم الحديثة والآداب (MSA)",
+    "name_ar": "جامعة أكتوبر للعلوم الحديثة والآداب",
     "lat": 29.95518,
     "lng": 30.95881
   },
@@ -21962,28 +21962,28 @@
   {
     "id": 556,
     "name_en": "October University for Modern Sciences & Arts (MSA University)",
-    "name_ar": "جامعة أكتوبر للعلوم الحديثة والآداب (MSA)",
+    "name_ar": "جامعة أكتوبر للعلوم الحديثة والآداب",
     "lat": 29.95509,
     "lng": 30.95896
   },
   {
     "id": 557,
     "name_en": "October University for Modern Sciences & Arts (MSA University)",
-    "name_ar": "جامعة أكتوبر للعلوم الحديثة والآداب (MSA)",
+    "name_ar": "جامعة أكتوبر للعلوم الحديثة والآداب",
     "lat": 29.95498,
     "lng": 30.95909
   },
   {
     "id": 1195,
     "name_en": "Future University in Egypt (FUE)",
-    "name_ar": "جامعة المستقبل (FUE)",
+    "name_ar": "جامعة المستقبل",
     "lat": 30.02551,
     "lng": 31.49109
   },
   {
     "id": 1233,
     "name_en": "Misr International University (MIU) (Obour)",
-    "name_ar": "جامعة مصر الدولية (MIU) (العبور)",
+    "name_ar": "جامعة مصر الدولية (العبور)",
     "lat": 30.16618,
     "lng": 31.49232
   }

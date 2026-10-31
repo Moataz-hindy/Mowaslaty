@@ -48,8 +48,8 @@ export function lineLabel(r, lang = 'ar') {
 export function vehicleRouteLabel(route, lang = 'ar') {
   if (!route) return '';
   const vehicleNames = lang === 'ar'
-    ? { Bus: 'أتوبيس', Minibus: 'ميني باص', Microbus: 'ميكروباص', Box: 'بوكس', Tomnaya: 'تمناية', Metro: 'مترو' }
-    : { Bus: 'Bus', Minibus: 'Minibus', Microbus: 'Microbus', Box: 'Box', Tomnaya: 'Tomnaya', Metro: 'Metro' };
+    ? { Bus: 'أتوبيس', Minibus: 'ميني باص', Microbus: 'ميكروباص', Box: 'بوكس', Tomnaya: 'تمناية', Metro: 'مترو', BRT: 'أتوبيس ترددي' }
+    : { Bus: 'Bus', Minibus: 'Minibus', Microbus: 'Microbus', Box: 'Box', Tomnaya: 'Tomnaya', Metro: 'Metro', BRT: 'BRT' };
   const vehicle = vehicleNames[route.vehicle] || route.vehicle || '';
   const number = lineLabel(route, lang);
   const isTypeFallback = String(route.num || route.route_id || '').trim().toLowerCase() === String(route.vehicle || '').toLowerCase();
